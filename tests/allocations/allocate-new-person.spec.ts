@@ -1,14 +1,11 @@
-import {test, expect, Page} from '@playwright/test';
-// @ts-ignore
-import dotenv from 'dotenv';
+import {test} from '@playwright/test';
 import {login} from "../../steps/delius/login";
-import {createOffender} from "../../steps/delius/create-offender";
-import {createSentenceEventForCRN} from "../../steps/delius/create-event";
-import {createRequirementForEvent} from "../../steps/delius/create-requirement";
+import {createOffender} from "../../steps/delius/offender/create-offender";
+import {createSentenceEventForCRN} from "../../steps/delius/event/create-event";
+import {createRequirementForEvent} from "../../steps/delius/requirement/create-requirement";
 
 
 test.beforeEach(async ({page}) => {
-    page.on('console', msg => console.log(msg.text()))
     await login(page);
 });
 
@@ -16,5 +13,4 @@ test('Create offender with event and requirement', async ({page}) => {
     const crn = await createOffender(page)
     await createSentenceEventForCRN(page, crn)
     await createRequirementForEvent(page, crn, '1')
-    console.log('CRN=',crn)
 });
