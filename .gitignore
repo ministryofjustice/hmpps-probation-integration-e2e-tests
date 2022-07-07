@@ -3,5 +3,24 @@ node_modules/
 /playwright-report/
 /playwright/.cache/
 
+### IntelliJ IDEA ###
+.idea/**/*
+!.idea/runConfigurations
+!.idea/runConfigurations/**/*
+!.idea/codeStyles/**/*
+!.idea/inspectionProfiles/**/*
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### VS Code ###
+.vscode/
+
+### ENV VARS ###
 .env
 
+### MacOS ###
+.DS_Store

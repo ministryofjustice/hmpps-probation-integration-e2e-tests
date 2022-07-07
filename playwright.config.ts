@@ -47,9 +47,6 @@ const config: PlaywrightTestConfig = {
     {
       name: 'chromium',
       use: {
-        launchOptions: {
-          slowMo: 500
-        },
         ...devices['Desktop Chrome'],
       },
     },
