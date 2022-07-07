@@ -2,10 +2,10 @@ import {Page,expect} from '@playwright/test';
 import {faker} from '@faker-js/faker';
 import {DeliusDateFormatter} from "./date-time";
 import {findOffenderByCRN} from "./find-offender";
-import {findFirstEventForOffender} from "./find-events";
+import {findEventByCRN} from "./find-events";
 
-export async function createRequirementForEvent(page: Page, crn:string){
-    await findFirstEventForOffender(page, crn)
+export async function createRequirementForEvent(page: Page, crn:string, eventNumber:string){
+    await findEventByCRN(page, crn, eventNumber)
     await page.click('id=linkNavigation3SentenceComponentREQ');
     await page.locator('main', {has: page.locator('h1', {hasText: 'Requirement Types'})})
     await page.locator('input', {hasText: 'Add'}).click();

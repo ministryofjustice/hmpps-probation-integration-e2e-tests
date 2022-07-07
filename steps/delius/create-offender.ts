@@ -7,7 +7,9 @@ export async function createOffender(page: Page): Promise<string> {
     const firstname = faker.name.firstName()
     const surname = faker.name.lastName()
     await findOffenderByName(page, firstname,surname)
+
     await page.locator('input', {hasText: 'Add New Person'}).click()
+    await page.selectOption('id=addOffenderForm:Trust', {label: 'NPS Wales'})
     await page.fill('id=addOffenderForm:FirstName', firstname);
     await page.fill('id=addOffenderForm:Surname',surname);
     await page.selectOption('id=addOffenderForm:Sex', {label: 'Female'})

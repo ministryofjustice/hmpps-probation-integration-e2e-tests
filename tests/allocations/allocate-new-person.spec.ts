@@ -15,6 +15,6 @@ test.beforeEach(async ({page}) => {
 test('Create offender with event and requirement', async ({page}) => {
     const crn = await createOffender(page)
     await createSentenceEventForCRN(page, crn)
-    await createRequirementForEvent(page, crn)
+    await createRequirementForEvent(page, crn, '1')
     console.log('CRN=',crn)
 });
