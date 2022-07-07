@@ -16,8 +16,7 @@ export async function createSentenceEventForCRN(page: Page, crn:string){
     await page.selectOption('id=Court', {label: 'Durham Crown Court'})
     await page.selectOption('id=AppearanceType', {label: 'Sentence'})
     await page.selectOption('id=Plea', {label: 'Guilty'})
-    await page.selectOption('id=addEventForm:Outcome', {label: 'Adult Custody < 12m'})
+    await page.selectOption('id=addEventForm:Outcome', {label: 'CJA - Community Order'})
     await page.fill('id=addEventForm:Length', '6')
     await page.locator('input', {hasText: 'Save'}).click();
-    await expect(page).toHaveTitle(/Event Details/);
 }
