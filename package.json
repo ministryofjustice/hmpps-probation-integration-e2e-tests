@@ -1,0 +1,25 @@
+{
+  "name": "hmpps-end-to-end-tests",
+  "version": "1.0.0",
+  "description": "Playwright end to end tests.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ministryofjustice/hmpps-end-to-end-tests.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ministryofjustice/hmpps-end-to-end-tests/issues"
+  },
+  "homepage": "https://github.com/ministryofjustice/hmpps-end-to-end-tests#readme",
+  "devDependencies": {
+    "@faker-js/faker": "^7.3.0",
+    "@playwright/test": "^1.23.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1"
+  }
+}
