@@ -11,6 +11,8 @@ export async function createRequirementForEvent(page: Page, crn:string){
     await page.locator('input', {hasText: 'Add'}).click();
     await page.selectOption('id=RequirementMainCategory', {label: 'Alcohol Treatment'})
     await page.selectOption('id=RequirementSubCategory', {label: 'Alcohol Treatment'})
+    await page.selectOption('id=Area', {label: 'NPS Wales'})
+    await page.selectOption('id=AddSentenceComponentsForm:requirement:Team', {label: 'NPS - Wrexham - Team 1'})
     await page.fill('id=Length', '6')
     await page.locator('input', {hasText: 'Add'}).click();
     await page.locator('input', {hasText: 'Save'}).click();
