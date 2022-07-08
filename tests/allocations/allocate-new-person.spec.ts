@@ -14,15 +14,3 @@ test('Create offender with event and requirement', async ({page}) => {
     await createEventForCRN(page, crn)
     await createRequirementForEvent(page, crn, '1')
 });
-
-test('Create offender with event and requirement2', async ({page}) => {
-    const crn = await createOffender(page)
-    await createEventForCRN(page, crn)
-    await createRequirementForEvent(page, crn, '1')
-});
-
-test('Create offender with event and requirement3', async ({page}) => {
-    const crn = await createOffender(page)
-    await createEventForCRN(page, crn)
-    await createRequirementForEvent(page, crn, '1')
-});
