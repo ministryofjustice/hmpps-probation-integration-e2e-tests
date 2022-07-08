@@ -25,4 +25,5 @@ export const allocateCase = async (page: Page, crn: string) => {
     await expect(page).toHaveTitle(/.*Review allocation instructions.*/)
     await page.fill('id=instructions', `Allocation for ${crn} completed by hmpps-end-to-end-tests`)
     await page.locator('button', {hasText: 'Continue'}).click()
+    await page.locator('div.govuk-panel--confirmation >> h1.govuk-panel__title', {hasText: 'Allocation complete'})
 }
