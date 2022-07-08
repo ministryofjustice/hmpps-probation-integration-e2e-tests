@@ -5,5 +5,5 @@ import dotenv from 'dotenv'
 export const login = async (page: Page) => {
     dotenv.config()
     await page.goto(process.env.WORKFORCE_URL)
-    await expect(page).toHaveTitle(/Unallocated cases \| Manage a workforce/)
+    await expect(page).toHaveTitle(/.*Manage a workforce/)
 }
