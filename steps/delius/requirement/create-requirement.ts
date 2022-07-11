@@ -15,8 +15,8 @@ export async function createRequirementForEvent(
     await page.click("id=linkNavigation3SentenceComponentREQ");
     await page.locator("main", {has: page.locator("h1", {hasText: "Requirement Types"})})
     await page.locator("input", {hasText: "Add"}).click();
-    await selectOption(page, "id=RequirementMainCategory")
-    await selectOption(page, "id=RequirementSubCategory")
+    await selectOption(page, "#RequirementMainCategory")
+    await selectOption(page, "#RequirementSubCategory")
     await selectOption(page, "id=Area", args.providerName)
     await selectOption(page, "id=AddSentenceComponentsForm:requirement:Team", args.teamName)
     await page.fill("id=Length", "6")

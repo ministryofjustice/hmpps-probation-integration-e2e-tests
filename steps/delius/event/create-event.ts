@@ -24,12 +24,12 @@ export async function createEventForCRN(
     await fillDate(page, "id=ReferralDate", date)
     await fillDate(page, "id=OffenceDate", date)
     await fillDate(page, "id=ConvictionDate", date)
-    await selectOption(page, "id=MainOffence")
-    await selectOption(page, "id=Court")
+    await selectOption(page, "#MainOffence")
+    await selectOption(page, "#Court")
     await selectOption(page, "id=addEventForm:Area", args.providerName)
     await selectOption(page, "id=addEventForm:Team", args.teamName)
     await selectOption(page, "id=AppearanceType", args.appearanceType)
-    await selectOption(page, "id=Plea")
+    await selectOption(page, "#Plea")
     await selectOption(page, "id=addEventForm:Outcome", args.outcome)
     await selectOption(page, "id=OutcomeArea", args.providerName)
     await selectOption(page, "id=addEventForm:OutcomeTeam", args.teamName)
@@ -40,7 +40,7 @@ export async function createEventForCRN(
 
     await page.locator("input", {hasText: "Save"}).click()
 
-    if (args.outcome in autoAddComponent) {
+    if (autoAddComponent.includes(args.outcome)) {
         await expect(page).toHaveTitle(/Add Components/)
     } else {
         await expect(page).toHaveTitle(/Event Details/)
