@@ -1,4 +1,4 @@
-import {Page, expect} from "@playwright/test";
+import {expect, Page} from "@playwright/test";
 
 export async function findOffenderByName(page: Page, forename: string, surname: string) {
     await page.locator("a", {hasText: "National search"}).click();

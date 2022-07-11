@@ -13,7 +13,7 @@ export async function createEventForCRN(
         teamName?: string
         appearanceType?: string
         outcome?: string
-        length? : string
+        length?: string
     }
 ) {
     await findOffenderByCRN(page, args.crn)

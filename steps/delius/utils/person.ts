@@ -14,8 +14,10 @@ export interface Person {
 
 const genderOf = (genderStr: string) => {
     switch (genderStr) {
-        case "Male" : return Gender.male
-        case "Female": return Gender.female
+        case "Male" :
+            return Gender.male
+        case "Female":
+            return Gender.female
     }
 }
 
