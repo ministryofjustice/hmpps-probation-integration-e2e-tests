@@ -1,36 +1,48 @@
-import {expect, Page} from '@playwright/test';
-import {faker} from '@faker-js/faker';
-import {DeliusDateFormatter} from "../utils/date-time";
+import {expect, Page} from "@playwright/test";
+import {faker} from "@faker-js/faker";
 import {findOffenderByCRN} from "../offender/find-offender";
+import {fillDate, selectOption} from "../utils/inputs";
+
+const autoAddComponent = ["ORA Community Order"]
 
 export async function createEventForCRN(
     page: Page,
-    crn: string,
-    providerName: string = 'NPS Wales',
-    teamName: string = 'NPS - Wrexham - Team 1',
-    outcome: string = 'ORA Community Order'
+    args: {
+        crn: string
+        providerName?: string
+        teamName?: string
+        appearanceType?: string
+        outcome?: string
+        length? : string
+    }
 ) {
-    await findOffenderByCRN(page, crn)
-    await page.click('id=linkNavigation2EventList');
-    await expect(page).toHaveTitle(/Events/);
-    await page.locator('input', {hasText: 'Add'}).click();
-    const date = DeliusDateFormatter(faker.date.recent())
-    await page.fill('id=ReferralDate', date)
-    await page.fill('id=OffenceDate', date)
-    await page.fill('id=ConvictionDate', date)
-    await page.selectOption('id=MainOffence', {label: 'Arson - 05600'})
-    await page.selectOption('id=Court', {label: 'Durham Crown Court'})
-    await page.selectOption('id=addEventForm:Area', {label: providerName})
-    await page.selectOption('id=addEventForm:Team', {label: teamName})
-    await page.selectOption('id=AppearanceType', {label: 'Sentence'})
-    await page.selectOption('id=Plea', {label: 'Guilty'})
-    await page.selectOption('id=addEventForm:Outcome', {label: outcome})
-    await page.fill('id=addEventForm:Length', '6')
-    await page.locator('input', {hasText: 'Save'}).click();
+    await findOffenderByCRN(page, args.crn)
+    await page.click("id=linkNavigation2EventList")
+    await expect(page).toHaveTitle(/Events/)
+    await page.locator("input", {hasText: "Add"}).click()
+    const date = faker.date.recent()
+    await fillDate(page, "id=ReferralDate", date)
+    await fillDate(page, "id=OffenceDate", date)
+    await fillDate(page, "id=ConvictionDate", date)
+    await selectOption(page, "#MainOffence")
+    await selectOption(page, "#Court")
+    await selectOption(page, "id=addEventForm:Area", args.providerName)
+    await selectOption(page, "id=addEventForm:Team", args.teamName)
+    await selectOption(page, "#AppearanceType", args.appearanceType)
+    await selectOption(page, "#Plea")
+    await selectOption(page, "id=addEventForm:Outcome", args.outcome)
+    await selectOption(page, "#OutcomeArea", args.providerName)
+    await selectOption(page, "id=addEventForm:OutcomeTeam", args.teamName)
 
-    if (outcome === 'ORA Community Order') {
-        await expect(page).toHaveTitle(/Add Components/);
+    if (args.length) {
+        await page.fill("id=addEventForm:Length", args.length)
+    }
+
+    await page.locator("input", {hasText: "Save"}).click()
+
+    if (autoAddComponent.includes(args.outcome)) {
+        await expect(page).toHaveTitle(/Add Components/)
     } else {
-        await expect(page).toHaveTitle(/Event Details/);
+        await expect(page).toHaveTitle(/Event Details/)
     }
 }
