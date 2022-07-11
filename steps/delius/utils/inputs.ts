@@ -7,8 +7,12 @@ const getOptions = async (page: Page, selector: string) => {
     })
 }
 
-const getRandomOption = async (page: Page, selector: string) => {
-    const options = await getOptions(page, selector)
+const getRandomOption = async (page: Page, selector: string, timeout: number = 2) => {
+    const waitUntil = new Date().getSeconds() + timeout
+    let options = []
+    while (options.length == 0 && new Date().getSeconds() <= waitUntil) {
+        options = await getOptions(page, selector)
+    }
     return options[Math.floor(Math.random() * options.length)];
 }
 
