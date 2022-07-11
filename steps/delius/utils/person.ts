@@ -34,3 +34,5 @@ export const deliusPerson = (person?: Person) => {
         dob,
     }
 }
+
+export interface Practitioner{ firstName: string, lastName: string}
