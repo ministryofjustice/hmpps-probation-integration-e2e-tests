@@ -9,9 +9,9 @@ export async function createRequirementForEvent(
         eventNumber: string,
         providerName?: string
         teamName?: string,
-        category:string,
-        subCategory:string,
-        length?:string
+        category: string,
+        subCategory: string,
+        length?: string
     }
 ) {
     await findEventByCRN(page, args.crn, args.eventNumber)
@@ -22,7 +22,7 @@ export async function createRequirementForEvent(
     await selectOption(page, "#RequirementSubCategory", args.subCategory)
     await selectOption(page, "id=Area", args.providerName)
     await selectOption(page, "id=AddSentenceComponentsForm:requirement:Team", args.teamName)
-    if(length) {
+    if (args.length) {
         await page.fill("id=Length", args.length)
     }
     await page.locator("input", {hasText: "Add"}).click();

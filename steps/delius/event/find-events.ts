@@ -1,4 +1,4 @@
-import {Page, expect} from "@playwright/test";
+import {expect, Page} from "@playwright/test";
 import {findOffenderByCRN} from "../offender/find-offender";
 
 export async function findEventByCRN(page: Page, crn: string, eventNumber: string) {
