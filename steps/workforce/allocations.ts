@@ -2,7 +2,7 @@ import {expect, Page} from "@playwright/test"
 import {refreshUntil} from "../delius/utils/refresh";
 
 export const viewAllocation = async (page: Page, crn: string) => {
-    await refreshUntil(page, page.locator("tr", {hasText: crn}).isVisible())
+    await refreshUntil(page, page.locator("tr", {hasText: crn}))
     await page.locator("tr", {hasText: crn}).locator("a", {hasText: "Review case"}).click()
     await expect(page.locator(".govuk-caption-xl", {hasText: crn})).toHaveText(`CRN: ${crn}`)
 }
