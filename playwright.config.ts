@@ -49,6 +49,7 @@ const config: PlaywrightTestConfig = {
       use: {
         ...devices['Desktop Chrome'],
         screenshot: 'only-on-failure',
+        viewport:{width:1920,height:1080}
       },
     },
 

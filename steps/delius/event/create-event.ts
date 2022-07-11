@@ -28,10 +28,10 @@ export async function createEventForCRN(
     await selectOption(page, "#Court")
     await selectOption(page, "id=addEventForm:Area", args.providerName)
     await selectOption(page, "id=addEventForm:Team", args.teamName)
-    await selectOption(page, "id=AppearanceType", args.appearanceType)
+    await selectOption(page, "#AppearanceType", args.appearanceType)
     await selectOption(page, "#Plea")
     await selectOption(page, "id=addEventForm:Outcome", args.outcome)
-    await selectOption(page, "id=OutcomeArea", args.providerName)
+    await selectOption(page, "#OutcomeArea", args.providerName)
     await selectOption(page, "id=addEventForm:OutcomeTeam", args.teamName)
 
     if (args.length) {

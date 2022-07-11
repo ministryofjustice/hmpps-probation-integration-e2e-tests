@@ -29,6 +29,9 @@ test("Allocate new offender with community event and requirement", async ({page}
         eventNumber: "1",
         providerName: npsWales,
         teamName: wrexhamTeam,
+        category: "Curfew",
+        subCategory: "Curfew",
+        length: "6"
     })
 
     await workforceLogin(page)

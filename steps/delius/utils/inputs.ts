@@ -17,7 +17,8 @@ const getRandomOption = async (page: Page, selector: string, timeout: number = 2
 }
 
 const selectRandomOption = async (page: Page, selector: string) => {
-    await page.selectOption(selector, {label: await getRandomOption(page, selector)})
+    const option = await getRandomOption(page, selector)
+    await page.selectOption(selector, {label: option})
 }
 
 export const selectOption = async (page: Page, selector: string, option: string = "") => {
