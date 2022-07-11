@@ -1,6 +1,6 @@
-import { Page, expect } from "@playwright/test"
+import { Page, expect } from "@playwright/test";
 // @ts-ignore
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 
 export const login = async (page: Page) => {
     dotenv.config()

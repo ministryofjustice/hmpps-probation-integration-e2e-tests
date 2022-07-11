@@ -8,15 +8,15 @@ export async function createOffender(page: Page, args: { person?: Person, provid
     await findOffenderByName(page, person.firstName, person.lastName)
 
     await page.locator("input", {hasText: "Add New Person"}).click()
-    await selectOption(page, "text=Owning Provider", args.providerName)
-    await page.fill("text=First Name", person.firstName);
-    await page.fill("text=Surname", person.lastName);
-    await selectOption(page, "text=Sex", person.gender)
-    await fillDate(page, "text=Date of Birth", person.dob)
+    await selectOption(page, "id=addOffenderForm:Trust", args.providerName)
+    await page.fill("id=addOffenderForm:FirstName", person.firstName);
+    await page.fill("id=addOffenderForm:Surname", person.lastName);
+    await selectOption(page, "id=addOffenderForm:Sex", person.gender)
+    await fillDate(page, "id=DateOfBirth", person.dob)
     await page.locator("input", {hasText: "Save"}).click()
     if (await page.locator(".prompt-warning").count() > 0) {
         await page.locator("input", {hasText: "Confirm"}).click()
     }
     await page.locator("main", {has: page.locator("h1", {hasText: "Personal Details"})})
-    return await page.locator("text=Case Reference Number").textContent()
+    return await page.locator("id=SearchForm:crn").textContent()
 }

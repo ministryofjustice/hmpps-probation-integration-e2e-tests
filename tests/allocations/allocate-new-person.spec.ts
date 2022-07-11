@@ -1,10 +1,10 @@
-import {test} from "@playwright/test"
-import {login} from "../../steps/delius/login"
-import {createOffender} from "../../steps/delius/offender/create-offender"
-import {createEventForCRN} from "../../steps/delius/event/create-event"
-import {createRequirementForEvent} from "../../steps/delius/requirement/create-requirement"
-import {login as workforceLogin} from "../../steps/workforce/login"
-import {allocateCase} from "../../steps/workforce/allocations"
+import {test} from "@playwright/test";
+import {login} from "../../steps/delius/login";
+import {createOffender} from "../../steps/delius/offender/create-offender";
+import {createEventForCRN} from "../../steps/delius/event/create-event";
+import {createRequirementForEvent} from "../../steps/delius/requirement/create-requirement";
+import {login as workforceLogin} from "../../steps/workforce/login";
+import {allocateCase} from "../../steps/workforce/allocations";
 
 test.beforeEach(async ({page}) => {
     await login(page)

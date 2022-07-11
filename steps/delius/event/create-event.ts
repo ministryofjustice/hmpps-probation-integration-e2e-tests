@@ -1,6 +1,6 @@
-import {expect, Page} from "@playwright/test"
-import {faker} from "@faker-js/faker"
-import {findOffenderByCRN} from "../offender/find-offender"
+import {expect, Page} from "@playwright/test";
+import {faker} from "@faker-js/faker";
+import {findOffenderByCRN} from "../offender/find-offender";
 import {fillDate, selectOption} from "../utils/inputs";
 
 const autoAddComponent = ["ORA Community Order"]
