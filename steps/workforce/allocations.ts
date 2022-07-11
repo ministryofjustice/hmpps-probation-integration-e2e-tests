@@ -1,5 +1,6 @@
 import {expect, Page} from "@playwright/test"
 import {refreshUntil} from "../delius/utils/refresh";
+import {Practitioner} from "../delius/utils/person";
 
 export const viewAllocation = async (page: Page, crn: string) => {
     await refreshUntil(page, page.locator("tr", {hasText: crn}))
@@ -7,14 +8,15 @@ export const viewAllocation = async (page: Page, crn: string) => {
     await expect(page.locator(".govuk-caption-xl", {hasText: crn})).toHaveText(`CRN: ${crn}`)
 }
 
-export const allocateCase = async (page: Page, crn: string) => {
+export const allocateCase = async (page: Page, crn: string, practitioner: Practitioner) => {
     await viewAllocation(page, crn)
     // Navigate to allocation page
     await page.locator("a", {hasText: "Allocate case"}).click()
     await expect(page).toHaveTitle(/.*Choose practitioner.*/)
 
     // Allocate to practitioner
-    await page.locator("tr", {hasText: "Carlo Veo"}).locator(".govuk-radios__input").click()
+    await page.locator("tr", {hasText: `${practitioner.firstName} ${practitioner.lastName}`})
+        .locator(".govuk-radios__input").click()
     await page.locator("button", {hasText: "Allocate case"}).click()
 
     // Confirm allocation to practitioner
