@@ -13,7 +13,7 @@ test.beforeEach(async ({page}) => {
 
 const npsWales = "NPS Wales"
 const wrexhamTeam = "NPS - Wrexham - Team 1"
-const practitioner = {firstName: "Carlo", lastName: "Veo"}
+const practitioner = {firstName: "Carlo", lastName: "Veo", providerName: npsWales, teamName: wrexhamTeam}
 
 test("Allocate new offender with community event and requirement", async ({page}) => {
     const crn = await createOffender(page, {providerName: npsWales})
