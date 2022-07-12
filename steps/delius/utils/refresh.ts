@@ -1,8 +1,8 @@
-import {Locator, Page} from "@playwright/test";
+import {Page} from "@playwright/test";
 
-export const refreshUntil = async (page: Page, locator: Locator, timeout: number = 20) => {
+export const refreshUntil = async (page: Page, predicate: ()=>Promise<boolean>, timeout: number = 20) => {
     const waitUntil = new Date().getSeconds() + timeout
-    while (!await locator.isVisible() && new Date().getSeconds() <= waitUntil) {
+    while (!await predicate() && new Date().getSeconds() <= waitUntil) {
         await page.reload({waitUntil: "domcontentloaded"})
     }
 }

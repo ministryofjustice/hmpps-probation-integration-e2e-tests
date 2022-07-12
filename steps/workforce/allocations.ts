@@ -3,7 +3,8 @@ import {refreshUntil} from "../delius/utils/refresh";
 import {Practitioner} from "../delius/utils/person";
 
 export const viewAllocation = async (page: Page, crn: string) => {
-    await refreshUntil(page, page.locator("tr", {hasText: crn}))
+    const locator = await page.locator("tr", {hasText: crn})
+    await refreshUntil(page, () => locator.isVisible())
     await page.locator("tr", {hasText: crn}).locator("a", {hasText: "Review case"}).click()
     await expect(page.locator(".govuk-caption-xl", {hasText: crn})).toHaveText(`CRN: ${crn}`)
 }
