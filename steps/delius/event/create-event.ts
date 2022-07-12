@@ -11,6 +11,7 @@ export async function createEventForCRN(
         crn: string
         providerName?: string
         teamName?: string
+        staffName?: string
         appearanceType?: string
         outcome?: string
         length?: string
@@ -28,11 +29,16 @@ export async function createEventForCRN(
     await selectOption(page, "#Court")
     await selectOption(page, "id=addEventForm:Area", args.providerName)
     await selectOption(page, "id=addEventForm:Team", args.teamName)
+    if(args.staffName){
+        await selectOption(page, "id=addEventForm:Staff", args.staffName)
+    }
     await selectOption(page, "#AppearanceType", args.appearanceType)
     await selectOption(page, "#Plea")
     await selectOption(page, "id=addEventForm:Outcome", args.outcome)
-    await selectOption(page, "#OutcomeArea", args.providerName)
-    await selectOption(page, "id=addEventForm:OutcomeTeam", args.teamName)
+    if (autoAddComponent.includes(args.outcome)) {
+        await selectOption(page, "#OutcomeArea", args.providerName)
+        await selectOption(page, "id=addEventForm:OutcomeTeam", args.teamName)
+    }
 
     if (args.length) {
         await page.fill("id=addEventForm:Length", args.length)
