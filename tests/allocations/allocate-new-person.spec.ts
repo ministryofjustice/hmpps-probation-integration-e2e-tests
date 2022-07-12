@@ -6,6 +6,7 @@ import {createRequirementForEvent} from "../../steps/delius/requirement/create-r
 import {login as workforceLogin} from "../../steps/workforce/login";
 import {allocateCase} from "../../steps/workforce/allocations";
 import {verifyAllocation} from "../../steps/delius/offender/find-offender";
+import {findContactsByCRN, verifyContacts} from "../../steps/delius/contact/find-contacts";
 
 test.beforeEach(async ({page}) => {
     await login(page)
@@ -39,4 +40,12 @@ test("Allocate new offender with community event and requirement", async ({page}
     await workforceLogin(page)
     await allocateCase(page, crn, practitioner)
     await verifyAllocation(page, {crn, practitioner})
+    await findContactsByCRN(page, crn)
+
+    const contacts = [
+        {relatesTo: "Person", type: "Offender Manager Transfer", officer: practitioner},
+        {relatesTo: "1 - Curfew (Curfew) (6 Weeks)", type: "Inter Provider Component Transfer Requested", officer: practitioner},
+        {relatesTo: "1 - ORA Community Order", type: "Order Supervisor Transfer", officer: practitioner}]
+    await verifyContacts(page, contacts)
+
 })
