@@ -2,6 +2,8 @@ import {expect, Page} from "@playwright/test";
 // @ts-ignore
 import dotenv from "dotenv";
 import {Practitioner} from "../utils/person";
+import {refreshUntil} from "../utils/refresh";
+
 
 export async function findOffenderByName(page: Page, forename: string, surname: string) {
     await page.locator("a", {hasText: "National search"}).click();
@@ -26,11 +28,20 @@ export async function findOffenderByCRN(page: Page, crn: string) {
 export async function verifyAllocation(page: Page, args: { practitioner: Practitioner, crn: string }) {
     dotenv.config()
     await page.goto(process.env.DELIUS_URL)
+
     await findOffenderByCRN(page, args.crn)
 
     const locator = await page.locator("a:right-of(:text('Community Manager:'))",
-        {hasText: `${args.practitioner.lastName}, ${args.practitioner.firstName}` }).first()
+        {hasText: `${args.practitioner.lastName}, ${args.practitioner.firstName}`}).first()
+
+    await refreshUntil(page, async () => {
+        return await locator.count() > 0
+    },40)
 
     await expect(await locator.textContent())
         .toEqual(`${args.practitioner.lastName}, ${args.practitioner.firstName}`)
+    await page.locator("a", {hasText: "Community Supervisor"}).click();
+    await expect(page.locator("id=SearchForm:provider")).toHaveText(args.practitioner.providerName)
+    await expect(page.locator("id=SearchForm:supervisorCommunityTeam")).toHaveText(args.practitioner.teamName)
+
 }

@@ -35,4 +35,4 @@ export const deliusPerson = (person?: Person) => {
     }
 }
 
-export interface Practitioner{ firstName: string, lastName: string}
+export interface Practitioner{ firstName: string, lastName: string, providerName: string, teamName: string}
