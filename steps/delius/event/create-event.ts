@@ -2,6 +2,7 @@ import {expect, Page} from "@playwright/test";
 import {faker} from "@faker-js/faker";
 import {findOffenderByCRN} from "../offender/find-offender";
 import {fillDate, selectOption} from "../utils/inputs";
+import {Yesterday} from "../utils/date-time";
 
 const autoAddComponent = ["ORA Community Order"]
 
@@ -21,7 +22,7 @@ export async function createEventForCRN(
     await page.click("id=linkNavigation2EventList")
     await expect(page).toHaveTitle(/Events/)
     await page.locator("input", {hasText: "Add"}).click()
-    const date = faker.date.recent()
+    const date = faker.date.recent(1, Yesterday())
     await fillDate(page, "id=ReferralDate", date)
     await fillDate(page, "id=OffenceDate", date)
     await fillDate(page, "id=ConvictionDate", date)

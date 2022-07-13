@@ -8,6 +8,7 @@ import {allocateCase} from "../../steps/workforce/allocations";
 import {verifyAllocation} from "../../steps/delius/offender/find-offender";
 import {findContactsByCRN, verifyContacts} from "../../steps/delius/contact/find-contacts";
 import {internalTransfer} from "../../steps/delius/transfer/internal-transfer";
+import {terminateEvent} from "../../steps/delius/event/terminate-events";
 
 test.beforeEach(async ({page}) => {
     await login(page)
@@ -79,7 +80,54 @@ test("Allocate currently managed offender with community event and requirement",
 
     const contacts = [
         {relatesTo: "Person", type: "Offender Manager Transfer", officer: practitioner},
-        {relatesTo: "Person", type: "Responsible Officer Change", officer: practitioner, position: 1},
+        {relatesTo: "Person", type: "Responsible Officer Change", officer: practitioner, instance: 1},
+        {relatesTo: "2 - ORA Community Order", type: "Order Supervisor Transfer", officer: practitioner}]
+    await verifyContacts(page, contacts)
+
+})
+
+test("Allocate previously managed offender with community event and requirement", async ({page}) => {
+    const crn = await createOffender(page, {providerName: npsWales})
+    await createEventForCRN(page, {
+        crn,
+        providerName: npsWales,
+        teamName: wrexhamTeam,
+        appearanceType: "Sentence",
+        outcome: "ORA Community Order",
+        length: "6"
+    })
+
+    await internalTransfer(page, {crn,staffName:"Rees, Mark (NPS - PO)", providerName: npsWales,teamName: wrexhamTeam,reason: "Initial Allocation"})
+    await terminateEvent(page, crn, "1", "Completed - early good progress")
+
+    await createEventForCRN(page, {
+        crn,
+        providerName: npsWales,
+        teamName: wrexhamTeam,
+        appearanceType: "Sentence",
+        outcome: "ORA Community Order",
+        length: "6"
+    })
+
+    await createRequirementForEvent(page, {
+        crn,
+        eventNumber: "1",
+        providerName: npsWales,
+        teamName: wrexhamTeam,
+        category: "Curfew",
+        subCategory: "Curfew",
+        length: "6"
+    })
+
+    await workforceLogin(page)
+    await allocateCase(page, crn, practitioner)
+    await verifyAllocation(page, {crn, practitioner})
+    await findContactsByCRN(page, crn)
+
+    const contacts = [
+        {relatesTo: "Person", type: "Offender Manager Transfer", officer: practitioner},
+        {relatesTo: "Person", type: "Responsible Officer Change", officer: practitioner, instance: 1},
+        {relatesTo: "2 - Curfew (Curfew) (6 Weeks)", type: "Sentence Component Transfer", officer: practitioner},
         {relatesTo: "2 - ORA Community Order", type: "Order Supervisor Transfer", officer: practitioner}]
     await verifyContacts(page, contacts)
 
