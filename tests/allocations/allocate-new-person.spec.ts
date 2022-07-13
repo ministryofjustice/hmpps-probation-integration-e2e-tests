@@ -75,5 +75,12 @@ test("Allocate currently managed offender with community event and requirement",
     await workforceLogin(page)
     await allocateCase(page, crn, practitioner)
     await verifyAllocation(page, {crn, practitioner})
+    await findContactsByCRN(page, crn)
+
+    const contacts = [
+        {relatesTo: "Person", type: "Offender Manager Transfer", officer: practitioner},
+        {relatesTo: "Person", type: "Responsible Officer Change", officer: practitioner, position: 1},
+        {relatesTo: "2 - ORA Community Order", type: "Order Supervisor Transfer", officer: practitioner}]
+    await verifyContacts(page, contacts)
 
 })
