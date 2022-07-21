@@ -3,6 +3,7 @@ import {expect, Page} from "@playwright/test";
 import dotenv from "dotenv";
 import {Practitioner} from "../utils/person";
 import {refreshUntil} from "../utils/refresh";
+import {selectOption} from "../utils/inputs";
 
 
 export async function findOffenderByName(page: Page, forename: string, surname: string) {
@@ -25,6 +26,21 @@ export async function findOffenderByCRN(page: Page, crn: string) {
     await expect(page).toHaveTitle(/Case Summary/);
 }
 
+export async function findOffenderByNomisId(page: Page, nomisId: string): Promise<string> {
+    await page.locator("a", {hasText: "National search"}).click();
+    await expect(page).toHaveTitle(/National Search/);
+    await selectOption(page, "id=otherIdentifier", "NOMS Number")
+    await page.fill("id=SearchForm:NOMSNumber",nomisId)
+    await page.click("id=SearchForm:searchButton");
+
+    await page.locator("tr", {hasText: ""})
+        .locator("a", {hasText: "View"})
+        .click();
+    await expect(page).toHaveTitle(/Case Summary/);
+    const crn =  await page.locator('//*[contains(@title, "Case Reference Number")]').first().textContent()
+    return crn;
+}
+
 export async function verifyAllocation(page: Page, args: { practitioner: Practitioner, crn: string }) {
     dotenv.config()
     await page.goto(process.env.DELIUS_URL)
@@ -43,5 +59,4 @@ export async function verifyAllocation(page: Page, args: { practitioner: Practit
     await page.locator("a", {hasText: "Community Supervisor"}).click();
     await expect(page.locator("id=SearchForm:provider")).toHaveText(args.practitioner.providerName)
     await expect(page.locator("id=SearchForm:supervisorCommunityTeam")).toHaveText(args.practitioner.teamName)
-
 }

@@ -21,6 +21,10 @@ export async function verifyContact(page: Page, contact: Contact) {
     await refreshUntil(page, async () => {
         return await locator.count() > 0
     }, 10)
+    const textArray = [contact.relatesTo, contact.type]
+    if(contact.officer){
+        textArray.push(`${contact.officer.lastName}, ${contact.officer.firstName}`)
+    }
     await expect(locator)
-        .toContainText([contact.relatesTo, contact.type, `${contact.officer.lastName}, ${contact.officer.firstName}`])
+        .toContainText(textArray)
 }
