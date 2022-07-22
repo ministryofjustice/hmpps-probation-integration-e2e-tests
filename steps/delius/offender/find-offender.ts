@@ -18,6 +18,7 @@ export async function findOffenderByCRN(page: Page, crn: string) {
     await page.locator("a", {hasText: "National search"}).click();
     await expect(page).toHaveTitle(/National Search/);
     await page.fill("id=SearchForm:CRN", crn);
+    await selectOption(page, "id=otherIdentifier", "[Not Selected]")
     await page.click("id=SearchForm:searchButton");
 
     await page.locator("tr", {hasText: crn})
