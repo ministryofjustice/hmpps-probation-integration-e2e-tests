@@ -38,8 +38,7 @@ export async function findOffenderByNomisId(page: Page, nomisId: string): Promis
         .locator("a", {hasText: "View"})
         .click();
     await expect(page).toHaveTitle(/Case Summary/);
-    const crn =  await page.locator('//*[contains(@title, "Case Reference Number")]').first().textContent()
-    return crn;
+    return await page.locator('//*[contains(@title, "Case Reference Number")]').first().textContent()
 }
 
 export async function verifyAllocation(page: Page, args: { practitioner: Practitioner, crn: string }) {
@@ -53,7 +52,7 @@ export async function verifyAllocation(page: Page, args: { practitioner: Practit
 
     await refreshUntil(page, async () => {
         return await locator.count() > 0
-    },40)
+    },60)
 
     await expect(await locator.textContent())
         .toEqual(`${args.practitioner.lastName}, ${args.practitioner.firstName}`)
