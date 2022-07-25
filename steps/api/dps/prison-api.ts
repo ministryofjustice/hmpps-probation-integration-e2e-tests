@@ -45,6 +45,5 @@ async function bookPrisoner(offenderNo: string) {
             imprisonmentStatus:"SENT03"
         }
     })
-    const json = await response.json()
-    console.log("response from booking:",json)
+    await response.json()
 }
