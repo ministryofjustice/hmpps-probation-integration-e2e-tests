@@ -1,7 +1,7 @@
 import {expect, Page} from "@playwright/test";
 import {findOffenderByCRN} from "../offender/find-offender";
 import {Contact} from "../utils/contact";
-import {refreshUntil} from "../utils/refresh";
+import {doUntil} from "../utils/refresh";
 
 export async function findContactsByCRN(page: Page, crn: string) {
     await findOffenderByCRN(page, crn)
@@ -18,9 +18,15 @@ export async function verifyContacts(page: Page, crn: string, contacts: Contact[
 
 export async function verifyContact(page: Page, contact: Contact) {
     const locator = await page.locator("tr", {hasText: contact.type}).nth(contact.instance)
-    await refreshUntil(page, async () => {
+    await doUntil(page, async () => {
         return await locator.count() > 0
-    }, 10)
-    await expect(locator)
-        .toContainText([contact.relatesTo, contact.type, `${contact.officer.lastName}, ${contact.officer.firstName}`])
+    }, async () => {
+        await page.locator("input.btn-primary", {hasText: "Context Search"}).click();
+        await new Promise(f => setTimeout(f, 1000));
+    }, 30)
+    const textArray = [contact.relatesTo, contact.type]
+    if (contact.officer) {
+        textArray.push(`${contact.officer.lastName}, ${contact.officer.firstName}`)
+    }
+    await expect(locator).toContainText(textArray)
 }
