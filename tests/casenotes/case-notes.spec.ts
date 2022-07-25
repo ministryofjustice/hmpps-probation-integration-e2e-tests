@@ -45,7 +45,7 @@ test("Create a new case note", async ({page}) => {
     await deliusLogin(page)
 
     const contacts = [
-        contact("1 - Adult Custody < 12m", "NOMIS Case Notes")
+        contact("1 - Adult Custody < 12m", "Case Notes")
     ]
     await verifyContacts(page, crn, contacts)
 })
