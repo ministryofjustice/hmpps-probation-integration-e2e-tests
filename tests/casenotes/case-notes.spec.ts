@@ -8,7 +8,6 @@ import {createOffender} from "../../steps/delius/offender/create-offender";
 import {createEventForCRN} from "../../steps/delius/event/create-event";
 import {deliusPerson} from "../../steps/delius/utils/person";
 import {setNomisId} from "../../steps/delius/offender/update-offender";
-import {getToken} from "../../steps/api/auth/get-token";
 import {createAndBookPrisoner} from "../../steps/api/dps/prison-api";
 
 
@@ -17,7 +16,6 @@ const wrexhamTeam = "NPS - Wrexham - Team 1"
 const person = deliusPerson()
 
 test("Create a new case note", async ({page}) => {
-    page.on('console', msg => console.log(msg))
     await deliusLogin(page)
     const crn = await createOffender(page, {person: person, providerName: npsWales})
     await createEventForCRN(page, {
@@ -30,8 +28,7 @@ test("Create a new case note", async ({page}) => {
     })
 
     const nomisId = await createAndBookPrisoner(person)
-    console.log("nomis id",nomisId)
-    await setNomisId(page, crn, nomisId )
+    await setNomisId(page, crn, nomisId)
     await page.goto(`${process.env.DPS_URL}/auth/sign-out`)
 
     //Add a case note
@@ -40,7 +37,7 @@ test("Create a new case note", async ({page}) => {
     await expect(page).toHaveTitle(/Add a case note - Digital Prison Services/)
     await selectOption(page, "id=type", "General")
     await selectOption(page, "id=sub-type", "Offender Supervisor Entry")
-    await page.fill("id=text","some text")
+    await page.fill("id=text", "Case Note added by HMPPS Probation Integration end to end tests")
     await page.locator("button", {hasText: "Save"}).click()
     await expect(page).toHaveTitle(/Case notes - Digital Prison Services/)
     await page.goto(`${process.env.DPS_URL}/auth/sign-out`)

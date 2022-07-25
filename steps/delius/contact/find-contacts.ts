@@ -20,7 +20,7 @@ export async function verifyContact(page: Page, contact: Contact) {
     const locator = await page.locator("tr", {hasText: contact.type}).nth(contact.instance)
     await refreshUntil(page, async () => {
         return await locator.count() > 0
-    }, 10)
+    }, 30)
     const textArray = [contact.relatesTo, contact.type]
     if(contact.officer){
         textArray.push(`${contact.officer.lastName}, ${contact.officer.firstName}`)
