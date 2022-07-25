@@ -8,7 +8,7 @@ export const refreshUntil = async (
 ) => {
     await doUntil(page, async () => {
         await page.reload({waitUntil: "domcontentloaded"})
-    }, predicate, delay, timeout)
+    }, predicate, timeout, delay)
 }
 
 export const doUntil = async (
