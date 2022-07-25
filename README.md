@@ -1,4 +1,4 @@
-# hmpps-end-to-end-tests
+# hmpps-probation-integration-e2e-tests
 Playwright end to end tests. 
 
 set up npm:
