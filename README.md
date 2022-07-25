@@ -27,7 +27,10 @@ PRISON_API=https://api-dev.prison.service.justice.gov.uk/
 ```
 
 
-run test:</br>
+run single test by name:</br>
+` npx playwright test -g "Create a new case note" --headed`
+
+run test file:</br>
 `npx playwright test tests/allocations/allocate-new-person.spec.ts --headed` 
 
 useful debug mode:</br>
