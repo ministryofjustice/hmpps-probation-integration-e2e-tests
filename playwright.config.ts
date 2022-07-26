@@ -48,7 +48,7 @@ const config: PlaywrightTestConfig = {
       name: 'chromium',
       use: {
         launchOptions: {
-          slowMo: 400,
+          slowMo: 600,
         },
         ...devices['Desktop Chrome'],
         screenshot: 'only-on-failure',
