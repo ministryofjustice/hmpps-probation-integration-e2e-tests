@@ -12,7 +12,6 @@ export const login = async (page: Page) => {
     if(title == deliusTitle) {
         page.on('dialog', dialog => dialog.accept());
         await page.locator('//a[contains(@title, "Select this option to exit from the Delius application")]').click()
-        // await page.locator('//a[contains(@title, "Select this option to exit from the Delius application")]').click()
     }
 
     await expect(page).toHaveTitle(/HMPPS Digital Services - Sign in/)
