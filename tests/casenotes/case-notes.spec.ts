@@ -11,8 +11,8 @@ import {setNomisId} from "../../steps/delius/offender/update-offender";
 import {createAndBookPrisoner, releasePrisoner} from "../../steps/api/dps/prison-api";
 
 
-const npsWales = "NPS Wales"
-const wrexhamTeam = "NPS - Wrexham - Team 1"
+const npsWales = "NPS North East"
+const wrexhamTeam = "NPS - Consett"
 const person = deliusPerson()
 
 const nomisIds = []
