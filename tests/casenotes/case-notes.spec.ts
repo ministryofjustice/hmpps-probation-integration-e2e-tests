@@ -8,12 +8,14 @@ import {createOffender} from "../../steps/delius/offender/create-offender";
 import {createEventForCRN} from "../../steps/delius/event/create-event";
 import {deliusPerson} from "../../steps/delius/utils/person";
 import {setNomisId} from "../../steps/delius/offender/update-offender";
-import {createAndBookPrisoner} from "../../steps/api/dps/prison-api";
+import {createAndBookPrisoner, releasePrisoner} from "../../steps/api/dps/prison-api";
 
 
 const npsWales = "NPS Wales"
 const wrexhamTeam = "NPS - Wrexham - Team 1"
 const person = deliusPerson()
+
+const nomisIds = []
 
 test("Create a new case note", async ({page}) => {
     await deliusLogin(page)
@@ -28,6 +30,7 @@ test("Create a new case note", async ({page}) => {
     })
 
     const nomisId = await createAndBookPrisoner(person)
+    nomisIds.push(nomisId)
     await setNomisId(page, crn, nomisId)
     await page.goto(`${process.env.DPS_URL}/auth/sign-out`)
 
@@ -50,5 +53,9 @@ test("Create a new case note", async ({page}) => {
     await verifyContacts(page, crn, contacts)
 })
 
-
+test.afterAll(async () => {
+    for (const nomsId of nomisIds) {
+        await releasePrisoner(nomsId)
+    }
+});
 
