@@ -1,5 +1,4 @@
-// @ts-ignore
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 import {request} from "@playwright/test";
 
 export const getToken = async () => {

@@ -1,6 +1,5 @@
 import {expect, Page} from "@playwright/test";
-// @ts-ignore
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 import {Practitioner} from "../utils/person";
 import {refreshUntil} from "../utils/refresh";
 import {selectOption} from "../utils/inputs";

@@ -1,6 +1,5 @@
 import {Person} from "../../delius/utils/person";
-// @ts-ignore
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 import {APIRequestContext, request} from "@playwright/test";
 import {getToken} from "../auth/get-token";
 

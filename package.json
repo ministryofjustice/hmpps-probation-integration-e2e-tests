@@ -1,20 +1,20 @@
 {
-  "name": "hmpps-end-to-end-tests",
+  "name": "hmpps-probation-integration-e2e-tests",
   "version": "1.0.0",
-  "description": "Playwright end to end tests.",
+  "description": "Playwright end to end tests for hmpps-probation-integration-services.",
   "main": "index.js",
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ministryofjustice/hmpps-end-to-end-tests.git"
+    "url": "git+https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ministryofjustice/hmpps-end-to-end-tests/issues"
+    "url": "https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests/issues"
   },
-  "homepage": "https://github.com/ministryofjustice/hmpps-end-to-end-tests#readme",
+  "homepage": "https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests#readme",
   "devDependencies": {
     "@faker-js/faker": "^7.3.0",
     "@playwright/test": "^1.23.1"
