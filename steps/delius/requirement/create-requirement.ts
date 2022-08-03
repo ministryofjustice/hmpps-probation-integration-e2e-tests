@@ -1,29 +1,34 @@
 import {Page} from "@playwright/test";
+import {data} from "../../../test-data/test-data";
 import {findEventByCRN} from "../event/find-events";
 import {selectOption} from "../utils/inputs";
 
 export async function createRequirementForEvent(
     page: Page,
-    args: {
+    {crn, eventNumber = "1", team = {}, requirement = data.requirements.curfew}: {
         crn: string,
-        eventNumber: string,
-        providerName?: string
-        teamName?: string,
-        category: string,
-        subCategory: string,
-        length?: string
+        eventNumber?: string,
+        team?: {
+            providerName?: string,
+            teamName?: string
+        },
+        requirement?: {
+            category: string,
+            subCategory: string,
+            length?: string
+        }
     }
 ) {
-    await findEventByCRN(page, args.crn, args.eventNumber)
+    await findEventByCRN(page, crn, eventNumber)
     await page.click("id=linkNavigation3SentenceComponentREQ");
     await page.locator("main", {has: page.locator("h1", {hasText: "Requirement Types"})})
     await page.locator("input", {hasText: "Add"}).click();
-    await selectOption(page, "#RequirementMainCategory", args.category)
-    await selectOption(page, "#RequirementSubCategory", args.subCategory)
-    await selectOption(page, "id=Area", args.providerName)
-    await selectOption(page, "id=AddSentenceComponentsForm:requirement:Team", args.teamName)
-    if (args.length) {
-        await page.fill("id=Length", args.length)
+    await selectOption(page, "#RequirementMainCategory", requirement.category)
+    await selectOption(page, "#RequirementSubCategory", requirement.subCategory)
+    await selectOption(page, "id=Area", team.providerName)
+    await selectOption(page, "id=AddSentenceComponentsForm:requirement:Team", team.teamName)
+    if (requirement.length) {
+        await page.fill("id=Length", requirement.length)
     }
     await page.locator("input", {hasText: "Add"}).click();
     await page.locator("input", {hasText: "Save"}).click();

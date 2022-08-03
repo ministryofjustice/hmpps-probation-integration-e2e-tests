@@ -3,22 +3,26 @@ import {faker} from "@faker-js/faker";
 import {findOffenderByCRN} from "../offender/find-offender";
 import {fillDate, selectOption} from "../utils/inputs";
 import {Yesterday} from "../utils/date-time";
+import {data} from "../../../test-data/test-data"
 
 const autoAddComponent = ["ORA Community Order"]
 
-export async function createEventForCRN(
-    page: Page,
-    args: {
-        crn: string
+export interface CreateEvent {
+    crn: string;
+    allocation?: {
         providerName?: string
-        teamName?: string
-        staffName?: string
-        appearanceType?: string
-        outcome?: string
+        teamName?: string;
+        staffName?: string;
+    };
+    event?: {
+        appearanceType?: string;
+        outcome?: string;
         length?: string
     }
-) {
-    await findOffenderByCRN(page, args.crn)
+}
+
+export async function createEventForCRN(page: Page, {crn, allocation = {}, event}: CreateEvent) {
+    await findOffenderByCRN(page, crn)
     await page.click("id=linkNavigation2EventList")
     await expect(page).toHaveTitle(/Events/)
     await page.locator("input", {hasText: "Add"}).click()
@@ -28,28 +32,40 @@ export async function createEventForCRN(
     await fillDate(page, "id=ConvictionDate", date)
     await selectOption(page, "#MainOffence")
     await selectOption(page, "#Court")
-    await selectOption(page, "id=addEventForm:Area", args.providerName)
-    await selectOption(page, "id=addEventForm:Team", args.teamName)
-    if(args.staffName){
-        await selectOption(page, "id=addEventForm:Staff", args.staffName)
+    await selectOption(page, "id=addEventForm:Area", allocation.providerName)
+    await selectOption(page, "id=addEventForm:Team", allocation.teamName)
+    if (allocation.staffName) {
+        await selectOption(page, "id=addEventForm:Staff", allocation.staffName)
     }
-    await selectOption(page, "#AppearanceType", args.appearanceType)
+    await selectOption(page, "#AppearanceType", event.appearanceType)
     await selectOption(page, "#Plea")
-    await selectOption(page, "id=addEventForm:Outcome", args.outcome)
-    if (autoAddComponent.includes(args.outcome)) {
-        await selectOption(page, "#OutcomeArea", args.providerName)
-        await selectOption(page, "id=addEventForm:OutcomeTeam", args.teamName)
+    await selectOption(page, "id=addEventForm:Outcome", event.outcome)
+    if (autoAddComponent.includes(event.outcome)) {
+        await selectOption(page, "#OutcomeArea", allocation.providerName)
+        await selectOption(page, "id=addEventForm:OutcomeTeam", allocation.teamName)
     }
 
-    if (args.length) {
-        await page.fill("id=addEventForm:Length", args.length)
+    if (event.length) {
+        await page.fill("id=addEventForm:Length", event.length)
     }
 
     await page.locator("input", {hasText: "Save"}).click()
 
-    if (autoAddComponent.includes(args.outcome)) {
+    if (autoAddComponent.includes(event.outcome)) {
         await expect(page).toHaveTitle(/Add Components/)
     } else {
         await expect(page).toHaveTitle(/Event Details/)
     }
+
+    return event
+}
+
+export async function createCustodialEvent(page: Page,
+                                           {crn, allocation = {}, event = data.events.custodial}: CreateEvent) {
+    return createEventForCRN(page, {crn, allocation, event})
+}
+
+export async function createCommunityEvent(page: Page,
+                                           {crn, allocation = {}, event = data.events.community}: CreateEvent) {
+    return createEventForCRN(page, {crn, allocation, event})
 }
