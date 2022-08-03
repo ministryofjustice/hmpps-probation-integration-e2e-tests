@@ -20,15 +20,15 @@ export async function createRequirementForEvent(
     }
 ) {
     await findEventByCRN(page, crn, eventNumber)
-    await page.click("id=linkNavigation3SentenceComponentREQ");
+    await page.click("#linkNavigation3SentenceComponentREQ");
     await page.locator("main", {has: page.locator("h1", {hasText: "Requirement Types"})})
     await page.locator("input", {hasText: "Add"}).click();
     await selectOption(page, "#RequirementMainCategory", requirement.category)
     await selectOption(page, "#RequirementSubCategory", requirement.subCategory)
-    await selectOption(page, "id=Area", team.providerName)
-    await selectOption(page, "id=AddSentenceComponentsForm:requirement:Team", team.teamName)
+    await selectOption(page, "#Area", team.providerName)
+    await selectOption(page, "#AddSentenceComponentsForm\\:requirement\\:Team", team.teamName)
     if (requirement.length) {
-        await page.fill("id=Length", requirement.length)
+        await page.fill("#Length", requirement.length)
     }
     await page.locator("input", {hasText: "Add"}).click();
     await page.locator("input", {hasText: "Save"}).click();
