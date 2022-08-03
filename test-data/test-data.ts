@@ -1,6 +1,7 @@
 import {commonConfig} from "./environments/common";
 import {testEnvironmentData} from "./environments/test";
 import {preProdEnvironmentData} from "./environments/pre-prod";
+import * as dotenv from 'dotenv'
 
 export class TestData {
     events: { [key: string]: { appearanceType: string, outcome: string, length?: string } } = {}
@@ -8,6 +9,8 @@ export class TestData {
     staff: { [key: string]: { firstName: string, lastName: string, staffName: string } } = {}
     teams: { [key: string]: { teamName: string, providerName: string } } = {}
 }
+
+dotenv.config() // read environment variables into process.env
 
 // Merge environment config with common config and export single `data` object
 export const data: TestData = new TestData()

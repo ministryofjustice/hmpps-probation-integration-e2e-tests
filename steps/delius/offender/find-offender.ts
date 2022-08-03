@@ -1,5 +1,4 @@
 import {expect, Page} from "@playwright/test";
-import * as dotenv from "dotenv";
 import {Practitioner} from "../utils/person";
 import {refreshUntil} from "../utils/refresh";
 import {selectOption} from "../utils/inputs";
@@ -41,7 +40,6 @@ export async function findOffenderByNomisId(page: Page, nomisId: string): Promis
 }
 
 export async function verifyAllocation(page: Page, args: { practitioner: Practitioner, crn: string }) {
-    dotenv.config()
     await page.goto(process.env.DELIUS_URL)
 
     await findOffenderByCRN(page, args.crn)

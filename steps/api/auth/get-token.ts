@@ -1,8 +1,6 @@
-import * as dotenv from "dotenv";
 import {request} from "@playwright/test";
 
 export const getToken = async () => {
-    dotenv.config()
     const context = await request.newContext({
         baseURL: process.env.AUTH_URL,
     })
