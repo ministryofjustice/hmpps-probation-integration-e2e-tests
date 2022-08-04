@@ -1,4 +1,4 @@
-import {commonConfig} from "./environments/common";
+import {commonData} from "./environments/common";
 import {testEnvironmentData} from "./environments/test";
 import {preProdEnvironmentData} from "./environments/pre-prod";
 import * as dotenv from 'dotenv'
@@ -20,4 +20,4 @@ const environmentData: TestData =
     (() => {
         throw new Error(`Unexpected environment: ${process.env.ENV}. Make sure you set the ENV variable correctly.`)
     })();
-Object.keys(environmentData).forEach(key => data[key] = {...commonConfig[key], ...environmentData[key]})
+Object.keys(environmentData).forEach(key => data[key] = {...commonData[key], ...environmentData[key]})

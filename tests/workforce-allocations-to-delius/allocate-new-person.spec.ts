@@ -1,6 +1,6 @@
 import {login} from "../../steps/delius/login";
 import {createOffender} from "../../steps/delius/offender/create-offender";
-import {createCommunityEvent, createEventForCRN} from "../../steps/delius/event/create-event";
+import {createCommunityEvent, createEvent} from "../../steps/delius/event/create-event";
 import {createRequirementForEvent} from "../../steps/delius/requirement/create-requirement";
 import {login as workforceLogin} from "../../steps/workforce/login";
 import {allocateCase} from "../../steps/workforce/allocations";
@@ -45,7 +45,7 @@ test("Allocate new person", async ({page}) => {
 test("Allocate currently-managed person", async ({page}) => {
     // Given an existing person in Delius, with a currently allocated un-sentenced event
     const crn = await createOffender(page, {providerName: data.teams.allocationsTestTeam.providerName})
-    await createEventForCRN(page, {crn, event: data.events.appeal, allocation: data.teams.allocationsTestTeam})
+    await createEvent(page, {crn, event: data.events.appeal, allocation: data.teams.allocationsTestTeam})
     await internalTransfer(page, {crn, allocation: anotherPractitioner})
 
     // And a new unallocated event

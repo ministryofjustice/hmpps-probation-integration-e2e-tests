@@ -21,7 +21,7 @@ export interface CreateEvent {
     }
 }
 
-export async function createEventForCRN(page: Page, {crn, allocation = {}, event}: CreateEvent) {
+export async function createEvent(page: Page, {crn, allocation = {}, event}: CreateEvent) {
     await findOffenderByCRN(page, crn)
     await page.click("#linkNavigation2EventList")
     await expect(page).toHaveTitle(/Events/)
@@ -64,12 +64,12 @@ export async function createCustodialEvent(
     page: Page,
     {crn, allocation = {}, event = data.events.custodial}: CreateEvent
 ) {
-    return createEventForCRN(page, {crn, allocation, event})
+    return createEvent(page, {crn, allocation, event})
 }
 
 export async function createCommunityEvent(
     page: Page,
     {crn, allocation = {}, event = data.events.community}: CreateEvent
 ) {
-    return createEventForCRN(page, {crn, allocation, event})
+    return createEvent(page, {crn, allocation, event})
 }

@@ -1,7 +1,7 @@
 import {TestData} from "../test-data";
 
 // Static / well-known data that should be available in all environments
-export const commonConfig: TestData = {
+export const commonData: TestData = {
     events: {
         custodial: {
             appearanceType: "Sentence",
