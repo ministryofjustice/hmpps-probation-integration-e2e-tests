@@ -5,7 +5,7 @@ import {doUntil} from "../utils/refresh";
 
 export async function findContactsByCRN(page: Page, crn: string) {
     await findOffenderByCRN(page, crn)
-    await page.click("id=linkNavigation1ContactList");
+    await page.click("#linkNavigation1ContactList");
     await expect(page).toHaveTitle(/Contact List/);
 }
 
