@@ -1,8 +1,8 @@
-import {faker, Gender} from "@faker-js/faker";
+import { faker, Gender } from '@faker-js/faker'
 
 export const randomGender = () => {
     const genders = [Gender.male, Gender.female]
-    return genders[Math.floor(Math.random() * genders.length)];
+    return genders[Math.floor(Math.random() * genders.length)]
 }
 
 export interface Person {
@@ -14,9 +14,9 @@ export interface Person {
 
 const genderOf = (genderStr: string) => {
     switch (genderStr) {
-        case "Male" :
+        case 'Male':
             return Gender.male
-        case "Female":
+        case 'Female':
             return Gender.female
     }
 }
@@ -26,7 +26,7 @@ export const deliusPerson = (person?: Person) => {
     const firstName = person?.firstName ? person.firstName : faker.name.firstName(gender)
     const lastName = person?.lastName ? person.lastName : faker.name.lastName(gender)
     const genderStr = gender.toString()
-    const dob = faker.date.birthdate({min: 18, max: 70, mode: "age"})
+    const dob = faker.date.birthdate({ min: 18, max: 70, mode: 'age' })
     return {
         firstName,
         lastName,
@@ -35,4 +35,9 @@ export const deliusPerson = (person?: Person) => {
     }
 }
 
-export interface Practitioner{ firstName: string, lastName: string, providerName: string, teamName: string}
+export interface Practitioner {
+    firstName: string
+    lastName: string
+    providerName: string
+    teamName: string
+}
