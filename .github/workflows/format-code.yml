@@ -5,12 +5,13 @@ on:
     types: [opened, edited, reopened, synchronize]
 
 jobs:
-  report:
+  fix-formatting:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
       - run: npm ci
       - run: npx eslint . --fix
-      - run: git commit -am 'Formatting changes'
-      - run: git push
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Formatting changes
