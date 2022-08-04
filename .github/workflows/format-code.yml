@@ -1,0 +1,16 @@
+name: Format code
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: npm ci
+      - run: npx eslint . --fix
+      - run: git commit -am 'Formatting changes'
+      - run: git push

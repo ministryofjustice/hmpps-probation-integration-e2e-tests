@@ -82,6 +82,20 @@ npx playwright test --debug  # step through the test run manually
 Once your tests have finished running, access the trace viewer by clicking the link at the bottom of the HTML report.
 The trace viewer displays a visual timeline of events you can step through to inspect what happened.
 
+## Code Formatting
+
+[ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) are used for linting and formatting.
+To fix any issues, run
+
+```shell
+npx eslint . --fix
+```
+
+Enable the ESLint "fix on save" setting in IntelliJ to fix any formatting issues before committing.
+See [Fix problems automatically on save](https://www.jetbrains.com/help/idea/eslint.html#ws_eslint_configure_run_eslint_on_save)
+
+A GitHub Action will fix any missed formatting issues for you when creating a pull request.
+
 ## Test Data
 
 Each test scenario generally creates its own data (e.g. people, events/sentences, contacts), using the Delius UI or
