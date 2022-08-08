@@ -1,23 +1,25 @@
 {
   "name": "hmpps-probation-integration-e2e-tests",
-  "version": "1.0.0",
   "description": "Playwright end to end tests for hmpps-probation-integration-services.",
-  "main": "index.js",
-  "scripts": {},
+  "version": "1.0.0",
+  "license": "MIT",
+  "homepage": "https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests#readme",
+  "bugs": {
+    "url": "https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests/issues"
-  },
-  "homepage": "https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests#readme",
+  "scripts": {},
   "devDependencies": {
     "@faker-js/faker": "^7.3.0",
-    "@playwright/test": "^1.23.1"
+    "@playwright/test": "^1.23.1",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
+    "@typescript-eslint/parser": "^5.32.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "2.7.1"
   },
   "dependencies": {
     "dotenv": "^16.0.1"

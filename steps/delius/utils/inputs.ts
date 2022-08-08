@@ -1,29 +1,29 @@
-import {Page} from "@playwright/test";
-import {DeliusDateFormatter} from "./date-time";
+import { Page } from '@playwright/test'
+import { DeliusDateFormatter } from './date-time'
 
 const getOptions = async (page: Page, selector: string) => {
-    return await page.$$eval(`${selector} > option`, (opts) => {
-        return opts.map(option => option.textContent).filter(option => option !== "[Please Select]")
+    return await page.$$eval(`${selector} > option`, opts => {
+        return opts.map(option => option.textContent).filter(option => option !== '[Please Select]')
     })
 }
 
-const getRandomOption = async (page: Page, selector: string, timeout: number = 2) => {
+const getRandomOption = async (page: Page, selector: string, timeout = 2) => {
     const waitUntil = new Date().getSeconds() + timeout
     let options = []
     while (options.length == 0 && new Date().getSeconds() <= waitUntil) {
         options = await getOptions(page, selector)
     }
-    return options[Math.floor(Math.random() * options.length)];
+    return options[Math.floor(Math.random() * options.length)]
 }
 
 const selectRandomOption = async (page: Page, selector: string) => {
     const option = await getRandomOption(page, selector)
-    await page.selectOption(selector, {label: option})
+    await page.selectOption(selector, { label: option })
 }
 
-export const selectOption = async (page: Page, selector: string, option: string = "") => {
+export const selectOption = async (page: Page, selector: string, option = '') => {
     if (option) {
-        await page.selectOption(selector, {label: option})
+        await page.selectOption(selector, { label: option })
     } else {
         await selectRandomOption(page, selector)
     }
