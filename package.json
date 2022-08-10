@@ -17,11 +17,11 @@
     "@playwright/test": "^1.23.1",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
+    "dotenv": "^16.0.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "node-stream-zip": "^1.15.0",
+    "pdf2json": "^2.0.1",
     "prettier": "2.7.1"
-  },
-  "dependencies": {
-    "dotenv": "^16.0.1"
   }
 }

@@ -45,13 +45,7 @@ export async function verifyAllocation(page: Page, args: { practitioner: Practit
         })
         .first()
 
-    await refreshUntil(
-        page,
-        async () => {
-            return (await locator.count()) > 0
-        },
-        60
-    )
+    await refreshUntil(page, () => expect(locator).not.toHaveCount(0))
 
     await expect(await locator.textContent()).toEqual(`${args.practitioner.lastName}, ${args.practitioner.firstName}`)
     await page.locator('a', { hasText: 'Community Supervisor' }).click()

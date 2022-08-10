@@ -4,7 +4,8 @@ import { preProdEnvironmentData } from './environments/pre-prod'
 import * as dotenv from 'dotenv'
 
 export class TestData {
-    events: { [key: string]: { appearanceType: string; outcome: string; length?: string } } = {}
+    documentTemplates: { [key: string]: string } = {}
+    events: { [key: string]: { appearanceType: string; outcome: string; length?: string; reportType?: string } } = {}
     requirements: { [key: string]: { category: string; subCategory: string; length?: string } } = {}
     staff: { [key: string]: { firstName: string; lastName: string; staffName: string } } = {}
     teams: { [key: string]: { teamName: string; providerName: string } } = {}
