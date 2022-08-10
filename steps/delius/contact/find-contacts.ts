@@ -22,7 +22,7 @@ export async function verifyContact(page: Page, contact: Contact) {
     await doUntil(
         page,
         () => contactSearchButton.click(),
-        () => expect(matchingContactRecords).toHaveCount(contact.instance)
+        () => expect(matchingContactRecords).not.toHaveCount(0)
     )
 
     const textArray = [contact.relatesTo, contact.type]

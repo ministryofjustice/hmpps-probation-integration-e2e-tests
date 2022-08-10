@@ -10,7 +10,12 @@ export const doUntil = async <T>(
     expectation: () => Promise<void>,
     options: { timeout?: number; intervals?: number[] } = { timeout: 60_000, intervals: [100, 250, 500, 1000, 5000] }
 ) => {
-    await expect.poll(async () => (await action()) && (await toPredicate(expectation())), options).toBeTruthy()
+    await expect
+        .poll(async () => {
+            await action()
+            return await toPredicate(expectation())
+        }, options)
+        .toBeTruthy()
 }
 
 export const toPredicate = async (expectation: Promise<void>): Promise<boolean> =>
