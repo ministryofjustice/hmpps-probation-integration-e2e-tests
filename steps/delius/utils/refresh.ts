@@ -21,8 +21,4 @@ export const doUntil = async <T>(
 export const toPredicate = async (expectation: Promise<void>): Promise<boolean> =>
     expectation.then(() => true).catch(() => false)
 
-export const waitForAjax = async (page: Page) => {
-    const started = performance.now()
-    await page.waitForResponse(page.url())
-    console.log(`Waited ${performance.now() - started}ms for ajax request to complete`)
-}
+export const waitForAjax = async (page: Page) => await page.waitForResponse(page.url())

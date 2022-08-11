@@ -10,8 +10,6 @@ import { findCourtReport } from '../../steps/delius/court-report/find-court-repo
 import { createDocumentFromTemplate } from '../../steps/delius/document/create-document'
 import { createSubjectAccessReport, getFileFromZip } from '../../steps/delius/document/subject-access-report'
 
-test.beforeEach(({ page }) => page.on('console', console.log))
-
 test('Create a short format pre-sentence report', async ({ page }) => {
     // Given a person with an event that has been adjourned for pre-sentence report,
     // and a court report with a newly created pre-sentence report document
