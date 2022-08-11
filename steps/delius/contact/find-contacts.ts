@@ -17,17 +17,17 @@ export async function verifyContacts(page: Page, crn: string, contacts: Contact[
 }
 
 export async function verifyContact(page: Page, contact: Contact) {
-    const matchingContactRecords = page.locator('tr', { hasText: contact.type })
+    const matchingContactRecord = page.locator('tr', { hasText: contact.type }).nth(contact.instance)
     const contactSearchButton = page.locator('input.btn-primary', { hasText: 'Context Search' })
     await doUntil(
         page,
         () => contactSearchButton.click(),
-        () => expect(matchingContactRecords).not.toHaveCount(0)
+        () => expect(matchingContactRecord).not.toHaveCount(0)
     )
 
     const textArray = [contact.relatesTo, contact.type]
     if (contact.officer) {
         textArray.push(`${contact.officer.lastName}, ${contact.officer.firstName}`)
     }
-    await expect(matchingContactRecords.nth(contact.instance)).toContainText(textArray)
+    await expect(matchingContactRecord).toContainText(textArray)
 }
