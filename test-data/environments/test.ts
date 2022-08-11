@@ -1,6 +1,10 @@
 import { TestData } from '../test-data'
 
 export const testEnvironmentData: TestData = {
+    documentTemplates: {
+        shortFormatPreSentenceReport: 'shortFormatPreSentenceReport',
+        oralPreSentenceReport: 'Record of Oral Pre-Sentence Report',
+    },
     events: {},
     requirements: {},
     staff: {

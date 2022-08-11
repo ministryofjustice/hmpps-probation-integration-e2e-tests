@@ -1,29 +1,24 @@
-import { Page } from '@playwright/test'
+import { expect, Page } from '@playwright/test'
 
-export const refreshUntil = async (page: Page, predicate: () => Promise<boolean>, timeout = 60, delay = 100) => {
-    await doUntil(
-        page,
-        async () => {
-            await page.reload({ waitUntil: 'domcontentloaded' })
-        },
-        predicate,
-        timeout,
-        delay
-    )
+export const refreshUntil = async (page: Page, expectation: () => Promise<void>, options?) => {
+    await doUntil(page, async () => page.reload(), expectation, options)
 }
 
-export const doUntil = async (
+export const doUntil = async <T>(
     page: Page,
-    action: () => Promise<void>,
-    predicate: () => Promise<boolean>,
-    timeout = 60,
-    delay = 100
+    action: () => Promise<T>,
+    expectation: () => Promise<void>,
+    options: { timeout?: number; intervals?: number[] } = { timeout: 60_000, intervals: [100, 250, 500, 1000, 5000] }
 ) => {
-    const waitUntil = new Date().getSeconds() + timeout
-    while (!(await predicate()) && new Date().getSeconds() <= waitUntil) {
-        await action()
-        await delayFor(delay)
-    }
+    await expect
+        .poll(async () => {
+            await action()
+            return await toPredicate(expectation())
+        }, options)
+        .toBeTruthy()
 }
 
-const delayFor = async (time: number) => new Promise(f => setTimeout(f, time))
+export const toPredicate = async (expectation: Promise<void>): Promise<boolean> =>
+    expectation.then(() => true).catch(() => false)
+
+export const waitForAjax = async (page: Page) => await page.waitForResponse(page.url())

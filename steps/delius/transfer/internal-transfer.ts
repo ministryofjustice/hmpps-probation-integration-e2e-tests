@@ -1,5 +1,4 @@
 import { expect, Page } from '@playwright/test'
-import { findEventByCRN } from '../event/find-events'
 import { selectOption } from '../utils/inputs'
 import { findOffenderByCRN } from '../offender/find-offender'
 

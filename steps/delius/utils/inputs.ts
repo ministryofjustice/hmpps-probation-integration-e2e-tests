@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test'
-import { DeliusDateFormatter } from './date-time'
+import { DeliusDateFormatter, DeliusTimeFormatter } from './date-time'
 
 const getOptions = async (page: Page, selector: string) => {
     return await page.$$eval(`${selector} > option`, opts => {
@@ -17,8 +17,7 @@ const getRandomOption = async (page: Page, selector: string, timeout = 2) => {
 }
 
 const selectRandomOption = async (page: Page, selector: string) => {
-    const option = await getRandomOption(page, selector)
-    await page.selectOption(selector, { label: option })
+    await page.selectOption(selector, { label: await getRandomOption(page, selector) })
 }
 
 export const selectOption = async (page: Page, selector: string, option = '') => {
@@ -31,4 +30,8 @@ export const selectOption = async (page: Page, selector: string, option = '') =>
 
 export const fillDate = async (page: Page, selector: string, date: Date) => {
     await page.fill(selector, DeliusDateFormatter(date))
+}
+
+export const fillTime = async (page: Page, selector: string, time: Date) => {
+    await page.fill(selector, DeliusTimeFormatter(time))
 }

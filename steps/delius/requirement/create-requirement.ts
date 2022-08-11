@@ -7,12 +7,12 @@ export async function createRequirementForEvent(
     page: Page,
     {
         crn,
-        eventNumber = '1',
+        eventNumber = 1,
         team = {},
         requirement = data.requirements.curfew,
     }: {
         crn: string
-        eventNumber?: string
+        eventNumber?: number
         team?: {
             providerName?: string
             teamName?: string

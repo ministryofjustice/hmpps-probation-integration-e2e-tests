@@ -1,11 +1,13 @@
 import { expect, Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
 import { findOffenderByCRN } from '../offender/find-offender'
-import { fillDate, selectOption } from '../utils/inputs'
+import { fillDate, fillTime, selectOption } from '../utils/inputs'
+import { waitForAjax } from '../utils/refresh'
 import { Yesterday } from '../utils/date-time'
 import { data } from '../../../test-data/test-data'
 
 const autoAddComponent = ['ORA Community Order']
+const autoAddCourtReport = ['Adjourned - Pre-Sentence Report']
 
 export interface CreateEvent {
     crn: string
@@ -18,6 +20,7 @@ export interface CreateEvent {
         appearanceType?: string
         outcome?: string
         length?: string
+        reportType?: string
     }
 }
 
@@ -32,8 +35,8 @@ export async function createEvent(page: Page, { crn, allocation = {}, event }: C
     await fillDate(page, '#ConvictionDate', date)
     await selectOption(page, '#MainOffence')
     await selectOption(page, '#Court')
-    await selectOption(page, '#addEventForm\\:Area', allocation.providerName)
-    await selectOption(page, '#addEventForm\\:Team', allocation.teamName)
+    await Promise.all([selectOption(page, '#addEventForm\\:Area', allocation.providerName), waitForAjax(page)])
+    await Promise.all([selectOption(page, '#addEventForm\\:Team', allocation.teamName), waitForAjax(page)])
     if (allocation.staffName) {
         await selectOption(page, '#addEventForm\\:Staff', allocation.staffName)
     }
@@ -44,15 +47,25 @@ export async function createEvent(page: Page, { crn, allocation = {}, event }: C
         await selectOption(page, '#OutcomeArea', allocation.providerName)
         await selectOption(page, '#addEventForm\\:OutcomeTeam', allocation.teamName)
     }
-
     if (event.length) {
         await page.fill('#addEventForm\\:Length', event.length)
+    }
+    if (event.reportType) {
+        await selectOption(page, '#addEventForm\\:Report', event.reportType)
+        await selectOption(page, '#addEventForm\\:Remand')
+    }
+    if (autoAddCourtReport.includes(event.outcome)) {
+        await fillDate(page, '#addEventForm\\:NextAppearanceDate', date)
+        await fillTime(page, '#AppearanceTime', date)
+        await selectOption(page, '#NextCourt')
     }
 
     await page.locator('input', { hasText: 'Save' }).click()
 
     if (autoAddComponent.includes(event.outcome)) {
         await expect(page).toHaveTitle(/Add Components/)
+    } else if (autoAddCourtReport.includes(event.outcome)) {
+        await expect(page).toHaveTitle(/Add Court Report/)
     } else {
         await expect(page).toHaveTitle(/Event Details/)
     }
