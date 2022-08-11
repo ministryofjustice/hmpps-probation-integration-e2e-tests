@@ -13,7 +13,7 @@ import { devices } from '@playwright/test'
 const config: PlaywrightTestConfig = {
     testDir: './tests',
     /* Maximum time one test can run for. */
-    timeout: 80 * 1000,
+    timeout: 120 * 1000,
     /* Run tests in files in parallel */
     fullyParallel: true,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -26,6 +26,7 @@ const config: PlaywrightTestConfig = {
     reporter: 'html',
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
+        launchOptions: { slowMo: 100 },
         screenshot: 'only-on-failure',
         trace: process.env.CI ? 'off' : 'on',
     },

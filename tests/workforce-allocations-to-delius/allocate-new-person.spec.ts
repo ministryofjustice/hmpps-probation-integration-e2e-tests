@@ -73,7 +73,7 @@ test('Allocate previously-managed person', async ({ page }) => {
 
     // And a new unallocated event and requirement
     await createCommunityEvent(page, { crn, allocation: data.teams.allocationsTestTeam })
-    await createRequirementForEvent(page, { crn, eventNumber: '2', team: data.teams.allocationsTestTeam })
+    await createRequirementForEvent(page, { crn, eventNumber: 2, team: data.teams.allocationsTestTeam })
 
     // When I allocate the person to a practitioner in Manage A Workforce
     await workforceLogin(page)
