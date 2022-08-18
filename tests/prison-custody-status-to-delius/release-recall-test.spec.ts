@@ -1,15 +1,11 @@
 import { expect, test } from '@playwright/test'
-import { login as dpsLogin } from '../../steps/dps/login'
 import { login as deliusLogin } from '../../steps/delius/login'
-import { selectOption } from '../../steps/delius/utils/inputs'
-import { contact } from '../../steps/delius/utils/contact'
-import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { setNomisId } from '../../steps/delius/offender/update-offender'
 import {createAndBookPrisoner, recallPrisoner, releasePrisoner} from '../../steps/api/dps/prison-api'
-import {findCustodyForEventByCRN, findEventByCRN} from "../../steps/delius/event/find-events";
+import {findCustodyForEventByCRN} from "../../steps/delius/event/find-events";
 import {refreshUntil} from "../../steps/delius/utils/refresh";
 
 const nomisIds = []
