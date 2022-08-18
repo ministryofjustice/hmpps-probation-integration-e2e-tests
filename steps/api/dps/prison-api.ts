@@ -56,3 +56,13 @@ export const releasePrisoner = async (offenderNo: string) => {
         },
     })
 }
+//TODO - check this
+export const recallPrisoner = async (offenderNo: string) => {
+    await (
+        await getContext()
+    ).put(`/api/offenders/${offenderNo}/recall`, {
+        data: {
+            movementReasonCode: 'CR',
+        },
+    })
+}

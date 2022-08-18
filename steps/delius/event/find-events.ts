@@ -15,6 +15,12 @@ export async function findEventByCRN(page: Page, crn: string, eventNumber: numbe
     await expect(page).toHaveTitle(/Event Details/)
 }
 
+export async function findCustodyForEventByCRN(page: Page, crn: string, eventNumber: number) {
+    await findEventByCRN(page, crn, eventNumber)
+    await page.locator('input.btn', {hasText:"Throughcare"}).click()
+    await expect(page).toHaveTitle(/Throughcare Details/)
+}
+
 export async function isInEventContext(page: Page, crn: string, eventNumber: number): Promise<boolean> {
     const eventOverview = page.locator('#event-overview > div > span:nth-child(1)')
     return (
