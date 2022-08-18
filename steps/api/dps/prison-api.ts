@@ -4,7 +4,7 @@ import { getToken } from '../auth/get-token'
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()
-    return await request.newContext({
+    return request.newContext({
         baseURL: process.env.PRISON_API,
         extraHTTPHeaders: {
             Accept: 'application/json',
@@ -56,13 +56,15 @@ export const releasePrisoner = async (offenderNo: string) => {
         },
     })
 }
-//TODO - check this
+
 export const recallPrisoner = async (offenderNo: string) => {
     await (
         await getContext()
     ).put(`/api/offenders/${offenderNo}/recall`, {
         data: {
-            movementReasonCode: 'CR',
+            prisonId: 'MDI',
+            recallTime: new Date(),
+            movementReasonCode: '24',
         },
     })
 }

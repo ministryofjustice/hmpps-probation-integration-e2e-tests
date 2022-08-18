@@ -35,29 +35,24 @@ test('Release and recall test', async ({ page }) => {
     // When the person in nomis is released
     await releasePrisoner(nomisId)
 
-    // Then the person is released in Delius
-    await deliusLogin(page)
-
-    await findCustodyForEventByCRN(page, crn, 1)
     await refreshUntil(page, () =>
         expect(page.locator("//span[contains(text(),'In the Community')]")).toHaveCount(1),
         {timeout:120_000}
     )
 
-
-
-    // // When the person in nomis is recalled
-    // await recallPrisoner(nomisId)
-    // // Then the person is recalled in Delius
-    // await deliusLogin(page)
-    // //verify some stuff
-    // //TODO
+    // When the person in nomis is recalled
+    await recallPrisoner(nomisId)
+    // Then the person is recalled in Delius
+    await refreshUntil(page, () =>
+            expect(page.locator("//span[contains(text(),'Moorland (HMP & YOI)')]")).toHaveCount(3),
+        {timeout:120_000}
+    )
 })
 
 
-// test.afterAll(async () => {
-//     for (const nomsId of nomisIds) {
-//         await releasePrisoner(nomsId)
-//     }
-// })
+test.afterAll(async () => {
+    for (const nomsId of nomisIds) {
+        await releasePrisoner(nomsId)
+    }
+})
 
