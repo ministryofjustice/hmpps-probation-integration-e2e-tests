@@ -1,10 +1,11 @@
 import { Person } from '../../delius/utils/person'
-import { APIRequestContext, request } from '@playwright/test'
+import { APIRequestContext, expect, request } from '@playwright/test'
 import { getToken } from '../auth/get-token'
+import { EuropeLondonFormat } from '../../delius/utils/date-time'
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()
-    return await request.newContext({
+    return request.newContext({
         baseURL: process.env.PRISON_API,
         extraHTTPHeaders: {
             Accept: 'application/json',
@@ -36,7 +37,7 @@ async function createPrisoner(person: Person): Promise<string> {
 }
 
 async function bookPrisoner(offenderNo: string) {
-    await (
+    const response = await (
         await getContext()
     ).post(`/api/offenders/${offenderNo}/booking`, {
         data: {
@@ -45,14 +46,30 @@ async function bookPrisoner(offenderNo: string) {
             imprisonmentStatus: 'SENT03',
         },
     })
+    expect(response.ok()).toBeTruthy()
 }
 
 export const releasePrisoner = async (offenderNo: string) => {
-    await (
+    const response = await (
         await getContext()
     ).put(`/api/offenders/${offenderNo}/release`, {
         data: {
             movementReasonCode: 'CR',
         },
     })
+    expect(response.ok()).toBeTruthy()
+}
+
+export const recallPrisoner = async (offenderNo: string) => {
+    const date = EuropeLondonFormat(new Date())
+    const response = await (
+        await getContext()
+    ).put(`/api/offenders/${offenderNo}/recall`, {
+        data: {
+            prisonId: 'MDI',
+            recallTime: date,
+            movementReasonCode: '24',
+        },
+    })
+    expect(response.ok()).toBeTruthy()
 }
