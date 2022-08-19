@@ -61,12 +61,13 @@ export const releasePrisoner = async (offenderNo: string) => {
 }
 
 export const recallPrisoner = async (offenderNo: string) => {
+    const date = EuropeLondonFormat(new Date())
     const response = await (
         await getContext()
     ).put(`/api/offenders/${offenderNo}/recall`, {
         data: {
             prisonId: 'MDI',
-            recallTime: EuropeLondonFormat(new Date()),
+            recallTime: date,
             movementReasonCode: '24',
         },
     })

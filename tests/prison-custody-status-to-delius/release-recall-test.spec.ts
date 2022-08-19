@@ -30,7 +30,7 @@ test('Release and recall test', async ({ page }) => {
 
     // When the person in nomis is released
     await releasePrisoner(nomisId)
-
+    // Then the person is released in Delius
     await refreshUntil(page, () =>
         expect(page.locator("//span[contains(text(),'In the Community')]")).toHaveCount(1),
         {timeout:180_000}
