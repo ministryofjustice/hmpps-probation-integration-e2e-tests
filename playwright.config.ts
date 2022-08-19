@@ -34,10 +34,10 @@ const config: PlaywrightTestConfig = {
     /* Configure projects for major browsers */
     projects: [
         {
-          name: 'webkit',
-          use: {
-            ...devices['Desktop Safari'],
-          },
+            name: 'webkit',
+            use: {
+                ...devices['Desktop Safari'],
+            },
         },
     ],
 }
