@@ -13,7 +13,7 @@ import { devices } from '@playwright/test'
 const config: PlaywrightTestConfig = {
     testDir: './tests',
     /* Maximum time one test can run for. */
-    timeout: 360 * 1000,
+    timeout: 480 * 1000,
     /* Run tests in files in parallel */
     fullyParallel: true,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -34,8 +34,10 @@ const config: PlaywrightTestConfig = {
     /* Configure projects for major browsers */
     projects: [
         {
-            name: 'chromium',
-            ...devices['Desktop Chrome'],
+          name: 'webkit',
+          use: {
+            ...devices['Desktop Safari'],
+          },
         },
     ],
 }

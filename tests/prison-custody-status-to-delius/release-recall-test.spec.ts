@@ -25,7 +25,7 @@ test('Release and recall test', async ({ page }) => {
     await findCustodyForEventByCRN(page, crn, 1)
     await refreshUntil(page, () =>
         expect(page.locator("//span[contains(text(),'Moorland (HMP & YOI)')]")).toHaveCount(3),
-        {timeout:120_000}
+        {timeout:180_000}
     )
 
     // When the person in nomis is released
@@ -33,7 +33,7 @@ test('Release and recall test', async ({ page }) => {
 
     await refreshUntil(page, () =>
         expect(page.locator("//span[contains(text(),'In the Community')]")).toHaveCount(1),
-        {timeout:120_000}
+        {timeout:180_000}
     )
 
     // When the person in nomis is recalled
@@ -41,7 +41,7 @@ test('Release and recall test', async ({ page }) => {
     // Then the person is recalled in Delius
     await refreshUntil(page, () =>
             expect(page.locator("//span[contains(text(),'Moorland (HMP & YOI)')]")).toHaveCount(3),
-        {timeout:120_000}
+        {timeout:180_000}
     )
 })
 
