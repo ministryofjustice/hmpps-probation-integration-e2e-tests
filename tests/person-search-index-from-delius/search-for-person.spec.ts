@@ -12,14 +12,14 @@ test('Create and search for a person', async ({ page }) => {
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
 
-    // And I navigate to the "New Search" screen
+    // When I search for the person by name
     await page.locator('a', { hasText: 'New Search' }).click()
     const frame = await page.frameLocator('#elasticsearch-frame')
+    await frame.locator('#searchTerms').fill(person.firstName + ' ' + person.lastName)
 
+    // Then the CRN appears in the search results
     await doUntil(
-        // When I search for the person by name
-        () => frame.locator('#searchTerms').fill(person.firstName + ' ' + person.lastName),
-        // Then the CRN appears in the search results
+        () => page.keyboard.press('Enter'),
         () => expect(frame.locator('#live-offender-results')).toContainText(crn)
     )
 })
