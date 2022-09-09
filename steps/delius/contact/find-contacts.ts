@@ -20,7 +20,6 @@ export async function verifyContact(page: Page, contact: Contact) {
     const matchingContactRecord = page.locator('tr', { hasText: contact.type }).nth(contact.instance)
     const contactSearchButton = page.locator('input.btn-primary', { hasText: 'Context Search' })
     await doUntil(
-        page,
         () => contactSearchButton.click(),
         () => expect(matchingContactRecord).not.toHaveCount(0)
     )
