@@ -3,6 +3,8 @@ import { refreshUntil } from '../delius/utils/refresh'
 import { Practitioner } from '../delius/utils/person'
 
 export const viewAllocation = async (page: Page, crn: string) => {
+    await page.locator('a', { hasText: 'View unallocated cases' }).click()
+    await expect(page).toHaveTitle(/.*Unallocated cases.*/)
     const matchingRow = page.locator('tr', { hasText: crn })
     await refreshUntil(page, () => expect(matchingRow).not.toHaveCount(0))
     await matchingRow.locator('a', { hasText: 'Review case' }).click()
@@ -12,7 +14,7 @@ export const viewAllocation = async (page: Page, crn: string) => {
 export const allocateCase = async (page: Page, crn: string, practitioner: Practitioner) => {
     await viewAllocation(page, crn)
     // Navigate to allocation page
-    await page.locator('a', { hasText: 'Allocate case' }).click()
+    await page.locator('a', { hasText: 'Continue' }).click()
     await expect(page).toHaveTitle(/.*Choose practitioner.*/)
 
     // Allocate to practitioner
@@ -20,7 +22,7 @@ export const allocateCase = async (page: Page, crn: string, practitioner: Practi
         .locator('tr', { hasText: `${practitioner.firstName} ${practitioner.lastName}` })
         .locator('.govuk-radios__input')
         .click()
-    await page.locator('button', { hasText: 'Allocate case' }).click()
+    await page.locator('button', { hasText: 'Continue' }).click()
 
     // Confirm allocation to practitioner
     await expect(page).toHaveTitle(/.*Allocate to practitioner.*/)
@@ -29,6 +31,6 @@ export const allocateCase = async (page: Page, crn: string, practitioner: Practi
     // Review and submit allocation to practitioner
     await expect(page).toHaveTitle(/.*Review allocation instructions.*/)
     await page.fill('#instructions', `Allocation for ${crn} completed by hmpps-end-to-end-tests`)
-    await page.locator('button', { hasText: 'Continue' }).click()
+    await page.locator('button', { hasText: 'Allocate Case' }).click()
     await page.locator('div.govuk-panel--confirmation >> h1.govuk-panel__title', { hasText: 'Allocation complete' })
 }
