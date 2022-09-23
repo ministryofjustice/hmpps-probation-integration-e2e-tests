@@ -31,5 +31,4 @@ export async function verifyContact(page: Page, contact: Contact) {
     await expect(matchingContactRecord).toContainText(textArray[0])
     await expect(matchingContactRecord).toContainText(textArray[1])
     await expect(matchingContactRecord).toContainText(textArray[2])
-
 }
