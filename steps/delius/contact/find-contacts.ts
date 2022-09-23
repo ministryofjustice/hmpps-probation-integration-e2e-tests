@@ -28,5 +28,7 @@ export async function verifyContact(page: Page, contact: Contact) {
     if (contact.officer) {
         textArray.push(`${contact.officer.lastName}, ${contact.officer.firstName}`)
     }
-    await expect(matchingContactRecord).toContainText(textArray)
+    await expect(matchingContactRecord).toContainText(textArray[0])
+    await expect(matchingContactRecord).toContainText(textArray[1])
+    await expect(matchingContactRecord).toContainText(textArray[2])
 }
