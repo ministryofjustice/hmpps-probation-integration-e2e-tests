@@ -16,16 +16,12 @@ const getRandomOption = async (page: Page, selector: string, timeout = 2) => {
     return options[Math.floor(Math.random() * options.length)]
 }
 
-const selectRandomOption = async (page: Page, selector: string) => {
-    await page.selectOption(selector, { label: await getRandomOption(page, selector) })
-}
-
-export const selectOption = async (page: Page, selector: string, option = '') => {
-    if (option) {
-        await page.selectOption(selector, { label: option })
-    } else {
-        await selectRandomOption(page, selector)
+export const selectOption = async (page: Page, selector: string, option: string = null): Promise<string> => {
+    if (option == null) {
+        option = await getRandomOption(page, selector)
     }
+    await page.selectOption(selector, { label: option })
+    return option
 }
 
 export const fillDate = async (page: Page, selector: string, date: Date) => {
