@@ -41,10 +41,7 @@ export async function createEvent(page: Page, { crn, allocation = {}, event }: C
     await fillDate(page, '#ConvictionDate', date)
     await selectOption(page, '#MainOffence')
     createdEvent.court = await selectOption(page, '#Court')
-    createdEvent.provider = await Promise.all([
-        selectOption(page, '#addEventForm\\:Area', allocation.providerName),
-        waitForAjax(page),
-    ])[0]
+    await Promise.all([selectOption(page, '#addEventForm\\:Area', allocation.providerName), waitForAjax(page)])
     await Promise.all([selectOption(page, '#addEventForm\\:Team', allocation.teamName), waitForAjax(page)])
     if (allocation.staffName) {
         await selectOption(page, '#addEventForm\\:Staff', allocation.staffName)

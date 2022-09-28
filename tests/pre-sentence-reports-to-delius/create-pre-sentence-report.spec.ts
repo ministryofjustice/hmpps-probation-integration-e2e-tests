@@ -27,7 +27,8 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     await popup.locator('text=Start now').click()
     // - Offender details
     await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Offender details/)
-    await expect(popup.locator('#name')).toHaveValue(person.firstName + ' ' + person.lastName)
+    await expect(await popup.locator('#name').inputValue()).toContain(person.firstName)
+    await expect(await popup.locator('#name').inputValue()).toContain(person.lastName)
     await expect(popup.locator('#crn')).toHaveValue(crn)
     await popup.locator('textarea[name="address"]').fill(faker.address.streetAddress(true))
     await popup.locator('input[name="pnc"]').fill(faker.random.alphaNumeric(10, { casing: 'upper' }))
@@ -35,7 +36,6 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     // - Sentencing court details
     await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Sentencing court details/)
     await expect(popup.locator('#court')).toHaveValue(event.court)
-    await expect(popup.locator('#localJusticeArea')).toHaveValue(event.provider)
     const dateOfHearing = faker.date.recent()
     await popup.locator('input[name="dateOfHearing-day"]').fill(dateOfHearing.getDate().toString())
     await popup.locator('input[name="dateOfHearing-month"]').fill((dateOfHearing.getMonth() + 1).toString())
@@ -57,6 +57,7 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     await popup.locator('text=Save and continue').click()
     // - Offender assessment
     await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Offender assessment/)
+    await popup.locator('input[name=assessmentFactors][value=issueAccommodation]').click()
     await popup.locator('input[name=experienceOfTrauma][value=no]').click()
     await popup.locator('input[name=caringResponsibilities][value=no]').click()
     await popup.locator('text=Save and continue').click()
@@ -80,13 +81,21 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Sources of information/)
     await popup.locator('input[type=checkbox][value=interviewInformationSource]').click()
     await popup.locator('text=Save and continue').click()
-    // TODO Sign the report. This isn't working atm in the pre-sentence service, so the report will remain as a draft and cause the test to fail further down.
+    // - Check and sign your report
+    await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Check your report/)
+    await popup.locator('text=Sign your report').click()
+    await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Sign your report/)
+    await popup.locator('input[name="office"]').fill(faker.address.streetAddress())
+    await popup.locator('input[name="officePhoneNumber"]').fill(faker.phone.number())
+    await popup.locator('input[name="counterSignature"]').fill(faker.name.fullName())
+    await popup.locator('text=Submit and view your report').click()
+    await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Report completed/)
     await popup.close()
 
     // Then the document appears in the Delius document list
     await expect(page.locator('#documentListForm\\:documentTable a.last')).toContainText('open in pre-sentence service')
 
-    // TODO Re-enable the following assertion
+    // TODO Re-enable the following assertion. This currently fails because we don't receive the psr completed domain event.
     /*// And the PDF appears in non-DRAFT form in the subject access report zip file
     await createSubjectAccessReport(page, crn, `downloads/${crn}-sar.zip`)
     const file = await getFileFromZip(`downloads/${crn}-sar.zip`, /shortFormatPreSentenceReport-.+?\.pdf/)
