@@ -24,7 +24,13 @@ export interface CreateEvent {
     }
 }
 
-export async function createEvent(page: Page, { crn, allocation = {}, event }: CreateEvent) {
+export class CreatedEvent {
+    court: string
+    provider: string
+}
+
+export async function createEvent(page: Page, { crn, allocation = {}, event }: CreateEvent): Promise<CreatedEvent> {
+    const createdEvent = new CreatedEvent()
     await findOffenderByCRN(page, crn)
     await page.click('#linkNavigation2EventList')
     await expect(page).toHaveTitle(/Events/)
@@ -34,7 +40,7 @@ export async function createEvent(page: Page, { crn, allocation = {}, event }: C
     await fillDate(page, '#OffenceDate', date)
     await fillDate(page, '#ConvictionDate', date)
     await selectOption(page, '#MainOffence')
-    await selectOption(page, '#Court')
+    createdEvent.court = await selectOption(page, '#Court')
     await Promise.all([selectOption(page, '#addEventForm\\:Area', allocation.providerName), waitForAjax(page)])
     await Promise.all([selectOption(page, '#addEventForm\\:Team', allocation.teamName), waitForAjax(page)])
     if (allocation.staffName) {
@@ -70,7 +76,7 @@ export async function createEvent(page: Page, { crn, allocation = {}, event }: C
         await expect(page).toHaveTitle(/Event Details/)
     }
 
-    return event
+    return createdEvent
 }
 
 export async function createCustodialEvent(
