@@ -24,11 +24,9 @@ export async function verifyContact(page: Page, contact: Contact) {
         () => expect(matchingContactRecord).not.toHaveCount(0)
     )
 
-    const textArray = [contact.relatesTo, contact.type]
+    await expect(matchingContactRecord).toContainText(contact.relatesTo)
+    await expect(matchingContactRecord).toContainText(contact.type)
     if (contact.officer) {
-        textArray.push(`${contact.officer.lastName}, ${contact.officer.firstName}`)
+        await expect(matchingContactRecord).toContainText(`${contact.officer.lastName}, ${contact.officer.firstName}`)
     }
-    await expect(matchingContactRecord).toContainText(textArray[0])
-    await expect(matchingContactRecord).toContainText(textArray[1])
-    await expect(matchingContactRecord).toContainText(textArray[2])
 }
