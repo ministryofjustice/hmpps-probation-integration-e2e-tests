@@ -26,6 +26,7 @@ export interface CreateEvent {
 
 export class CreatedEvent {
     court: string
+    outcome: string
     provider: string
 }
 
@@ -49,6 +50,7 @@ export async function createEvent(page: Page, { crn, allocation = {}, event }: C
     await selectOption(page, '#AppearanceType', event.appearanceType)
     await selectOption(page, '#Plea')
     await selectOption(page, '#addEventForm\\:Outcome', event.outcome)
+    createdEvent.outcome = event.outcome
     if (autoAddComponent.includes(event.outcome)) {
         await selectOption(page, '#OutcomeArea', allocation.providerName)
         await selectOption(page, '#addEventForm\\:OutcomeTeam', allocation.teamName)
@@ -82,13 +84,13 @@ export async function createEvent(page: Page, { crn, allocation = {}, event }: C
 export async function createCustodialEvent(
     page: Page,
     { crn, allocation = {}, event = data.events.custodial }: CreateEvent
-) {
+): Promise<CreatedEvent> {
     return createEvent(page, { crn, allocation, event })
 }
 
 export async function createCommunityEvent(
     page: Page,
     { crn, allocation = {}, event = data.events.community }: CreateEvent
-) {
+): Promise<CreatedEvent> {
     return createEvent(page, { crn, allocation, event })
 }
