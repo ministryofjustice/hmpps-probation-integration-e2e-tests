@@ -11,6 +11,8 @@ import { refreshUntil } from '../../steps/delius/utils/refresh'
 const nomisIds = []
 
 test('Release and recall test', async ({ page }) => {
+    test.slow() // increase the timeout - releases/recall publishing can take a few minutes
+
     // Given a person with a sentenced event in Delius
     await deliusLogin(page)
     const person = deliusPerson()
