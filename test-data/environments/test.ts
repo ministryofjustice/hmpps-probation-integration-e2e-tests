@@ -5,6 +5,14 @@ export const testEnvironmentData: TestData = {
         shortFormatPreSentenceReport: 'shortFormatPreSentenceReport',
         oralPreSentenceReport: 'Record of Oral Pre-Sentence Report',
     },
+    contacts: {
+        initialAppointment: {
+            category: 'All/Always',
+            type: 'Initial Appointment (NS)',
+            team: 'Unallocated Team(N03)',
+            staff: 'Unallocated',
+        },
+    },
     events: {},
     requirements: {},
     staff: {

@@ -28,7 +28,7 @@ test('Allocate new person', async ({ page }) => {
     const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.providerName })
     await createCommunityEvent(page, { crn, allocation: data.teams.allocationsTestTeam })
     await createRequirementForEvent(page, { crn, team: data.teams.allocationsTestTeam })
-    await createInitialAppointment(page, crn, "1")
+    await createInitialAppointment(page, crn, '1')
 
     // When I allocate the person to a practitioner in Manage A Workforce
     await workforceLogin(page)
@@ -52,7 +52,7 @@ test('Allocate currently-managed person', async ({ page }) => {
 
     // And a new unallocated event
     await createCommunityEvent(page, { crn, allocation: data.teams.allocationsTestTeam })
-    await createInitialAppointment(page, crn, "2")
+    await createInitialAppointment(page, crn, '2')
 
     // When I allocate the person to a practitioner in Manage A Workforce
     await workforceLogin(page)
@@ -77,7 +77,7 @@ test('Allocate previously-managed person', async ({ page }) => {
     // And a new unallocated event and requirement
     await createCommunityEvent(page, { crn, allocation: data.teams.allocationsTestTeam })
     await createRequirementForEvent(page, { crn, eventNumber: 2, team: data.teams.allocationsTestTeam })
-    await createInitialAppointment(page, crn, "2")
+    await createInitialAppointment(page, crn, '2')
 
     // When I allocate the person to a practitioner in Manage A Workforce
     await workforceLogin(page)
