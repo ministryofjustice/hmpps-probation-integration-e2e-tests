@@ -49,7 +49,7 @@ export async function createEvent(page: Page, { crn, allocation = {}, event }: C
     }
     await selectOption(page, '#AppearanceType', event.appearanceType)
     await selectOption(page, '#Plea')
-    await selectOption(page, '#addEventForm\\:Outcome', event.outcome)
+    await Promise.all([selectOption(page, '#addEventForm\\:Outcome', event.outcome), waitForAjax(page)])
     createdEvent.outcome = event.outcome
     if (autoAddComponent.includes(event.outcome)) {
         await selectOption(page, '#OutcomeArea', allocation.providerName)
@@ -62,12 +62,15 @@ export async function createEvent(page: Page, { crn, allocation = {}, event }: C
         await selectOption(page, '#addEventForm\\:Report', event.reportType)
         await selectOption(page, '#addEventForm\\:Remand')
     }
+
     if (autoAddCourtReport.includes(event.outcome)) {
         await fillDate(page, '#addEventForm\\:NextAppearanceDate', date)
         await fillTime(page, '#AppearanceTime', date)
         await selectOption(page, '#NextCourt')
     }
 
+    //focus on something outside of input to activate onblur
+    await page.focus('#content')
     await page.locator('input', { hasText: 'Save' }).click()
 
     if (autoAddComponent.includes(event.outcome)) {
