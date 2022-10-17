@@ -32,5 +32,9 @@ export const testEnvironmentData: TestData = {
             teamName: 'NPS - Wrexham - Team 1',
             providerName: 'NPS Wales',
         },
+        referAndMonitorTestTeam: {
+            teamName: 'OMU D',
+            providerName: 'NPS North East',
+        },
     },
 }
