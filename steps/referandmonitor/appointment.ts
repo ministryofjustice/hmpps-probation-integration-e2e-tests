@@ -1,4 +1,5 @@
 import { expect, Page } from '@playwright/test'
+import { faker } from '@faker-js/faker'
 
 export const createSupplierAssessmentAppointment = async (page: Page, referralRef: string) => {
     // Navigate to list of referrals
@@ -14,9 +15,10 @@ export const createSupplierAssessmentAppointment = async (page: Page, referralRe
     await expect(page).toHaveURL(/service-provider\/referrals\/.*\/supplier-assessment\/schedule\/.*\/details/)
 
     // Appointment date and time
-    await page.locator('input[name="date-day"]').fill('23')
-    await page.locator('input[name="date-month"]').fill('10')
-    await page.locator('input[name="date-year"]').fill('2022')
+    const appointmentDate = faker.date.soon(10)
+    await page.locator('input[name="date-day"]').fill(appointmentDate.getDate().toString())
+    await page.locator('input[name="date-month"]').fill((appointmentDate.getMonth() + 1).toString())
+    await page.locator('input[name="date-year"]').fill(appointmentDate.getFullYear().toString())
     await page.locator('input[name="time-hour"]').fill('10')
     await page.locator('input[name="time-minute"]').fill('0')
     await page.locator('select[name="time-part-of-day"]').selectOption('am')

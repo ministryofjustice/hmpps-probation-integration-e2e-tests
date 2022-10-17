@@ -1,4 +1,5 @@
 import { expect, Page } from '@playwright/test'
+import { faker } from '@faker-js/faker'
 
 export const makeReferral = async (page: Page, crn: string) => {
     // Navigate to list of available interventions
@@ -80,9 +81,10 @@ export const makeReferral = async (page: Page, crn: string) => {
     await expect(page).toHaveURL(/referrals\/.*\/completion-deadline/)
 
     // Completion deadline
-    await page.locator('input[name="completion-deadline-day"]').fill('11')
-    await page.locator('input[name="completion-deadline-month"]').fill('10')
-    await page.locator('input[name="completion-deadline-year"]').fill('2023')
+    const futureDate = faker.date.future(2)
+    await page.locator('input[name="completion-deadline-day"]').fill(futureDate.getDate().toString())
+    await page.locator('input[name="completion-deadline-month"]').fill((futureDate.getMonth() + 1).toString())
+    await page.locator('input[name="completion-deadline-year"]').fill(futureDate.getFullYear().toString())
 
     // Click text=Save and continue
     await page.locator('text=Save and continue').click()
