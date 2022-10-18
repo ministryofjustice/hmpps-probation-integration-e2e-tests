@@ -1,12 +1,14 @@
 import { expect, Page } from '@playwright/test'
 import { refreshUntil } from '../delius/utils/refresh'
 import { Practitioner } from '../delius/utils/person'
+import { WorkforceDateFormat } from './utils'
 
 export const viewAllocation = async (page: Page, crn: string) => {
     await page.locator('a[data-qa-link="N03F01"]', { hasText: 'View unallocated cases' }).click()
     await expect(page).toHaveTitle(/.*Unallocated cases.*/)
     const matchingRow = page.locator('tr', { hasText: crn })
     await refreshUntil(page, () => expect(matchingRow).not.toHaveCount(0))
+    await expect(matchingRow).toContainText(WorkforceDateFormat(new Date()))
     await matchingRow.locator('a', { hasText: 'Review case' }).click()
     await expect(page.locator('.govuk-caption-xl', { hasText: crn })).toHaveText(`CRN: ${crn}`)
 }
