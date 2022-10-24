@@ -1,4 +1,4 @@
-import { expect, Page } from '@playwright/test'
+import { expect, type Page } from '@playwright/test'
 
 export const refreshUntil = async (page: Page, expectation: () => Promise<void>, options?) => {
     await doUntil(async () => page.reload(), expectation, options)

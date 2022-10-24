@@ -1,5 +1,5 @@
-import { Page } from '@playwright/test'
-import { DeliusDateFormatter, DeliusTimeFormatter } from './date-time'
+import { type Page } from '@playwright/test'
+import { DeliusDateFormatter, DeliusTimeFormatter } from './date-time.js'
 
 const getOptions = async (page: Page, selector: string) => {
     return await page.$$eval(`${selector} > option`, opts => {

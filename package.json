@@ -12,6 +12,7 @@
     "url": "git+https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests.git"
   },
   "scripts": {},
+  "type": "module",
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
     "@playwright/test": "^1.27.1",

@@ -1,10 +1,10 @@
-import { expect, Page } from '@playwright/test'
+import { expect, type Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
-import { findOffenderByCRN } from '../offender/find-offender'
-import { fillDate, fillTime, selectOption } from '../utils/inputs'
-import { waitForAjax } from '../utils/refresh'
-import { Yesterday } from '../utils/date-time'
-import { data } from '../../../test-data/test-data'
+import { findOffenderByCRN } from '../offender/find-offender.js'
+import { fillDate, fillTime, selectOption } from '../utils/inputs.js'
+import { waitForAjax } from '../utils/refresh.js'
+import { Yesterday } from '../utils/date-time.js'
+import { data } from '../../../test-data/test-data.js'
 
 const autoAddComponent = ['ORA Community Order']
 const autoAddCourtReport = ['Adjourned - Pre-Sentence Report']

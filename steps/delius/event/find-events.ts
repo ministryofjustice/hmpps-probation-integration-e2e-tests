@@ -1,5 +1,5 @@
-import { expect, Page } from '@playwright/test'
-import { findOffenderByCRN, isInOffenderContext } from '../offender/find-offender'
+import { expect, type Page } from '@playwright/test'
+import { findOffenderByCRN, isInOffenderContext } from '../offender/find-offender.js'
 
 export async function findEventByCRN(page: Page, crn: string, eventNumber: number) {
     if (await isInEventContext(page, crn, eventNumber)) {

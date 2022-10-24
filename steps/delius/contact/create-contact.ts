@@ -1,8 +1,8 @@
-import { expect, Page } from '@playwright/test'
-import { findContactsByCRN } from './find-contacts'
-import { fillTime, selectOption } from '../utils/inputs'
-import { waitForAjax } from '../utils/refresh'
-import { data } from '../../../test-data/test-data'
+import { expect, type Page } from '@playwright/test'
+import { findContactsByCRN } from './find-contacts.js'
+import { fillTime, selectOption } from '../utils/inputs.js'
+import { waitForAjax } from '../utils/refresh.js'
+import { data } from '../../../test-data/test-data.js'
 
 export interface ContactOptions {
     crn: string

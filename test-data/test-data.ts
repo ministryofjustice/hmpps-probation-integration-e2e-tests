@@ -1,6 +1,6 @@
-import { commonData } from './environments/common'
-import { testEnvironmentData } from './environments/test'
-import { preProdEnvironmentData } from './environments/pre-prod'
+import { commonData } from './environments/common.js'
+import { testEnvironmentData } from './environments/test.js'
+import { preProdEnvironmentData } from './environments/pre-prod.js'
 import * as dotenv from 'dotenv'
 
 export class TestData {

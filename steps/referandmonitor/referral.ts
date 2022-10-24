@@ -1,4 +1,4 @@
-import { expect, Page } from '@playwright/test'
+import { expect, type Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
 
 export const makeReferral = async (page: Page, crn: string) => {

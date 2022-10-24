@@ -1,7 +1,7 @@
-import { Page } from '@playwright/test'
+import { type Page } from '@playwright/test'
 import { expect } from '@playwright/test'
-import { selectOption } from '../utils/inputs'
-import { findOffenderByCRN } from '../offender/find-offender'
+import { selectOption } from '../utils/inputs.js'
+import { findOffenderByCRN } from '../offender/find-offender.js'
 
 export async function createRegistration(page: Page, crn: string, registrationType: string) {
     await findOffenderByCRN(page, crn)

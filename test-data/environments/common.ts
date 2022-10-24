@@ -1,8 +1,9 @@
-import { TestData } from '../test-data'
+import { type TestData } from '../test-data.js'
 
 // Static / well-known data that should be available in all environments
 export const commonData: TestData = {
     documentTemplates: {},
+    contacts: {},
     events: {
         custodial: {
             appearanceType: 'Sentence',

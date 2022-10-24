@@ -125,7 +125,7 @@ export const commonData: TestData = {
 
 // === tests/my-test.spec.ts ===
 
-import { data } from "../../test-data/test-data";
+import { data } from "../../test-data/test-data.js";
 
 test("Create a custodial event", async ({ page }) => {
     await createEvent(page, { event: data.events.custodial })
