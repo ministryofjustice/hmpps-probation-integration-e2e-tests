@@ -1,4 +1,4 @@
-import { TestData } from '../test-data'
+import { type TestData } from '../test-data.js'
 
 export const testEnvironmentData: TestData = {
     documentTemplates: {

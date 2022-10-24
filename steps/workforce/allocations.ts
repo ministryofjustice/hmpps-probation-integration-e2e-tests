@@ -1,7 +1,7 @@
-import { expect, Page } from '@playwright/test'
-import { refreshUntil } from '../delius/utils/refresh'
-import { Practitioner } from '../delius/utils/person'
-import { WorkforceDateFormat } from './utils'
+import { expect, type Page } from '@playwright/test'
+import { refreshUntil } from '../delius/utils/refresh.js'
+import { type Practitioner } from '../delius/utils/person.js'
+import { WorkforceDateFormat } from './utils.js'
 
 export const viewAllocation = async (page: Page, crn: string) => {
     await page.locator('a[data-qa-link="N03F01"]', { hasText: 'View unallocated cases' }).click()

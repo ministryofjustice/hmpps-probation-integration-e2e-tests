@@ -1,7 +1,7 @@
-import { expect, Page } from '@playwright/test'
-import { findOffenderByCRN } from '../offender/find-offender'
-import { Contact } from '../utils/contact'
-import { doUntil } from '../utils/refresh'
+import { expect, type Page } from '@playwright/test'
+import { findOffenderByCRN } from '../offender/find-offender.js'
+import { type Contact } from '../utils/contact.js'
+import { doUntil } from '../utils/refresh.js'
 
 export async function findContactsByCRN(page: Page, crn: string) {
     await findOffenderByCRN(page, crn)

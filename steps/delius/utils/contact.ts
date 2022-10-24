@@ -1,4 +1,4 @@
-import { Practitioner } from './person'
+import { type Practitioner } from './person.js'
 
 export interface Contact {
     relatesTo: string

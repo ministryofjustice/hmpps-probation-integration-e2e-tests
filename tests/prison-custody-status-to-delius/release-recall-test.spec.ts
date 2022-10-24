@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test'
-import { login as deliusLogin } from '../../steps/delius/login'
-import { createOffender } from '../../steps/delius/offender/create-offender'
-import { createCustodialEvent } from '../../steps/delius/event/create-event'
-import { deliusPerson } from '../../steps/delius/utils/person'
-import { setNomisId } from '../../steps/delius/offender/update-offender'
-import { createAndBookPrisoner, recallPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
-import { findCustodyForEventByCRN } from '../../steps/delius/event/find-events'
-import { refreshUntil } from '../../steps/delius/utils/refresh'
+import { login as deliusLogin } from '../../steps/delius/login.js'
+import { createOffender } from '../../steps/delius/offender/create-offender.js'
+import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
+import { deliusPerson } from '../../steps/delius/utils/person.js'
+import { setNomisId } from '../../steps/delius/offender/update-offender.js'
+import { createAndBookPrisoner, recallPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
+import { findCustodyForEventByCRN } from '../../steps/delius/event/find-events.js'
+import { refreshUntil } from '../../steps/delius/utils/refresh.js'
 
 const nomisIds = []
 

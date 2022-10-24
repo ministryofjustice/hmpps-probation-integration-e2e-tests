@@ -1,10 +1,10 @@
 import { expect, test } from '@playwright/test'
-import { login as deliusLogin } from '../../steps/delius/login'
-import { createOffender } from '../../steps/delius/offender/create-offender'
-import { deliusPerson } from '../../steps/delius/utils/person'
+import { login as deliusLogin } from '../../steps/delius/login.js'
+import { createOffender } from '../../steps/delius/offender/create-offender.js'
+import { deliusPerson } from '../../steps/delius/utils/person.js'
 import * as dotenv from 'dotenv'
-import { refreshUntil } from '../../steps/delius/utils/refresh'
-import { createRegistration } from '../../steps/delius/registration/create-registration'
+import { refreshUntil } from '../../steps/delius/utils/refresh.js'
+import { createRegistration } from '../../steps/delius/registration/create-registration.js'
 
 dotenv.config() // read environment variables into process.env
 

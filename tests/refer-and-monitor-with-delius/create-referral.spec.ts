@@ -1,21 +1,21 @@
 import { test } from '@playwright/test'
 
-import { login as loginDelius } from '../../steps/delius/login'
-import { logout as logoutDelius } from '../../steps/delius/logout'
-import { createOffender } from '../../steps/delius/offender/create-offender'
-import { createCommunityEvent } from '../../steps/delius/event/create-event'
-import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement'
-import { findNSIByCRN } from '../../steps/delius/event/find-nsi'
+import { login as loginDelius } from '../../steps/delius/login.js'
+import { logout as logoutDelius } from '../../steps/delius/logout.js'
+import { createOffender } from '../../steps/delius/offender/create-offender.js'
+import { createCommunityEvent } from '../../steps/delius/event/create-event.js'
+import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement.js'
+import { findNSIByCRN } from '../../steps/delius/event/find-nsi.js'
 import {
     login as loginRandM,
     loginAsSupplier as loginRandMAsSupplier,
     logoutSupplier as logoutRandMSupplier,
-} from '../../steps/referandmonitor/login'
-import { assignReferral, makeReferral } from '../../steps/referandmonitor/referral'
-import { createSupplierAssessmentAppointment } from '../../steps/referandmonitor/appointment'
-import { data } from '../../test-data/test-data'
-import { contact } from '../../steps/delius/utils/contact'
-import { verifyContacts } from '../../steps/delius/contact/find-contacts'
+} from '../../steps/referandmonitor/login.js'
+import { assignReferral, makeReferral } from '../../steps/referandmonitor/referral.js'
+import { createSupplierAssessmentAppointment } from '../../steps/referandmonitor/appointment.js'
+import { data } from '../../test-data/test-data.js'
+import { contact } from '../../steps/delius/utils/contact.js'
+import { verifyContacts } from '../../steps/delius/contact/find-contacts.js'
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)

@@ -12,6 +12,7 @@
     "url": "git+https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests.git"
   },
   "scripts": {},
+  "type": "module",
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
     "@playwright/test": "^1.27.1",
@@ -21,7 +22,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "node-stream-zip": "^1.15.0",
-    "pdf2json": "^2.1.0",
+    "pdf2json": "^3.0.0",
     "prettier": "2.7.1"
   }
 }
