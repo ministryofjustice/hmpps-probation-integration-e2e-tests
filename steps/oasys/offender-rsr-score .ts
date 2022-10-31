@@ -21,10 +21,3 @@ export const verifyRSRScoreGeneration = async (page: Page): Promise<string> => {
     const score = /\D*([\d.]+).*/.exec(fullText)[1]
     return score
 }
-
-
-
-
-
-
-
