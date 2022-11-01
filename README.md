@@ -45,6 +45,11 @@ CRED_USERNAME=<client_id>
 CRED_PASSWORD=<client_secret>
 
 PRISON_API=https://api-dev.prison.service.justice.gov.uk/
+
+OASYS_URL=https://ords.t2.oasys.service.justice.gov.uk/
+OASYS_USERNAME=<oasys_t2_username>
+OASYS_PASSWORD=<oasys_t2_password>
+
 ```
 
 ## Running Tests
