@@ -46,10 +46,13 @@ CRED_PASSWORD=<client_secret>
 
 PRISON_API=https://api-dev.prison.service.justice.gov.uk/
 
+REFERANDMONITOR_URL=https://hmpps-interventions-ui-dev.apps.live-1.cloud-platform.service.justice.gov.uk
+REFERANDMONITOR_SUPPLIER_USERNAME=<r&m_supplier_username>
+REFERANDMONITOR_SUPPLIER_PASSWORD=<r&m_supplier_password>
+
 OASYS_URL=https://ords.t2.oasys.service.justice.gov.uk/
 OASYS_USERNAME=<oasys_t2_username>
 OASYS_PASSWORD=<oasys_t2_password>
-
 ```
 
 ## Running Tests
@@ -126,7 +129,7 @@ export const commonData: TestData = {
 
 // === tests/my-test.spec.ts ===
 
-import { data } from "../../test-data/test-data";
+import { data } from "../../test-data/test-data.js";
 
 test("Create a custodial event", async ({ page }) => {
     await createEvent(page, { event: data.events.custodial })

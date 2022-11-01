@@ -1,10 +1,10 @@
-import { expect, Page } from '@playwright/test'
+import { expect, type Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
-import { findOffenderByCRN } from '../offender/find-offender'
-import { fillDate, fillTime, selectOption } from '../utils/inputs'
-import { waitForAjax } from '../utils/refresh'
-import { Yesterday } from '../utils/date-time'
-import { data } from '../../../test-data/test-data'
+import { findOffenderByCRN } from '../offender/find-offender.js'
+import { fillDate, fillTime, selectOption } from '../utils/inputs.js'
+import { waitForAjax } from '../utils/refresh.js'
+import { Yesterday } from '../utils/date-time.js'
+import { data } from '../../../test-data/test-data.js'
 
 const autoAddComponent = ['ORA Community Order']
 const autoAddCourtReport = ['Adjourned - Pre-Sentence Report']
@@ -49,7 +49,7 @@ export async function createEvent(page: Page, { crn, allocation = {}, event }: C
     }
     await selectOption(page, '#AppearanceType', event.appearanceType)
     await selectOption(page, '#Plea')
-    await selectOption(page, '#addEventForm\\:Outcome', event.outcome)
+    await Promise.all([selectOption(page, '#addEventForm\\:Outcome', event.outcome), waitForAjax(page)])
     createdEvent.outcome = event.outcome
     if (autoAddComponent.includes(event.outcome)) {
         await selectOption(page, '#OutcomeArea', allocation.providerName)
@@ -62,12 +62,15 @@ export async function createEvent(page: Page, { crn, allocation = {}, event }: C
         await selectOption(page, '#addEventForm\\:Report', event.reportType)
         await selectOption(page, '#addEventForm\\:Remand')
     }
+
     if (autoAddCourtReport.includes(event.outcome)) {
         await fillDate(page, '#addEventForm\\:NextAppearanceDate', date)
         await fillTime(page, '#AppearanceTime', date)
         await selectOption(page, '#NextCourt')
     }
 
+    //focus on something outside of input to activate onblur
+    await page.focus('#content')
     await page.locator('input', { hasText: 'Save' }).click()
 
     if (autoAddComponent.includes(event.outcome)) {

@@ -1,9 +1,17 @@
-import { TestData } from '../test-data'
+import { type TestData } from '../test-data.js'
 
 export const testEnvironmentData: TestData = {
     documentTemplates: {
         shortFormatPreSentenceReport: 'shortFormatPreSentenceReport',
         oralPreSentenceReport: 'Record of Oral Pre-Sentence Report',
+    },
+    contacts: {
+        initialAppointment: {
+            category: 'All/Always',
+            type: 'Initial Appointment (NS)',
+            team: 'Unallocated Team(N03)',
+            staff: 'Unallocated',
+        },
     },
     events: {},
     requirements: {},
@@ -23,6 +31,10 @@ export const testEnvironmentData: TestData = {
         allocationsTestTeam: {
             teamName: 'NPS - Wrexham - Team 1',
             providerName: 'NPS Wales',
+        },
+        referAndMonitorTestTeam: {
+            teamName: 'OMU D',
+            providerName: 'NPS North East',
         },
     },
 }

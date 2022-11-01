@@ -1,6 +1,6 @@
-import { expect, Page } from '@playwright/test'
-import { findOffenderByCRN } from './find-offender'
-import { selectOption } from '../utils/inputs'
+import { expect, type Page } from '@playwright/test'
+import { findOffenderByCRN } from './find-offender.js'
+import { selectOption } from '../utils/inputs.js'
 
 export async function setNomisId(page: Page, crn: string, nomisId: string) {
     await findOffenderByCRN(page, crn)

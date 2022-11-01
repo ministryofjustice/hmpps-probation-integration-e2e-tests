@@ -1,10 +1,11 @@
-import { TestData } from '../test-data'
+import { type TestData } from '../test-data.js'
 
 export const preProdEnvironmentData: TestData = {
     documentTemplates: {
         shortFormatPreSentenceReport: 'BETA Short Format Pre Sentence Report',
         oralPreSentenceReport: 'BETA Oral Pre Sentence Report',
     },
+    contacts: {},
     events: {},
     requirements: {},
     staff: {

@@ -1,6 +1,6 @@
-import { expect, Page } from '@playwright/test'
-import { selectOption } from '../utils/inputs'
-import { findOffenderByCRN } from '../offender/find-offender'
+import { expect, type Page } from '@playwright/test'
+import { selectOption } from '../utils/inputs.js'
+import { findOffenderByCRN } from '../offender/find-offender.js'
 
 export async function internalTransfer(
     page: Page,

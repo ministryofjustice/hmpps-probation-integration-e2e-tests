@@ -1,7 +1,7 @@
-import { Person } from '../../delius/utils/person'
-import { APIRequestContext, expect, request } from '@playwright/test'
-import { getToken } from '../auth/get-token'
-import { EuropeLondonFormat } from '../../delius/utils/date-time'
+import { type Person } from '../../delius/utils/person.js'
+import { type APIRequestContext, expect, request } from '@playwright/test'
+import { getToken } from '../auth/get-token.js'
+import { EuropeLondonFormat } from '../../delius/utils/date-time.js'
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()

@@ -1,7 +1,7 @@
-import { expect, Page } from '@playwright/test'
-import { Practitioner } from '../utils/person'
-import { refreshUntil } from '../utils/refresh'
-import { selectOption } from '../utils/inputs'
+import { expect, type Page } from '@playwright/test'
+import { type Practitioner } from '../utils/person.js'
+import { refreshUntil } from '../utils/refresh.js'
+import { selectOption } from '../utils/inputs.js'
 
 export async function findOffenderByName(page: Page, forename: string, surname: string) {
     await page.locator('a', { hasText: 'National search' }).click()

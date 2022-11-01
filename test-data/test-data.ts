@@ -1,10 +1,11 @@
-import { commonData } from './environments/common'
-import { testEnvironmentData } from './environments/test'
-import { preProdEnvironmentData } from './environments/pre-prod'
+import { commonData } from './environments/common.js'
+import { testEnvironmentData } from './environments/test.js'
+import { preProdEnvironmentData } from './environments/pre-prod.js'
 import * as dotenv from 'dotenv'
 
 export class TestData {
     documentTemplates: { [key: string]: string } = {}
+    contacts: { [key: string]: { category: string; type: string; team: string; staff: string } } = {}
     events: { [key: string]: { appearanceType: string; outcome: string; length?: string; reportType?: string } } = {}
     requirements: { [key: string]: { category: string; subCategory: string; length?: string } } = {}
     staff: { [key: string]: { firstName: string; lastName: string; staffName: string } } = {}

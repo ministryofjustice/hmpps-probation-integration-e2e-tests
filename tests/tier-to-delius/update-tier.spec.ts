@@ -1,0 +1,24 @@
+import { expect, test } from '@playwright/test'
+import { login as deliusLogin } from '../../steps/delius/login.js'
+import { createOffender } from '../../steps/delius/offender/create-offender.js'
+import { deliusPerson } from '../../steps/delius/utils/person.js'
+import * as dotenv from 'dotenv'
+import { refreshUntil } from '../../steps/delius/utils/refresh.js'
+import { createRegistration } from '../../steps/delius/registration/create-registration.js'
+
+dotenv.config() // read environment variables into process.env
+
+test('Create person and check tier is updated', async ({ page }) => {
+    // Given a new person in Delius
+    await deliusLogin(page)
+    const person = deliusPerson()
+    const crn = await createOffender(page, { person })
+
+    // When I create the registration
+    await createRegistration(page, crn, 'High RoSH')
+
+    // Then the tier is updated
+    await page.locator('a', { hasText: 'Management Tier' }).click()
+    await refreshUntil(page, () => expect(page.locator('table')).toContainText('B-0'))
+    await expect(page.locator("a:right-of(:text('Tier:'))").first()).toHaveText('B-0')
+})
