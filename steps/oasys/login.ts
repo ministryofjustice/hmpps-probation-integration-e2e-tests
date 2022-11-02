@@ -1,4 +1,4 @@
-import { Page, expect } from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 
 export const login = async (page: Page) => {
     await page.goto(process.env.OASYS_URL)

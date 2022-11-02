@@ -1,4 +1,4 @@
-import { Page, expect } from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 
 export const offenderSearchWithCRN = async (page: Page, crn: string) => {
     await page.fill('#P900_CMS_PROB_NUMBER', crn)
