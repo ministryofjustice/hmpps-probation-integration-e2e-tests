@@ -1,4 +1,4 @@
-import { Page, expect } from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 
 export const inputRSRScoreAnswers = async (page: Page) => {
     await page.fill('#P5_CT_OFFENCE_CODE_TEXT', '029')

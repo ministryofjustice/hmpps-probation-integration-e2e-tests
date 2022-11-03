@@ -1,4 +1,4 @@
-import { Page, expect } from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 
 export const clickCreateRSRAssessmentButton = async (page: Page) => {
     await page.click('#B3003147759868925')

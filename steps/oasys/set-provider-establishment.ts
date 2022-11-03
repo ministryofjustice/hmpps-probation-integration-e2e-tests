@@ -1,4 +1,4 @@
-import { Page, expect } from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 
 export const setProviderEstablishment = async (page: Page) => {
     await page.locator('#P10_CT_AREA_EST').selectOption({ label: 'Warwickshire' })
