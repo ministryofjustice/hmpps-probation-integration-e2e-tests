@@ -22,7 +22,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "node-stream-zip": "^1.15.0",
-    "pdf2json": "^3.0.0",
+    "pdf2json": "^2.0.1",
     "prettier": "2.7.1"
   }
 }
