@@ -26,6 +26,11 @@ export const testEnvironmentData: TestData = {
             lastName: 'Pint',
             staffName: 'Pint, Derek (NPS - PO)',
         },
+        approvedPremisesKeyWorker: {
+            firstName: 'Barry',
+            lastName: 'Kshlerin',
+            staffName: 'Kshlerin, Barry (CRC - Additional Grade)',
+        },
     },
     teams: {
         allocationsTestTeam: {

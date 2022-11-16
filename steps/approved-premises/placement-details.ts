@@ -1,4 +1,4 @@
-import { type Page, expect } from '@playwright/test'
+import {type Page, expect} from '@playwright/test'
 
 export const selectMarkAsArrivedAction = async (page: Page) => {
     const actionsButton = await page.waitForSelector('text=Actions');

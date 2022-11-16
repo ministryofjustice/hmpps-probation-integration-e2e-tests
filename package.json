@@ -24,5 +24,9 @@
     "node-stream-zip": "^1.15.0",
     "pdf2json": "^2.0.1",
     "prettier": "2.7.1"
+  },
+  "dependencies": {
+    "@types/date-fns": "^2.6.0",
+    "date-fns": "^2.29.3"
   }
 }
