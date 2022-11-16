@@ -20,7 +20,7 @@ import {setNomisId} from '../../steps/delius/offender/update-offender.js';
 const nomisIds = []
 
 test('Verify that Staff record & linked keyworker record in NDelius are available in approved premises', async ({page}) => {
-    //Given I create new Offender in nDelius
+    //Given I login in to NDelius
     await deliusLogin(page)
     const person = deliusPerson()
     // And I create an offender
