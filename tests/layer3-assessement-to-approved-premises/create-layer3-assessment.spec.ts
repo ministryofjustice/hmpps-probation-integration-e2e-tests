@@ -32,7 +32,6 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     //And I create an event in nDelius
     await createEvent(page, { crn, event: data.events.adjournedForFastPreSentenceReport })
     //Given I log in to OASys as a "OASYS_T2_LOGIN_USER" user
-    // const crn = 'X582963';
     await oasysLogin(page)
     //And I select "Warwickshire" from Choose Provider Establishment
     await selectRegion(page)
