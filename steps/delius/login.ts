@@ -12,8 +12,9 @@ export const login = async (page: Page) => {
     }
 
     await expect(page).toHaveTitle(/National Delius - Login/)
-    await page.fill('#username', process.env.DELIUS_USERNAME!)
-    await page.fill('#password', process.env.DELIUS_PASSWORD!)
+    await page.fill('#j_username', process.env.DELIUS_USERNAME!)
+    await page.fill('#j_password', process.env.DELIUS_PASSWORD!)
+    await page.locator('.btn-success', { hasText: 'Login' }).click()
     await page.click('#submit')
     await expect(page).toHaveTitle(deliusTitle)
 }
