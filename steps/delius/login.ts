@@ -11,9 +11,20 @@ export const login = async (page: Page) => {
         await page.locator('//a[contains(@title, "Select this option to exit from the Delius application")]').click()
     }
 
-    await expect(page).toHaveTitle(/HMPPS Digital Services - Sign in/)
-    await page.fill('#username', process.env.DELIUS_USERNAME!)
-    await page.fill('#password', process.env.DELIUS_PASSWORD!)
-    await page.click('#submit')
+    const deliusLoginTitle = 'National Delius - Login'
+    const loginTitle = await page.locator('title').textContent()
+    const deliusLoginErrTitle = 'Exit NDelius'
+    const loginErrTitle = await page.locator('title').textContent()
+
+    if (loginTitle === deliusLoginTitle) {
+        await expect(page).toHaveTitle(/National Delius - Login/)
+    } else if (loginErrTitle === deliusLoginErrTitle) {
+        await page.click('body > a')
+        await expect(page).toHaveTitle(/National Delius - Login/)
+    }
+
+    await page.fill('#username, #j_username', process.env.DELIUS_USERNAME!)
+    await page.fill('#password, #j_password', process.env.DELIUS_PASSWORD!)
+    await page.click('#submit, [type=\'submit\']')
     await expect(page).toHaveTitle(deliusTitle)
 }
