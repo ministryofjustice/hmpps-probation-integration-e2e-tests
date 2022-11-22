@@ -53,6 +53,11 @@ REFERANDMONITOR_SUPPLIER_PASSWORD=<r&m_supplier_password>
 OASYS_URL=https://ords.t2.oasys.service.justice.gov.uk/
 OASYS_USERNAME=<oasys_t2_username>
 OASYS_PASSWORD=<oasys_t2_password>
+
+APPROVEDPREMISES_URL=https://approved-premises-dev.hmpps.service.justice.gov.uk/
+DELIUS_USERNAME=<delius_username>
+DELIUS_PASSWORD=<delius_password>
+
 ```
 
 ## Running Tests
