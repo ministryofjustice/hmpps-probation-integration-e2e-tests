@@ -118,5 +118,3 @@ export const getPdfText = async (file: Buffer) =>
         pdf.on('error', reject)
         pdf.parseBuffer(file)
     })
-
-
