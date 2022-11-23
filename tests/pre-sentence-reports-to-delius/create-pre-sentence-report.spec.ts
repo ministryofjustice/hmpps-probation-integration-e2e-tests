@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { login as deliusLogin } from '../../steps/delius/login.js'
+import { login as hmppsLogin } from '../../steps/hmpps-auth/login.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { createEvent } from '../../steps/delius/event/create-event.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
@@ -13,6 +14,7 @@ import { createSubjectAccessReport, getFileFromZip } from '../../steps/delius/do
 test('Create a short format pre-sentence report', async ({ page }) => {
     // Given a person with an event that has been adjourned for pre-sentence report,
     // and a court report with a newly created pre-sentence report document
+    await hmppsLogin(page)
     await deliusLogin(page)
     const person = deliusPerson()
     const crn = await createOffender(page, { person })

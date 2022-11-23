@@ -23,7 +23,6 @@ test('Create a new case note', async ({ page }) => {
     const nomisId = await createAndBookPrisoner(person)
     nomisIds.push(nomisId)
     await setNomisId(page, crn, nomisId)
-    await page.goto(`${process.env.DPS_URL}/auth/sign-out`)
 
     // When I add a case note in DPS
     await dpsLogin(page)
@@ -34,7 +33,6 @@ test('Create a new case note', async ({ page }) => {
     await page.fill('#text', 'Case Note added by HMPPS Probation Integration end to end tests')
     await page.locator('button', { hasText: 'Save' }).click()
     await expect(page).toHaveTitle(/Case notes - Digital Prison Services/)
-    await page.goto(`${process.env.DPS_URL}/auth/sign-out`)
 
     // Then the case note appears as a contact in delius
     await deliusLogin(page)

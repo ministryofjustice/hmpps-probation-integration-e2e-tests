@@ -7,8 +7,7 @@ export const login = async (page: Page) => {
 
     //may already be logged in
     if (title == deliusTitle) {
-        page.once('dialog', dialog => dialog.accept())
-        await page.locator('//a[contains(@title, "Select this option to exit from the Delius application")]').click()
+        return
     }
 
     await expect(page).toHaveTitle(/National Delius - Login/)
