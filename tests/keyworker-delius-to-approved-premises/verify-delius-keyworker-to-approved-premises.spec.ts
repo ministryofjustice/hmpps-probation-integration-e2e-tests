@@ -2,6 +2,7 @@ import { test } from '@playwright/test'
 import * as dotenv from 'dotenv'
 dotenv.config() // read environment variables into process.env
 import { login as deliusLogin } from '../../steps/delius/login.js'
+import { login as hmppsLogin } from '../../steps/hmpps-auth/login.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { data } from '../../test-data/test-data.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
@@ -23,6 +24,7 @@ test('Verify that Staff record & linked keyworker record in NDelius are availabl
     page,
 }) => {
     //Given I login in to NDelius
+    await hmppsLogin(page)
     await deliusLogin(page)
     const person = deliusPerson()
     // And I create an offender

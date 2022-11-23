@@ -2,6 +2,7 @@ import { test } from '@playwright/test'
 
 import { login as loginDelius } from '../../steps/delius/login.js'
 import { logout as logoutDelius } from '../../steps/delius/logout.js'
+import { login as hmppsLogin } from '../../steps/hmpps-auth/login.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { createCommunityEvent } from '../../steps/delius/event/create-event.js'
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement.js'
@@ -24,6 +25,7 @@ test.beforeEach(async ({ page }) => {
 const EVENT_NUMBER = 1
 
 test('Create R&M Referral', async ({ page }) => {
+    await hmppsLogin(page)
     // Create a person to work with
     const crn: string = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.providerName })
     await createCommunityEvent(page, { crn, allocation: data.teams.referAndMonitorTestTeam })
