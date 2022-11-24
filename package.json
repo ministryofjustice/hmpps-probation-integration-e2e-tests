@@ -15,15 +15,15 @@
   "type": "module",
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
-    "@playwright/test": "^1.27.1",
-    "@typescript-eslint/eslint-plugin": "^5.42.1",
-    "@typescript-eslint/parser": "^5.42.1",
+    "@playwright/test": "^1.28.1",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",
     "dotenv": "^16.0.3",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "node-stream-zip": "^1.15.0",
-    "pdf2json": "^2.0.1",
-    "prettier": "2.7.1"
+    "pdf2json": "^3.0.1",
+    "prettier": "2.8.0"
   },
   "dependencies": {
     "@types/date-fns": "^2.6.0",
