@@ -1,4 +1,4 @@
-import {type Page, expect} from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 
 export const clickOKForCRNAmendment = async (page: Page) => {
     await page.click('#B83726850038339573')

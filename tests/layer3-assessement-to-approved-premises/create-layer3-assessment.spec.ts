@@ -1,39 +1,44 @@
-import {test} from '@playwright/test'
+import { test } from '@playwright/test'
 import * as dotenv from 'dotenv'
 dotenv.config() // read environment variables into process.env
-import {login as deliusLogin} from '../../steps/delius/login.js'
-import {createOffender} from '../../steps/delius/offender/create-offender.js'
-import {deliusPerson} from '../../steps/delius/utils/person.js'
-import {login as oasysLogin} from '../../steps/oasys/login.js'
-import {setProviderEstablishment as selectRegion} from '../../steps/oasys/set-provider-establishment.js'
-import {clickSearch} from '../../steps/oasys/task-manager.js'
-import {offenderSearchWithCRN as crnSearch} from '../../steps/oasys/offender-search.js'
-import {clickCreateOffenderButton} from '../../steps/oasys/cms-offender-details.js'
-import {createCustodialEvent} from '../../steps/delius/event/create-event.js'
-import {clickCreateAssessmentButton, clickUpdateOffenderButton} from "../../steps/oasys/layer3-assessment/create-ofender.js";
-import {clickOKForCRNAmendment} from "../../steps/oasys/layer3-assessment/crn-amendment.js";
-import {createLayer3Assessment} from "../../steps/oasys/layer3-assessment/create-assessment.js";
-import {clickCMSRecord} from "../../steps/oasys/layer3-assessment/cms-search-results.js";
-import {clickCloseAssessment} from "../../steps/oasys/layer3-assessment/offender-information-layer3.js";
-import {login as approvedPremisesLogin, navigateToApplications} from "../../steps/approved-premises/login.js";
-import {enterCRN} from "../../steps/approved-premises/applications/enter-crn.js";
-import {clickSaveAndContinue} from "../../steps/approved-premises/applications/confirm-details.js";
-import {selectSentenceType} from "../../steps/approved-premises/applications/select-sentence-type.js";
-import {selectReleaseDateKnownStatus} from "../../steps/approved-premises/applications/release-date-known-status.js";
-import {selectAPPlacementPurpose} from "../../steps/approved-premises/applications/ap-placement-purpose.js";
-import {selectSituationOption} from "../../steps/approved-premises/applications/select-situation-option.js";
-import {confirmPlacementStartdate} from "../../steps/approved-premises/applications/placement-start-date.js";
-import {createAndBookPrisoner, releasePrisoner} from "../../steps/api/dps/prison-api.js";
-import {setNomisId} from "../../steps/delius/offender/update-offender.js";
+import { login as deliusLogin } from '../../steps/delius/login.js'
+import { createOffender } from '../../steps/delius/offender/create-offender.js'
+import { deliusPerson } from '../../steps/delius/utils/person.js'
+import { login as oasysLogin } from '../../steps/oasys/login.js'
+import { setProviderEstablishment as selectRegion } from '../../steps/oasys/set-provider-establishment.js'
+import { clickSearch } from '../../steps/oasys/task-manager.js'
+import { offenderSearchWithCRN as crnSearch } from '../../steps/oasys/offender-search.js'
+import { clickCreateOffenderButton } from '../../steps/oasys/cms-offender-details.js'
+import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
+import {
+    clickCreateAssessmentButton,
+    clickUpdateOffenderButton,
+} from '../../steps/oasys/layer3-assessment/create-ofender.js'
+import { clickOKForCRNAmendment } from '../../steps/oasys/layer3-assessment/crn-amendment.js'
+import { createLayer3Assessment } from '../../steps/oasys/layer3-assessment/create-assessment.js'
+import { clickCMSRecord } from '../../steps/oasys/layer3-assessment/cms-search-results.js'
+import { clickCloseAssessment } from '../../steps/oasys/layer3-assessment/offender-information-layer3.js'
+import { login as approvedPremisesLogin, navigateToApplications } from '../../steps/approved-premises/login.js'
+import { enterCRN } from '../../steps/approved-premises/applications/enter-crn.js'
+import { clickSaveAndContinue } from '../../steps/approved-premises/applications/confirm-details.js'
+import { selectSentenceType } from '../../steps/approved-premises/applications/select-sentence-type.js'
+import { selectReleaseDateKnownStatus } from '../../steps/approved-premises/applications/release-date-known-status.js'
+import { selectAPPlacementPurpose } from '../../steps/approved-premises/applications/ap-placement-purpose.js'
+import { selectSituationOption } from '../../steps/approved-premises/applications/select-situation-option.js'
+import { confirmPlacementStartdate } from '../../steps/approved-premises/applications/placement-start-date.js'
+import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
+import { setNomisId } from '../../steps/delius/offender/update-offender.js'
 
 const nomisIds = []
-test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({page}) => {
+test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
+    page,
+}) => {
     // Given I create new Offender in nDelius
     await deliusLogin(page)
     const person = deliusPerson()
-    const crn = await createOffender(page, {person})
+    const crn = await createOffender(page, { person })
     // And I create an event in nDelius
-    await createCustodialEvent(page, {crn})
+    await createCustodialEvent(page, { crn })
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
     const nomisId = await createAndBookPrisoner(person)
     nomisIds.push(nomisId)
