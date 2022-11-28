@@ -39,7 +39,7 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     nomisIds.push(nomisId)
     // And I link the Nomis entry to the Delius entry
     await setNomisId(page, crn, nomisId)
-    //When I log in to OASys as a "OASYS_T2_LOGIN_USER" user
+    //And I log in to OASys as a "OASYS_T2_LOGIN_USER" user
     await oasysLogin(page)
     //And I select "Warwickshire" from Choose Provider Establishment
     await selectRegion(page)
