@@ -5,7 +5,7 @@ import {splitDate} from '../common/common.js'
 const pastDate = format(subDays(new Date(), 30), 'dd MM yyyy')
 const futureDate = format(addMonths(new Date(), 11), 'dd MM yyyy')
 const [pastDay, pastMonth, pastYear] = splitDate(pastDate)
-export const [futureDay, futureMonth, futureYear] = splitDate(futureDate)
+const [futureDay, futureMonth, futureYear] = splitDate(futureDate)
 
 export const createBooking = async (page: Page) => {
     await page.fill('#arrivalDate-day', pastDay)
