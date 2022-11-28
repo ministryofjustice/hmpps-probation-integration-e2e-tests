@@ -1,0 +1,7 @@
+import {type Page, expect} from '@playwright/test'
+
+export const enterCRN = async (page: Page, crn: string) => {
+    await page.fill('#crn', crn)
+    await page.locator('button', {hasText: 'Submit'}).click()
+    await expect(page).toHaveTitle(/Approved Premises - Confirm/)
+}
