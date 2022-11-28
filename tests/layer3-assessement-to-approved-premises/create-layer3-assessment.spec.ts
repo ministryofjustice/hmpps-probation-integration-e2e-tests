@@ -75,7 +75,7 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await selectSituationOption(page)
     //And I select that I know release date
     await selectReleaseDateKnownStatus(page)
-    //And I confirm placement start date same as release date
+    //And I confirm placement start date is same as release date
     await confirmPlacementStartdate(page)
     //Then I select "Public protection" as the purpose of the Approved Premises (AP) placement
     await selectAPPlacementPurpose(page)
