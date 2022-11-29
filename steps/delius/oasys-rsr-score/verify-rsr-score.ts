@@ -1,5 +1,4 @@
 import { expect, type Page } from '@playwright/test'
-import { refreshUntil } from '../utils/refresh.js'
 
 export const verifyRsrScore = async (page: Page, score: string) => {
     await page.click('#linkNavigation2EventList')

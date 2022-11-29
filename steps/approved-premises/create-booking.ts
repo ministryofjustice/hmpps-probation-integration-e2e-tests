@@ -1,10 +1,6 @@
 import { type Page, expect } from '@playwright/test'
 import { format, addMonths, subDays } from 'date-fns'
-
-const splitDate = s => {
-    const dateElements = s.split(' ')
-    return dateElements
-}
+import { splitDate } from '../common/common.js'
 
 const pastDate = format(subDays(new Date(), 30), 'dd MM yyyy')
 const futureDate = format(addMonths(new Date(), 11), 'dd MM yyyy')

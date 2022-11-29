@@ -18,3 +18,8 @@ export const login = async (page: Page) => {
     await page.click('#submit')
     await expect(page).toHaveTitle(approvedPremisesTitle)
 }
+
+export const navigateToApplications = async (page: Page) => {
+    await page.goto(`${process.env.APPROVEDPREMISES_URL}applications/new`)
+    await expect(page).toHaveTitle("Approved Premises - Enter the individual's CRN")
+}
