@@ -84,6 +84,8 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await confirmPlacementStartdate(page)
     //Then I select "Public protection" as the purpose of the Approved Premises (AP) placement
     await selectAPPlacementPurpose(page)
+    //Todo - Complete this test once the Approved completes their development which is currently underway
+    test.fail()
 })
 
 test.afterAll(async () => {
