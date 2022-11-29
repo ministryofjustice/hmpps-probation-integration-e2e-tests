@@ -1,4 +1,4 @@
-import {expect, type Page} from '@playwright/test'
+import { expect, type Page } from '@playwright/test'
 import * as dotenv from 'dotenv'
 
 export const login = async (page: Page) => {
@@ -9,7 +9,7 @@ export const login = async (page: Page) => {
     //may already be logged in
     if (title.trim() == approvedPremisesTitle) {
         page.once('dialog', dialog => dialog.accept())
-        await page.locator('a', {hasText: 'Sign out'}).click()
+        await page.locator('a', { hasText: 'Sign out' }).click()
     }
 
     await expect(page).toHaveTitle(/HMPPS Digital Services - Sign in/)
@@ -19,7 +19,7 @@ export const login = async (page: Page) => {
     await expect(page).toHaveTitle(approvedPremisesTitle)
 }
 
-export const navigateToApplications = async (page: Page,) => {
+export const navigateToApplications = async (page: Page) => {
     await page.goto(`${process.env.APPROVEDPREMISES_URL}applications/new`)
-    await expect(page).toHaveTitle('Approved Premises - Enter the individual\'s CRN')
+    await expect(page).toHaveTitle("Approved Premises - Enter the individual's CRN")
 }

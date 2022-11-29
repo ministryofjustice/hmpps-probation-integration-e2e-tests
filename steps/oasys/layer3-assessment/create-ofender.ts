@@ -1,4 +1,4 @@
-import {type Page, expect} from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 
 export const clickCreateAssessmentButton = async (page: Page) => {
     await page.click('#B2799414815519187')
