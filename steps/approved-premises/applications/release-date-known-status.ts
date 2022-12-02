@@ -1,6 +1,6 @@
 import { type Page, expect } from '@playwright/test'
 import { splitDate } from '../../common/common.js'
-import {NextMonth} from "../../delius/utils/date-time.js";
+import { NextMonth } from '../../delius/utils/date-time.js'
 
 export const [futureDay, futureMonth, futureYear] = splitDate(NextMonth)
 

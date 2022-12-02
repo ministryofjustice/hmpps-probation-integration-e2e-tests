@@ -52,13 +52,11 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     await popup.locator('text=Save and continue').click()
     await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Offence analysis/)
 
-
     await popup.locator('#offenceAnalysis ~ .ck [contenteditable="true"]').click()
     await popup.keyboard.type(faker.lorem.sentence())
     await popup.locator('#patternOfOffendingBehaviour ~ .ck [contenteditable="true"]').click()
     await popup.keyboard.type(faker.lorem.sentence())
     await popup.locator('text=Save and continue').click()
-
 
     // - Offender assessment
     await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Offender assessment/)

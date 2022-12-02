@@ -9,7 +9,8 @@ import { createRequirementForEvent } from '../../steps/delius/requirement/create
 import { findNSIByCRN } from '../../steps/delius/event/find-nsi.js'
 import {
     login as loginRandM,
-    loginAsSupplier as loginRandMAsSupplier, logoutSupplier,
+    loginAsSupplier as loginRandMAsSupplier,
+    logoutSupplier,
     logoutSupplier as logoutRandMSupplier,
 } from '../../steps/referandmonitor/login.js'
 import { assignReferral, makeReferral } from '../../steps/referandmonitor/referral.js'

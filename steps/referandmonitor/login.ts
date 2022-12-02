@@ -23,4 +23,3 @@ export const logoutSupplier = async (page: Page) => {
     await expect(page).toHaveTitle(/HMPPS Interventions/)
     await page.locator('a', { hasText: 'Sign out' }).click()
 }
-
