@@ -16,7 +16,7 @@ test('Release and recall test', async ({ page }) => {
 
     // Given a person with a sentenced event in Delius
     await deliusLogin(page)
-    await hmppsLogin(page)
+    // await hmppsLogin(page)
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
     await createCustodialEvent(page, { crn })

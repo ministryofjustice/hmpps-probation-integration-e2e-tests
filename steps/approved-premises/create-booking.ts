@@ -1,11 +1,9 @@
 import { type Page, expect } from '@playwright/test'
-import { format, addMonths, subDays } from 'date-fns'
 import { splitDate } from '../common/common.js'
+import {LastMonth, NextYear} from "../delius/utils/date-time.js";
 
-const pastDate = format(subDays(new Date(), 30), 'dd MM yyyy')
-const futureDate = format(addMonths(new Date(), 11), 'dd MM yyyy')
-const [pastDay, pastMonth, pastYear] = splitDate(pastDate)
-const [futureDay, futureMonth, futureYear] = splitDate(futureDate)
+const [pastDay, pastMonth, pastYear] = splitDate(LastMonth)
+const [futureDay, futureMonth, futureYear] = splitDate(NextYear)
 
 export const createBooking = async (page: Page) => {
     await page.fill('#arrivalDate-day', pastDay)
