@@ -1,9 +1,8 @@
 import { type Page, expect } from '@playwright/test'
-import { format, addMonths } from 'date-fns'
 import { splitDate } from '../../common/common.js'
+import { NextMonth } from '../../delius/utils/date-time.js'
 
-const futureDate = format(addMonths(new Date(), 1), 'dd MM yyyy')
-export const [futureDay, futureMonth, futureYear] = splitDate(futureDate)
+export const [futureDay, futureMonth, futureYear] = splitDate(NextMonth)
 
 export const selectReleaseDateKnownStatus = async (page: Page) => {
     await page.getByLabel('Yes').check()

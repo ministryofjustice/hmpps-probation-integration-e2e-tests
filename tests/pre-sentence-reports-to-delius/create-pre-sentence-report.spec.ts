@@ -50,13 +50,14 @@ test('Create a short format pre-sentence report', async ({ page }) => {
         await popup.keyboard.type(faker.lorem.sentence())
     }
     await popup.locator('text=Save and continue').click()
-    // - Offence analysis
     await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Offence analysis/)
-    for (const textarea of await popup.locator('[contenteditable]').elementHandles()) {
-        await textarea.click()
-        await popup.keyboard.type(faker.lorem.sentence())
-    }
+
+    await popup.locator('#offenceAnalysis ~ .ck [contenteditable="true"]').click()
+    await popup.keyboard.type(faker.lorem.sentence())
+    await popup.locator('#patternOfOffendingBehaviour ~ .ck [contenteditable="true"]').click()
+    await popup.keyboard.type(faker.lorem.sentence())
     await popup.locator('text=Save and continue').click()
+
     // - Offender assessment
     await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Offender assessment/)
     await popup.locator('input[name=assessmentFactors][value=issueAccommodation]').click()

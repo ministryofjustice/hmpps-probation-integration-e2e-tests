@@ -10,6 +10,7 @@ import { findNSIByCRN } from '../../steps/delius/event/find-nsi.js'
 import {
     login as loginRandM,
     loginAsSupplier as loginRandMAsSupplier,
+    logoutSupplier,
     logoutSupplier as logoutRandMSupplier,
 } from '../../steps/referandmonitor/login.js'
 import { assignReferral, makeReferral } from '../../steps/referandmonitor/referral.js'
@@ -25,7 +26,6 @@ test.beforeEach(async ({ page }) => {
 const EVENT_NUMBER = 1
 
 test('Create R&M Referral', async ({ page }) => {
-    await hmppsLogin(page)
     // Create a person to work with
     const crn: string = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.providerName })
     await createCommunityEvent(page, { crn, allocation: data.teams.referAndMonitorTestTeam })
@@ -43,6 +43,7 @@ test('Create R&M Referral', async ({ page }) => {
 
     // As the Refer and Monitor supplier
     // When I create a SAA appointment in Refer and Monitor
+    await logoutRandMSupplier(page)
     await loginRandMAsSupplier(page)
 
     // Assign the referral
