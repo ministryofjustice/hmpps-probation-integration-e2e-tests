@@ -4,7 +4,6 @@ import { login as hmppsLogin } from '../../steps/hmpps-auth/login.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
-import { setNomisId } from '../../steps/delius/offender/update-offender.js'
 import { createAndBookPrisoner, recallPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
 import { findCustodyForEventByCRN } from '../../steps/delius/event/find-events.js'
 import { refreshUntil } from '../../steps/delius/utils/refresh.js'
@@ -22,9 +21,8 @@ test('Release and recall test', async ({ page }) => {
     await createCustodialEvent(page, { crn })
 
     // And a corresponding person and booking in NOMIS
-    const nomisId = await createAndBookPrisoner(person)
+    const nomisId = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
-    await setNomisId(page, crn, nomisId)
 
     await findCustodyForEventByCRN(page, crn, 1)
     await refreshUntil(
