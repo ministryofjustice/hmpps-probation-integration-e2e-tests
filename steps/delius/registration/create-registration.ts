@@ -2,7 +2,7 @@ import { type Page } from '@playwright/test'
 import { expect } from '@playwright/test'
 import { selectOption } from '../utils/inputs.js'
 import { findOffenderByCRN } from '../offender/find-offender.js'
-import { waitForAjax } from '../utils/refresh.js'
+import { doUntil, waitForAjax } from '../utils/refresh.js'
 
 export async function createRegistration(page: Page, crn: string, registrationType: string) {
     await findOffenderByCRN(page, crn)
@@ -16,8 +16,8 @@ export async function createRegistration(page: Page, crn: string, registrationTy
     await Promise.all([selectOption(page, '#addRegistrationForm\\:Team'), waitForAjax(page)])
     await selectOption(page, '#addRegistrationForm\\:Staff')
     const saveBtn = page.locator('input', { hasText: 'Save' })
-    await saveBtn.click()
-    //click a second time as ND screen refreshes and doesn't register first click
-    await saveBtn.click()
-    await expect(page.locator('tbody tr')).toContainText(registrationType)
+    await doUntil(
+        () => saveBtn.click(),
+        () => expect(page.locator('tbody tr')).toContainText(registrationType)
+    )
 }
