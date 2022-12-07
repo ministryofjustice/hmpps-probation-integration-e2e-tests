@@ -1,7 +1,8 @@
 import { type Person } from '../../delius/utils/person.js'
-import { type APIRequestContext, expect, request } from '@playwright/test'
+import { type APIRequestContext, expect, Page, request } from '@playwright/test'
 import { getToken } from '../auth/get-token.js'
 import { EuropeLondonFormat } from '../../delius/utils/date-time.js'
+import { setNomisId } from '../../delius/offender/update-offender.js'
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()
@@ -14,8 +15,10 @@ async function getContext(): Promise<APIRequestContext> {
     })
 }
 
-export async function createAndBookPrisoner(person: Person): Promise<string> {
+export async function createAndBookPrisoner(page: Page, crn: string, person: Person): Promise<string> {
     const offenderNo = await createPrisoner(person)
+    // Link the Nomis entry to the Delius entry before booking to avoid OLE from tier changes
+    await setNomisId(page, crn, offenderNo)
     await bookPrisoner(offenderNo)
     return offenderNo
 }

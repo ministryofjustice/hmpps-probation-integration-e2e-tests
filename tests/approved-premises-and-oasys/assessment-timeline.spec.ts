@@ -27,7 +27,6 @@ import { selectAPPlacementPurpose } from '../../steps/approved-premises/applicat
 import { selectSituationOption } from '../../steps/approved-premises/applications/select-situation-option.js'
 import { confirmPlacementStartdate } from '../../steps/approved-premises/applications/placement-start-date.js'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
-import { setNomisId } from '../../steps/delius/offender/update-offender.js'
 
 const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
@@ -40,10 +39,8 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     // And I create an event in nDelius
     await createCustodialEvent(page, { crn })
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
-    const nomisId = await createAndBookPrisoner(person)
+    const nomisId = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
-    // And I link the Nomis entry to the Delius entry
-    await setNomisId(page, crn, nomisId)
     //And I log in to OASys as a "OASYS_T2_LOGIN_USER" user
     await oasysLogin(page)
     //And I select "Warwickshire" from Choose Provider Establishment

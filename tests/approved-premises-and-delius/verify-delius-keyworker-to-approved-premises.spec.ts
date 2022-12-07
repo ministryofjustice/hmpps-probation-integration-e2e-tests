@@ -16,7 +16,6 @@ import { selectMarkAsArrivedAction } from '../../steps/approved-premises/placeme
 import { verifyKeyworkerAvailability } from '../../steps/approved-premises/mark-as-arrived.js'
 import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
-import { setNomisId } from '../../steps/delius/offender/update-offender.js'
 
 const nomisIds = []
 
@@ -32,10 +31,8 @@ test('Verify that Staff record & linked keyworker record in NDelius are availabl
     // And I create an event in nDelius
     await createCustodialEvent(page, { crn })
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
-    const nomisId = await createAndBookPrisoner(person)
+    const nomisId = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
-    // And I link the Nomis entry to the Delius entry
-    await setNomisId(page, crn, nomisId)
     //When I log in to Approved Premises as a "DELIUS_LOGIN_USER" user
     await approvedPremisesLogin(page)
     // And I choose a premises # Choose the first premises in the list

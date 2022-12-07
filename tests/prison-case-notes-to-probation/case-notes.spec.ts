@@ -7,7 +7,6 @@ import { verifyContacts } from '../../steps/delius/contact/find-contacts.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
-import { setNomisId } from '../../steps/delius/offender/update-offender.js'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
 
 const nomisIds = []
@@ -20,9 +19,8 @@ test('Create a new case note', async ({ page }) => {
     const event = await createCustodialEvent(page, { crn })
 
     // And a corresponding person and booking in NOMIS
-    const nomisId = await createAndBookPrisoner(person)
+    const nomisId = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
-    await setNomisId(page, crn, nomisId)
 
     // When I add a case note in DPS
     await dpsLogin(page)
