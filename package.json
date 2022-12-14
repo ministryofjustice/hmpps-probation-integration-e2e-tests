@@ -16,7 +16,7 @@
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
     "@playwright/test": "^1.28.1",
-    "@typescript-eslint/eslint-plugin": "^5.46.0",
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
     "@typescript-eslint/parser": "^5.46.1",
     "dotenv": "^16.0.3",
     "eslint-config-prettier": "^8.5.0",
