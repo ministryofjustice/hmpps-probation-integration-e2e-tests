@@ -44,6 +44,6 @@ export const testEnvironmentData: TestData = {
     },
     sentencedPrisoner: {
         crn: 'X600508',
-        bookingId: 1203957
+        bookingId: 1203957,
     },
 }
