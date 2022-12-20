@@ -43,7 +43,7 @@ export const verifyKeyDates = async (page: Page, crn: string, eventNumber: numbe
 
 const verifyDate = async (page: Page, label: string, date: Date) => {
     const id = await page.locator('label', { hasText: label }).getAttribute('for')
-    await expect(page.getByLabel(`[id="${id}"]`)).toHaveText(DeliusDateFormatter(date))
+    await expect(page.locator(`[id="${id}"]`)).toHaveText(DeliusDateFormatter(date))
 }
 
 const verifyTableDate = async (page: Page, label: string, date: Date) => {
