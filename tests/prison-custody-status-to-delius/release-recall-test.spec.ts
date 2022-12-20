@@ -21,7 +21,7 @@ test('Release and recall test', async ({ page }) => {
     await createCustodialEvent(page, { crn })
 
     // And a corresponding person and booking in NOMIS
-    const nomisId = await createAndBookPrisoner(page, crn, person)
+    const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
 
     await findCustodyForEventByCRN(page, crn, 1)

@@ -31,7 +31,7 @@ test('Verify that Staff record & linked keyworker record in NDelius are availabl
     // And I create an event in nDelius
     await createCustodialEvent(page, { crn })
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
-    const nomisId = await createAndBookPrisoner(page, crn, person)
+    const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
     //When I log in to Approved Premises as a "DELIUS_LOGIN_USER" user
     await approvedPremisesLogin(page)

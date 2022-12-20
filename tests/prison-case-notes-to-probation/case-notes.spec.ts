@@ -19,7 +19,7 @@ test('Create a new case note', async ({ page }) => {
     const event = await createCustodialEvent(page, { crn })
 
     // And a corresponding person and booking in NOMIS
-    const nomisId = await createAndBookPrisoner(page, crn, person)
+    const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
 
     // When I add a case note in DPS

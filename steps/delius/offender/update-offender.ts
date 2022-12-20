@@ -1,7 +1,6 @@
 import { expect, type Page } from '@playwright/test'
 import { findOffenderByCRN } from './find-offender.js'
 import { selectOption } from '../utils/inputs.js'
-import { refreshUntil } from '../utils/refresh'
 
 export async function setNomisId(page: Page, crn: string, nomisId: string) {
     await findOffenderByCRN(page, crn)

@@ -15,12 +15,12 @@ async function getContext(): Promise<APIRequestContext> {
     })
 }
 
-export async function createAndBookPrisoner(page: Page, crn: string, person: Person): Promise<string> {
+export async function createAndBookPrisoner(page: Page, crn: string, person: Person) {
     const offenderNo = await createPrisoner(person)
     // Link the Nomis entry to the Delius entry before booking to avoid OLE from tier changes
     await setNomisId(page, crn, offenderNo)
-    await bookPrisoner(offenderNo)
-    return offenderNo
+    const bookingId = await bookPrisoner(offenderNo)
+    return {nomisId: offenderNo, bookingId: bookingId}
 }
 
 async function createPrisoner(person: Person): Promise<string> {
@@ -50,6 +50,8 @@ async function bookPrisoner(offenderNo: string) {
         },
     })
     expect(response.ok()).toBeTruthy()
+    const json = await response.json()
+    return json.bookingId
 }
 
 export const releasePrisoner = async (offenderNo: string) => {
@@ -73,6 +75,30 @@ export const recallPrisoner = async (offenderNo: string) => {
             recallTime: date,
             movementReasonCode: '24',
         },
+    })
+    expect(response.ok()).toBeTruthy()
+}
+
+export interface CustodyDates {
+    "calculationUuid": string,
+    "submissionUser": string,
+    keyDates: {
+        sentenceExpiryDate?: string
+        confirmedReleaseDate?: string,
+        conditionalReleaseDate?: string,
+        conditionalReleaseOverrideDate?: string,
+        licenceExpiryDate?: string,
+        paroleEligibilityDate?: string,
+        topupSupervisionExpiryDate?: string,
+        homeDetentionCurfewEligibilityDate?: string
+    }
+}
+
+export const updateCustodyDates = async (bookingId: number, custodyDates: CustodyDates) => {
+    const response = await (
+        await getContext()
+    ).post(`/api/offender-dates/${bookingId}`, {
+        data: custodyDates,
     })
     expect(response.ok()).toBeTruthy()
 }
