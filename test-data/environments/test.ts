@@ -43,7 +43,7 @@ export const testEnvironmentData: TestData = {
         },
     },
     keyDate: {
-        crn: "X600508",
-        bookingId: 1203957
-    }
+        crn: 'X600508',
+        bookingId: 1203957,
+    },
 }

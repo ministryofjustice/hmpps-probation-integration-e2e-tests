@@ -20,7 +20,7 @@ export async function createAndBookPrisoner(page: Page, crn: string, person: Per
     // Link the Nomis entry to the Delius entry before booking to avoid OLE from tier changes
     await setNomisId(page, crn, offenderNo)
     const bookingId = await bookPrisoner(offenderNo)
-    return {nomisId: offenderNo, bookingId: bookingId}
+    return { nomisId: offenderNo, bookingId: bookingId }
 }
 
 async function createPrisoner(person: Person): Promise<string> {
@@ -80,16 +80,16 @@ export const recallPrisoner = async (offenderNo: string) => {
 }
 
 export interface CustodyDates {
-    "calculationUuid": string,
-    "submissionUser": string,
+    calculationUuid: string
+    submissionUser: string
     keyDates: {
         sentenceExpiryDate?: string
-        confirmedReleaseDate?: string,
-        conditionalReleaseDate?: string,
-        conditionalReleaseOverrideDate?: string,
-        licenceExpiryDate?: string,
-        paroleEligibilityDate?: string,
-        topupSupervisionExpiryDate?: string,
+        confirmedReleaseDate?: string
+        conditionalReleaseDate?: string
+        conditionalReleaseOverrideDate?: string
+        licenceExpiryDate?: string
+        paroleEligibilityDate?: string
+        topupSupervisionExpiryDate?: string
         homeDetentionCurfewEligibilityDate?: string
     }
 }

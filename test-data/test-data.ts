@@ -10,7 +10,7 @@ export class TestData {
     requirements: { [key: string]: { category: string; subCategory: string; length?: string } } = {}
     staff: { [key: string]: { firstName: string; lastName: string; staffName: string } } = {}
     teams: { [key: string]: { teamName: string; providerName: string } } = {}
-    keyDate: { crn: string, bookingId: number }
+    keyDate: { crn: string; bookingId: number }
 }
 
 dotenv.config() // read environment variables into process.env

@@ -1,7 +1,7 @@
 import { expect, type Page } from '@playwright/test'
 import { findOffenderByCRN, isInOffenderContext } from '../offender/find-offender.js'
-import { DeliusDateFormatter } from "../utils/date-time.js";
-import { refreshUntil } from "../utils/refresh.js";
+import { DeliusDateFormatter } from '../utils/date-time.js'
+import { refreshUntil } from '../utils/refresh.js'
 
 export async function findEventByCRN(page: Page, crn: string, eventNumber: number) {
     if (await isInEventContext(page, crn, eventNumber)) {
@@ -12,14 +12,14 @@ export async function findEventByCRN(page: Page, crn: string, eventNumber: numbe
         await findOffenderByCRN(page, crn)
         await page.click('#linkNavigation2EventList')
         await expect(page).toHaveTitle(/Events/)
-        await page.locator('tr', {hasText: eventNumber.toString()}).locator('a', {hasText: 'View'}).click()
+        await page.locator('tr', { hasText: eventNumber.toString() }).locator('a', { hasText: 'View' }).click()
     }
     await expect(page).toHaveTitle(/Event Details/)
 }
 
 export async function findCustodyForEventByCRN(page: Page, crn: string, eventNumber: number) {
     await findEventByCRN(page, crn, eventNumber)
-    await page.locator('input.btn', {hasText: 'Throughcare'}).click()
+    await page.locator('input.btn', { hasText: 'Throughcare' }).click()
     await expect(page).toHaveTitle(/Throughcare Details/)
 }
 
@@ -34,15 +34,15 @@ export async function isInEventContext(page: Page, crn: string, eventNumber: num
 
 export const verifyKeyDates = async (page: Page, crn: string, eventNumber: number, date: Date) => {
     await findCustodyForEventByCRN(page, crn, eventNumber)
-    await refreshUntil(page, () => verifyDate(page, "Sentence Expiry Date:", date))
-    await verifyDate(page, "Sentence Expiry Date:", date)
-    await verifyDate(page, "Licence Expiry Date:", date)
-    await verifyTableDate(page, "Parole Eligibility Date", date)
-    await verifyTableDate(page, "Auto-Conditional Release Date", date)
+    await refreshUntil(page, () => verifyDate(page, 'Sentence Expiry Date:', date))
+    await verifyDate(page, 'Sentence Expiry Date:', date)
+    await verifyDate(page, 'Licence Expiry Date:', date)
+    await verifyTableDate(page, 'Parole Eligibility Date', date)
+    await verifyTableDate(page, 'Auto-Conditional Release Date', date)
 }
 
 const verifyDate = async (page: Page, label: string, date: Date) => {
-    const id = await page.locator("label", {hasText: label}).getAttribute("for")
+    const id = await page.locator('label', { hasText: label }).getAttribute('for')
     await expect(page.locator(`[id="${id}"]`)).toHaveText(DeliusDateFormatter(date))
 }
 
