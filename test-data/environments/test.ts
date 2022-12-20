@@ -42,8 +42,8 @@ export const testEnvironmentData: TestData = {
             providerName: 'NPS North East',
         },
     },
-    keyDate: {
+    sentencedPrisoner: {
         crn: 'X600508',
-        bookingId: 1203957,
+        bookingId: 1203957
     },
 }

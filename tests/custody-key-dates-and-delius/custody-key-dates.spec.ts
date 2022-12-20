@@ -13,7 +13,7 @@ test('Update Custody Key Dates', async ({ page }) => {
 
     const today = new Date()
     today.setFullYear(today.getFullYear() + 2)
-    await updateCustodyDates(data.keyDate.bookingId, {
+    await updateCustodyDates(data.sentencedPrisoner.bookingId, {
         calculationUuid: uuid(),
         submissionUser: process.env.DPS_USERNAME,
         keyDates: {
@@ -24,8 +24,8 @@ test('Update Custody Key Dates', async ({ page }) => {
         },
     })
 
-    await verifyKeyDates(page, data.keyDate.crn, 1, today)
-    await verifyContacts(page, data.keyDate.crn, [
+    await verifyKeyDates(page, data.sentencedPrisoner.crn, 1, today)
+    await verifyContacts(page, data.sentencedPrisoner.crn, [
         contact(commonData.events.custodial.outcome, 'Data Share Update Contact'),
     ])
 })
