@@ -34,7 +34,7 @@ export async function isInEventContext(page: Page, crn: string, eventNumber: num
 
 export const verifyKeyDates = async (page: Page, crn: string, eventNumber: number, date: Date) => {
     await findCustodyForEventByCRN(page, crn, eventNumber)
-    await refreshUntil(page, () => verifyDate(page, 'Sentence Expiry Date:', date))
+    await refreshUntil(page, () => verifyDate(page, 'Sentence Expiry Date:', date), { timeout: 120_000 })
     await verifyDate(page, 'Sentence Expiry Date:', date)
     await verifyDate(page, 'Licence Expiry Date:', date)
     await verifyTableDate(page, 'Parole Eligibility Date', date)
