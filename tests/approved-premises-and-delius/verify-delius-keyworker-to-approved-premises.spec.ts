@@ -52,6 +52,8 @@ test('Verify that Staff record & linked keyworker record in NDelius are availabl
         page,
         `${data.staff.approvedPremisesKeyWorker.firstName} ${data.staff.approvedPremisesKeyWorker.lastName}`
     )
+    // And I should see a contact in Delius for the booking ...
+    // TODO this functionality is not available yet
 })
 
 test.afterAll(async () => {
