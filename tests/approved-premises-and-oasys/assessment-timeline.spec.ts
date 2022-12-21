@@ -39,7 +39,7 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     // And I create an event in nDelius
     await createCustodialEvent(page, { crn })
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
-    const nomisId = await createAndBookPrisoner(page, crn, person)
+    const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
     //And I log in to OASys as a "OASYS_T2_LOGIN_USER" user
     await oasysLogin(page)

@@ -16,6 +16,7 @@
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
     "@playwright/test": "^1.29.0",
+    "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.47.0",
     "@typescript-eslint/parser": "^5.47.0",
     "dotenv": "^16.0.3",
@@ -23,10 +24,9 @@
     "eslint-plugin-prettier": "^4.2.1",
     "node-stream-zip": "^1.15.0",
     "pdf2json": "^3.0.1",
-    "prettier": "2.8.1"
-  },
-  "dependencies": {
+    "prettier": "2.8.1",
     "@types/date-fns": "^2.6.0",
-    "date-fns": "^2.29.3"
+    "date-fns": "^2.29.3",
+    "uuid": "^9.0.0"
   }
 }
