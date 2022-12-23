@@ -1,17 +1,17 @@
-import { type Page, expect } from '@playwright/test'
+import { expect, type Page } from '@playwright/test'
 import { splitDate } from '../common/common.js'
-import { LastMonth, NextYear } from '../delius/utils/date-time.js'
+import { NextMonth, Tomorrow } from '../delius/utils/date-time.js'
 
-const [pastDay, pastMonth, pastYear] = splitDate(LastMonth)
-const [futureDay, futureMonth, futureYear] = splitDate(NextYear)
+const [arrivalDay, arrivalMonth, arrivalYear] = splitDate(Tomorrow)
+const [departureDay, departureMonth, departureYear] = splitDate(NextMonth)
 
 export const createBooking = async (page: Page) => {
-    await page.fill('#arrivalDate-day', pastDay)
-    await page.fill('#arrivalDate-month', pastMonth)
-    await page.fill('#arrivalDate-year', pastYear)
-    await page.fill('#departureDate-day', futureDay)
-    await page.fill('#departureDate-month', futureMonth)
-    await page.fill('#departureDate-year', futureYear)
+    await page.fill('#arrivalDate-day', arrivalDay)
+    await page.fill('#arrivalDate-month', arrivalMonth)
+    await page.fill('#arrivalDate-year', arrivalYear)
+    await page.fill('#departureDate-day', departureDay)
+    await page.fill('#departureDate-month', departureMonth)
+    await page.fill('#departureDate-year', departureYear)
     await page.locator('button', { hasText: 'Submit' }).click()
     await expect(page.locator('#main-content h1')).toHaveText('Placement confirmed')
 }

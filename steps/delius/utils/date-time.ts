@@ -1,4 +1,4 @@
-import { addMonths, addYears, subMonths } from 'date-fns'
+import { addMonths, addYears, addDays, subMonths } from 'date-fns'
 
 export const DeliusDateFormatter = (date: Date) => date.toLocaleDateString('en-GB')
 export const DeliusTimeFormatter = (time: Date) =>
@@ -11,3 +11,4 @@ export const EuropeLondonFormat = (date: Date) =>
 export const NextMonth = addMonths(new Date(), 1)
 export const LastMonth = subMonths(new Date(), 1)
 export const NextYear = addYears(new Date(), 1)
+export const Tomorrow = addDays(new Date(), 1)

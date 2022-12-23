@@ -1,6 +1,4 @@
 import { test } from '@playwright/test'
-import * as dotenv from 'dotenv'
-dotenv.config() // read environment variables into process.env
 import { login as deliusLogin } from '../../steps/delius/login.js'
 import { login as hmppsLogin } from '../../steps/hmpps-auth/login.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
@@ -8,7 +6,7 @@ import { data } from '../../test-data/test-data.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
 import { login as approvedPremisesLogin } from '../../steps/approved-premises/login.js'
 import { selectApprovedPremises } from '../../steps/approved-premises/approved-premises-home.js'
-import { selectCreatePlacementAction } from '../../steps/approved-premises/approved-premises.js'
+import { managePlacement, selectCreatePlacementAction } from '../../steps/approved-premises/approved-premises.js'
 import { searchOffenderWithCrn } from '../../steps/approved-premises/create-placement.js'
 import { createBooking } from '../../steps/approved-premises/create-booking.js'
 import { clickBackToDashboard } from '../../steps/approved-premises/placement-confirmation.js'
@@ -19,9 +17,7 @@ import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/pris
 
 const nomisIds = []
 
-test('Verify that Staff record & linked keyworker record in NDelius are available in approved premises', async ({
-    page,
-}) => {
+test('Create an approved premises booking', async ({ page }) => {
     //Given I login in to NDelius
     await hmppsLogin(page)
     await deliusLogin(page)
@@ -45,6 +41,8 @@ test('Verify that Staff record & linked keyworker record in NDelius are availabl
     await createBooking(page)
     // And I click on "Back to dashboard" link
     await clickBackToDashboard(page)
+    // And I select to manage the placement
+    await managePlacement(page, crn)
     // And I click on the Search button from the top menu
     await selectMarkAsArrivedAction(page)
     // Then I should see the staff member in the list of Key Workers
