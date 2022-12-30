@@ -34,7 +34,7 @@ test('Create a new case note', async ({ page }) => {
 
     // Then the case note appears as a contact in delius
     await deliusLogin(page)
-    await verifyContacts(page, crn, [contact(event.outcome, 'Case Notes')])
+    await verifyContacts(page, crn, [contact(event.outcome, 'NOMIS case note - offender supervisor entry')])
 })
 
 test.afterAll(async () => {

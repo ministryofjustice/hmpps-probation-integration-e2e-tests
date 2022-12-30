@@ -1,5 +1,5 @@
 import { type Page } from '@playwright/test'
-import { data } from '../../../test-data/test-data.js'
+import { data, Team } from '../../../test-data/test-data.js'
 import { findEventByCRN } from '../event/find-events.js'
 import { selectOption } from '../utils/inputs.js'
 
@@ -8,15 +8,12 @@ export async function createRequirementForEvent(
     {
         crn,
         eventNumber = 1,
-        team = {},
+        team,
         requirement = data.requirements.curfew,
     }: {
         crn: string
         eventNumber?: number
-        team?: {
-            providerName?: string
-            teamName?: string
-        }
+        team?: Team
         requirement?: {
             category: string
             subCategory: string
@@ -30,8 +27,8 @@ export async function createRequirementForEvent(
     await page.locator('input', { hasText: 'Add' }).click()
     await selectOption(page, '#RequirementMainCategory', requirement.category)
     await selectOption(page, '#RequirementSubCategory', requirement.subCategory)
-    await selectOption(page, '#Area', team.providerName)
-    await selectOption(page, '#AddSentenceComponentsForm\\:requirement\\:Team', team.teamName)
+    await selectOption(page, '#Area', team?.provider)
+    await selectOption(page, '#AddSentenceComponentsForm\\:requirement\\:Team', team?.name)
     if (requirement.length) {
         await page.fill('#Length', requirement.length)
     }

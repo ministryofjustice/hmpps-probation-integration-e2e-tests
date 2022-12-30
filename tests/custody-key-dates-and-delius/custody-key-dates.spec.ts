@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { test } from '@playwright/test'
 import { login as deliusLogin } from '../../steps/delius/login.js'
 import { updateCustodyDates } from '../../steps/api/dps/prison-api.js'
 import { findCustodyForEventByCRN, verifyKeyDates } from '../../steps/delius/event/find-events.js'

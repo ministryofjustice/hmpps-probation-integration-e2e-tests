@@ -1,6 +1,5 @@
 import { expect, test } from '@playwright/test'
 import { login as deliusLogin } from '../../steps/delius/login.js'
-import { login as hmppsLogin } from '../../steps/hmpps-auth/login.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'

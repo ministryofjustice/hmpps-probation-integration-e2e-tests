@@ -2,7 +2,6 @@ import { test } from '@playwright/test'
 
 import { login as loginDelius } from '../../steps/delius/login.js'
 import { logout as logoutDelius } from '../../steps/delius/logout.js'
-import { login as hmppsLogin } from '../../steps/hmpps-auth/login.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { createCommunityEvent } from '../../steps/delius/event/create-event.js'
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement.js'
@@ -10,7 +9,6 @@ import { findNSIByCRN } from '../../steps/delius/event/find-nsi.js'
 import {
     login as loginRandM,
     loginAsSupplier as loginRandMAsSupplier,
-    logoutSupplier,
     logoutSupplier as logoutRandMSupplier,
 } from '../../steps/referandmonitor/login.js'
 import { assignReferral, makeReferral } from '../../steps/referandmonitor/referral.js'
@@ -27,8 +25,8 @@ const EVENT_NUMBER = 1
 
 test('Create R&M Referral', async ({ page }) => {
     // Create a person to work with
-    const crn: string = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.providerName })
-    await createCommunityEvent(page, { crn, allocation: data.teams.referAndMonitorTestTeam })
+    const crn: string = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
+    await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
     await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
 
     // As the Refer and Monitor probation practioner
@@ -55,5 +53,5 @@ test('Create R&M Referral', async ({ page }) => {
 
     // Check that the SAA has been created in Delius
     await loginDelius(page)
-    await verifyContacts(page, crn, [contact('1 - Accommodation', 'CRS Assessment Appointment')])
+    await verifyContacts(page, crn, [contact('1 - CRS Accommodation', 'Appointment with CRS Staff (NS)')])
 })

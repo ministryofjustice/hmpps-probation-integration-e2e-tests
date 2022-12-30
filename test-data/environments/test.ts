@@ -8,38 +8,37 @@ export const testEnvironmentData: TestData = {
     contacts: {
         initialAppointment: {
             category: 'All/Always',
-            type: 'Initial Appointment (NS)',
-            team: 'Unallocated Team(N03)',
-            staff: 'Unallocated',
+            type: 'Initial Appointment - In office (NS)',
         },
     },
     events: {},
     requirements: {},
     staff: {
         allocationsTester1: {
+            name: 'Pint, Coco (NPS - PO)',
             firstName: 'Coco',
             lastName: 'Pint',
-            staffName: 'Pint, Coco (NPS - PO)',
         },
         allocationsTester2: {
+            name: 'Pint, Derek (NPS - PO)',
             firstName: 'Derek',
             lastName: 'Pint',
-            staffName: 'Pint, Derek (NPS - PO)',
         },
         approvedPremisesKeyWorker: {
+            name: 'Kshlerin, Barry (CRC - Additional Grade)',
             firstName: 'Barry',
             lastName: 'Kshlerin',
-            staffName: 'Kshlerin, Barry (CRC - Additional Grade)',
         },
     },
     teams: {
         allocationsTestTeam: {
-            teamName: 'NPS - Wrexham - Team 1',
-            providerName: 'NPS Wales',
+            name: 'NPS - Wrexham - Team 1',
+            provider: 'Wales',
+            location: 'Wrexham Team Office',
         },
         referAndMonitorTestTeam: {
-            teamName: 'OMU D',
-            providerName: 'NPS North East',
+            name: 'OMU D',
+            provider: 'NPS North East',
         },
     },
     sentencedPrisoner: {
