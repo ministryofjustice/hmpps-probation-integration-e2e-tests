@@ -1,6 +1,7 @@
 import { expect, type Page } from '@playwright/test'
 import { selectOption } from '../utils/inputs.js'
 import { findOffenderByCRN } from '../offender/find-offender.js'
+import { Allocation, Optional } from '../../../test-data/test-data.js'
 
 export async function internalTransfer(
     page: Page,
@@ -10,11 +11,7 @@ export async function internalTransfer(
         reason = 'Initial Allocation',
     }: {
         crn: string
-        allocation?: {
-            providerName?: string
-            teamName?: string
-            staffName?: string
-        }
+        allocation?: Optional<Allocation>
         reason?: string
     }
 ) {
@@ -22,9 +19,9 @@ export async function internalTransfer(
     await page.locator('input', { hasText: 'Transfers' }).click()
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
 
-    await selectOption(page, '#offenderTransferRequestListForm\\:Trust', allocation.providerName)
-    await selectOption(page, '#offenderTransferRequestListForm\\:Team', allocation.teamName)
-    await selectOption(page, '#offenderTransferRequestListForm\\:Staff', allocation.staffName)
+    await selectOption(page, '#offenderTransferRequestListForm\\:Trust', allocation?.team?.provider)
+    await selectOption(page, '#offenderTransferRequestListForm\\:Team', allocation?.team?.name)
+    await selectOption(page, '#offenderTransferRequestListForm\\:Staff', allocation?.staff?.name)
 
     const options = await page
         .locator('#offenderTransferRequestListForm\\:offenderTransferRequestTable')

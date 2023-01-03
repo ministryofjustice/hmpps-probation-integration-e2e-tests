@@ -32,7 +32,7 @@ export const commonData: TestData = {
     },
     requirements: {
         curfew: {
-            category: 'Curfew',
+            category: 'Curfew (Police Checks Only)',
             subCategory: 'Curfew',
             length: '6',
         },

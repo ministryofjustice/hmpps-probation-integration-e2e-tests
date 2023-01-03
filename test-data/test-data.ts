@@ -3,13 +3,38 @@ import { testEnvironmentData } from './environments/test.js'
 import { preProdEnvironmentData } from './environments/pre-prod.js'
 import * as dotenv from 'dotenv'
 
+export type Optional<T> = { [K in keyof T]?: T[K] }
+export interface Team {
+    name: string
+    provider: string
+    location?: string
+}
+export interface Staff {
+    name: string
+    firstName: string
+    lastName: string
+}
+export interface Allocation {
+    staff: Staff
+    team: Team
+}
+export interface ContactType {
+    category?: string
+    type: string
+}
+export interface Contact extends ContactType {
+    relatesTo: string
+    instance?: number
+    allocation?: Optional<Allocation>
+}
+
 export class TestData {
     documentTemplates: { [key: string]: string } = {}
-    contacts: { [key: string]: { category: string; type: string; team: string; staff: string } } = {}
+    contacts: { [key: string]: ContactType } = {}
     events: { [key: string]: { appearanceType: string; outcome: string; length?: string; reportType?: string } } = {}
     requirements: { [key: string]: { category: string; subCategory: string; length?: string } } = {}
-    staff: { [key: string]: { firstName: string; lastName: string; staffName: string } } = {}
-    teams: { [key: string]: { teamName: string; providerName: string } } = {}
+    staff: { [key: string]: Staff } = {}
+    teams: { [key: string]: Team } = {}
     sentencedPrisoner?: { crn: string; bookingId: number }
 }
 

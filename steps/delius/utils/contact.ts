@@ -1,17 +1,10 @@
-import { type Practitioner } from './person.js'
+import { Allocation, Contact } from '../../../test-data/test-data.js'
 
-export interface Contact {
-    relatesTo: string
-    type: string
-    officer: Practitioner
-    instance?: number
-}
-
-export function contact(relatesTo: string, type: string, officer?: Practitioner, instance = 0): Contact {
+export function contact(relatesTo: string, type: string, allocation?: Allocation, instance = 0): Contact {
     return {
         relatesTo,
         type,
-        officer,
         instance,
+        allocation: allocation,
     }
 }

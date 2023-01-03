@@ -1,7 +1,7 @@
 import { expect, type Page } from '@playwright/test'
 import { findOffenderByCRN } from '../offender/find-offender.js'
-import { type Contact } from '../utils/contact.js'
 import { doUntil } from '../utils/refresh.js'
+import { Contact } from '../../../test-data/test-data.js'
 
 export async function findContactsByCRN(page: Page, crn: string) {
     await findOffenderByCRN(page, crn)
@@ -26,7 +26,9 @@ export async function verifyContact(page: Page, contact: Contact) {
 
     await expect(matchingContactRecord).toContainText(contact.relatesTo)
     await expect(matchingContactRecord).toContainText(contact.type)
-    if (contact.officer) {
-        await expect(matchingContactRecord).toContainText(`${contact.officer.lastName}, ${contact.officer.firstName}`)
+    if (contact.allocation) {
+        await expect(matchingContactRecord).toContainText(
+            `${contact.allocation.staff.lastName}, ${contact.allocation.staff.firstName}`
+        )
     }
 }
