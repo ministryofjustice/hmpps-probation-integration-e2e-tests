@@ -15,9 +15,11 @@ import {
     clickUpdateOffenderButton,
 } from '../../steps/oasys/layer3-assessment/create-ofender.js'
 import { clickOKForCRNAmendment } from '../../steps/oasys/layer3-assessment/crn-amendment.js'
-import { createLayer3Assessment } from '../../steps/oasys/layer3-assessment/create-assessment.js'
+import {
+    clickRoSHScreeningSection1, clickRoSHSummary,
+    createLayer3Assessment
+} from '../../steps/oasys/layer3-assessment/create-assessment.js'
 import { clickCMSRecord } from '../../steps/oasys/layer3-assessment/cms-search-results.js'
-import { clickCloseAssessment } from '../../steps/oasys/layer3-assessment/offender-information-layer3.js'
 import { login as approvedPremisesLogin, navigateToApplications } from '../../steps/approved-premises/login.js'
 import { enterCRN } from '../../steps/approved-premises/applications/enter-crn.js'
 import { clickSaveAndContinue } from '../../steps/approved-premises/applications/confirm-details.js'
@@ -27,6 +29,17 @@ import { selectAPPlacementPurpose } from '../../steps/approved-premises/applicat
 import { selectSituationOption } from '../../steps/approved-premises/applications/select-situation-option.js'
 import { confirmPlacementStartdate } from '../../steps/approved-premises/applications/placement-start-date.js'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
+import {
+    clickChooseSectionsOfOASysToImportLink,
+    clickTypeOfAPRequiredLink
+} from "../../steps/approved-premises/applications/apply-for-ap-placement.js";
+import {selectTypeOfAPRequired} from "../../steps/approved-premises/applications/select-type-ap-required.js";
+import {completeRoSHSection1MarkAllNo} from "../../steps/oasys/layer3-assessment/section-1.js";
+import {clickSection2To4NextButton} from "../../steps/oasys/layer3-assessment/section-2-4.js";
+import {completeRoSHSection5FullAnalysisYes} from "../../steps/oasys/layer3-assessment/section-5.js";
+import {completeRoSHSection10RoSHSummary} from "../../steps/oasys/layer3-assessment/section-10.js";
+import {selectNeedsAndSubmit} from "../../steps/approved-premises/applications/import-oasys-sections.js";
+import {verifyRoSHSummaryIsAsPerOASys} from "../../steps/approved-premises/applications/edit-risk-information.js";
 
 const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
@@ -61,8 +74,18 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await clickUpdateOffenderButton(page)
     //And I start creating Layer 3 Assessment
     await createLayer3Assessment(page)
-    //And I leave the Assessment in "Open" Status and close it
-    await clickCloseAssessment(page)
+    // And I Click on RoSH Screening Section
+    await clickRoSHScreeningSection1(page)
+    //And I complete RoSH Screening Section 1 and Click Save & Next
+    await completeRoSHSection1MarkAllNo (page)
+    //And I Click on RoSH Screening Section 2 to 4 & and Click Next without selecting/entering anything
+    await clickSection2To4NextButton(page)
+    //And I complete RoSH Screening Section 5 and Click Save & Next
+    await completeRoSHSection5FullAnalysisYes(page)
+    //And I Click on RoSH Summary Section
+    await clickRoSHSummary(page)
+    //And I complete RoSH Summary - R10 Questions
+    await completeRoSHSection10RoSHSummary(page)
     //When I login in to Approved Premises
     await approvedPremisesLogin(page)
     //And I navigate to AP Applications
@@ -79,10 +102,20 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await selectReleaseDateKnownStatus(page)
     //And I confirm placement start date is same as release date
     await confirmPlacementStartdate(page)
-    //Then I select "Public protection" as the purpose of the Approved Premises (AP) placement
+    //And I select "Public protection" as the purpose of the Approved Premises (AP) placement
     await selectAPPlacementPurpose(page)
-    //Todo - Complete this test once the Approved completes their development which is currently underway
-    test.skip()
+    //And I click on Type Of AP Required Link
+    await clickTypeOfAPRequiredLink(page)
+    //And I select Type Of Approved Premises Required and Click on Submit
+    await selectTypeOfAPRequired(page)
+    //And I click on "Choose sections of OASys to import" link
+    await clickChooseSectionsOfOASysToImportLink(page)
+    // And I select the Needs related to the offender
+    await selectNeedsAndSubmit(page)
+    //Then I verify that RoSH Summary information is as per the OASys
+    await verifyRoSHSummaryIsAsPerOASys(page)
+    //Todo - Fix this test once the Approved Premises have fixed the bug
+    // test.skip()
 })
 
 test.afterAll(async () => {
