@@ -1,4 +1,4 @@
-import {type Page, expect} from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 
 export const clickSection2To4NextButton = async (page: Page) => {
     await page.keyboard.down('End')

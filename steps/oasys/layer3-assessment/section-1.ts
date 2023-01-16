@@ -1,4 +1,4 @@
-import {type Page, expect} from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 
 export const completeRoSHSection1MarkAllNo = async (page: Page) => {
     await page.click('[onclick*="P2_BT_NO"]')

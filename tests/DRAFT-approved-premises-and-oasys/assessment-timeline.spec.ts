@@ -16,8 +16,9 @@ import {
 } from '../../steps/oasys/layer3-assessment/create-ofender.js'
 import { clickOKForCRNAmendment } from '../../steps/oasys/layer3-assessment/crn-amendment.js'
 import {
-    clickRoSHScreeningSection1, clickRoSHSummary,
-    createLayer3Assessment
+    clickRoSHScreeningSection1,
+    clickRoSHSummary,
+    createLayer3Assessment,
 } from '../../steps/oasys/layer3-assessment/create-assessment.js'
 import { clickCMSRecord } from '../../steps/oasys/layer3-assessment/cms-search-results.js'
 import { login as approvedPremisesLogin, navigateToApplications } from '../../steps/approved-premises/login.js'
@@ -31,15 +32,15 @@ import { confirmPlacementStartdate } from '../../steps/approved-premises/applica
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
 import {
     clickChooseSectionsOfOASysToImportLink,
-    clickTypeOfAPRequiredLink
-} from "../../steps/approved-premises/applications/apply-for-ap-placement.js";
-import {selectTypeOfAPRequired} from "../../steps/approved-premises/applications/select-type-ap-required.js";
-import {completeRoSHSection1MarkAllNo} from "../../steps/oasys/layer3-assessment/section-1.js";
-import {clickSection2To4NextButton} from "../../steps/oasys/layer3-assessment/section-2-4.js";
-import {completeRoSHSection5FullAnalysisYes} from "../../steps/oasys/layer3-assessment/section-5.js";
-import {completeRoSHSection10RoSHSummary} from "../../steps/oasys/layer3-assessment/section-10.js";
-import {selectNeedsAndSubmit} from "../../steps/approved-premises/applications/import-oasys-sections.js";
-import {verifyRoSHSummaryIsAsPerOASys} from "../../steps/approved-premises/applications/edit-risk-information.js";
+    clickTypeOfAPRequiredLink,
+} from '../../steps/approved-premises/applications/apply-for-ap-placement.js'
+import { selectTypeOfAPRequired } from '../../steps/approved-premises/applications/select-type-ap-required.js'
+import { completeRoSHSection1MarkAllNo } from '../../steps/oasys/layer3-assessment/section-1.js'
+import { clickSection2To4NextButton } from '../../steps/oasys/layer3-assessment/section-2-4.js'
+import { completeRoSHSection5FullAnalysisYes } from '../../steps/oasys/layer3-assessment/section-5.js'
+import { completeRoSHSection10RoSHSummary } from '../../steps/oasys/layer3-assessment/section-10.js'
+import { selectNeedsAndSubmit } from '../../steps/approved-premises/applications/import-oasys-sections.js'
+import { verifyRoSHSummaryIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information.js'
 
 const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
@@ -77,7 +78,7 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     // And I Click on RoSH Screening Section
     await clickRoSHScreeningSection1(page)
     //And I complete RoSH Screening Section 1 and Click Save & Next
-    await completeRoSHSection1MarkAllNo (page)
+    await completeRoSHSection1MarkAllNo(page)
     //And I Click on RoSH Screening Section 2 to 4 & and Click Next without selecting/entering anything
     await clickSection2To4NextButton(page)
     //And I complete RoSH Screening Section 5 and Click Save & Next
