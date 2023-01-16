@@ -47,8 +47,8 @@ export async function createEvent(page: Page, { crn, allocation, event }: Create
     await selectOptionAndWait(page, '#addEventForm\\:Outcome', event.outcome)
     createdEvent.outcome = event.outcome
     if (autoAddComponent.includes(event.outcome)) {
-        await selectOption(page, '#OutcomeArea', allocation?.team.provider)
-        await selectOption(page, '#addEventForm\\:OutcomeTeam', allocation?.team.name)
+        await selectOptionAndWait(page, '#OutcomeArea', allocation?.team.provider)
+        await selectOptionAndWait(page, '#addEventForm\\:OutcomeTeam', allocation?.team.name)
     }
     if (event.length) {
         await page.fill('#addEventForm\\:Length', event.length)
