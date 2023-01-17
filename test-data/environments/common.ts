@@ -39,10 +39,10 @@ export const commonData: TestData = {
     },
     staff: {
         unallocated: {
-            name: "Unallocated",
+            name: 'Unallocated',
             firstName: 'Unallocated',
-            lastName: 'Unallocated'
-        }
+            lastName: 'Unallocated',
+        },
     },
     teams: {},
 }
