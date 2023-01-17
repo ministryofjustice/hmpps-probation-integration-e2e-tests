@@ -1,17 +1,17 @@
-import { login } from '../../steps/delius/login.js'
-import { createOffender } from '../../steps/delius/offender/create-offender.js'
-import { createCommunityEvent, createEvent } from '../../steps/delius/event/create-event.js'
-import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement.js'
-import { login as workforceLogin } from '../../steps/workforce/login.js'
-import { allocateCase } from '../../steps/workforce/allocations.js'
-import { verifyAllocation } from '../../steps/delius/offender/find-offender.js'
-import { verifyContacts } from '../../steps/delius/contact/find-contacts.js'
-import { internalTransfer } from '../../steps/delius/transfer/internal-transfer.js'
-import { terminateEvent } from '../../steps/delius/event/terminate-events.js'
-import { contact } from '../../steps/delius/utils/contact.js'
-import { Allocation, data } from '../../test-data/test-data.js'
-import { test } from '@playwright/test'
-import { createInitialAppointment } from '../../steps/delius/contact/create-contact.js'
+import {login} from '../../steps/delius/login.js'
+import {createOffender} from '../../steps/delius/offender/create-offender.js'
+import {createCommunityEvent, createEvent} from '../../steps/delius/event/create-event.js'
+import {createRequirementForEvent} from '../../steps/delius/requirement/create-requirement.js'
+import {login as workforceLogin} from '../../steps/workforce/login.js'
+import {allocateCase} from '../../steps/workforce/allocations.js'
+import {verifyAllocation} from '../../steps/delius/offender/find-offender.js'
+import {verifyContacts} from '../../steps/delius/contact/find-contacts.js'
+import {internalTransfer} from '../../steps/delius/transfer/internal-transfer.js'
+import {terminateEvent} from '../../steps/delius/event/terminate-events.js'
+import {contact} from '../../steps/delius/utils/contact.js'
+import {Allocation, data} from '../../test-data/test-data.js'
+import {test} from '@playwright/test'
+import {createInitialAppointment} from '../../steps/delius/contact/create-contact.js'
 
 test.beforeEach(async ({ page }) => {
     await login(page)
@@ -25,7 +25,12 @@ const anotherPractitioner: Allocation = { staff: data.staff.allocationsTester2, 
 test('Allocate new person', async ({ page }) => {
     // Given a new person in Delius, with an unallocated event and requirement in the allocations testing team
     const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.provider })
-    await createCommunityEvent(page, { crn, allocation: { team: data.teams.allocationsTestTeam } })
+    await createCommunityEvent(page, {
+        crn, allocation: {
+            team: data.teams.allocationsTestTeam,
+            staff: data.staff.unallocated
+        }
+    })
     await createRequirementForEvent(page, { crn, team: data.teams.allocationsTestTeam })
     await createInitialAppointment(page, crn, '1', data.teams.allocationsTestTeam)
 
