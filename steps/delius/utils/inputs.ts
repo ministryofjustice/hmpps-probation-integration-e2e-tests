@@ -34,7 +34,7 @@ export const selectOption = async (page: Page, selector: string, option: string 
  */
 export const selectOptionAndWait = async (page: Page, selector: string, option: string = null): Promise<string> => {
     const selection = (await Promise.all([selectOption(page, selector, option), waitForAjax(page)]))[0]
-    await Promise.all([page.focus("#content"), waitForAjax(page)])
+    await Promise.all([page.focus('#content'), waitForAjax(page)])
     return selection
 }
 
