@@ -37,6 +37,12 @@ export const commonData: TestData = {
             length: '6',
         },
     },
-    staff: {},
+    staff: {
+        unallocated: {
+            name: 'Unallocated',
+            firstName: 'Unallocated',
+            lastName: 'Unallocated',
+        },
+    },
     teams: {},
 }

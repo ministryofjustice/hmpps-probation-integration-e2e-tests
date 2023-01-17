@@ -15,12 +15,12 @@ export const testEnvironmentData: TestData = {
     requirements: {},
     staff: {
         allocationsTester1: {
-            name: 'Pint, Coco (NPS - PO)',
+            name: 'Pint, Coco (PS - PO)',
             firstName: 'Coco',
             lastName: 'Pint',
         },
         allocationsTester2: {
-            name: 'Pint, Derek (NPS - PO)',
+            name: 'Pint, Derek (PS - PO)',
             firstName: 'Derek',
             lastName: 'Pint',
         },

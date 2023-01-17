@@ -9,7 +9,7 @@ export const viewAllocation = async (page: Page, crn: string) => {
     const matchingRow = page.locator('tr', { hasText: crn })
     await refreshUntil(page, () => expect(matchingRow).not.toHaveCount(0))
     await expect(matchingRow).toContainText(WorkforceDateFormat(new Date()))
-    await matchingRow.locator('a', { hasText: 'Review case' }).click()
+    await matchingRow.locator(`[href*=${crn}]`).click()
     await expect(page.locator('.govuk-caption-xl', { hasText: crn })).toHaveText(`CRN: ${crn}`)
 }
 

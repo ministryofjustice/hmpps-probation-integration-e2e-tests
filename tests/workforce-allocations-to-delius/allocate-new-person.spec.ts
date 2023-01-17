@@ -25,7 +25,13 @@ const anotherPractitioner: Allocation = { staff: data.staff.allocationsTester2, 
 test('Allocate new person', async ({ page }) => {
     // Given a new person in Delius, with an unallocated event and requirement in the allocations testing team
     const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.provider })
-    await createCommunityEvent(page, { crn, allocation: { team: data.teams.allocationsTestTeam } })
+    await createCommunityEvent(page, {
+        crn,
+        allocation: {
+            team: data.teams.allocationsTestTeam,
+            staff: data.staff.unallocated,
+        },
+    })
     await createRequirementForEvent(page, { crn, team: data.teams.allocationsTestTeam })
     await createInitialAppointment(page, crn, '1', data.teams.allocationsTestTeam)
 
