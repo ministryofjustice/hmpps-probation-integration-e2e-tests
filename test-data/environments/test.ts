@@ -40,6 +40,10 @@ export const testEnvironmentData: TestData = {
             name: 'OMU D',
             provider: 'NPS North East',
         },
+        approvedPremisesTestTeam: {
+            name: 'Lancashire PICS',
+            provider: 'NPS North West',
+        },
     },
     sentencedPrisoner: {
         crn: 'X600508',

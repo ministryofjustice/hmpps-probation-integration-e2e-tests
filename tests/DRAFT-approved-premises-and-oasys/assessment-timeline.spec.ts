@@ -16,6 +16,7 @@ import {
 } from '../../steps/oasys/layer3-assessment/create-ofender.js'
 import { clickOKForCRNAmendment } from '../../steps/oasys/layer3-assessment/crn-amendment.js'
 import {
+    clickRiskManagementPlan,
     clickRoSHScreeningSection1,
     clickRoSHSummary,
     createLayer3Assessment,
@@ -40,7 +41,10 @@ import { clickSection2To4NextButton } from '../../steps/oasys/layer3-assessment/
 import { completeRoSHSection5FullAnalysisYes } from '../../steps/oasys/layer3-assessment/section-5.js'
 import { completeRoSHSection10RoSHSummary } from '../../steps/oasys/layer3-assessment/section-10.js'
 import { selectNeedsAndSubmit } from '../../steps/approved-premises/applications/import-oasys-sections.js'
-import { verifyRoSHSummaryIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information.js'
+import { verifyRoSHSummaryIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rosh.js'
+import { data } from '../../test-data/test-data.js'
+import { completeRiskManagementPlan } from '../../steps/oasys/layer3-assessment/risk-management-plan.js'
+import { verifyRMPInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rmp.js'
 
 const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
@@ -51,7 +55,7 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
     // And I create an event in nDelius
-    await createCustodialEvent(page, { crn })
+    await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
@@ -87,6 +91,10 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await clickRoSHSummary(page)
     //And I complete RoSH Summary - R10 Questions
     await completeRoSHSection10RoSHSummary(page)
+    //And I Click on Risk Management Plan Section
+    await clickRiskManagementPlan(page)
+    //And I complete Risk Management Plan Questions
+    await completeRiskManagementPlan(page)
     //When I login in to Approved Premises
     await approvedPremisesLogin(page)
     //And I navigate to AP Applications
@@ -115,8 +123,10 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await selectNeedsAndSubmit(page)
     //Then I verify that RoSH Summary information is as per the OASys
     await verifyRoSHSummaryIsAsPerOASys(page)
+    //And I verify the Risk Management Plan information is as per the OASys
+    await verifyRMPInfoIsAsPerOASys(page)
     //Todo - Fix this test once the Approved Premises have fixed the bug
-    // test.skip()
+    test.skip()
 })
 
 test.afterAll(async () => {
