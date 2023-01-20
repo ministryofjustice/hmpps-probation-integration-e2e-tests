@@ -1,9 +1,9 @@
 import { type Page, expect } from '@playwright/test'
 
 export const verifyRoSHSummaryIsAsPerOASys = async (page: Page) => {
-    // await expect(page.getByLabel('Who is at risk')).toHaveText(
-    //     "\"OASys Question - 'R10.1 Who is at risk.' - Answer Input - 'Child'\""
-    // )
+    await expect(page.getByLabel('Who is at risk')).toHaveText(
+        "\"OASys Question - 'R10.1 Who is at risk.' - Answer Input - 'Child'\""
+    )
     await expect(page.getByLabel('What is the nature of the risk')).toHaveText(
         "\"OASys Question - 'R10.2 - What is the nature of the risk' - Answer Input - 'Test Nature'\""
     )
