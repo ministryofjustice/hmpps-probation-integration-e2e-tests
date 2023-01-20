@@ -42,9 +42,9 @@ import { completeRoSHSection5FullAnalysisYes } from '../../steps/oasys/layer3-as
 import { completeRoSHSection10RoSHSummary } from '../../steps/oasys/layer3-assessment/section-10.js'
 import { selectNeedsAndSubmit } from '../../steps/approved-premises/applications/import-oasys-sections.js'
 import { verifyRoSHSummaryIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rosh.js'
-import {data} from "../../test-data/test-data.js";
-import {completeRiskManagementPlan} from "../../steps/oasys/layer3-assessment/risk-management-plan.js";
-import {verifyRMPInfoIsAsPerOASys} from "../../steps/approved-premises/applications/edit-risk-information-rmp.js";
+import { data } from '../../test-data/test-data.js'
+import { completeRiskManagementPlan } from '../../steps/oasys/layer3-assessment/risk-management-plan.js'
+import { verifyRMPInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rmp.js'
 
 const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
@@ -55,7 +55,7 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
     // And I create an event in nDelius
-    await createCustodialEvent(page, { crn, allocation: {team: data.teams.approvedPremisesTestTeam} })
+    await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
