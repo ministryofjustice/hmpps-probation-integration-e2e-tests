@@ -6,6 +6,7 @@ import { Yesterday } from '../utils/date-time.js'
 import { Allocation, data, Optional } from '../../../test-data/test-data.js'
 
 const autoAddComponent = ['ORA Community Order']
+const requiresAdditionalOutcomeDetails = ['ORA Community Order', 'Adult Custody < 12m']
 const autoAddCourtReport = ['Adjourned - Pre-Sentence Report']
 
 export interface CreateEvent {
@@ -46,7 +47,7 @@ export async function createEvent(page: Page, { crn, allocation, event }: Create
     await selectOption(page, '#Plea')
     await selectOptionAndWait(page, '#addEventForm\\:Outcome', event.outcome)
     createdEvent.outcome = event.outcome
-    if (autoAddComponent.includes(event.outcome)) {
+    if (requiresAdditionalOutcomeDetails.includes(event.outcome)) {
         await selectOptionAndWait(page, '#OutcomeArea', allocation?.team.provider)
         await selectOptionAndWait(page, '#addEventForm\\:OutcomeTeam', allocation?.team.name)
     }

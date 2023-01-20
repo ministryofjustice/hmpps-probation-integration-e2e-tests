@@ -20,3 +20,8 @@ export const clickRoSHSummary = async (page: Page) => {
     await page.locator('a', { hasText: 'RoSH Summary' }).click()
     await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Summary (Layer 3)')
 }
+
+export const clickRiskManagementPlan = async (page: Page) => {
+    await page.locator('a', { hasText: 'Risk Management Plan' }).click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('Risk Management Plan (Layer 3)')
+}
