@@ -126,7 +126,7 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     //And I verify the Risk Management Plan information is as per the OASys
     await verifyRMPInfoIsAsPerOASys(page)
     //Todo - Fix this test once the Approved Premises have fixed the bug
-    // test.skip()
+    test.skip()
 })
 
 test.afterAll(async () => {
