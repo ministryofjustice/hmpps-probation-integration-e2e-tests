@@ -26,6 +26,10 @@ const config: PlaywrightTestConfig = {
     use: {
         launchOptions: { slowMo: 150 },
         screenshot: 'only-on-failure',
+        video: {
+            mode: 'on',
+            size: { width: 1280, height: 720 },
+        },
         trace: process.env.CI ? 'off' : 'on',
     },
 
