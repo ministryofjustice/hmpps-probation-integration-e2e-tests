@@ -134,7 +134,7 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await verifyRoSHSummaryIsAsPerOASys(page)
     //And I verify the Risk Management Plan information is as per the OASys
     await verifyRMPInfoIsAsPerOASys(page)
-    //And I verify the Offence Analysis Management Plan information is as per the OASys
+    //And I verify the Offence Analysis information is as per the OASys
     await verifyOffenceAnalysisIsAsPerOASys(page)
     //Todo - Fix this test once the Approved Premises have fixed the bug
     test.skip()
