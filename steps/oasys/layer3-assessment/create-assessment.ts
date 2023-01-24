@@ -25,3 +25,9 @@ export const clickRiskManagementPlan = async (page: Page) => {
     await page.locator('a', { hasText: 'Risk Management Plan' }).click()
     await expect(page.locator('#contextleft > h3')).toHaveText('Risk Management Plan (Layer 3)')
 }
+
+export const clickOffenceAnalysis = async (page: Page) => {
+    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
+    await page.locator('a', { hasText: '2 - Offence Analysis' }).click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('2 - Analysis of Offences (Layer 3)')
+}

@@ -16,6 +16,7 @@ import {
 } from '../../steps/oasys/layer3-assessment/create-ofender.js'
 import { clickOKForCRNAmendment } from '../../steps/oasys/layer3-assessment/crn-amendment.js'
 import {
+    clickOffenceAnalysis,
     clickRiskManagementPlan,
     clickRoSHScreeningSection1,
     clickRoSHSummary,
@@ -45,6 +46,10 @@ import { verifyRoSHSummaryIsAsPerOASys } from '../../steps/approved-premises/app
 import { data } from '../../test-data/test-data.js'
 import { completeRiskManagementPlan } from '../../steps/oasys/layer3-assessment/risk-management-plan.js'
 import { verifyRMPInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rmp.js'
+import {completeOffenceAnalysis} from "../../steps/oasys/layer3-assessment/analysis-of-offences-layer3.js";
+import {
+    verifyOffenceAnalysisIsAsPerOASys
+} from "../../steps/approved-premises/applications/edit-risk-information-offence-analysis.js";
 
 const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
@@ -95,6 +100,10 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await clickRiskManagementPlan(page)
     //And I complete Risk Management Plan Questions
     await completeRiskManagementPlan(page)
+    //And I click on 'Section 2 to 13' & '2 - Offence Analysis'
+    await clickOffenceAnalysis(page)
+    //And I complete Offence Analysis Plan Questions
+    await completeOffenceAnalysis(page)
     //When I login in to Approved Premises
     await approvedPremisesLogin(page)
     //And I navigate to AP Applications
@@ -125,6 +134,8 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await verifyRoSHSummaryIsAsPerOASys(page)
     //And I verify the Risk Management Plan information is as per the OASys
     await verifyRMPInfoIsAsPerOASys(page)
+    //And I verify the Offence Analysis Management Plan information is as per the OASys
+    await verifyOffenceAnalysisIsAsPerOASys(page)
     //Todo - Fix this test once the Approved Premises have fixed the bug
     test.skip()
 })
