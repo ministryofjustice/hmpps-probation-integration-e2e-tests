@@ -5,12 +5,12 @@ export const completeOffenceAnalysis = async (page: Page) => {
         '#textarea_2_1',
         "OASys Question - '2.1 Brief offence(s) details (indicate what exactly happened, when, where and how)' - Answer Input - 'HRosh to Partners, medium to male peers & children'"
     )
-    await page.locator('[value=\'Enter Victim Details\']').click()
+    await page.locator("[value='Enter Victim Details']").click()
     await expect(page.locator('#R6262620100578238 > h2')).toHaveText('Victim’s Relationship to Perpetrator')
-    await page.getByLabel('Approx. Age').selectOption({ label: "26-49" })
-    await page.getByLabel('Gender').selectOption({ label: "Male" })
-    await page.getByLabel('Race/Ethnicity').selectOption({ label: "White - Irish" })
-    await page.getByLabel('Victim - perpetrator relationship').selectOption({ label: "Spouse/Partner - live in" })
+    await page.getByLabel('Approx. Age').selectOption({ label: '26-49' })
+    await page.getByLabel('Gender').selectOption({ label: 'Male' })
+    await page.getByLabel('Race/Ethnicity').selectOption({ label: 'White - Irish' })
+    await page.getByLabel('Victim - perpetrator relationship').selectOption({ label: 'Spouse/Partner - live in' })
     await page.click('input[value="Save"]')
     await page.click('input[value="Close"]')
     await page.fill(

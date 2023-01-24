@@ -46,10 +46,8 @@ import { verifyRoSHSummaryIsAsPerOASys } from '../../steps/approved-premises/app
 import { data } from '../../test-data/test-data.js'
 import { completeRiskManagementPlan } from '../../steps/oasys/layer3-assessment/risk-management-plan.js'
 import { verifyRMPInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rmp.js'
-import {completeOffenceAnalysis} from "../../steps/oasys/layer3-assessment/analysis-of-offences-layer3.js";
-import {
-    verifyOffenceAnalysisIsAsPerOASys
-} from "../../steps/approved-premises/applications/edit-risk-information-offence-analysis.js";
+import { completeOffenceAnalysis } from '../../steps/oasys/layer3-assessment/analysis-of-offences-layer3.js'
+import { verifyOffenceAnalysisIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-offence-analysis.js'
 
 const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
