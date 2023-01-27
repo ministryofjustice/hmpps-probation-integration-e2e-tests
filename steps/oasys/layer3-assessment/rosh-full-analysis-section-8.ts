@@ -23,5 +23,3 @@ export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
     await expect(page.locator('#R2846717162014845 > p')).toHaveText('Summarise the risks you have identified in R6-R9. Consider both current and future risks. Include risks while the offender is in custody as well as on release. R11 should also be completed in the Risk Management section.')
     await expect(page.locator('#R2846717162014845 > h6')).toHaveText('R10 Summary')
 }
-
-
