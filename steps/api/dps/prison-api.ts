@@ -70,8 +70,8 @@ export const temporaryReleasePrisoner = async (offenderNo: string) => {
         await getContext()
     ).put(`/api/offenders/${offenderNo}/temporary-absence-out`, {
         data: {
-            toCity: "18248",
-            transferReasonCode: "1"
+            toCity: '18248',
+            transferReasonCode: '1',
         },
     })
     expect(response.ok()).toBeTruthy()
@@ -82,8 +82,8 @@ export const temporaryAbsenceReturn = async (offenderNo: string) => {
         await getContext()
     ).put(`/api/offenders/${offenderNo}/temporary-absence-arrival`, {
         data: {
-            agencyId: "MDI",
-            cellLocation: "MDI-RECP"
+            agencyId: 'MDI',
+            cellLocation: 'MDI-RECP',
         },
     })
     expect(response.ok()).toBeTruthy()
