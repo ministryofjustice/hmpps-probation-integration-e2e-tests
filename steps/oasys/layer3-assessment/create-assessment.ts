@@ -31,3 +31,10 @@ export const clickOffenceAnalysis = async (page: Page) => {
     await page.locator('a', { hasText: '2 - Offence Analysis' }).click()
     await expect(page.locator('#contextleft > h3')).toHaveText('2 - Analysis of Offences (Layer 3)')
 }
+
+export const clickRoshFullRisksToIndividual = async (page: Page) => {
+    await page.locator('a', { hasText: 'RoSH Full Analysis' }).click()
+    await page.locator('[href*="ROSHFA6"]').click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Full Analysis (Layer 3)')
+    await expect(page.locator('#R2846717162014845 > h6')).toHaveText('R8 Risks to the individual - full analysis')
+}
