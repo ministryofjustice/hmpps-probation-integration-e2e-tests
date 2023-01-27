@@ -65,6 +65,30 @@ export const releasePrisoner = async (offenderNo: string) => {
     expect(response.ok()).toBeTruthy()
 }
 
+export const temporaryReleasePrisoner = async (offenderNo: string) => {
+    const response = await (
+        await getContext()
+    ).put(`/api/offenders/${offenderNo}/temporary-absence-out`, {
+        data: {
+            toCity: '18248',
+            transferReasonCode: '1',
+        },
+    })
+    expect(response.ok()).toBeTruthy()
+}
+
+export const temporaryAbsenceReturn = async (offenderNo: string) => {
+    const response = await (
+        await getContext()
+    ).put(`/api/offenders/${offenderNo}/temporary-absence-arrival`, {
+        data: {
+            agencyId: 'MDI',
+            cellLocation: 'MDI-RECP',
+        },
+    })
+    expect(response.ok()).toBeTruthy()
+}
+
 export const recallPrisoner = async (offenderNo: string) => {
     const date = EuropeLondonFormat(new Date())
     const response = await (
