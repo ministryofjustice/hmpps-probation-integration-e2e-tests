@@ -17,7 +17,8 @@ import {
 import { clickOKForCRNAmendment } from '../../steps/oasys/layer3-assessment/crn-amendment.js'
 import {
     clickOffenceAnalysis,
-    clickRiskManagementPlan, clickRoshFullRisksToIndividual,
+    clickRiskManagementPlan,
+    clickRoshFullRisksToIndividual,
     clickRoSHScreeningSection1,
     clickRoSHSummary,
     createLayer3Assessment,
@@ -48,10 +49,8 @@ import { completeRiskManagementPlan } from '../../steps/oasys/layer3-assessment/
 import { verifyRMPInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rmp.js'
 import { completeOffenceAnalysis } from '../../steps/oasys/layer3-assessment/analysis-of-offences-layer3.js'
 import { verifyOffenceAnalysisIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-offence-analysis.js'
-import {completeRoSHFullSec8RisksToIndvdl} from "../../steps/oasys/layer3-assessment/rosh-full-analysis-section-8.js";
-import {
-    verifyRiskToSelfIsAsPerOASys
-} from "../../steps/approved-premises/applications/edit-risk-information-risk-to-self.js";
+import { completeRoSHFullSec8RisksToIndvdl } from '../../steps/oasys/layer3-assessment/rosh-full-analysis-section-8.js'
+import { verifyRiskToSelfIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-risk-to-self.js'
 
 const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
