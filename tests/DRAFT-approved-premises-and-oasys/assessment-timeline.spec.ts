@@ -18,6 +18,7 @@ import { clickOKForCRNAmendment } from '../../steps/oasys/layer3-assessment/crn-
 import {
     clickOffenceAnalysis,
     clickRiskManagementPlan,
+    clickRoshFullRisksToIndividual,
     clickRoSHScreeningSection1,
     clickRoSHSummary,
     createLayer3Assessment,
@@ -48,6 +49,8 @@ import { completeRiskManagementPlan } from '../../steps/oasys/layer3-assessment/
 import { verifyRMPInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rmp.js'
 import { completeOffenceAnalysis } from '../../steps/oasys/layer3-assessment/analysis-of-offences-layer3.js'
 import { verifyOffenceAnalysisIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-offence-analysis.js'
+import { completeRoSHFullSec8RisksToIndvdl } from '../../steps/oasys/layer3-assessment/rosh-full-analysis-section-8.js'
+import { verifyRiskToSelfIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-risk-to-self.js'
 
 const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
@@ -102,6 +105,10 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await clickOffenceAnalysis(page)
     //And I complete Offence Analysis Plan Questions
     await completeOffenceAnalysis(page)
+    //And I click on 'Section 8' under Rosh Full Analysis
+    await clickRoshFullRisksToIndividual(page)
+    //And I complete Risks to Individual(Risks to Self)
+    await completeRoSHFullSec8RisksToIndvdl(page)
     //When I login in to Approved Premises
     await approvedPremisesLogin(page)
     //And I navigate to AP Applications
@@ -128,12 +135,14 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await clickChooseSectionsOfOASysToImportLink(page)
     // And I select the Needs related to the offender
     await selectNeedsAndSubmit(page)
-    //Then I verify that RoSH Summary information is as per the OASys
+    //Then I verify that "RoSH Summary" information is as per the OASys
     await verifyRoSHSummaryIsAsPerOASys(page)
-    //And I verify the Risk Management Plan information is as per the OASys
+    //And I verify the "Risk Management Plan" information is as per the OASys
     await verifyRMPInfoIsAsPerOASys(page)
-    //And I verify the Offence Analysis information is as per the OASys
+    //And I verify the "Offence Analysis" information is as per the OASys
     await verifyOffenceAnalysisIsAsPerOASys(page)
+    //And I verify the "Risk to Self" information is as per the OASys
+    await verifyRiskToSelfIsAsPerOASys(page)
     //Todo - Fix this test once the Approved Premises have fixed the bug
     test.skip()
 })
