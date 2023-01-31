@@ -34,6 +34,8 @@ export const testEnvironmentData: TestData = {
         allocationsTestTeam: {
             name: 'NPS - Wrexham - Team 1',
             provider: 'Wales',
+            probationDeliveryUnit: 'North Wales',
+            localDeliveryUnit: 'North Wales',
             location: 'Wrexham Team Office',
         },
         referAndMonitorTestTeam: {

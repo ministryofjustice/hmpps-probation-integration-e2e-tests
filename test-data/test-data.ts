@@ -7,6 +7,8 @@ export type Optional<T> = { [K in keyof T]?: T[K] }
 export interface Team {
     name: string
     provider: string
+    probationDeliveryUnit?: string
+    localDeliveryUnit?: string
     location?: string
 }
 export interface Staff {

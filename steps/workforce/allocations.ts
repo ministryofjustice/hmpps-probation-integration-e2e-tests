@@ -1,11 +1,9 @@
 import { expect, type Page } from '@playwright/test'
 import { refreshUntil } from '../delius/utils/refresh.js'
 import { WorkforceDateFormat } from './utils.js'
-import { Allocation } from '../../test-data/test-data.js'
+import { Allocation, Team } from '../../test-data/test-data.js'
 
 export const viewAllocation = async (page: Page, crn: string) => {
-    await page.locator('a[data-qa-link="N03F01"]', { hasText: 'View unallocated cases' }).click()
-    await expect(page).toHaveTitle(/.*Unallocated cases.*/)
     const matchingRow = page.locator('tr', { hasText: crn })
     await refreshUntil(page, () => expect(matchingRow).not.toHaveCount(0))
     await expect(matchingRow).toContainText(WorkforceDateFormat(new Date()))
@@ -14,7 +12,9 @@ export const viewAllocation = async (page: Page, crn: string) => {
 }
 
 export const allocateCase = async (page: Page, crn: string, allocation: Allocation) => {
-    await selectTeam(page)
+    await page.getByRole('button', { name: 'View unallocated cases' }).click()
+    await expect(page).toHaveTitle(/.*Unallocated cases.*/)
+    await selectTeam(page, allocation.team)
     await viewAllocation(page, crn)
     // Navigate to allocation page
     await page.locator('a', { hasText: 'Continue' }).click()
@@ -22,9 +22,9 @@ export const allocateCase = async (page: Page, crn: string, allocation: Allocati
 
     // Allocate to team/staff
     await page
-        .locator('tr', { hasText: `${allocation.staff.firstName} ${allocation.staff.lastName}` })
-        .locator('.govuk-radios__input')
-        .click()
+        .getByRole('row', { name: `${allocation.staff.firstName} ${allocation.staff.lastName}` })
+        .getByRole('radio')
+        .check()
     await page.locator('button', { hasText: 'Continue' }).click()
 
     // Confirm allocation
@@ -38,10 +38,14 @@ export const allocateCase = async (page: Page, crn: string, allocation: Allocati
     await page.locator('div.govuk-panel--confirmation >> h1.govuk-panel__title', { hasText: 'Allocation complete' })
 }
 
-const selectTeam = async (page: Page) => {
-    const selectRequired = (await page.locator('h1', { hasText: 'Select your teams' }).count()) > 0
-    if (selectRequired) {
-        await page.locator('label', { hasText: ' Wrexham - Team 1 ' }).click()
-        await page.locator('button', { hasText: 'Continue' }).click()
-    }
+const selectTeam = async (page: Page, team: Team) => {
+    await page
+        .getByRole('combobox', { name: 'Probation delivery unit (PDU)' })
+        .selectOption({ label: team.probationDeliveryUnit })
+    await page
+        .getByRole('combobox', { name: 'Local delivery unit (LDU)' })
+        .selectOption({ label: team.localDeliveryUnit })
+    await page.getByRole('combobox', { name: 'Team' }).selectOption({ label: team.name.replace(/^NPS - /, '') })
+    await page.getByRole('button', { name: 'Save and view selection' }).click()
+    await expect(page).toHaveTitle(/.*Unallocated cases.*/)
 }
