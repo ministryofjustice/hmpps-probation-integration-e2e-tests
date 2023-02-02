@@ -16,7 +16,8 @@ import {
 } from '../../steps/oasys/layer3-assessment/create-ofender.js'
 import { clickOKForCRNAmendment } from '../../steps/oasys/layer3-assessment/crn-amendment.js'
 import {
-    clickOffenceAnalysis,
+    clickAccommodation, clickEducationTrainingEmpl,
+    clickOffenceAnalysis, clickRelationships,
     clickRiskManagementPlan,
     clickRoshFullRisksToIndividual,
     clickRoSHScreeningSection1,
@@ -51,6 +52,17 @@ import { completeOffenceAnalysis } from '../../steps/oasys/layer3-assessment/ana
 import { verifyOffenceAnalysisIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-offence-analysis.js'
 import { completeRoSHFullSec8RisksToIndvdl } from '../../steps/oasys/layer3-assessment/rosh-full-analysis-section-8.js'
 import { verifyRiskToSelfIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-risk-to-self.js'
+import {completeAccommodationSection} from "../../steps/oasys/layer3-assessment/accommodation-section.js";
+import {completeETESection} from "../../steps/oasys/layer3-assessment/ete-section.js";
+import {completeRelationshipsSection} from "../../steps/oasys/layer3-assessment/relationships-section.js";
+import {
+    verifySupportingInfoIsAsPerOASys
+} from "../../steps/approved-premises/applications/edit-risk-information-supporting-info.js";
+import {
+
+    clickExceptionalCaseYes
+} from "../../steps/approved-premises/applications/application-not-eligible.js";
+import {addExceptiondetails} from "../../steps/approved-premises/applications/add-exemption-details.js";
 
 const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
@@ -109,6 +121,19 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await clickRoshFullRisksToIndividual(page)
     //And I complete Risks to Individual(Risks to Self)
     await completeRoSHFullSec8RisksToIndvdl(page)
+    //And I click on 'Accommodation' under Section 2 to 4
+    await clickAccommodation(page)
+    // //And I complete Accommodation Section
+    await completeAccommodationSection(page)
+    //And I click on 'ETE'(4 - Education, Training and Employability) under Section 2 to 4
+    await clickEducationTrainingEmpl(page)
+    //And I complete Education, Training and Employability Section
+    await completeETESection(page)
+    //And I click on Relationships under Section 2 to 4
+    await clickRelationships(page)
+    //And I complete Relationships Section
+    await completeRelationshipsSection(page)
+    // const crn = 'X614982'
     //When I login in to Approved Premises
     await approvedPremisesLogin(page)
     //And I navigate to AP Applications
@@ -117,6 +142,10 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await enterCRN(page, crn)
     //And I click on Save and Continue confirming the offender's details
     await clickSaveAndContinue(page)
+    //And I say this an exceptional case
+    await clickExceptionalCaseYes(page)
+    //And I say add the agreed date and exception details
+    await addExceptiondetails(page)
     //And I select Sentence Type and click on Submit
     await selectSentenceType(page)
     //And I select "Referral for risk management" Option that describes the situation
@@ -135,7 +164,7 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await clickChooseSectionsOfOASysToImportLink(page)
     // And I select the Needs related to the offender
     await selectNeedsAndSubmit(page)
-    //Then I verify that "RoSH Summary" information is as per the OASys
+    // Then I verify that "RoSH Summary" information is as per the OASys
     await verifyRoSHSummaryIsAsPerOASys(page)
     //And I verify the "Risk Management Plan" information is as per the OASys
     await verifyRMPInfoIsAsPerOASys(page)
@@ -143,6 +172,8 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await verifyOffenceAnalysisIsAsPerOASys(page)
     //And I verify the "Risk to Self" information is as per the OASys
     await verifyRiskToSelfIsAsPerOASys(page)
+    //And I verify the "Supporting Information" is as per the OASys
+    await verifySupportingInfoIsAsPerOASys(page)
     //Todo - Fix this test once the Approved Premises have fixed the bug
     test.skip()
 })
