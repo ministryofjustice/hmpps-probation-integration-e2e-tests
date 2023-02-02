@@ -77,104 +77,103 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
-    //And I log in to OASys as a "OASYS_T2_LOGIN_USER" user
+    // And I log in to OASys as a "OASYS_T2_LOGIN_USER" user
     await oasysLogin(page)
-    //And I select "Warwickshire" from Choose Provider Establishment
+    // And I select "Warwickshire" from Choose Provider Establishment
     await selectRegion(page)
-    //And I click on the Search button from the top menu
+    // And I click on the Search button from the top menu
     await clickSearch(page)
-    //And I enter the crn number and search
+    // And I enter the crn number and search
     await crnSearch(page, crn)
     // And I click on Create Offender button
     await clickCreateOffenderButton(page)
-    //And I click on Create Assessment Button
+    // And I click on Create Assessment Button
     await clickCreateAssessmentButton(page)
-    //And I say OK for CRN Amendment
+    // And I say OK for CRN Amendment
     await clickOKForCRNAmendment(page)
-    //And I click on CMS Record
+    // And I click on CMS Record
     await clickCMSRecord(page)
-    //And I update the offender
+    // And I update the offender
     await clickUpdateOffenderButton(page)
-    //And I start creating Layer 3 Assessment
+    // And I start creating Layer 3 Assessment
     await createLayer3Assessment(page)
     // And I Click on RoSH Screening Section
     await clickRoSHScreeningSection1(page)
-    //And I complete RoSH Screening Section 1 and Click Save & Next
+    // And I complete RoSH Screening Section 1 and Click Save & Next
     await completeRoSHSection1MarkAllNo(page)
-    //And I Click on RoSH Screening Section 2 to 4 & and Click Next without selecting/entering anything
+    // And I Click on RoSH Screening Section 2 to 4 & and Click Next without selecting/entering anything
     await clickSection2To4NextButton(page)
-    //And I complete RoSH Screening Section 5 and Click Save & Next
+    // And I complete RoSH Screening Section 5 and Click Save & Next
     await completeRoSHSection5FullAnalysisYes(page)
-    //And I Click on RoSH Summary Section
+    // And I Click on RoSH Summary Section
     await clickRoSHSummary(page)
-    //And I complete RoSH Summary - R10 Questions
+    // And I complete RoSH Summary - R10 Questions
     await completeRoSHSection10RoSHSummary(page)
-    //And I Click on Risk Management Plan Section
+    // And I Click on Risk Management Plan Section
     await clickRiskManagementPlan(page)
-    //And I complete Risk Management Plan Questions
+    // And I complete Risk Management Plan Questions
     await completeRiskManagementPlan(page)
-    //And I click on 'Section 2 to 13' & '2 - Offence Analysis'
+    // And I click on 'Section 2 to 13' & '2 - Offence Analysis'
     await clickOffenceAnalysis(page)
-    //And I complete Offence Analysis Plan Questions
+    // And I complete Offence Analysis Plan Questions
     await completeOffenceAnalysis(page)
-    //And I click on 'Section 8' under Rosh Full Analysis
+    // And I click on 'Section 8' under Rosh Full Analysis
     await clickRoshFullRisksToIndividual(page)
-    //And I complete Risks to Individual(Risks to Self)
+    // And I complete Risks to Individual(Risks to Self)
     await completeRoSHFullSec8RisksToIndvdl(page)
-    //And I click on 'Accommodation' under Section 2 to 4
+    // And I click on 'Accommodation' under Section 2 to 4
     await clickAccommodation(page)
-    // //And I complete Accommodation Section
+    // And I complete Accommodation Section
     await completeAccommodationSection(page)
-    //And I click on 'ETE'(4 - Education, Training and Employability) under Section 2 to 4
+    // And I click on 'ETE'(4 - Education, Training and Employability) under Section 2 to 4
     await clickEducationTrainingEmpl(page)
-    //And I complete Education, Training and Employability Section
+    // And I complete Education, Training and Employability Section
     await completeETESection(page)
-    //And I click on Relationships under Section 2 to 4
+    // And I click on Relationships under Section 2 to 4
     await clickRelationships(page)
-    //And I complete Relationships Section
+    // And I complete Relationships Section
     await completeRelationshipsSection(page)
-    // const crn = 'X614982'
-    //When I login in to Approved Premises
+    // When I login in to Approved Premises
     await approvedPremisesLogin(page)
-    //And I navigate to AP Applications
+    // And I navigate to AP Applications
     await navigateToApplications(page)
-    //And I enter the CRN & Submit
+    // And I enter the CRN & Submit
     await enterCRN(page, crn)
-    //And I click on Save and Continue confirming the offender's details
+    // And I click on Save and Continue confirming the offender's details
     await clickSaveAndContinue(page)
-    //And I say this an exceptional case
+    // And I say this an exceptional case
     await clickExceptionalCaseYes(page)
-    //And I say add the agreed date and exception details
+    // And I say add the agreed date and exception details
     await addExceptiondetails(page)
-    //And I select Sentence Type and click on Submit
+    // And I select Sentence Type and click on Submit
     await selectSentenceType(page)
-    //And I select "Referral for risk management" Option that describes the situation
+    // And I select "Referral for risk management" Option that describes the situation
     await selectSituationOption(page)
-    //And I select that I know release date
+    // And I select that I know release date
     await selectReleaseDateKnownStatus(page)
-    //And I confirm placement start date is same as release date
+    // And I confirm placement start date is same as release date
     await confirmPlacementStartdate(page)
-    //And I select "Public protection" as the purpose of the Approved Premises (AP) placement
+    // And I select "Public protection" as the purpose of the Approved Premises (AP) placement
     await selectAPPlacementPurpose(page)
-    //And I click on Type Of AP Required Link
+    // And I click on Type Of AP Required Link
     await clickTypeOfAPRequiredLink(page)
-    //And I select Type Of Approved Premises Required and Click on Submit
+    // And I select Type Of Approved Premises Required and Click on Submit
     await selectTypeOfAPRequired(page)
-    //And I click on "Choose sections of OASys to import" link
+    // And I click on "Choose sections of OASys to import" link
     await clickChooseSectionsOfOASysToImportLink(page)
     // And I select the Needs related to the offender
     await selectNeedsAndSubmit(page)
     // Then I verify that "RoSH Summary" information is as per the OASys
     await verifyRoSHSummaryIsAsPerOASys(page)
-    //And I verify the "Risk Management Plan" information is as per the OASys
+    // And I verify the "Risk Management Plan" information is as per the OASys
     await verifyRMPInfoIsAsPerOASys(page)
-    //And I verify the "Offence Analysis" information is as per the OASys
+    // And I verify the "Offence Analysis" information is as per the OASys
     await verifyOffenceAnalysisIsAsPerOASys(page)
-    //And I verify the "Risk to Self" information is as per the OASys
+    // And I verify the "Risk to Self" information is as per the OASys
     await verifyRiskToSelfIsAsPerOASys(page)
-    //And I verify the "Supporting Information" is as per the OASys
+    // And I verify the "Supporting Information" is as per the OASys
     await verifySupportingInfoIsAsPerOASys(page)
-    //Todo - Fix this test once the Approved Premises have fixed the bug
+    // Todo - Fix this test once the Approved Premises have fixed the bug
     test.skip()
 })
 
