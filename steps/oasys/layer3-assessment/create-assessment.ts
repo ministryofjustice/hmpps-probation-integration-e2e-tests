@@ -38,3 +38,30 @@ export const clickRoshFullRisksToIndividual = async (page: Page) => {
     await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Full Analysis (Layer 3)')
     await expect(page.locator('#R2846717162014845 > h6')).toHaveText('R8 Risks to the individual - full analysis')
 }
+
+export const clickAccommodation = async (page: Page) => {
+    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
+    await page.locator('a', { hasText: '3 - Accommodation' }).click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('3 - Accommodation (Layer 3)')
+    await expect(page.locator('#R2846717162014845 > h6')).toHaveText(
+        'Questions may not be numbered sequentially due to the Assessment Layer chosen'
+    )
+}
+
+export const clickEducationTrainingEmpl = async (page: Page) => {
+    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
+    await page.locator('a', { hasText: '4 - ETE' }).click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('4 - Education, Training and Employability (Layer 3)')
+    await expect(page.locator('#R2846717162014845 > h6')).toHaveText(
+        'Questions may not be numbered sequentially due to the Assessment Layer chosen'
+    )
+}
+
+export const clickRelationships = async (page: Page) => {
+    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
+    await page.locator('a', { hasText: '6 - Relationships' }).click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('6 - Relationships (Layer 3)')
+    await expect(page.locator('#R2846717162014845 > h6')).toHaveText(
+        'Questions may not be numbered sequentially due to the Assessment Layer chosen'
+    )
+}
