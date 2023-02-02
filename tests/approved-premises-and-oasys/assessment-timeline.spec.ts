@@ -16,8 +16,10 @@ import {
 } from '../../steps/oasys/layer3-assessment/create-ofender.js'
 import { clickOKForCRNAmendment } from '../../steps/oasys/layer3-assessment/crn-amendment.js'
 import {
-    clickAccommodation, clickEducationTrainingEmpl,
-    clickOffenceAnalysis, clickRelationships,
+    clickAccommodation,
+    clickEducationTrainingEmpl,
+    clickOffenceAnalysis,
+    clickRelationships,
     clickRiskManagementPlan,
     clickRoshFullRisksToIndividual,
     clickRoSHScreeningSection1,
@@ -52,17 +54,12 @@ import { completeOffenceAnalysis } from '../../steps/oasys/layer3-assessment/ana
 import { verifyOffenceAnalysisIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-offence-analysis.js'
 import { completeRoSHFullSec8RisksToIndvdl } from '../../steps/oasys/layer3-assessment/rosh-full-analysis-section-8.js'
 import { verifyRiskToSelfIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-risk-to-self.js'
-import {completeAccommodationSection} from "../../steps/oasys/layer3-assessment/accommodation-section.js";
-import {completeETESection} from "../../steps/oasys/layer3-assessment/ete-section.js";
-import {completeRelationshipsSection} from "../../steps/oasys/layer3-assessment/relationships-section.js";
-import {
-    verifySupportingInfoIsAsPerOASys
-} from "../../steps/approved-premises/applications/edit-risk-information-supporting-info.js";
-import {
-
-    clickExceptionalCaseYes
-} from "../../steps/approved-premises/applications/application-not-eligible.js";
-import {addExceptiondetails} from "../../steps/approved-premises/applications/add-exemption-details.js";
+import { completeAccommodationSection } from '../../steps/oasys/layer3-assessment/accommodation-section.js'
+import { completeETESection } from '../../steps/oasys/layer3-assessment/ete-section.js'
+import { completeRelationshipsSection } from '../../steps/oasys/layer3-assessment/relationships-section.js'
+import { verifySupportingInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-supporting-info.js'
+import { clickExceptionalCaseYes } from '../../steps/approved-premises/applications/application-not-eligible.js'
+import { addExceptiondetails } from '../../steps/approved-premises/applications/add-exemption-details.js'
 
 const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
