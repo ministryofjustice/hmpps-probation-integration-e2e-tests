@@ -38,7 +38,8 @@ import { confirmPlacementStartdate } from '../../steps/approved-premises/applica
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
 import {
     clickChooseSectionsOfOASysToImportLink,
-    clickTypeOfAPRequiredLink, verifyRoshScoresAreAsPerOasys,
+    clickTypeOfAPRequiredLink,
+    verifyRoshScoresAreAsPerOasys,
 } from '../../steps/approved-premises/applications/apply-for-ap-placement.js'
 import { selectTypeOfAPRequired } from '../../steps/approved-premises/applications/select-type-ap-required.js'
 import { completeRoSHSection1MarkAllNo } from '../../steps/oasys/layer3-assessment/section-1.js'
@@ -59,7 +60,7 @@ import { completeETESection } from '../../steps/oasys/layer3-assessment/ete-sect
 import { completeRelationshipsSection } from '../../steps/oasys/layer3-assessment/relationships-section.js'
 import { verifySupportingInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-supporting-info.js'
 import { clickExceptionalCaseYes } from '../../steps/approved-premises/applications/application-not-eligible.js'
-import {addExemptionDetails,} from '../../steps/approved-premises/applications/add-exemption-details.js'
+import { addExemptionDetails } from '../../steps/approved-premises/applications/add-exemption-details.js'
 
 const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
