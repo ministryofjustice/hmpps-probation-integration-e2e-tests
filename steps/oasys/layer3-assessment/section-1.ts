@@ -1,8 +1,9 @@
-import { type Page, expect } from '@playwright/test'
+import {type Page, expect} from '@playwright/test'
 
 export const completeRoSHSection1MarkAllNo = async (page: Page) => {
-    await page.click('[onclick*="P2_BT_NO"]')
-    await page.click('[onclick*="P3_BT_NO"]')
+
+    await page.locator('[onclick*="P2_BT_NO"]', {hasText: 'Mark all as No'}).click()
+    await page.locator('[onclick*="P3_BT_NO"]', {hasText: 'Mark all as No'}).click()
     await page.keyboard.down('End')
     await page.click('input[value="Save"]')
     await page.click('input[value="Next"]')

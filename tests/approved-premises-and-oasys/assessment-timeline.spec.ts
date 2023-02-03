@@ -38,7 +38,7 @@ import { confirmPlacementStartdate } from '../../steps/approved-premises/applica
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
 import {
     clickChooseSectionsOfOASysToImportLink,
-    clickTypeOfAPRequiredLink,
+    clickTypeOfAPRequiredLink, verifyRoshScoresAreAsPerOasys,
 } from '../../steps/approved-premises/applications/apply-for-ap-placement.js'
 import { selectTypeOfAPRequired } from '../../steps/approved-premises/applications/select-type-ap-required.js'
 import { completeRoSHSection1MarkAllNo } from '../../steps/oasys/layer3-assessment/section-1.js'
@@ -59,7 +59,7 @@ import { completeETESection } from '../../steps/oasys/layer3-assessment/ete-sect
 import { completeRelationshipsSection } from '../../steps/oasys/layer3-assessment/relationships-section.js'
 import { verifySupportingInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-supporting-info.js'
 import { clickExceptionalCaseYes } from '../../steps/approved-premises/applications/application-not-eligible.js'
-import { addExceptiondetails } from '../../steps/approved-premises/applications/add-exemption-details.js'
+import {addExemptionDetails,} from '../../steps/approved-premises/applications/add-exemption-details.js'
 
 const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
@@ -94,41 +94,41 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await clickUpdateOffenderButton(page)
     // And I start creating Layer 3 Assessment
     await createLayer3Assessment(page)
-    // And I Click on RoSH Screening Section
+    // And I Click on "RoSH Screening" Section
     await clickRoSHScreeningSection1(page)
     // And I complete RoSH Screening Section 1 and Click Save & Next
     await completeRoSHSection1MarkAllNo(page)
-    // And I Click on RoSH Screening Section 2 to 4 & and Click Next without selecting/entering anything
+    // And I Click on "RoSH Screening" - Section 2 to 4 & and Click Next without selecting/entering anything
     await clickSection2To4NextButton(page)
-    // And I complete RoSH Screening Section 5 and Click Save & Next
+    // And I complete "RoSH Screening" Section 5 and Click Save & Next
     await completeRoSHSection5FullAnalysisYes(page)
-    // And I Click on RoSH Summary Section
+    // And I Click on "RoSH Summary" Section
     await clickRoSHSummary(page)
-    // And I complete RoSH Summary - R10 Questions
+    // And I complete "RoSH Summary - R10" Questions
     await completeRoSHSection10RoSHSummary(page)
-    // And I Click on Risk Management Plan Section
+    // And I Click on "Risk Management Plan" Section
     await clickRiskManagementPlan(page)
-    // And I complete Risk Management Plan Questions
+    // And I complete "Risk Management Plan" Questions
     await completeRiskManagementPlan(page)
-    // And I click on 'Section 2 to 13' & '2 - Offence Analysis'
+    // And I click on "Section 2 to 13" & "2 - Offence Analysis"
     await clickOffenceAnalysis(page)
     // And I complete Offence Analysis Plan Questions
     await completeOffenceAnalysis(page)
-    // And I click on 'Section 8' under Rosh Full Analysis
+    // And I click on "Section 8" under Rosh Full Analysis
     await clickRoshFullRisksToIndividual(page)
-    // And I complete Risks to Individual(Risks to Self)
+    // And I complete "Risks to Individual(Risks to Self)" Section
     await completeRoSHFullSec8RisksToIndvdl(page)
-    // And I click on 'Accommodation' under Section 2 to 4
+    // And I click on "Accommodation' under Section 2 to 4
     await clickAccommodation(page)
-    // And I complete Accommodation Section
+    // And I complete "Accommodation" Section
     await completeAccommodationSection(page)
     // And I click on 'ETE'(4 - Education, Training and Employability) under Section 2 to 4
     await clickEducationTrainingEmpl(page)
-    // And I complete Education, Training and Employability Section
+    // And I complete "Education, Training and Employability" Section
     await completeETESection(page)
-    // And I click on Relationships under Section 2 to 4
+    // And I click on "Relationships" under Section 2 to 4
     await clickRelationships(page)
-    // And I complete Relationships Section
+    // And I complete "Relationships" Section
     await completeRelationshipsSection(page)
     // When I login in to Approved Premises
     await approvedPremisesLogin(page)
@@ -141,7 +141,7 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     // And I say this an exceptional case
     await clickExceptionalCaseYes(page)
     // And I say add the agreed date and exception details
-    await addExceptiondetails(page)
+    await addExemptionDetails(page)
     // And I select Sentence Type and click on Submit
     await selectSentenceType(page)
     // And I select "Referral for risk management" Option that describes the situation
@@ -156,9 +156,11 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await clickTypeOfAPRequiredLink(page)
     // And I select Type Of Approved Premises Required and Click on Submit
     await selectTypeOfAPRequired(page)
+    // And I Verify that the "RoSH Risk scores" in the RoSH Widget are as per OASys
+    await verifyRoshScoresAreAsPerOasys(page)
     // And I click on "Choose sections of OASys to import" link
     await clickChooseSectionsOfOASysToImportLink(page)
-    // And I select the Needs related to the offender
+    // And I select the "Needs" related to the offender
     await selectNeedsAndSubmit(page)
     // Then I verify that "RoSH Summary" information is as per the OASys
     await verifyRoSHSummaryIsAsPerOASys(page)
