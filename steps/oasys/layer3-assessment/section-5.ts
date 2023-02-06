@@ -1,8 +1,17 @@
 import { type Page, expect } from '@playwright/test'
 
 export const completeRoSHSection5FullAnalysisYes = async (page: Page) => {
-    await page.locator('#itm_R5_1').selectOption({ label: 'Yes' })
+    await page
+        .getByLabel(
+            'Is there anything else about the offender that leads you to consider that a full analysis should be completed. If YES, give details below'
+        )
+        .selectOption({ label: 'Yes' })
     await page.fill('#textarea_R5_1_t', 'TBA - Full analysis to be written in detail')
+    await page
+        .getByLabel(
+            'In your professional opinion, do you consider it appropriate to not undertake a full risk of harm analysis?'
+        )
+        .selectOption({ label: 'No' })
     await page.keyboard.down('End')
     await page.click('input[value="Save"]')
     await page.click('input[value="Next"]')

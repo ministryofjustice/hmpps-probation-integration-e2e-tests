@@ -5,7 +5,7 @@ import { faker } from '@faker-js/faker'
 
 const [agreedDay, agreedMonth, agreedYear] = splitDate(Yesterday)
 
-export const addExceptiondetails = async (page: Page) => {
+export const addExemptionDetails = async (page: Page) => {
     await page.locator('#agreedCaseWithManager').click()
     await page.getByLabel('Name of senior manager').fill(faker.name.firstName() + ' ' + faker.name.lastName())
     await page.getByLabel('Day').fill(agreedDay)
