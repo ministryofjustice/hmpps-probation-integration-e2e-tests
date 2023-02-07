@@ -71,7 +71,7 @@ export async function createEvent(page: Page, { crn, allocation, event }: Create
     await page.locator('input', { hasText: 'Save' }).click()
 
     const pageTitle = await page.title()
-    if (pageTitle ==='National Delius Error Page'){
+    if (pageTitle ==='Error Page'){
         return await createEvent( page, { crn, allocation, event })
     }
     if (autoAddComponent.includes(event.outcome)) {
