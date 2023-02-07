@@ -82,6 +82,8 @@ test('Temporary absence test', async ({ page }) => {
 
     // When the person returns to custody
     await temporaryAbsenceReturn(nomisId)
+
+    await findCustodyForEventByCRN(page, crn, 1)
     // Then the person is recalled in Delius
     await refreshUntil(
         page,

@@ -46,6 +46,10 @@ export const testEnvironmentData: TestData = {
             name: 'Lancashire PICS',
             provider: 'NPS North West',
         },
+        releaseAndRecallTestTeam: {
+            name: 'NPS - LNS Public Protection 2',
+            provider: 'NPS North East',
+        },
     },
     sentencedPrisoner: {
         crn: 'X600508',
