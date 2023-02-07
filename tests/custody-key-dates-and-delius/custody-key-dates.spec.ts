@@ -18,7 +18,7 @@ test('Update Custody Key Dates', async ({ page }) => {
     date.setDate(Number(dateParts[0]))
     date.setMonth(Number(dateParts[1]) - 1)
     date.setFullYear(Number(dateParts[2]))
-    date.setUTCDate(date.getUTCDate())
+    date.setUTCDate(date.getUTCDate() + 1)
 
     await updateCustodyDates(data.sentencedPrisoner.bookingId, {
         calculationUuid: uuid(),
