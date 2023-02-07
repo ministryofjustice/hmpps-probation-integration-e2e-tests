@@ -71,8 +71,8 @@ export async function createEvent(page: Page, { crn, allocation, event }: Create
     await page.locator('input', { hasText: 'Save' }).click()
 
     const pageTitle = await page.title()
-    if (pageTitle ==='Error Page'){
-        return await createEvent( page, { crn, allocation, event })
+    if (pageTitle === 'Error Page') {
+        return await createEvent(page, { crn, allocation, event })
     }
     if (autoAddComponent.includes(event.outcome)) {
         await expect(page).toHaveTitle(/Add Components/)
@@ -81,7 +81,6 @@ export async function createEvent(page: Page, { crn, allocation, event }: Create
     } else {
         await expect(page).toHaveTitle(/Event Details/)
     }
-
 
     return createdEvent
 }
