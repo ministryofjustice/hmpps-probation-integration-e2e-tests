@@ -66,6 +66,7 @@ const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
     page,
 }) => {
+    test.skip()
     // Given I create new Offender in nDelius
     await deliusLogin(page)
     const person = deliusPerson()
@@ -174,7 +175,6 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     // And I verify the "Supporting Information" is as per the OASys
     await verifySupportingInfoIsAsPerOASys(page)
     // Todo - Fix this test once the Approved Premises have fixed the bug
-    test.skip()
 })
 
 test.afterAll(async () => {

@@ -81,7 +81,6 @@ export async function createEvent(page: Page, { crn, allocation, event }: Create
     } else {
         await expect(page).toHaveTitle(/Event Details/)
     }
-
     return createdEvent
 }
 

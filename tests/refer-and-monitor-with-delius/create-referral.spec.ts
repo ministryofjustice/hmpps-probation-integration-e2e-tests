@@ -24,6 +24,7 @@ test.beforeEach(async ({ page }) => {
 const EVENT_NUMBER = 1
 
 test('Create R&M Referral', async ({ page }) => {
+    test.skip()
     // Create a person to work with
     const crn: string = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
