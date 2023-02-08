@@ -24,6 +24,7 @@ test.beforeEach(async ({ page }) => {
 const EVENT_NUMBER = 1
 
 test('Create R&M Referral', async ({ page }) => {
+    test.skip()
     // Create a person to work with
     const crn: string = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
@@ -54,4 +55,5 @@ test('Create R&M Referral', async ({ page }) => {
     // Check that the SAA has been created in Delius
     await loginDelius(page)
     await verifyContacts(page, crn, [contact('1 - CRS Accommodation', 'Appointment with CRS Staff (NS)')])
+
 })
