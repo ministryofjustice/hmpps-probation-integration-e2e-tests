@@ -55,5 +55,4 @@ test('Create R&M Referral', async ({ page }) => {
     // Check that the SAA has been created in Delius
     await loginDelius(page)
     await verifyContacts(page, crn, [contact('1 - CRS Accommodation', 'Appointment with CRS Staff (NS)')])
-
 })
