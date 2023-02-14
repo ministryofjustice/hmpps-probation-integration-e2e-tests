@@ -22,7 +22,7 @@ export const allocateCase = async (page: Page, crn: string, allocation: Allocati
 
     // Allocate to team/staff
     await page
-        .getByRole('row', { name: `${allocation.staff.firstName} ${allocation.staff.lastName}` })
+        .locator('tr', { hasText: `${allocation.staff.firstName} ${allocation.staff.lastName}` })
         .getByRole('radio')
         .check()
     await page.locator('button', { hasText: 'Continue' }).click()
