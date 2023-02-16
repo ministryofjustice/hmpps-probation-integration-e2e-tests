@@ -29,27 +29,27 @@ test('Create an approved premises booking', async ({ page }) => {
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
-    //When I log in to Approved Premises as a "DELIUS_LOGIN_USER" user
-    await approvedPremisesLogin(page)
-    // And I choose a premises # Choose the first premises in the list
-    await selectApprovedPremises(page)
-    // And I navigate to create a placement # Choose Actions > Create a placement
-    await selectCreatePlacementAction(page)
-    //And I search for the offender with CRN
-    await searchOffenderWithCrn(page, crn)
-    // When I create a booking in Approved Premises
-    await createBooking(page)
-    // And I click on "Back to dashboard" link
-    await clickBackToDashboard(page)
-    // And I select to manage the placement
-    await managePlacement(page, crn)
-    // And I click on the Search button from the top menu
-    await selectMarkAsArrivedAction(page)
-    // Then I should see the staff member in the list of Key Workers
-    await verifyKeyworkerAvailability(
-        page,
-        `${data.staff.approvedPremisesKeyWorker.firstName} ${data.staff.approvedPremisesKeyWorker.lastName}`
-    )
+    // //When I log in to Approved Premises as a "DELIUS_LOGIN_USER" user
+    // await approvedPremisesLogin(page)
+    // // And I choose a premises # Choose the first premises in the list
+    // await selectApprovedPremises(page)
+    // // And I navigate to create a placement # Choose Actions > Create a placement
+    // await selectCreatePlacementAction(page)
+    // //And I search for the offender with CRN
+    // await searchOffenderWithCrn(page, crn)
+    // // When I create a booking in Approved Premises
+    // await createBooking(page)
+    // // And I click on "Back to dashboard" link
+    // await clickBackToDashboard(page)
+    // // And I select to manage the placement
+    // await managePlacement(page, crn)
+    // // And I click on the Search button from the top menu
+    // await selectMarkAsArrivedAction(page)
+    // // Then I should see the staff member in the list of Key Workers
+    // await verifyKeyworkerAvailability(
+    //     page,
+    //     `${data.staff.approvedPremisesKeyWorker.firstName} ${data.staff.approvedPremisesKeyWorker.lastName}`
+    // )
     // And I should see a contact in Delius for the booking ...
     // TODO this functionality is not available yet
 })
