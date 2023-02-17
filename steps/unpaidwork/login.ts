@@ -1,7 +1,6 @@
 import { expect, type Page } from '@playwright/test'
 
 export const login = async (page: Page) => {
-    // const [page] = await  Promise.all([page.waitForEvent('page')])
     await expect(page).toHaveTitle(/HMPPS Digital Services - Sign in/)
     const unpaidWorkTitle = 'Complete and download the Community payback assessment'
     const title = await page.locator('title').textContent()
@@ -12,7 +11,7 @@ export const login = async (page: Page) => {
         await page.locator('a', { hasText: 'Sign out' }).click()
     }
 
-    // await expect(page).toHaveTitle(/HMPPS Digital Services - Sign in/)
+    await expect(page).toHaveTitle(/HMPPS Digital Services - Sign in/)
     await page.fill('#username', process.env.DELIUS_USERNAME!)
     await page.fill('#password', process.env.DELIUS_PASSWORD!)
     await page.click('#submit')
