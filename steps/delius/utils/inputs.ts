@@ -2,13 +2,13 @@ import { type Page } from '@playwright/test'
 import { DeliusDateFormatter, DeliusTimeFormatter } from './date-time.js'
 import { waitForAjax } from './refresh.js'
 
-const getOptions = async (page: Page, selector: string, filter:  (s:string) => boolean = null ) => {
+const getOptions = async (page: Page, selector: string, filter: (s: string) => boolean = null) => {
     return (await page.$$eval(`${selector} > option`, opts => opts.map(option => option.textContent)))
         .filter(option => option !== '[Please Select]')
-        .filter(filter?filter: () => true)
+        .filter(filter ? filter : () => true)
 }
 
-const getRandomOption = async (page: Page, selector: string, timeout = 2,  filter:  (s:string)  => boolean = null) => {
+const getRandomOption = async (page: Page, selector: string, timeout = 2, filter: (s: string) => boolean = null) => {
     const waitUntil = new Date().getSeconds() + timeout
     let options = []
     while (options.length == 0 && new Date().getSeconds() <= waitUntil) {
@@ -17,7 +17,12 @@ const getRandomOption = async (page: Page, selector: string, timeout = 2,  filte
     return options[Math.floor(Math.random() * options.length)]
 }
 
-export const selectOption = async (page: Page, selector: string, option: string = null, filter: (s:string) => boolean =  null): Promise<string> => {
+export const selectOption = async (
+    page: Page,
+    selector: string,
+    option: string = null,
+    filter: (s: string) => boolean = null
+): Promise<string> => {
     if (option == null) {
         option = await getRandomOption(page, selector, 2, filter)
     }

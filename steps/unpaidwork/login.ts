@@ -16,7 +16,9 @@ export const login = async (page: Page) => {
     await page.fill('#password', process.env.DELIUS_PASSWORD!)
     await page.click('#submit')
     await expect(page).toHaveTitle(unpaidWorkTitle)
-    await page.locator('.govuk-button',{hasText:'Start now'}).click()
+    await page.locator('.govuk-button', { hasText: 'Start now' }).click()
     await expect(page.locator('#main-content h1')).toHaveText('Community payback assessment')
-    await expect(page.locator('.govuk-caption-l')).toHaveText('Most of the questions in this assessment must be answered, but some are optional and are marked as such.')
+    await expect(page.locator('.govuk-caption-l')).toHaveText(
+        'Most of the questions in this assessment must be answered, but some are optional and are marked as such.'
+    )
 }
