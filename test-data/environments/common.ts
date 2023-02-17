@@ -36,6 +36,11 @@ export const commonData: TestData = {
             subCategory: 'Curfew',
             length: '6',
         },
+        unpaidWork: {
+            category: 'Unpaid Work',
+            subCategory: 'Regular',
+            length: '120',
+        },
     },
     staff: {
         unallocated: {

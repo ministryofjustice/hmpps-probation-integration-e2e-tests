@@ -36,7 +36,7 @@ export async function createEvent(page: Page, { crn, allocation, event }: Create
     await fillDate(page, '#ReferralDate', date)
     await fillDate(page, '#OffenceDate', date)
     await fillDate(page, '#ConvictionDate', date)
-    await selectOption(page, '#MainOffence')
+    await selectOption(page, '#MainOffence', null, option => !option.startsWith('('))
     createdEvent.court = await selectOption(page, '#Court')
     await selectOptionAndWait(page, '#addEventForm\\:Area', allocation?.team.provider)
     await selectOptionAndWait(page, '#addEventForm\\:Team', allocation?.team.name)
@@ -59,7 +59,6 @@ export async function createEvent(page: Page, { crn, allocation, event }: Create
         await selectOption(page, '#addEventForm\\:Remand')
         await selectOption(page, '#OutcomeArea')
     }
-
     if (autoAddCourtReport.includes(event.outcome)) {
         await fillDate(page, '#addEventForm\\:NextAppearanceDate', date)
         await fillTime(page, '#AppearanceTime', date)
@@ -69,7 +68,6 @@ export async function createEvent(page: Page, { crn, allocation, event }: Create
     //focus on something outside of input to activate onblur
     await page.focus('#content')
     await page.locator('input', { hasText: 'Save' }).click()
-
     const pageTitle = await page.title()
     if (pageTitle === 'Error Page') {
         return await createEvent(page, { crn, allocation, event })
