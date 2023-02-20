@@ -14,13 +14,16 @@ import { completeIndividualDetailsSection } from '../../steps/unpaidwork/individ
 import {
     clickCulturalReligiousAdjustmentsLink,
     clickGenderInformationLink,
-    clickIndividualDetailsLink, clickManagingRiskLink, clickPlacementPreferencesLink, clickRiskOfHarmCommunityLink,
+    clickIndividualDetailsLink,
+    clickManagingRiskLink,
+    clickPlacementPreferencesLink,
+    clickRiskOfHarmCommunityLink,
 } from '../../steps/unpaidwork/task-list.js'
 import { completeGenderInformationSection } from '../../steps/unpaidwork/gender-information.js'
 import { completeCulturalReligiousAdjustmentsSection } from '../../steps/unpaidwork/cultural-and-religious-adjustments.js'
-import {completePlacementPreferencesSection} from "../../steps/unpaidwork/placement-preferences.js";
-import {completeRiskHarmCommunitySection} from "../../steps/unpaidwork/risk-of-harm-community.js";
-import {completeManagingRiskSection} from "../../steps/unpaidwork/managing-risk.js";
+import { completePlacementPreferencesSection } from '../../steps/unpaidwork/placement-preferences.js'
+import { completeRiskHarmCommunitySection } from '../../steps/unpaidwork/risk-of-harm-community.js'
+import { completeManagingRiskSection } from '../../steps/unpaidwork/managing-risk.js'
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {

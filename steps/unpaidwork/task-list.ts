@@ -26,14 +26,10 @@ export const clickPlacementPreferencesLink = async (page: Page) => {
 
 export const clickRiskOfHarmCommunityLink = async (page: Page) => {
     await page.getByRole('link', { name: 'Risk of harm in the community' }).click()
-    await expect(page.locator(".govuk-heading-xl")).toContainText(
-        'Risk of harm in the community'
-    )
+    await expect(page.locator('.govuk-heading-xl')).toContainText('Risk of harm in the community')
 }
 
 export const clickManagingRiskLink = async (page: Page) => {
     await page.getByRole('link', { name: 'Managing risk' }).click()
-    await expect(page.locator(".govuk-heading-xl")).toContainText(
-        'Managing risk'
-    )
+    await expect(page.locator('.govuk-heading-xl')).toContainText('Managing risk')
 }
