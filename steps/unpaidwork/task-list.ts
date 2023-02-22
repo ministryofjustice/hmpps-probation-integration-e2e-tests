@@ -33,3 +33,28 @@ export const clickManagingRiskLink = async (page: Page) => {
     await page.getByRole('link', { name: 'Managing risk' }).click()
     await expect(page.locator('.govuk-heading-xl')).toContainText('Managing risk')
 }
+
+export const clickDisabilitiesAndMentalHealthLink = async (page: Page) => {
+    await page.getByRole('link', { name: 'Disabilities and mental health' }).click()
+    await expect(page.locator('.govuk-heading-xl')).toContainText('Disabilities and mental health')
+}
+
+export const clickHealthIssuesLink = async (page: Page) => {
+    await page.getByRole('link', { name: 'Health issues' }).click()
+    await expect(page.locator('.govuk-heading-xl')).toContainText('Are there any other health issues that may affect ability to work?')
+}
+
+export const clickGPDetailsLink = async (page: Page) => {
+    await page.getByRole('link', { name: 'GP Details' }).click()
+    await expect(page.locator('.govuk-heading-xl')).toContainText('GP Details')
+}
+
+export const clickTravelInformationLink = async (page: Page) => {
+    await page.getByRole('link', { name: 'Travel' }).click()
+    await expect(page.locator('.govuk-heading-xl')).toContainText('Travel information')
+}
+
+export const clickCaringCommitmentsLink = async (page: Page) => {
+    await page.getByRole('link', { name: 'Caring commitments' }).click()
+    await expect(page.locator('#main-content caption')).toContainText('Are there carer commitments? ')
+}
