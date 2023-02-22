@@ -13,23 +13,27 @@ import { login as unpaidWorkLogin } from '../../steps/unpaidwork/login.js'
 import { completeIndividualDetailsSection } from '../../steps/unpaidwork/individuals-details.js'
 import {
     clickCaringCommitmentsLink,
-    clickCulturalReligiousAdjustmentsLink, clickDisabilitiesAndMentalHealthLink,
-    clickGenderInformationLink, clickGPDetailsLink, clickHealthIssuesLink,
+    clickCulturalReligiousAdjustmentsLink,
+    clickDisabilitiesAndMentalHealthLink,
+    clickGenderInformationLink,
+    clickGPDetailsLink,
+    clickHealthIssuesLink,
     clickIndividualDetailsLink,
     clickManagingRiskLink,
     clickPlacementPreferencesLink,
-    clickRiskOfHarmCommunityLink, clickTravelInformationLink,
+    clickRiskOfHarmCommunityLink,
+    clickTravelInformationLink,
 } from '../../steps/unpaidwork/task-list.js'
 import { completeGenderInformationSection } from '../../steps/unpaidwork/gender-information.js'
 import { completeCulturalReligiousAdjustmentsSection } from '../../steps/unpaidwork/cultural-and-religious-adjustments.js'
 import { completePlacementPreferencesSection } from '../../steps/unpaidwork/placement-preferences.js'
 import { completeRiskHarmCommunitySection } from '../../steps/unpaidwork/risk-of-harm-community.js'
 import { completeManagingRiskSection } from '../../steps/unpaidwork/managing-risk.js'
-import {completeHealthIssuesSection} from "../../steps/unpaidwork/health-issues.js";
-import {completeDisabilitiesAndMentalHealthSection} from "../../steps/unpaidwork/disabilities-and-mental-health.js";
-import {completeCaringCommitmentsSection} from "../../steps/unpaidwork/caring-commitments.js";
-import {completeTravelInformationSection} from "../../steps/unpaidwork/travel-information.js";
-import {completeGPDetails} from "../../steps/unpaidwork/gp-details.js";
+import { completeHealthIssuesSection } from '../../steps/unpaidwork/health-issues.js'
+import { completeDisabilitiesAndMentalHealthSection } from '../../steps/unpaidwork/disabilities-and-mental-health.js'
+import { completeCaringCommitmentsSection } from '../../steps/unpaidwork/caring-commitments.js'
+import { completeTravelInformationSection } from '../../steps/unpaidwork/travel-information.js'
+import { completeGPDetails } from '../../steps/unpaidwork/gp-details.js'
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {
@@ -96,7 +100,6 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
     await clickGPDetailsLink(page)
     // And I complete "GP details" Section
     await completeGPDetails(page)
-
 })
 
 test.afterAll(async () => {

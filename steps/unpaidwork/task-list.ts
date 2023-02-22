@@ -41,7 +41,9 @@ export const clickDisabilitiesAndMentalHealthLink = async (page: Page) => {
 
 export const clickHealthIssuesLink = async (page: Page) => {
     await page.getByRole('link', { name: 'Health issues' }).click()
-    await expect(page.locator('.govuk-heading-xl')).toContainText('Are there any other health issues that may affect ability to work?')
+    await expect(page.locator('.govuk-heading-xl')).toContainText(
+        'Are there any other health issues that may affect ability to work?'
+    )
 }
 
 export const clickGPDetailsLink = async (page: Page) => {
