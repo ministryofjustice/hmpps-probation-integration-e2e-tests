@@ -38,6 +38,7 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     // - Sentencing court details
     await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Sentencing court details/)
     await expect(popup.locator('#court')).toHaveValue(event.court)
+    await popup.locator('input[name="localJusticeArea"]').fill(faker.address.cityName())
     const dateOfHearing = faker.date.recent()
     await popup.locator('input[name="dateOfHearing-day"]').fill(dateOfHearing.getDate().toString())
     await popup.locator('input[name="dateOfHearing-month"]').fill((dateOfHearing.getMonth() + 1).toString())
