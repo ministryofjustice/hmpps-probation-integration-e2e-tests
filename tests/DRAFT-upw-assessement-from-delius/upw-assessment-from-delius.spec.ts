@@ -12,18 +12,28 @@ import { startUPWAssessmentFromDelius } from '../../steps/delius/upw/start-upw-a
 import { login as unpaidWorkLogin } from '../../steps/unpaidwork/login.js'
 import { completeIndividualDetailsSection } from '../../steps/unpaidwork/individuals-details.js'
 import {
+    clickCaringCommitmentsLink,
     clickCulturalReligiousAdjustmentsLink,
+    clickDisabilitiesAndMentalHealthLink,
     clickGenderInformationLink,
+    clickGPDetailsLink,
+    clickHealthIssuesLink,
     clickIndividualDetailsLink,
     clickManagingRiskLink,
     clickPlacementPreferencesLink,
     clickRiskOfHarmCommunityLink,
+    clickTravelInformationLink,
 } from '../../steps/unpaidwork/task-list.js'
 import { completeGenderInformationSection } from '../../steps/unpaidwork/gender-information.js'
 import { completeCulturalReligiousAdjustmentsSection } from '../../steps/unpaidwork/cultural-and-religious-adjustments.js'
 import { completePlacementPreferencesSection } from '../../steps/unpaidwork/placement-preferences.js'
 import { completeRiskHarmCommunitySection } from '../../steps/unpaidwork/risk-of-harm-community.js'
 import { completeManagingRiskSection } from '../../steps/unpaidwork/managing-risk.js'
+import { completeHealthIssuesSection } from '../../steps/unpaidwork/health-issues.js'
+import { completeDisabilitiesAndMentalHealthSection } from '../../steps/unpaidwork/disabilities-and-mental-health.js'
+import { completeCaringCommitmentsSection } from '../../steps/unpaidwork/caring-commitments.js'
+import { completeTravelInformationSection } from '../../steps/unpaidwork/travel-information.js'
+import { completeGPDetails } from '../../steps/unpaidwork/gp-details.js'
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {
@@ -70,6 +80,26 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
     await clickManagingRiskLink(popup)
     // And I complete "Managing risk" Section
     await completeManagingRiskSection(popup)
+    // And I click on "Health Issues" link
+    await clickHealthIssuesLink(page)
+    // And I complete "Health Issues" Section
+    await completeHealthIssuesSection(page)
+    // And I click on "Disabilities and Mental Health" link
+    await clickDisabilitiesAndMentalHealthLink(page)
+    // And I complete "Disabilities and Mental Health" Section
+    await completeDisabilitiesAndMentalHealthSection(page)
+    // And I click on "Caring commitments" link
+    await clickCaringCommitmentsLink(page)
+    // And I complete "Caring commitments" Section
+    await completeCaringCommitmentsSection(page)
+    // And I click on "Travel" link
+    await clickTravelInformationLink(page)
+    // And I complete "Travel information" Section
+    await completeTravelInformationSection(page)
+    // And I click on "GP details" link
+    await clickGPDetailsLink(page)
+    // And I complete "GP details" Section
+    await completeGPDetails(page)
 })
 
 test.afterAll(async () => {
