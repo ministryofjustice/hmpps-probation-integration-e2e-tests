@@ -96,7 +96,6 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
     await clickGPDetailsLink(page)
     // And I complete "GP details" Section
     await completeGPDetails(page)
-
 })
 
 test.afterAll(async () => {

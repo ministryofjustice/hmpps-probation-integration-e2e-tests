@@ -40,7 +40,7 @@ import {
     clickChooseSectionsOfOASysToImportLink,
     clickTypeOfAPRequiredLink,
     verifyRoshScoresAreAsPerOasys,
-} from '../../steps/approved-premises/applications/apply-for-ap-placement.js'
+} from '../../steps/approved-premises/applications/task-list.js'
 import { selectTypeOfAPRequired } from '../../steps/approved-premises/applications/select-type-ap-required.js'
 import { completeRoSHSection1MarkAllNo } from '../../steps/oasys/layer3-assessment/section-1.js'
 import { clickSection2To4NextButton } from '../../steps/oasys/layer3-assessment/section-2-4.js'
@@ -66,7 +66,7 @@ const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
     page,
 }) => {
-    test.skip()
+    // test.skip()
     // Given I create new Offender in nDelius
     await deliusLogin(page)
     const person = deliusPerson()
@@ -132,6 +132,8 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await clickRelationships(page)
     // And I complete "Relationships" Section
     await completeRelationshipsSection(page)
+
+
     // When I login in to Approved Premises
     await approvedPremisesLogin(page)
     // And I navigate to AP Applications
