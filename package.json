@@ -15,7 +15,7 @@
   "type": "module",
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
-    "@playwright/test": "^1.30.0",
+    "@playwright/test": "1.30.0",
     "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
@@ -27,8 +27,5 @@
     "pdf2json": "^3.0.3",
     "prettier": "2.8.4",
     "uuid": "^9.0.0"
-  },
-  "dependencies": {
-    "playwright": "^1.30.0"
   }
 }
