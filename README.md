@@ -13,7 +13,7 @@ queues, external databases etc. - components we can't reliably test using mocks.
 ### Dependencies
 
 ```shell
-# install npm (Mac/Linux)
+# install node and npm (Mac/Linux)
 brew install npm
 
 # install project dependencies
@@ -22,6 +22,9 @@ npm install
 # install browsers
 npx playwright install --with-deps
 ```
+
+> [Node](https://nodejs.org/en/) 16.x or higher is required.
+Install the latest version with `brew install npm`, or a specific version with `brew install node@16`.
 
 ### Configuration
 
