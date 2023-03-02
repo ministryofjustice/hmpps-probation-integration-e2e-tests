@@ -44,6 +44,10 @@ export const makeReferral = async (page: Page, crn: string) => {
 
     // Save and continue
     await page.locator('text=Save and continue').click()
+    await expect(page).toHaveURL(/referrals\/.*\/submit-current-location/)
+
+    await page.locator('#current-location-2').check()
+    await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/referrals\/.*\/form/)
 
     // Confirm the relevant sentence
@@ -129,7 +133,7 @@ export const assignReferral = async (page: Page, referralRef: string) => {
 
 export const cancelReferral = async (page: Page, referralRef: string) => {
     // Navigate to list of available interventions
-    await page.locator('text=Open cases').click()
+    await page.locator('a', { hasText: 'Open cases' }).click()
     await expect(page).toHaveURL(/probation-practitioner\/dashboard\/open-cases/)
 
     await page.locator('tr', { hasText: referralRef }).locator('a', { hasText: 'View' }).click()

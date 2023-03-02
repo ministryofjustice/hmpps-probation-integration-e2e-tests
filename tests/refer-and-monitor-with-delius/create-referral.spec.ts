@@ -51,14 +51,17 @@ test('Create R&M Referral', async ({ page }) => {
     await createSupplierAssessmentAppointment(page, referralRef)
     await logoutRandMSupplier(page)
 
+    // Check that the SAA has been created in Delius
+    await loginDelius(page)
+    await verifyContacts(page, crn, [contact('1 - CRS Accommodation', 'Appointment with CRS Staff (NS)')])
+
     await loginRandM(page)
     await cancelReferral(page, referralRef)
 
-    // Check that the SAA has been created in Delius and completed
+    // Check that the Completed contact has been created in Delius
     await loginDelius(page)
-
     await verifyContacts(page, crn, [
-        contact('1 - CRS Accommodation', 'Appointment with CRS Staff (NS)'),
+        contact('1 - CRS Accommodation', 'In Progress'),
         contact('1 - CRS Accommodation', 'Completed'),
     ])
 })
