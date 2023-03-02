@@ -8,15 +8,14 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
     await findContactsByCRN(page, crn)
     await page.locator('input.btn', { hasText: 'Add Contact' }).first().click()
     await expect(page).toHaveTitle('Add Contact Details')
-
-    await selectOption(page, '#addContactForm\\:RelatedTo', options.relatesTo)
+    await selectOptionAndWait(page, '#addContactForm\\:RelatedTo', options.relatesTo)
+    await selectOptionAndWait(page, '#addContactForm\\:TransferToTrust', options.allocation?.team?.provider)
     await selectOptionAndWait(page, '#addContactForm\\:ContactCategory', options.category)
+    await selectOptionAndWait(page, '#addContactForm\\:TransferToTeam', options.allocation?.team?.name)
     await selectOptionAndWait(page, '#addContactForm\\:ContactType', options.type)
+    await selectOptionAndWait(page, '#addContactForm\\:Location', options.allocation?.team?.location)
     await fillTime(page, '#addContactForm\\:StartTime', new Date())
     await fillTime(page, '#addContactForm\\:EndTime', new Date(new Date().getTime() + 60000))
-    await selectOptionAndWait(page, '#addContactForm\\:TransferToTrust', options.allocation?.team?.provider)
-    await selectOptionAndWait(page, '#addContactForm\\:TransferToTeam', options.allocation?.team?.name)
-    await selectOptionAndWait(page, '#addContactForm\\:Location', options.allocation?.team?.location)
     await selectOptionAndWait(page, '#addContactForm\\:TransferToOfficer', options.allocation?.staff?.name)
     await doUntil(
         () => page.locator('#addContactForm\\:saveButton').click(),
