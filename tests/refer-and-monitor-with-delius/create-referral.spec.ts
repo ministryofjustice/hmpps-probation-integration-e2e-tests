@@ -11,7 +11,7 @@ import {
     loginAsSupplier as loginRandMAsSupplier,
     logoutSupplier as logoutRandMSupplier,
 } from '../../steps/referandmonitor/login.js'
-import {assignReferral, cancelReferral, makeReferral} from '../../steps/referandmonitor/referral.js'
+import { assignReferral, cancelReferral, makeReferral } from '../../steps/referandmonitor/referral.js'
 import { createSupplierAssessmentAppointment } from '../../steps/referandmonitor/appointment.js'
 import { data } from '../../test-data/test-data.js'
 import { contact } from '../../steps/delius/utils/contact.js'
