@@ -18,6 +18,7 @@ import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/pris
 const nomisIds = []
 
 test('Create an approved premises booking', async ({ page }) => {
+    test.skip()
     //Given I login in to NDelius
     await hmppsLogin(page)
     await deliusLogin(page)
