@@ -11,7 +11,7 @@ import {
     loginAsSupplier as loginRandMAsSupplier,
     logoutSupplier as logoutRandMSupplier,
 } from '../../steps/referandmonitor/login.js'
-import { assignReferral, makeReferral } from '../../steps/referandmonitor/referral.js'
+import {assignReferral, cancelReferral, makeReferral} from '../../steps/referandmonitor/referral.js'
 import { createSupplierAssessmentAppointment } from '../../steps/referandmonitor/appointment.js'
 import { data } from '../../test-data/test-data.js'
 import { contact } from '../../steps/delius/utils/contact.js'
@@ -24,7 +24,6 @@ test.beforeEach(async ({ page }) => {
 const EVENT_NUMBER = 1
 
 test('Create R&M Referral', async ({ page }) => {
-    test.skip()
     // Create a person to work with
     const crn: string = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
@@ -52,7 +51,14 @@ test('Create R&M Referral', async ({ page }) => {
     await createSupplierAssessmentAppointment(page, referralRef)
     await logoutRandMSupplier(page)
 
-    // Check that the SAA has been created in Delius
+    await loginRandM(page)
+    await cancelReferral(page, referralRef)
+
+    // Check that the SAA has been created in Delius and completed
     await loginDelius(page)
-    await verifyContacts(page, crn, [contact('1 - CRS Accommodation', 'Appointment with CRS Staff (NS)')])
+
+    await verifyContacts(page, crn, [
+        contact('1 - CRS Accommodation', 'Appointment with CRS Staff (NS)'),
+        contact('1 - CRS Accommodation', 'Completed'),
+    ])
 })
