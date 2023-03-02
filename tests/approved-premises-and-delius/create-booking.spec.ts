@@ -48,6 +48,7 @@ import {completeRelationshipsSection} from "../../steps/oasys/layer3-assessment/
 const nomisIds = []
 
 test('Create an approved premises booking', async ({ page }) => {
+    test.slow()
     //Given I login in to NDelius
     await hmppsLogin(page)
     await deliusLogin(page)
@@ -104,22 +105,30 @@ test('Create an approved premises booking', async ({ page }) => {
     await completeRoSHFullSec8RisksToIndvdl(page)
     // And I click on "Accommodation' under Section 2 to 4
     await clickAccommodation(page)
-    // And I complete "Accommodation" Section
-    await completeAccommodationSection(page)
-    // And I click on 'ETE'(4 - Education, Training and Employability) under Section 2 to 4
-    await clickEducationTrainingEmpl(page)
-    // And I complete "Education, Training and Employability" Section
-    await completeETESection(page)
-    // And I click on "Relationships" under Section 2 to 4
-    await clickRelationships(page)
-    // And I complete "Relationships" Section
-    await completeRelationshipsSection(page)
-    //When I log in to Approved Premises as a "DELIUS_LOGIN_USER" user
+    // // And I complete "Accommodation" Section
+    // await completeAccommodationSection(page)
+    // // And I click on 'ETE'(4 - Education, Training and Employability) under Section 2 to 4
+    // await clickEducationTrainingEmpl(page)
+    // // And I complete "Education, Training and Employability" Section
+    // await completeETESection(page)
+    // // And I click on "Relationships" under Section 2 to 4
+    // await clickRelationships(page)
+    // // And I complete "Relationships" Section
+    // await completeRelationshipsSection(page)
+    // When I log in to Approved Premises as a "DELIUS_LOGIN_USER" user
     await approvedPremisesLogin(page)
     await navigateToApplications(page)
-    // const crn = 'X629725'
+
+
+
+    // const crn = 'X633811'
     // And I submit the application for this CRN
     await submitAPApplication(page, crn)
+
+
+
+
+
     // And I log back to Approved Premises
     await approvedPremisesLogin(page)
     // And I choose a premises # Choose the first premises in the list

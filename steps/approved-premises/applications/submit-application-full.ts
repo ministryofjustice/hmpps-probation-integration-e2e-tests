@@ -70,12 +70,15 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     await selectTypeOfAPRequired(page)
     // And I click on "Choose sections of OASys to import" link
     await clickChooseSectionsOfOASysToImportLink(page)
-    const saveAndContinueButton = page.locator('.govuk-button', { hasText: 'Save and continue' });
+    // const saveAndContinueButton = await page.locator('.govuk-button', { hasText: 'Save and continue' });
     // const saveAndContinueButton = page.locator('.govuk-button');
-    await saveAndContinueButton.click(); // click the button once
+    // await saveAndContinueButton.click(); // click the button once
     // click the saveAndContinue button 5 times to import all the OASys sections
-    for (let i = 0; i < 5; i++) {
-        await saveAndContinueButton.click();
+    // await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
+    for (let i = 0; i < 6; i++) {
+        // await saveAndContinueButton.click();
+
+        await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
     }
     await expect(page.locator('#oasys-import-status')).toHaveText("Completed")
     // And I fill all the sections
@@ -88,7 +91,11 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     await clickAddAccessCulturalHealthcareNeedsLink(page)
     await addAccessCulturalHealthCareNeeds(page)
     await clickDtlFrtherConsidPlacementLink(page)
+
+
     await addFurtherPlacementConsiderations(page)
+
+
     await clickAddMoveOnInfoLink(page)
     await addMoveOnInformation(page)
     await clickAttachRqrdDocumentsLink(page)
