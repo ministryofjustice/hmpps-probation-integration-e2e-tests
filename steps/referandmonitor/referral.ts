@@ -44,6 +44,10 @@ export const makeReferral = async (page: Page, crn: string) => {
 
     // Save and continue
     await page.locator('text=Save and continue').click()
+    await expect(page).toHaveURL(/referrals\/.*\/submit-current-location/)
+
+    await page.locator('#current-location-2').check()
+    await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/referrals\/.*\/form/)
 
     // Confirm the relevant sentence
@@ -125,4 +129,23 @@ export const assignReferral = async (page: Page, referralRef: string) => {
 
     await page.locator('text=Return to dashboard').click()
     await expect(page).toHaveURL(/service-provider\/dashboard\/unassigned-cases/)
+}
+
+export const cancelReferral = async (page: Page, referralRef: string) => {
+    // Navigate to list of available interventions
+    await page.locator('a', { hasText: 'Open cases' }).click()
+    await expect(page).toHaveURL(/probation-practitioner\/dashboard\/open-cases/)
+
+    await page.locator('tr', { hasText: referralRef }).locator('a', { hasText: 'View' }).click()
+    await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/progress/)
+
+    await page.locator('a', { hasText: 'Cancel this referral' }).click()
+    await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/cancellation\/.*\/reason/)
+
+    await page.locator('label', { hasText: "Probation practitioner's professional judgement" }).click()
+    await page.locator('button.govuk-button').click()
+
+    await page.locator('p', { hasText: 'Are you sure you want to cancel this referral?' })
+    await page.locator('button.govuk-button').click()
+    await expect(page.locator('h1.govuk-panel__title')).toContainText('This referral has been cancelled')
 }

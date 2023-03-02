@@ -27,8 +27,5 @@
     "pdf2json": "^3.0.3",
     "prettier": "2.8.4",
     "uuid": "^9.0.0"
-  },
-  "dependencies": {
-    "playwright": "^1.30.0"
   }
 }
