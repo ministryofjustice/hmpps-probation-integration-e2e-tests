@@ -1,5 +1,4 @@
 import { type Page, expect } from '@playwright/test'
-import {reviewPrisoninformation} from "./review-prison-information.js";
 
 export const clickTypeOfAPRequiredLink = async (page: Page) => {
     await page.locator('a', { hasText: 'Type of AP required' }).click()
@@ -56,7 +55,6 @@ export const clickCheckYourAnswersLink = async (page: Page) => {
     await page.locator('a', { hasText: 'Check your answers' }).click()
     await expect(page.locator('#main-content h1')).toContainText('Check your answers')
 }
-
 
 export const verifyRoshScoresAreAsPerOasys = async (page: Page) => {
     await expect(page.locator(`td:right-of(:text-is("Children"))`).first()).toHaveText('Very high')

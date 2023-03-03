@@ -14,8 +14,7 @@ export const addExemptionDetails = async (page: Page) => {
     await page
         .getByLabel('Provide a summary of the reasons why this is an exempt application')
         .fill('Test reason for application exemption')
-    // await page.locator('button', { hasText: 'Save and continue' }).click()
-    await page.locator('.govuk-button').click();
+    await page.locator('.govuk-button', { hasText: 'Save and continue' }).click();
     await expect(page.locator('#main-content h1')).toHaveText(
         ' Which of the following best describes the sentence type the person is on?'
     )

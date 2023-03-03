@@ -9,8 +9,6 @@ export const selectReleaseDateKnownStatus = async (page: Page) => {
     await page.fill('#releaseDate-day', futureDay)
     await page.fill('#releaseDate-month', futureMonth)
     await page.fill('#releaseDate-year', futureYear)
-    // await page.locator('button', { hasText: 'Submit' }).click()
-    // await page.locator('button', { hasText: 'Save and continue' }).click()
-    await page.locator('.govuk-button').click();
+    await page.locator('.govuk-button', { hasText: 'Save and continue' }).click();
     await expect(page.locator('#main-content h1')).toContainText(/the date you want the placement to start?/)
 }
