@@ -21,7 +21,6 @@ import {verifyContacts} from "../../steps/delius/contact/find-contacts.js";
 import {contact} from "../../steps/delius/utils/contact.js";
 import {findOffenderByCRN} from "../../steps/delius/offender/find-offender.js";
 
-
 const nomisIds = []
 
 test('Create an approved premises booking', async ({ page }) => {

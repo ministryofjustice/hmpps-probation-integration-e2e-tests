@@ -31,34 +31,47 @@
   import {checkYourAnswers} from "./check-your-answers.js";
 
 export const submitAPApplication = async (page: Page, crn: string) => {
+
     // And I enter the CRN & Submit
     await enterCRN(page, crn)
+
     // And I click on Save and Continue confirming the offender's details
     await clickSaveAndContinue(page)
+
     // And I say this an exceptional case
     await clickExceptionalCaseYes(page)
+
     // And I say add the agreed date and exception details
     await addExemptionDetails(page)
+
     // And I select Sentence Type and click on Submit
     await selectSentenceType(page)
+
     // And I select "Referral for risk management" Option that describes the situation
     await selectSituationOption(page)
+
     // And I select that I know release date
     await selectReleaseDateKnownStatus(page)
+
     // And I confirm placement start date is same as release date
     await confirmPlacementStartdate(page)
+
     // And I select "Public protection" as the purpose of the Approved Premises (AP) placement
     await selectAPPlacementPurpose(page)
+
     // And I click on Type Of AP Required Link
     await clickTypeOfAPRequiredLink(page)
+
     // And I select Type Of Approved Premises Required and Click on Submit
     await selectTypeOfAPRequired(page)
+
     // And I click on "Choose sections of OASys to import" link
     await clickChooseSectionsOfOASysToImportLink(page)
     for (let i = 0; i < 6; i++) {
         await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
     }
     await expect(page.locator('#oasys-import-status')).toHaveText("Completed")
+
     // And I fill all the sections
     await clickAddDetailsManagingRisksNeedsLink(page)
     await addRisksNeedsDetails(page)
@@ -77,6 +90,7 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     await clickCheckYourAnswersLink(page)
     await checkYourAnswers(page)
     await page.getByLabel('I confirm the information provided is complete, accurate and up to date.').check()
+
     // Then I submit the appplication
     await page.locator('button', { hasText: 'Submit application' }).click();
     await expect(page.locator('#main-content h1')).toContainText('Application confirmation')

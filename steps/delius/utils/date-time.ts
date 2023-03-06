@@ -8,7 +8,6 @@ export const EuropeLondonFormat = (date: Date) =>
 
 //Getting dates using date-fns lib
 export const NextMonth = addMonths(new Date(), 1)
-export const AfterFiveMonths = addMonths(new Date(), 5)
 export const LastMonth = subMonths(new Date(), 1)
 export const NextYear = addYears(new Date(), 1)
 export const Tomorrow = addDays(new Date(), 1)
