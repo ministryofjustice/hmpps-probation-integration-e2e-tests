@@ -17,7 +17,7 @@ import { addKeyWorker } from './Keyworker/add-keyworker.js'
 dotenv.config() // read environment variables into process.env
 
 export const createApprovedPremisesKeyWorker = async (page: Page) => {
-    //Given I am on the NDelius Home Page and click on "Reference Data" Button
+    // Given I am on the NDelius Home Page and click on "Reference Data" Button
     await clickReferenceData(page)
     // And I click on "Local Reference Records" link on the Reference Data page
     await clickLocalReferenceRecords(page)

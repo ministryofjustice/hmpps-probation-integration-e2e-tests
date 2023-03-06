@@ -5,7 +5,7 @@ export const login = async (page: Page) => {
     const deliusTitle = 'National Delius Home Page'
     const title = await page.locator('title').textContent()
 
-    //may already be logged in
+    // may already be logged in
     if (title == deliusTitle) {
         return
     }

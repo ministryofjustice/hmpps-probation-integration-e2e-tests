@@ -40,7 +40,7 @@ import {
     clickChooseSectionsOfOASysToImportLink,
     clickTypeOfAPRequiredLink,
     verifyRoshScoresAreAsPerOasys,
-} from '../../steps/approved-premises/applications/apply-for-ap-placement.js'
+} from '../../steps/approved-premises/applications/task-list.js'
 import { selectTypeOfAPRequired } from '../../steps/approved-premises/applications/select-type-ap-required.js'
 import { completeRoSHSection1MarkAllNo } from '../../steps/oasys/layer3-assessment/section-1.js'
 import { clickSection2To4NextButton } from '../../steps/oasys/layer3-assessment/section-2-4.js'
@@ -61,12 +61,13 @@ import { completeRelationshipsSection } from '../../steps/oasys/layer3-assessmen
 import { verifySupportingInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-supporting-info.js'
 import { clickExceptionalCaseYes } from '../../steps/approved-premises/applications/application-not-eligible.js'
 import { addExemptionDetails } from '../../steps/approved-premises/applications/add-exemption-details.js'
+import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs.js'
+import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs.js'
 
 const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
     page,
 }) => {
-    test.skip()
     // Given I create new Offender in nDelius
     await deliusLogin(page)
     const person = deliusPerson()
@@ -78,60 +79,10 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     nomisIds.push(nomisId)
     // And I log in to OASys as a "OASYS_T2_LOGIN_USER" user
     await oasysLogin(page)
-    // And I select "Warwickshire" from Choose Provider Establishment
-    await selectRegion(page)
-    // And I click on the Search button from the top menu
-    await clickSearch(page)
-    // And I enter the crn number and search
-    await crnSearch(page, crn)
-    // And I click on Create Offender button
-    await clickCreateOffenderButton(page)
-    // And I click on Create Assessment Button
-    await clickCreateAssessmentButton(page)
-    // And I say OK for CRN Amendment
-    await clickOKForCRNAmendment(page)
-    // And I click on CMS Record
-    await clickCMSRecord(page)
-    // And I update the offender
-    await clickUpdateOffenderButton(page)
-    // And I start creating Layer 3 Assessment
-    await createLayer3Assessment(page)
-    // And I Click on "RoSH Screening" Section
-    await clickRoSHScreeningSection1(page)
-    // And I complete RoSH Screening Section 1 and Click Save & Next
-    await completeRoSHSection1MarkAllNo(page)
-    // And I Click on "RoSH Screening" - Section 2 to 4 & and Click Next without selecting/entering anything
-    await clickSection2To4NextButton(page)
-    // And I complete "RoSH Screening" Section 5 and Click Save & Next
-    await completeRoSHSection5FullAnalysisYes(page)
-    // And I Click on "RoSH Summary" Section
-    await clickRoSHSummary(page)
-    // And I complete "RoSH Summary - R10" Questions
-    await completeRoSHSection10RoSHSummary(page)
-    // And I Click on "Risk Management Plan" Section
-    await clickRiskManagementPlan(page)
-    // And I complete "Risk Management Plan" Questions
-    await completeRiskManagementPlan(page)
-    // And I click on "Section 2 to 13" & "2 - Offence Analysis"
-    await clickOffenceAnalysis(page)
-    // And I complete Offence Analysis Plan Questions
-    await completeOffenceAnalysis(page)
-    // And I click on "Section 8" under Rosh Full Analysis
-    await clickRoshFullRisksToIndividual(page)
-    // And I complete "Risks to Individual(Risks to Self)" Section
-    await completeRoSHFullSec8RisksToIndvdl(page)
-    // And I click on "Accommodation' under Section 2 to 4
-    await clickAccommodation(page)
-    // And I complete "Accommodation" Section
-    await completeAccommodationSection(page)
-    // And I click on 'ETE'(4 - Education, Training and Employability) under Section 2 to 4
-    await clickEducationTrainingEmpl(page)
-    // And I complete "Education, Training and Employability" Section
-    await completeETESection(page)
-    // And I click on "Relationships" under Section 2 to 4
-    await clickRelationships(page)
-    // And I complete "Relationships" Section
-    await completeRelationshipsSection(page)
+    // And I create a Layer 3 Assessment without Needs in OASys
+    await createLayer3AssessmentWithoutNeeds(page, crn)
+    // And I add Needs for Layer 3 Assessment
+    await addLayer3AssessmentNeeds(page, crn)
     // When I login in to Approved Premises
     await approvedPremisesLogin(page)
     // And I navigate to AP Applications

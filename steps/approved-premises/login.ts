@@ -6,7 +6,7 @@ export const login = async (page: Page) => {
     const approvedPremisesTitle = 'Approved Premises - Home'
     const title = await page.locator('title').textContent()
 
-    //may already be logged in
+    // may already be logged in
     if (title.trim() == approvedPremisesTitle) {
         page.once('dialog', dialog => dialog.accept())
         await page.locator('a', { hasText: 'Sign out' }).click()
