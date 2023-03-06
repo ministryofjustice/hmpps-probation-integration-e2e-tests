@@ -1,37 +1,36 @@
-  import { type Page, expect } from '@playwright/test'
-  import {enterCRN} from "./enter-crn.js";
-  import {clickSaveAndContinue} from "./confirm-details.js";
-  import {clickExceptionalCaseYes} from "./application-not-eligible.js";
-  import {selectSentenceType} from "./select-sentence-type.js";
-  import {selectSituationOption} from "./select-situation-option.js";
-  import {selectReleaseDateKnownStatus} from "./release-date-known-status.js";
-  import {confirmPlacementStartdate} from "./placement-start-date.js";
-  import {selectAPPlacementPurpose} from "./ap-placement-purpose.js";
-  import {
+import { type Page, expect } from '@playwright/test'
+import { enterCRN } from './enter-crn.js'
+import { clickSaveAndContinue } from './confirm-details.js'
+import { clickExceptionalCaseYes } from './application-not-eligible.js'
+import { selectSentenceType } from './select-sentence-type.js'
+import { selectSituationOption } from './select-situation-option.js'
+import { selectReleaseDateKnownStatus } from './release-date-known-status.js'
+import { confirmPlacementStartdate } from './placement-start-date.js'
+import { selectAPPlacementPurpose } from './ap-placement-purpose.js'
+import {
     clickAddAccessCulturalHealthcareNeedsLink,
     clickAddDetailsManagingRisksNeedsLink,
     clickAddMoveOnInfoLink,
     clickAttachRqrdDocumentsLink,
-      clickCheckYourAnswersLink,
+    clickCheckYourAnswersLink,
     clickChooseSectionsOfOASysToImportLink,
     clickDescribeLocationFactorsLink,
     clickDtlFrtherConsidPlacementLink,
     clickreviewPrisoninformationLink,
-    clickTypeOfAPRequiredLink
-} from "./task-list.js";
-  import {selectTypeOfAPRequired} from "./select-type-ap-required.js";
-  import {addExemptionDetails} from "./add-exemption-details.js";
-  import {addRisksNeedsDetails} from "./add-details-managing-risks-needs.js";
-  import {reviewPrisoninformation} from "./review-prison-information.js";
-  import {addLocationFactors} from "./location-factors.js";
-  import {addAccessCulturalHealthCareNeeds} from "./access-cultural-healthcare-needs.js";
-  import {addFurtherPlacementConsiderations} from "./futher-placement-considerations.js";
-  import {addMoveOnInformation} from "./add-move-on-info.js";
-  import {attachReqrdDocuments} from "./attach-required-documents.js";
-  import {checkYourAnswers} from "./check-your-answers.js";
+    clickTypeOfAPRequiredLink,
+} from './task-list.js'
+import { selectTypeOfAPRequired } from './select-type-ap-required.js'
+import { addExemptionDetails } from './add-exemption-details.js'
+import { addRisksNeedsDetails } from './add-details-managing-risks-needs.js'
+import { reviewPrisoninformation } from './review-prison-information.js'
+import { addLocationFactors } from './location-factors.js'
+import { addAccessCulturalHealthCareNeeds } from './access-cultural-healthcare-needs.js'
+import { addFurtherPlacementConsiderations } from './futher-placement-considerations.js'
+import { addMoveOnInformation } from './add-move-on-info.js'
+import { attachReqrdDocuments } from './attach-required-documents.js'
+import { checkYourAnswers } from './check-your-answers.js'
 
 export const submitAPApplication = async (page: Page, crn: string) => {
-
     // And I enter the CRN & Submit
     await enterCRN(page, crn)
 
@@ -70,7 +69,7 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     for (let i = 0; i < 6; i++) {
         await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
     }
-    await expect(page.locator('#oasys-import-status')).toHaveText("Completed")
+    await expect(page.locator('#oasys-import-status')).toHaveText('Completed')
 
     // And I fill all the sections
     await clickAddDetailsManagingRisksNeedsLink(page)
@@ -92,6 +91,6 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     await page.getByLabel('I confirm the information provided is complete, accurate and up to date.').check()
 
     // Then I submit the appplication
-    await page.locator('button', { hasText: 'Submit application' }).click();
+    await page.locator('button', { hasText: 'Submit application' }).click()
     await expect(page.locator('#main-content h1')).toContainText('Application confirmation')
 }

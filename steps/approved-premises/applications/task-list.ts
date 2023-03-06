@@ -48,7 +48,9 @@ export const clickAddMoveOnInfoLink = async (page: Page) => {
 
 export const clickAttachRqrdDocumentsLink = async (page: Page) => {
     await page.locator('a', { hasText: 'Attach required documents' }).click()
-    await expect(page.locator('#main-content h1')).toContainText('Select any additional documents that are required to support your application')
+    await expect(page.locator('#main-content h1')).toContainText(
+        'Select any additional documents that are required to support your application'
+    )
 }
 
 export const clickCheckYourAnswersLink = async (page: Page) => {

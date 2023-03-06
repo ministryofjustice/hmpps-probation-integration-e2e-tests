@@ -4,7 +4,7 @@ import { login as hmppsLogin } from '../../steps/hmpps-auth/login.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { data } from '../../test-data/test-data.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
-import {login as approvedPremisesLogin, navigateToApplications} from '../../steps/approved-premises/login.js'
+import { login as approvedPremisesLogin, navigateToApplications } from '../../steps/approved-premises/login.js'
 import { selectApprovedPremises } from '../../steps/approved-premises/approved-premises-home.js'
 import { managePlacement, selectCreatePlacementAction } from '../../steps/approved-premises/approved-premises.js'
 import { searchOffenderWithCrn } from '../../steps/approved-premises/create-placement.js'
@@ -14,12 +14,12 @@ import { selectMarkAsArrivedAction } from '../../steps/approved-premises/placeme
 import { verifyKeyworkerAvailability } from '../../steps/approved-premises/mark-as-arrived.js'
 import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
-import {submitAPApplication} from "../../steps/approved-premises/applications/submit-application-full.js";
-import {login as oasysLogin} from "../../steps/oasys/login.js";
-import {createLayer3AssessmentWithoutNeeds} from "../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs.js";
-import {verifyContacts} from "../../steps/delius/contact/find-contacts.js";
-import {contact} from "../../steps/delius/utils/contact.js";
-import {findOffenderByCRN} from "../../steps/delius/offender/find-offender.js";
+import { submitAPApplication } from '../../steps/approved-premises/applications/submit-application-full.js'
+import { login as oasysLogin } from '../../steps/oasys/login.js'
+import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs.js'
+import { verifyContacts } from '../../steps/delius/contact/find-contacts.js'
+import { contact } from '../../steps/delius/utils/contact.js'
+import { findOffenderByCRN } from '../../steps/delius/offender/find-offender.js'
 
 const nomisIds = []
 

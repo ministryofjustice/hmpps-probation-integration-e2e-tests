@@ -61,10 +61,8 @@ import { completeRelationshipsSection } from '../../steps/oasys/layer3-assessmen
 import { verifySupportingInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-supporting-info.js'
 import { clickExceptionalCaseYes } from '../../steps/approved-premises/applications/application-not-eligible.js'
 import { addExemptionDetails } from '../../steps/approved-premises/applications/add-exemption-details.js'
-import {createLayer3AssessmentWithoutNeeds} from "../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs.js";
-import {
-    addLayer3AssessmentNeeds
-} from "../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs.js";
+import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs.js'
+import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs.js'
 
 const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({

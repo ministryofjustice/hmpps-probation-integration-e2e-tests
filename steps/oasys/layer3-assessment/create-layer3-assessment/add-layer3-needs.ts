@@ -1,11 +1,8 @@
-import {type Page} from '@playwright/test'
-import {
-    clickAccommodation, clickEducationTrainingEmpl,
-    clickRelationships,
-} from "../create-assessment.js";
-import {completeAccommodationSection} from "../accommodation-section.js";
-import {completeETESection} from "../ete-section.js";
-import {completeRelationshipsSection} from "../relationships-section.js";
+import { type Page } from '@playwright/test'
+import { clickAccommodation, clickEducationTrainingEmpl, clickRelationships } from '../create-assessment.js'
+import { completeAccommodationSection } from '../accommodation-section.js'
+import { completeETESection } from '../ete-section.js'
+import { completeRelationshipsSection } from '../relationships-section.js'
 
 export const addLayer3AssessmentNeeds = async (page: Page, crn: string) => {
     // And I click on "Accommodation' under Section 2 to 4
