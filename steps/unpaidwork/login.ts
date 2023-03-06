@@ -5,7 +5,7 @@ export const login = async (page: Page) => {
     const unpaidWorkTitle = 'Complete and download the Community payback assessment'
     const title = await page.locator('title').textContent()
 
-    //may already be logged in
+    // may already be logged in
     if (title.trim() == unpaidWorkTitle) {
         page.once('dialog', dialog => dialog.accept())
         await page.locator('a', { hasText: 'Sign out' }).click()

@@ -25,7 +25,7 @@ const nomisIds = []
 
 test('Create an approved premises booking', async ({ page }) => {
     test.slow() // increase the timeout - Delius/OASys/AP Applications/Approved premises can take a few minutes
-    //Given I login in to NDelius
+    // Given I login in to NDelius
     await hmppsLogin(page)
     await deliusLogin(page)
     const person = deliusPerson()
@@ -37,11 +37,11 @@ test('Create an approved premises booking', async ({ page }) => {
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
     await oasysLogin(page)
-    //And I create a Layer 3 Assessment without Needs in OASys
+    // And I create a Layer 3 Assessment without Needs in OASys
     await createLayer3AssessmentWithoutNeeds(page, crn)
-    //And I login to Approved Premises
+    // And I login to Approved Premises
     await approvedPremisesLogin(page)
-    //And I navigate to Approved Premises - Applications
+    // And I navigate to Approved Premises - Applications
     await navigateToApplications(page)
     // And I complete all the sections and submit the application for this CRN
     await submitAPApplication(page, crn)
@@ -51,7 +51,7 @@ test('Create an approved premises booking', async ({ page }) => {
     await selectApprovedPremises(page)
     // And I navigate to create a placement # Choose Actions > Create a placement
     await selectCreatePlacementAction(page)
-    //And I search for the offender with CRN
+    // And I search for the offender with CRN
     await searchOffenderWithCrn(page, crn)
     // When I create a booking in Approved Premises
     await createBooking(page)
@@ -68,7 +68,7 @@ test('Create an approved premises booking', async ({ page }) => {
     )
     // And login to nDelius
     await deliusLogin(page)
-    //And I Search for offender with CRN
+    // And I Search for offender with CRN
     await findOffenderByCRN(page, crn)
     // And I should see a contact in Delius for the booking
     await verifyContacts(page, crn, [contact('Person', 'Approved Premises Booking for Bedford AP')])

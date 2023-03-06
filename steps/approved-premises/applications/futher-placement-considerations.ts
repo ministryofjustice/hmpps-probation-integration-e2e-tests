@@ -10,32 +10,32 @@ export const addFurtherPlacementConsiderations = async (page: Page) => {
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
     await expect(page.locator('#main-content h1')).toContainText("Vulnerability")
 
-    //"Vulnerability" Page
+    // "Vulnerability" Page
     await page.locator('#exploitable-2').check()
     await page.locator('#exploitOthers-2').check()
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
 
-    //"Previous Approved Premises (AP) placements" Page
+    // "Previous Approved Premises (AP) placements" Page
     await expect(page.locator('#main-content h1')).toContainText("Previous Approved Premises (AP) placements")
     await page.locator('#previousPlacement-2').check()
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
 
-    //"Complex case board" Page
+    // "Complex case board" Page
     await expect(page.locator('#main-content h1')).toContainText("Complex case board")
     await page.locator('#complexCaseBoard-2').check()
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
 
-    //"Catering requirements" Page
+    // "Catering requirements" Page
     await expect(page.locator('#main-content h1')).toContainText("Catering requirements")
     await page.locator('#catering-2').check()
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
 
-    //"Arson" Page
+    // "Arson" Page
     await expect(page.locator('#main-content h1')).toContainText("Arson")
     await page.locator('#arson-2').check()
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
 
-    //"Contingency plans" Page
+    // "Contingency plans" Page
     await expect(page.locator('#main-content h1')).toContainText("Contingency plans")
     await page.getByLabel('Name of partner agency').fill(faker.company.name())
     await page.getByLabel('Named contact').fill(faker.name.fullName())

@@ -65,7 +65,7 @@ export async function createEvent(page: Page, { crn, allocation, event }: Create
         await selectOption(page, '#NextCourt')
     }
 
-    //focus on something outside of input to activate onblur
+    // focus on something outside of input to activate onblur
     await page.focus('#content')
     await page.locator('input', { hasText: 'Save' }).click()
     const pageTitle = await page.title()
