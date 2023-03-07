@@ -5,28 +5,7 @@ import { login as deliusLogin } from '../../steps/delius/login.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
 import { login as oasysLogin } from '../../steps/oasys/login.js'
-import { setProviderEstablishment as selectRegion } from '../../steps/oasys/set-provider-establishment.js'
-import { clickSearch } from '../../steps/oasys/task-manager.js'
-import { offenderSearchWithCRN as crnSearch } from '../../steps/oasys/offender-search.js'
-import { clickCreateOffenderButton } from '../../steps/oasys/cms-offender-details.js'
 import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
-import {
-    clickCreateAssessmentButton,
-    clickUpdateOffenderButton,
-} from '../../steps/oasys/layer3-assessment/create-ofender.js'
-import { clickOKForCRNAmendment } from '../../steps/oasys/layer3-assessment/crn-amendment.js'
-import {
-    clickAccommodation,
-    clickEducationTrainingEmpl,
-    clickOffenceAnalysis,
-    clickRelationships,
-    clickRiskManagementPlan,
-    clickRoshFullRisksToIndividual,
-    clickRoSHScreeningSection1,
-    clickRoSHSummary,
-    createLayer3Assessment,
-} from '../../steps/oasys/layer3-assessment/create-assessment.js'
-import { clickCMSRecord } from '../../steps/oasys/layer3-assessment/cms-search-results.js'
 import { login as approvedPremisesLogin, navigateToApplications } from '../../steps/approved-premises/login.js'
 import { enterCRN } from '../../steps/approved-premises/applications/enter-crn.js'
 import { clickSaveAndContinue } from '../../steps/approved-premises/applications/confirm-details.js'
@@ -42,22 +21,12 @@ import {
     verifyRoshScoresAreAsPerOasys,
 } from '../../steps/approved-premises/applications/task-list.js'
 import { selectTypeOfAPRequired } from '../../steps/approved-premises/applications/select-type-ap-required.js'
-import { completeRoSHSection1MarkAllNo } from '../../steps/oasys/layer3-assessment/section-1.js'
-import { clickSection2To4NextButton } from '../../steps/oasys/layer3-assessment/section-2-4.js'
-import { completeRoSHSection5FullAnalysisYes } from '../../steps/oasys/layer3-assessment/section-5.js'
-import { completeRoSHSection10RoSHSummary } from '../../steps/oasys/layer3-assessment/section-10.js'
 import { selectNeedsAndSubmit } from '../../steps/approved-premises/applications/import-oasys-sections.js'
 import { verifyRoSHSummaryIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rosh.js'
 import { data } from '../../test-data/test-data.js'
-import { completeRiskManagementPlan } from '../../steps/oasys/layer3-assessment/risk-management-plan.js'
 import { verifyRMPInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rmp.js'
-import { completeOffenceAnalysis } from '../../steps/oasys/layer3-assessment/analysis-of-offences-layer3.js'
 import { verifyOffenceAnalysisIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-offence-analysis.js'
-import { completeRoSHFullSec8RisksToIndvdl } from '../../steps/oasys/layer3-assessment/rosh-full-analysis-section-8.js'
 import { verifyRiskToSelfIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-risk-to-self.js'
-import { completeAccommodationSection } from '../../steps/oasys/layer3-assessment/accommodation-section.js'
-import { completeETESection } from '../../steps/oasys/layer3-assessment/ete-section.js'
-import { completeRelationshipsSection } from '../../steps/oasys/layer3-assessment/relationships-section.js'
 import { verifySupportingInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-supporting-info.js'
 import { clickExceptionalCaseYes } from '../../steps/approved-premises/applications/application-not-eligible.js'
 import { addExemptionDetails } from '../../steps/approved-premises/applications/add-exemption-details.js'
@@ -68,6 +37,7 @@ const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
     page,
 }) => {
+    test.slow() // increase the timeout - Delius/OASys/AP Applications can take a few minutes
     // Given I create new Offender in nDelius
     await deliusLogin(page)
     const person = deliusPerson()
@@ -125,7 +95,6 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await verifyRiskToSelfIsAsPerOASys(page)
     // And I verify the "Supporting Information" is as per the OASys
     await verifySupportingInfoIsAsPerOASys(page)
-    // Todo - Fix this test once the Approved Premises have fixed the bug
 })
 
 test.afterAll(async () => {
