@@ -13,16 +13,20 @@ import { login as unpaidWorkLogin } from '../../steps/unpaidwork/login.js'
 import { completeIndividualDetailsSection } from '../../steps/unpaidwork/individuals-details.js'
 import {
     clickAvailabilityLink,
-    clickCaringCommitmentsLink, clickChooseEquipmentSizesLink,
+    clickCaringCommitmentsLink,
+    clickChooseEquipmentSizesLink,
     clickCulturalReligiousAdjustmentsLink,
-    clickDisabilitiesAndMentalHealthLink, clickEmplEducationSkillsLink,
+    clickDisabilitiesAndMentalHealthLink,
+    clickEmplEducationSkillsLink,
     clickGenderInformationLink,
     clickGPDetailsLink,
     clickHealthIssuesLink,
-    clickIndividualDetailsLink, clickInstensiveWorkingLink,
+    clickIndividualDetailsLink,
+    clickInstensiveWorkingLink,
     clickManagingRiskLink,
     clickPlacementPreferencesLink,
-    clickRiskOfHarmCommunityLink, clickTrainingEmplOpprtunitiesLink,
+    clickRiskOfHarmCommunityLink,
+    clickTrainingEmplOpprtunitiesLink,
     clickTravelInformationLink,
 } from '../../steps/unpaidwork/task-list.js'
 import { completeGenderInformationSection } from '../../steps/unpaidwork/gender-information.js'
@@ -35,11 +39,11 @@ import { completeDisabilitiesAndMentalHealthSection } from '../../steps/unpaidwo
 import { completeCaringCommitmentsSection } from '../../steps/unpaidwork/caring-commitments.js'
 import { completeTravelInformationSection } from '../../steps/unpaidwork/travel-information.js'
 import { completeGPDetails } from '../../steps/unpaidwork/gp-details.js'
-import {completeEmplEducationSkillsSection} from "../../steps/unpaidwork/employment-education-skills.js";
-import {completeTrainingEmplOpportunitiesSection} from "../../steps/unpaidwork/training-employment-opportunities.js";
-import {completeIntensiveWorkingSection} from "../../steps/unpaidwork/intensive-working.js";
-import {completeAvailabilitySection} from "../../steps/unpaidwork/availability.js";
-import {completeEquipmentSizesSection} from "../../steps/unpaidwork/choose-equipment-sizes.js";
+import { completeEmplEducationSkillsSection } from '../../steps/unpaidwork/employment-education-skills.js'
+import { completeTrainingEmplOpportunitiesSection } from '../../steps/unpaidwork/training-employment-opportunities.js'
+import { completeIntensiveWorkingSection } from '../../steps/unpaidwork/intensive-working.js'
+import { completeAvailabilitySection } from '../../steps/unpaidwork/availability.js'
+import { completeEquipmentSizesSection } from '../../steps/unpaidwork/choose-equipment-sizes.js'
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {
