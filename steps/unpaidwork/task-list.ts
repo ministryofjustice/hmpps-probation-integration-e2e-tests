@@ -61,7 +61,6 @@ export const clickCaringCommitmentsLink = async (page: Page) => {
     await expect(page.locator('#main-content caption')).toContainText('Are there carer commitments? ')
 }
 
-
 export const clickEmplEducationSkillsLink = async (page: Page) => {
     await page.getByRole('link', { name: 'Employment, education and skills' }).click()
     await expect(page.locator('#main-content h1')).toContainText('Employment, education and skills')
@@ -81,7 +80,6 @@ export const clickAvailabilityLink = async (page: Page) => {
     await page.getByRole('link', { name: 'Availability' }).click()
     await expect(page.locator('#main-content h1')).toContainText('Availability for Community Payback work')
 }
-
 
 export const clickChooseEquipmentSizesLink = async (page: Page) => {
     await page.getByRole('link', { name: 'Choose equipment sizes' }).click()
