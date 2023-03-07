@@ -12,16 +12,17 @@ import { startUPWAssessmentFromDelius } from '../../steps/delius/upw/start-upw-a
 import { login as unpaidWorkLogin } from '../../steps/unpaidwork/login.js'
 import { completeIndividualDetailsSection } from '../../steps/unpaidwork/individuals-details.js'
 import {
-    clickCaringCommitmentsLink,
+    clickAvailabilityLink,
+    clickCaringCommitmentsLink, clickChooseEquipmentSizesLink,
     clickCulturalReligiousAdjustmentsLink,
-    clickDisabilitiesAndMentalHealthLink,
+    clickDisabilitiesAndMentalHealthLink, clickEmplEducationSkillsLink,
     clickGenderInformationLink,
     clickGPDetailsLink,
     clickHealthIssuesLink,
-    clickIndividualDetailsLink,
+    clickIndividualDetailsLink, clickInstensiveWorkingLink,
     clickManagingRiskLink,
     clickPlacementPreferencesLink,
-    clickRiskOfHarmCommunityLink,
+    clickRiskOfHarmCommunityLink, clickTrainingEmplOpprtunitiesLink,
     clickTravelInformationLink,
 } from '../../steps/unpaidwork/task-list.js'
 import { completeGenderInformationSection } from '../../steps/unpaidwork/gender-information.js'
@@ -34,6 +35,11 @@ import { completeDisabilitiesAndMentalHealthSection } from '../../steps/unpaidwo
 import { completeCaringCommitmentsSection } from '../../steps/unpaidwork/caring-commitments.js'
 import { completeTravelInformationSection } from '../../steps/unpaidwork/travel-information.js'
 import { completeGPDetails } from '../../steps/unpaidwork/gp-details.js'
+import {completeEmplEducationSkillsSection} from "../../steps/unpaidwork/employment-education-skills.js";
+import {completeTrainingEmplOpportunitiesSection} from "../../steps/unpaidwork/training-employment-opportunities.js";
+import {completeIntensiveWorkingSection} from "../../steps/unpaidwork/intensive-working.js";
+import {completeAvailabilitySection} from "../../steps/unpaidwork/availability.js";
+import {completeEquipmentSizesSection} from "../../steps/unpaidwork/choose-equipment-sizes.js";
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {
@@ -81,25 +87,45 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
     // And I complete "Managing risk" Section
     await completeManagingRiskSection(popup)
     // And I click on "Health Issues" link
-    await clickHealthIssuesLink(page)
+    await clickHealthIssuesLink(popup)
     // And I complete "Health Issues" Section
-    await completeHealthIssuesSection(page)
+    await completeHealthIssuesSection(popup)
     // And I click on "Disabilities and Mental Health" link
-    await clickDisabilitiesAndMentalHealthLink(page)
+    await clickDisabilitiesAndMentalHealthLink(popup)
     // And I complete "Disabilities and Mental Health" Section
-    await completeDisabilitiesAndMentalHealthSection(page)
+    await completeDisabilitiesAndMentalHealthSection(popup)
     // And I click on "Caring commitments" link
-    await clickCaringCommitmentsLink(page)
+    await clickCaringCommitmentsLink(popup)
     // And I complete "Caring commitments" Section
-    await completeCaringCommitmentsSection(page)
+    await completeCaringCommitmentsSection(popup)
     // And I click on "Travel" link
-    await clickTravelInformationLink(page)
+    await clickTravelInformationLink(popup)
     // And I complete "Travel information" Section
-    await completeTravelInformationSection(page)
+    await completeTravelInformationSection(popup)
     // And I click on "GP details" link
-    await clickGPDetailsLink(page)
+    await clickGPDetailsLink(popup)
     // And I complete "GP details" Section
-    await completeGPDetails(page)
+    await completeGPDetails(popup)
+    // And I click on "Employment, education and skills" link
+    await clickEmplEducationSkillsLink(popup)
+    // And I complete "Employment, education and skills" Section
+    await completeEmplEducationSkillsSection(popup)
+    // And I click on "Training & employment opportunities" link
+    await clickTrainingEmplOpprtunitiesLink(popup)
+    // And I complete "Training & employment opportunities" Section
+    await completeTrainingEmplOpportunitiesSection(popup)
+    // And I click on "Intensive working" link
+    await clickInstensiveWorkingLink(popup)
+    // And I complete "Intensive working" Section
+    await completeIntensiveWorkingSection(popup)
+    // And I click on "Availability" link
+    await clickAvailabilityLink(popup)
+    // And I complete "Availability" Section
+    await completeAvailabilitySection(popup)
+    // And I click on "Choose equipment sizes" link
+    await clickChooseEquipmentSizesLink(popup)
+    // And I complete "Choose equipment sizes" Section
+    await completeEquipmentSizesSection(popup)
 })
 
 test.afterAll(async () => {

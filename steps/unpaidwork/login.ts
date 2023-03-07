@@ -1,6 +1,7 @@
 import { expect, type Page } from '@playwright/test'
 
 export const login = async (page: Page) => {
+    await page.goto('https://dev.hmpps-assessments.service.justice.gov.uk/start-assessment?crn=X636582&assessmentType=UPW&eventId=1')
     await expect(page).toHaveTitle(/HMPPS Digital Services - Sign in/)
     const unpaidWorkTitle = 'Complete and download the Community payback assessment'
     const title = await page.locator('title').textContent()
