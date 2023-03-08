@@ -33,7 +33,4 @@ export const completeIndividualDetailsSection = async (page: Page) => {
     await expect(page.locator('.govuk-caption-l')).toHaveText(
         'Most of the questions in this assessment must be answered, but some are optional and are marked as such.'
     )
-
-
-
 }
