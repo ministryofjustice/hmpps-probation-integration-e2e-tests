@@ -5,7 +5,7 @@ export const completePlacementPreferencesSection = async (page: Page) => {
         .getByRole('group', { name: 'Does the individual have any placement preferences?' })
         .getByLabel('Yes')
         .check()
-    await page.getByLabel('Individual').check()
+    await page.getByLabel('Individual').first().check()
     await page.getByRole('group', { name: 'Mark placement preferences as complete?' }).getByLabel('Yes').check()
     await page.getByRole('button', { name: 'Save' }).click()
     await expect(page.locator('#main-content h1')).toHaveText('Community payback assessment')
