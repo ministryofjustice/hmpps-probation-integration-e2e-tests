@@ -10,7 +10,7 @@ import { data } from '../../test-data/test-data.js'
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement.js'
 import { startUPWAssessmentFromDelius } from '../../steps/delius/upw/start-upw-assessment.js'
 import { login as unpaidWorkLogin } from '../../steps/unpaidwork/login.js'
-import {submitAssessment, submitUPWAssessment} from '../../steps/unpaidwork/task-list.js'
+import {submitUPWAssessment} from '../../steps/unpaidwork/task-list.js'
 import {findOffenderByCRN} from "../../steps/delius/offender/find-offender.js";
 import {completeAllUPWSections} from "../../steps/unpaidwork/complete-all-upw-sections.js";
 
