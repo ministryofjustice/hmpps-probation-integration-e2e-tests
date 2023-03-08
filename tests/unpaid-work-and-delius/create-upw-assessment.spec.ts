@@ -10,7 +10,7 @@ import { data } from '../../test-data/test-data.js'
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement.js'
 import { startUPWAssessmentFromDelius } from '../../steps/delius/upw/start-upw-assessment.js'
 import { login as unpaidWorkLogin } from '../../steps/unpaidwork/login.js'
-import {submitAssessment} from '../../steps/unpaidwork/task-list.js'
+import {submitAssessment, submitUPWAssessment} from '../../steps/unpaidwork/task-list.js'
 import {findOffenderByCRN} from "../../steps/delius/offender/find-offender.js";
 import {completeAllUPWSections} from "../../steps/unpaidwork/complete-all-upw-sections.js";
 
@@ -21,32 +21,28 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
     // And I create Supervision Community Event in Delius
-    await createCommunityEvent(page, {
-        crn,
-        allocation: { team: data.teams.allocationsTestTeam, staff: data.staff.allocationsTester2 },
-    })
+    await createCommunityEvent(page, {crn, allocation: { team: data.teams.allocationsTestTeam, staff: data.staff.allocationsTester2 },})
     // And I add a requirement for this event with the type called "unpaid work"
     await createRequirementForEvent(page, { crn, requirement: data.requirements.unpaidWork })
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
-
     // And I start UPW Assessment from Delius
     const popup = await startUPWAssessmentFromDelius(page)
+
     // When I login to UPW and navigate to UPW Task List
     await unpaidWorkLogin(popup)
     // And I complete all the UPW Sections
     await completeAllUPWSections(popup)
     // And I submit UPW Assessment
-    await submitAssessment(popup)
-    await popup.close()
+    await submitUPWAssessment(popup)
 
     // And login to nDelius
     await deliusLogin(page)
     // And I Search for offender with CRN
     await findOffenderByCRN(page, crn)
-    // Then the document appears in the Delius document list
     await page.locator('a', {hasText: 'Document List'}).click()
+    // Then the document appears in the Delius document list
     await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText('CP/UPW Assessment')
 })
 
