@@ -12,5 +12,3 @@ export const LastMonth = subMonths(new Date(), 1)
 export const NextYear = addYears(new Date(), 1)
 export const Tomorrow = addDays(new Date(), 1)
 export const Yesterday = subDays(new Date(), 1)
-
-
