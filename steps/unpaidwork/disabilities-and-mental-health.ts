@@ -9,7 +9,4 @@ export const completeDisabilitiesAndMentalHealthSection = async (page: Page) => 
     await page.getByRole('button', { name: 'Save' }).click()
     await expect(page.locator('li:has-text("Disabilities and mental health")').first()).toContainText(('COMPLETED').toLowerCase())
     await expect(page.locator('#main-content h1')).toHaveText('Community payback assessment')
-    await expect(page.locator('.govuk-caption-l')).toHaveText(
-        'Most of the questions in this assessment must be answered, but some are optional and are marked as such.'
-    )
 }

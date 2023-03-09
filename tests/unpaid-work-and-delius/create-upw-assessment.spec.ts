@@ -11,8 +11,8 @@ import { createRequirementForEvent } from '../../steps/delius/requirement/create
 import { startUPWAssessmentFromDelius } from '../../steps/delius/upw/start-upw-assessment.js'
 import { login as unpaidWorkLogin } from '../../steps/unpaidwork/login.js'
 import {submitUPWAssessment} from '../../steps/unpaidwork/task-list.js'
-import {findOffenderByCRN} from "../../steps/delius/offender/find-offender.js";
 import {completeAllUPWSections} from "../../steps/unpaidwork/complete-all-upw-sections.js";
+import {format} from "date-fns";
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {
@@ -34,16 +34,14 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
     await unpaidWorkLogin(popup)
     // And I complete all the UPW Sections
     await completeAllUPWSections(popup)
-    // And I submit UPW Assessment
+    // And I submit UPW Assessment and close the UPW Popup
     await submitUPWAssessment(popup)
 
-    // And login to nDelius
-    await deliusLogin(page)
-    // And I Search for offender with CRN
-    await findOffenderByCRN(page, crn)
-    await page.locator('a', {hasText: 'Document List'}).click()
     // Then the document appears in the Delius document list
+    await page.locator('a', {hasText: 'Document List'}).click()
     await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText('CP/UPW Assessment')
+    await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText(format(new Date(), "dd/MM/yyyy"))
+    await expect(page.getByRole('link', { name: 'view document' })).toBeEnabled()
 })
 
 test.afterAll(async () => {
