@@ -1,4 +1,4 @@
-import {expect, test} from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import * as dotenv from 'dotenv'
 dotenv.config() // read environment variables into process.env
 import { login as deliusLogin } from '../../steps/delius/login.js'
@@ -10,9 +10,9 @@ import { data } from '../../test-data/test-data.js'
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement.js'
 import { startUPWAssessmentFromDelius } from '../../steps/delius/upw/start-upw-assessment.js'
 import { login as unpaidWorkLogin } from '../../steps/unpaidwork/login.js'
-import {submitUPWAssessment} from '../../steps/unpaidwork/task-list.js'
-import {completeAllUPWSections} from "../../steps/unpaidwork/complete-all-upw-sections.js";
-import {format} from "date-fns";
+import { submitUPWAssessment } from '../../steps/unpaidwork/task-list.js'
+import { completeAllUPWSections } from '../../steps/unpaidwork/complete-all-upw-sections.js'
+import { format } from 'date-fns'
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {
@@ -21,7 +21,10 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
     // And I create Supervision Community Event in Delius
-    await createCommunityEvent(page, {crn, allocation: { team: data.teams.allocationsTestTeam, staff: data.staff.allocationsTester2 },})
+    await createCommunityEvent(page, {
+        crn,
+        allocation: { team: data.teams.allocationsTestTeam, staff: data.staff.allocationsTester2 },
+    })
     // And I add a requirement for this event with the type called "unpaid work"
     await createRequirementForEvent(page, { crn, requirement: data.requirements.unpaidWork })
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
@@ -38,9 +41,13 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
     await submitUPWAssessment(popup)
 
     // Then the document appears in the Delius document list
-    await page.locator('a', {hasText: 'Document List'}).click()
-    await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText('CP/UPW Assessment')
-    await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText(format(new Date(), "dd/MM/yyyy"))
+    await page.locator('a', { hasText: 'Document List' }).click()
+    await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText(
+        'CP/UPW Assessment'
+    )
+    await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText(
+        format(new Date(), 'dd/MM/yyyy')
+    )
     await expect(page.getByRole('link', { name: 'view document' })).toBeEnabled()
 })
 

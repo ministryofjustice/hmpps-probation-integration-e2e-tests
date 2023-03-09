@@ -25,6 +25,8 @@ export const completeRiskHarmCommunitySection = async (page: Page) => {
     await page.locator('#additional_rosh_info_details').fill('Entering Text related to Additional information ')
     await page.locator('#rosh_community_complete').click()
     await page.getByRole('button', { name: 'Save' }).click()
-    await expect(page.locator('li:has-text("Risk of harm in the community")').first()).toContainText(('COMPLETED').toLowerCase())
+    await expect(page.locator('li:has-text("Risk of harm in the community")').first()).toContainText(
+        'COMPLETED'.toLowerCase()
+    )
     await expect(page.locator('#main-content h1')).toHaveText('Community payback assessment')
 }

@@ -28,6 +28,6 @@ export const completeIndividualDetailsSection = async (page: Page) => {
     await expect(page.locator('#main-content h1')).toHaveText("Individual's details")
     await page.locator('#individual_details_complete').click()
     await page.getByRole('button', { name: 'Save' }).click()
-    await expect(page.locator('li:has-text("Individual\'s details")').first()).toContainText(('COMPLETED').toLowerCase())
+    await expect(page.locator('li:has-text("Individual\'s details")').first()).toContainText('COMPLETED'.toLowerCase())
     await expect(page.locator('#main-content h1')).toHaveText('Community payback assessment')
 }

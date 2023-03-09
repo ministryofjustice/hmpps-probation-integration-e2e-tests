@@ -1,33 +1,38 @@
 import { type Page } from '@playwright/test'
 import {
     clickAvailabilityLink,
-    clickCaringCommitmentsLink, clickChooseEquipmentSizesLink,
+    clickCaringCommitmentsLink,
+    clickChooseEquipmentSizesLink,
     clickCulturalReligiousAdjustmentsLink,
-    clickDisabilitiesAndMentalHealthLink, clickEmplEducationSkillsLink,
-    clickGenderInformationLink, clickGPDetailsLink,
+    clickDisabilitiesAndMentalHealthLink,
+    clickEmplEducationSkillsLink,
+    clickGenderInformationLink,
+    clickGPDetailsLink,
     clickHealthIssuesLink,
-    clickIndividualDetailsLink, clickInstensiveWorkingLink,
+    clickIndividualDetailsLink,
+    clickInstensiveWorkingLink,
     clickManagingRiskLink,
     clickPlacementPreferencesLink,
-    clickRiskOfHarmCommunityLink, clickTrainingEmplOpprtunitiesLink,
-    clickTravelInformationLink
-} from "./task-list.js";
-import {completeIndividualDetailsSection} from "./individuals-details.js";
-import {completeGenderInformationSection} from "./gender-information.js";
-import {completeCulturalReligiousAdjustmentsSection} from "./cultural-and-religious-adjustments.js";
-import {completePlacementPreferencesSection} from "./placement-preferences.js";
-import {completeRiskHarmCommunitySection} from "./risk-of-harm-community.js";
-import {completeManagingRiskSection} from "./managing-risk.js";
-import {completeHealthIssuesSection} from "./health-issues.js";
-import {completeDisabilitiesAndMentalHealthSection} from "./disabilities-and-mental-health.js";
-import {completeCaringCommitmentsSection} from "./caring-commitments.js";
-import {completeTravelInformationSection} from "./travel-information.js";
-import {completeGPDetails} from "./gp-details.js";
-import {completeEmplEducationSkillsSection} from "./employment-education-skills.js";
-import {completeTrainingEmplOpportunitiesSection} from "./training-employment-opportunities.js";
-import {completeIntensiveWorkingSection} from "./intensive-working.js";
-import {completeEquipmentSizesSection} from "./choose-equipment-sizes.js";
-import {completeAvailabilitySection} from "./availability.js";
+    clickRiskOfHarmCommunityLink,
+    clickTrainingEmplOpprtunitiesLink,
+    clickTravelInformationLink,
+} from './task-list.js'
+import { completeIndividualDetailsSection } from './individuals-details.js'
+import { completeGenderInformationSection } from './gender-information.js'
+import { completeCulturalReligiousAdjustmentsSection } from './cultural-and-religious-adjustments.js'
+import { completePlacementPreferencesSection } from './placement-preferences.js'
+import { completeRiskHarmCommunitySection } from './risk-of-harm-community.js'
+import { completeManagingRiskSection } from './managing-risk.js'
+import { completeHealthIssuesSection } from './health-issues.js'
+import { completeDisabilitiesAndMentalHealthSection } from './disabilities-and-mental-health.js'
+import { completeCaringCommitmentsSection } from './caring-commitments.js'
+import { completeTravelInformationSection } from './travel-information.js'
+import { completeGPDetails } from './gp-details.js'
+import { completeEmplEducationSkillsSection } from './employment-education-skills.js'
+import { completeTrainingEmplOpportunitiesSection } from './training-employment-opportunities.js'
+import { completeIntensiveWorkingSection } from './intensive-working.js'
+import { completeEquipmentSizesSection } from './choose-equipment-sizes.js'
+import { completeAvailabilitySection } from './availability.js'
 
 export const completeAllUPWSections = async (page: Page) => {
     // And I click on "Individual's details" link
