@@ -17,4 +17,5 @@ export const doUntil = async <T>(
 
 export const waitForAjax = async (page: Page) => {
     await page.waitForResponse(page.url())
+    await page.evaluate(() => new Promise((resolve) => setTimeout(resolve, 0)));
 }

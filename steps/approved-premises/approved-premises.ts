@@ -10,5 +10,5 @@ export const selectCreatePlacementAction = async (page: Page) => {
 
 export const managePlacement = async (page: Page, crn: string) => {
     await page.locator('a', { hasText: 'Upcoming Arrivals' }).click()
-    await page.locator('#upcoming-arrivals tr', { hasText: crn }).locator('a', { hasText: 'Manage' }).click()
+    await page.locator('#upcoming-arrivals tr', { hasText: crn }).first().locator('a', { hasText: 'Manage' }).click()
 }

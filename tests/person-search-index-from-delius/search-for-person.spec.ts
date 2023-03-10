@@ -32,13 +32,13 @@ test('Create and search for contacts', async ({ page }) => {
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
     await createContact(page, crn, {
-        category: 'All/Always',
+        category: 'Education, Training, Employment',
         type: 'CV Created',
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
         date: LastMonth,
     })
     await createContact(page, crn, {
-        category: 'All/Always',
+        category: 'Community Management',
         type: 'Other Contact',
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
         date: Yesterday,

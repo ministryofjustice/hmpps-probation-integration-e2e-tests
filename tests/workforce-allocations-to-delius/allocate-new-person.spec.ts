@@ -73,6 +73,7 @@ test('Allocate currently-managed person', async ({ page }) => {
 })
 
 test('Allocate previously-managed person', async ({ page }) => {
+    test.slow()
     // Given an existing person in Delius, with a previously allocated (now terminated) community event
     const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.provider })
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.allocationsTestTeam } })
