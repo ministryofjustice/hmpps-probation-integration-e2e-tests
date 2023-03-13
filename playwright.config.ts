@@ -14,8 +14,8 @@ const config: PlaywrightTestConfig = {
     testDir: './tests',
     /* Maximum time one test can run for. */
     timeout: 180 * 1000,
-    /* Run tests in files in parallel */
-    fullyParallel: true,
+    /* Disable parallel execution due OASys not permitting parellel logins */
+    workers: 1,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
     /* Retry on CI only */
