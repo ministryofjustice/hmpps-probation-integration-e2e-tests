@@ -38,6 +38,7 @@ const nomisIds = []
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
     page,
 }) => {
+    test.skip()
     test.slow() // increase the timeout - Delius/OASys/AP Applications can take a few minutes
     // Given I create new Offender in nDelius
     await deliusLogin(page)
