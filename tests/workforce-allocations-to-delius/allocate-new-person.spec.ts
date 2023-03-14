@@ -23,6 +23,7 @@ const practitioner: Allocation = { staff: data.staff.allocationsTester1, team: d
 const anotherPractitioner: Allocation = { staff: data.staff.allocationsTester2, team: data.teams.allocationsTestTeam }
 
 test('Allocate new person', async ({ page }) => {
+    test.slow()
     // Given a new person in Delius, with an unallocated event and requirement in the allocations testing team
     const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.provider })
     await createCommunityEvent(page, {
@@ -50,6 +51,7 @@ test('Allocate new person', async ({ page }) => {
 })
 
 test('Allocate currently-managed person', async ({ page }) => {
+    test.slow()
     // Given an existing person in Delius, with a currently allocated un-sentenced event
     const crn = await createOffender(page, { providerName: anotherPractitioner.team.provider })
     await createEvent(page, { crn, event: data.events.appeal, allocation: { team: data.teams.allocationsTestTeam } })
