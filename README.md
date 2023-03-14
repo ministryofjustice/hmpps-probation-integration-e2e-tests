@@ -54,8 +54,14 @@ REFERANDMONITOR_SUPPLIER_USERNAME=<r&m_supplier_username>
 REFERANDMONITOR_SUPPLIER_PASSWORD=<r&m_supplier_password>
 
 OASYS_URL=https://ords.t2.oasys.service.justice.gov.uk/
-OASYS_USERNAME=<oasys_t2_username>
-OASYS_PASSWORD=<oasys_t2_password>
+OASYS_USERNAME_TIMELINE=<oasys_t2_timeline_username>
+OASYS_PASSWORD_TIMELINE=<oasys_t2_timeline_password>
+
+OASYS_USERNAME_BOOKING=<oasys_t2_booking_username>
+OASYS_PASSWORD_BOOKING=<oasys_t2_booking_username>
+
+OASYS_USERNAME_RSR=<oasys_t2_rsr_username>
+OASYS_PASSWORD_RSR=<oasys_t2_rsr_username>
 
 APPROVEDPREMISES_URL=https://approved-premises-dev.hmpps.service.justice.gov.uk/
 

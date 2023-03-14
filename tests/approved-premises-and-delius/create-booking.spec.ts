@@ -1,4 +1,6 @@
 import { test } from '@playwright/test'
+import * as dotenv from 'dotenv'
+dotenv.config() // read environment variables into process.env
 import { login as deliusLogin } from '../../steps/delius/login.js'
 import { login as hmppsLogin } from '../../steps/hmpps-auth/login.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'

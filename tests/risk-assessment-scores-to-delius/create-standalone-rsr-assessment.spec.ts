@@ -1,5 +1,6 @@
 import {test} from '@playwright/test'
 import * as dotenv from 'dotenv'
+dotenv.config() // read environment variables into process.env
 import {login as deliusLogin} from '../../steps/delius/login.js'
 import {createOffender} from '../../steps/delius/offender/create-offender.js'
 import {data} from '../../test-data/test-data.js'
@@ -15,8 +16,6 @@ import {createEvent} from '../../steps/delius/event/create-event.js'
 import {findOffenderByCRN} from '../../steps/delius/offender/find-offender.js'
 import {verifyRsrScore} from '../../steps/delius/oasys-rsr-score/verify-rsr-score.js'
 
-dotenv.config() // read environment variables into process.env
-
 test('Create a standalone RSR Assessment in OASys and verify the RSR Score in nDelius', async ({ page }) => {
     // Given I create new Offender in nDelius
     await deliusLogin(page)
@@ -25,7 +24,7 @@ test('Create a standalone RSR Assessment in OASys and verify the RSR Score in nD
     // And I create an event in nDelius
     await createEvent(page, { crn, event: data.events.adjournedForFastPreSentenceReport })
     // Given I log in to OASys as a "OASYS_T2_LOGIN_USER" user
-    await oasysLogin(page, UserType.Timeline)
+    await oasysLogin(page, UserType.RSR)
     // And I select "Warwickshire" from Choose Provider Establishment
     await selectRegion(page)
     // And I click on the Search button from the top menu

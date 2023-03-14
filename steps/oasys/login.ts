@@ -11,11 +11,13 @@ export const login = async (page: Page, userType: UserType) => {
     await expect(page.locator('#loginbodyheader > h2')).toHaveText('Provider/Establishment')
 }
 
-export enum UserType {Booking, Timeline}
+export enum UserType {Booking, Timeline, RSR}
 
 const oasysUserConfig = (userType: UserType) => {
     switch (userType) {
         case UserType.Booking: return {username: process.env.OASYS_USERNAME_BOOKING, password: process.env.OASYS_PASSWORD_BOOKING}
         case UserType.Timeline: return {username: process.env.OASYS_USERNAME_TIMELINE, password: process.env.OASYS_PASSWORD_TIMELINE}
+        case UserType.RSR: return {username: process.env.OASYS_USERNAME_RSR, password: process.env.OASYS_PASSWORD_RSR}
     }
 }
+
