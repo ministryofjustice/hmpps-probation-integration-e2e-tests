@@ -2,6 +2,11 @@ import { type Page, expect } from '@playwright/test'
 import {waitForJS} from "../../common/common.js";
 
 export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
+
+    // Wait for the page to reach the "domcontentloaded" load state
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForLoadState('networkidle');
+
     // await waitForJS(page)
 
     // await expect(page.locator('#R2846717162014845 > h6')).toContainText('R8.4 Risk of serious harm')
