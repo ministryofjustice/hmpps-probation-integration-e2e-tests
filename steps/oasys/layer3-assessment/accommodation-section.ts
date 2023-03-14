@@ -1,4 +1,4 @@
-import { type Page, expect } from '@playwright/test'
+    import { type Page, expect } from '@playwright/test'
 
 export const completeAccommodationSection = async (page: Page) => {
     await page.getByLabel('Currently of no fixed abode or in transient accommodation').selectOption({ label: 'Yes' })
