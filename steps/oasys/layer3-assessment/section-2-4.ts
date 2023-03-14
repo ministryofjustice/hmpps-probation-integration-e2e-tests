@@ -2,7 +2,7 @@ import { type Page, expect } from '@playwright/test'
 import {waitForJS} from "../../common/common.js";
 
 export const clickSection2To4NextButton = async (page: Page) => {
-    await waitForJS(page)
+    // await waitForJS(page)
     await page.locator('a', { hasText: 'RoSH Screening' }).click()
     await page.locator('a', { hasText: 'Section 2 to 4' }).click()
     await page.getByLabel('Risk of suicide').click()

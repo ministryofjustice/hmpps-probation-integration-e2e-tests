@@ -2,19 +2,10 @@ import { type Page, expect } from '@playwright/test'
 import {waitForJS} from "../../common/common.js";
 
 export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
-
-    // Wait for the page to reach the "domcontentloaded" load state
-    await page.waitForLoadState('domcontentloaded');
-    await page.waitForLoadState('networkidle');
-
-    // await waitForJS(page)
-
-    // await expect(page.locator('#R2846717162014845 > h6')).toContainText('R8.4 Risk of serious harm')
-    await page.locator('div #itm_FA31').selectOption('Yes')
-    await page.locator('div #itm_FA32').selectOption('Yes')
-
-    // await page.getByLabel('Are there any current concerns about suicide').selectOption({ label: 'Yes' })
-    // await page.getByLabel('Are there any current concerns about self-harm').selectOption({ label: 'Yes' })
+    await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Full Analysis (Layer 3)')
+    await expect(page.locator('#R2846717162014845 > h6')).toHaveText('R8 Risks to the individual - full analysis')
+    await page.getByLabel('Are there any current concerns about suicide').selectOption({ label: 'Yes' })
+    await page.getByLabel('Are there any current concerns about self-harm').selectOption({ label: 'Yes' })
     await page.fill(
         '#textarea_FA33',
         "OASys Question - 'Describe circumstances, relevant issues and needs regarding current concerns (refer to sections 1-12 for indicators, particularly Section 1' - Answer Input - 'Test concerns about self-harm and suicide'"

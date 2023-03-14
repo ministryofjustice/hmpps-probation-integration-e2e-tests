@@ -2,7 +2,7 @@
     import {waitForJS} from "../../common/common.js";
 
 export const completeAccommodationSection = async (page: Page) => {
-    await waitForJS(page)
+    // await waitForJS(page)
     await page.getByLabel('Currently of no fixed abode or in transient accommodation').selectOption({ label: 'Yes' })
     await page.getByLabel('Suitability of accommodation').selectOption({ label: '0-No problems' })
     await page.getByLabel('Permanence of accommodation').selectOption({ label: '1-Some problems' })
