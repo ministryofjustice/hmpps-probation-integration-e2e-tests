@@ -1,4 +1,5 @@
 import { expect, type Page } from '@playwright/test'
+import {waitForJS} from "../../common/common.js";
 
 export const refreshUntil = async (page: Page, expectation: () => Promise<void>, options?) => {
     await doUntil(async () => page.reload(), expectation, options)
@@ -17,5 +18,5 @@ export const doUntil = async <T>(
 
 export const waitForAjax = async (page: Page) => {
     await page.waitForResponse(page.url())
-    await page.evaluate(() => new Promise((resolve) => setTimeout(resolve, 0)));
+    await waitForJS(page)
 }

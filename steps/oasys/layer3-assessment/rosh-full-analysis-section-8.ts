@@ -1,15 +1,10 @@
 import { type Page, expect } from '@playwright/test'
-import {waitForAjax} from "../../delius/utils/refresh.js";
+import {waitForJS} from "../../common/common.js";
 
 export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
-    // await page.getByLabel('Are there any current concerns about suicide').locator('div #itm_FA31').selectOption({ label: 'Yes' })
-
-    // await waitForAjax(page)
-    await page.evaluate(() => new Promise((resolve) => setTimeout(resolve, 0)));
+    await waitForJS(page)
     await page.getByLabel('Are there any current concerns about suicide').selectOption({ label: 'Yes' })
     await page.getByLabel('Are there any current concerns about self-harm').selectOption({ label: 'Yes' })
-
-
     await page.fill(
         '#textarea_FA33',
         "OASys Question - 'Describe circumstances, relevant issues and needs regarding current concerns (refer to sections 1-12 for indicators, particularly Section 1' - Answer Input - 'Test concerns about self-harm and suicide'"
