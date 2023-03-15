@@ -27,17 +27,20 @@ const nomisIds = []
 
 test('Create an approved premises booking', async ({ page }) => {
     test.slow() // increase the timeout - Delius/OASys/AP Applications/Approved premises can take a few minutes
-    // Given I login in to NDelius
-    await hmppsLogin(page)
-    await deliusLogin(page)
-    const person = deliusPerson()
-    // And I create an offender
-    const crn: string = await createOffender(page, { person, providerName: data.teams.allocationsTestTeam.provider })
-    // And I create an event in nDelius
-    await createCustodialEvent(page, { crn, allocation: { team: data.teams.allocationsTestTeam } })
-    // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
-    const { nomisId } = await createAndBookPrisoner(page, crn, person)
-    nomisIds.push(nomisId)
+    // // Given I login in to NDelius
+    // await hmppsLogin(page)
+    // await deliusLogin(page)
+    // const person = deliusPerson()
+    // // And I create an offender
+    // const crn: string = await createOffender(page, { person, providerName: data.teams.allocationsTestTeam.provider })
+    // // And I create an event in nDelius
+    // await createCustodialEvent(page, { crn, allocation: { team: data.teams.allocationsTestTeam } })
+    // // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
+    // const { nomisId } = await createAndBookPrisoner(page, crn, person)
+    // nomisIds.push(nomisId)
+
+    const crn = 'X642568'
+
     await oasysLogin(page, UserType.Booking)
     // And I create a Layer 3 Assessment without Needs in OASys
     await createLayer3AssessmentWithoutNeeds(page, crn)

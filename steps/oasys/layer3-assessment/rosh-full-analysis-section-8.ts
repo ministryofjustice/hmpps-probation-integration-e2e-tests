@@ -4,7 +4,9 @@ import {waitForJS} from "../../common/common.js";
 export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
     // await waitForJS(page, 3000)
 
-    await page.waitForLoadState("load")
+
+    await page.locator('#textarea_FA41').click();
+    await page.locator('#textarea_FA41').fill('test');
 
     await page.locator('div #itm_FA31').click()
     await page.locator('div #itm_FA31').selectOption( 'Yes' )
