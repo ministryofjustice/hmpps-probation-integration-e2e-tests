@@ -2,16 +2,22 @@ import { type Page, expect } from '@playwright/test'
 import {waitForJS} from "../../common/common.js";
 
 export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
-    await waitForJS(page, 3000)
-    // await page.waitForSelector('div #itm_FA31');
-    await page.getByLabel('Are there any current concerns about suicide').selectOption({ label: 'Yes' })
-    await page.getByLabel('Are there any current concerns about self-harm').selectOption({ label: 'Yes' })
+    // await waitForJS(page, 3000)
+
+    await page.waitForLoadState("load")
+
+    await page.locator('div #itm_FA31').click()
+    await page.locator('div #itm_FA31').selectOption( 'Yes' )
+    await page.locator('div #itm_FA32').click()
+    await page.locator('div #itm_FA32').selectOption(  'Yes')
+    // await page.getByLabel('Are there any current concerns about suicide').selectOption({ label: 'Yes' })
+    // await page.getByLabel('Are there any current concerns about self-harm').selectOption({ label: 'Yes' })
     await page.fill(
         '#textarea_FA33',
         "OASys Question - 'Describe circumstances, relevant issues and needs regarding current concerns (refer to sections 1-12 for indicators, particularly Section 1' - Answer Input - 'Test concerns about self-harm and suicide'"
     )
 
-    await page.getByLabel('Are there any current concerns about coping in custody').selectOption({ label: 'Yes' })
+    await page.getByLabel('Are there any current concerns about coping in custody').selectOption({ label: 'Yes' }),
     await page
         .getByLabel('Are there any current concerns about coping in hostel settings')
         .selectOption({ label: 'Yes' })
