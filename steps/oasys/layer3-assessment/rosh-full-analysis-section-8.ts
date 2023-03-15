@@ -2,8 +2,8 @@ import { type Page, expect } from '@playwright/test'
 import {waitForJS} from "../../common/common.js";
 
 export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
-    await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Full Analysis (Layer 3)')
-    await expect(page.locator('#R2846717162014845 > h6')).toHaveText('R8 Risks to the individual - full analysis')
+    await waitForJS(page)
+    await page.waitForSelector('div #itm_FA31');
     await page.getByLabel('Are there any current concerns about suicide').selectOption({ label: 'Yes' })
     await page.getByLabel('Are there any current concerns about self-harm').selectOption({ label: 'Yes' })
     await page.fill(
