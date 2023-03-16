@@ -1,8 +1,6 @@
 import { type Page, expect } from '@playwright/test'
-import {waitForJS} from "../../common/common.js";
 
 export const completeETESection = async (page: Page) => {
-    await waitForJS(page)
     await page
         .getByLabel('Is the person unemployed, or will be unemployed on release')
         .selectOption({ label: '0 - No' })

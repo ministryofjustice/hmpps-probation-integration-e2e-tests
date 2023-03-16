@@ -1,8 +1,6 @@
 import { type Page, expect } from '@playwright/test'
-import {waitForJS} from "../../common/common.js";
 
 export const completeOffenceAnalysis = async (page: Page) => {
-    // await waitForJS(page)
     await page.fill(
         '#textarea_2_1',
         "OASys Question - '2.1 Brief offence(s) details (indicate what exactly happened, when, where and how)' - Answer Input - 'HRosh to Partners, medium to male peers & children'"

@@ -1,8 +1,6 @@
 import { type Page, expect } from '@playwright/test'
-import {waitForJS} from "../../common/common.js";
 
 export const completeRoSHSection5FullAnalysisYes = async (page: Page) => {
-    // await waitForJS(page)
     await page
         .getByLabel(
             'Is there anything else about the offender that leads you to consider that a full analysis should be completed. If YES, give details below'
