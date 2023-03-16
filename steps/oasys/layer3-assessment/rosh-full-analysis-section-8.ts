@@ -5,11 +5,16 @@ export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
     // await waitForJS(page, 3000)
 
 
-    await page.locator('#textarea_FA41').click();
-    await page.locator('#textarea_FA41').fill('test');
+    // await page.locator('#textarea_FA41').click();
+    // await page.locator('#textarea_FA41').fill('test');
 
-    await page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).selectOption('FA31~YES');
-    await page.getByRole('combobox', { name: 'Are there any current concerns about self-harm' }).selectOption('FA32~YES');
+    page.on('console', msg => console.log(msg.text()))
+    console.log(page.content())
+    console.log(page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }))
+    console.log(page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).count())
+
+    await page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).selectOption('FA31~N0');
+    await page.getByRole('combobox', { name: 'Are there any current concerns about self-harm' }).selectOption('FA32~NO');
 
 
     await page.fill(
