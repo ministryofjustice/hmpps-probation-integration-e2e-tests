@@ -41,9 +41,9 @@ test('Create an approved premises booking', async ({ page }) => {
 
     const crn = 'X642568'
 
-    // await oasysLogin(page, UserType.Booking)
-    // // And I create a Layer 3 Assessment without Needs in OASys
-    // await createLayer3AssessmentWithoutNeeds(page, crn)
+    await oasysLogin(page, UserType.Booking)
+    // And I create a Layer 3 Assessment without Needs in OASys
+    await createLayer3AssessmentWithoutNeeds(page, crn)
     // And I login to Approved Premises
     await approvedPremisesLogin(page)
     // And I navigate to Approved Premises - Applications

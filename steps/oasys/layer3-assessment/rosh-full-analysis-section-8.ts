@@ -8,12 +8,10 @@ export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
     await page.locator('#textarea_FA41').click();
     await page.locator('#textarea_FA41').fill('test');
 
-    await page.locator('div #itm_FA31').click()
-    await page.locator('div #itm_FA31').selectOption( 'No' )
-    await page.locator('div #itm_FA32').click()
-    await page.locator('div #itm_FA32').selectOption(  'No')
-    await page.getByLabel('Are there any current concerns about suicide').selectOption({ label: 'Yes' })
-    await page.getByLabel('Are there any current concerns about self-harm').selectOption({ label: 'Yes' })
+    await page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).selectOption('FA31~YES');
+    await page.getByRole('combobox', { name: 'Are there any current concerns about self-harm' }).selectOption('FA32~YES');
+
+
     await page.fill(
         '#textarea_FA33',
         "OASys Question - 'Describe circumstances, relevant issues and needs regarding current concerns (refer to sections 1-12 for indicators, particularly Section 1' - Answer Input - 'Test concerns about self-harm and suicide'"

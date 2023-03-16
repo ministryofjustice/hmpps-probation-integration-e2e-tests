@@ -66,20 +66,20 @@ export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string
     await clickSection2To4NextButton(page)
     // And I complete "RoSH Screening" Section 5 and Click Save & Next
     await completeRoSHSection5FullAnalysisYes(page)
-    // And I Click on "RoSH Summary" Section
-    await clickRoSHSummary(page)
-    // And I complete "RoSH Summary - R10" Questions
-    await completeRoSHSection10RoSHSummary(page)
-    // And I Click on "Risk Management Plan" Section
-    await clickRiskManagementPlan(page)
-    // And I complete "Risk Management Plan" Questions
-    await completeRiskManagementPlan(page)
-    // And I click on "Section 2 to 13" & "2 - Offence Analysis"
-    await clickOffenceAnalysis(page)
-    // And I complete Offence Analysis Plan Questions
-    await completeOffenceAnalysis(page)
-    // And I click on "Section 8" under Rosh Full Analysis
-    // await clickRoshFullRisksToIndividual(page)
+    // // And I Click on "RoSH Summary" Section
+    // await clickRoSHSummary(page)
+    // // And I complete "RoSH Summary - R10" Questions
+    // await completeRoSHSection10RoSHSummary(page)
+    // // And I Click on "Risk Management Plan" Section
+    // await clickRiskManagementPlan(page)
+    // // And I complete "Risk Management Plan" Questions
+    // await completeRiskManagementPlan(page)
+    // // And I click on "Section 2 to 13" & "2 - Offence Analysis"
+    // await clickOffenceAnalysis(page)
+    // // And I complete Offence Analysis Plan Questions
+    // await completeOffenceAnalysis(page)
+    // // And I click on "Section 8" under Rosh Full Analysis
+    await clickRoshFullRisksToIndividual(page)
     // And I complete "Risks to Individual(Risks to Self)" Section
-    // await completeRoSHFullSec8RisksToIndvdl(page)
+    await completeRoSHFullSec8RisksToIndvdl(page)
 }
