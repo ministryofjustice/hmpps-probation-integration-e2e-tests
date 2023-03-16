@@ -15,16 +15,24 @@ export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
     console.log('itm_FA31', await page.locator('#itm_FA31').count())
     console.log('itm_FA32', await page.locator('#itm_FA32').count())
 
+    // await expect(page.locator('#itm_FA31')).toHaveCount(1)
+    // await page.evaluate(() => {
+    //     return document.querySelector('#itm_FA31').value = 'FA31~YES';
+    // })
+    //
+    // await expect(page.locator('#itm_FA32')).toHaveCount(1)
+    // await page.evaluate(() => {
+    //     return document.querySelector('#itm_FA32').value = 'FA32~YES';
+    // })
+
     await expect(page.locator('#itm_FA31')).toHaveCount(1)
     await page.evaluate(() => {
-        return document.querySelector('#itm_FA31').value = 'FA31~YES';
+        document.querySelector('#itm_FA31').value = 'FA31~YES';
+        document.querySelector('#itm_FA31').dispatchEvent(new Event('change'));
+        document.querySelector('#itm_FA32').value = 'FA32~YES';
+        document.querySelector('#itm_FA32').dispatchEvent(new Event('change'));
     })
-
-    await expect(page.locator('#itm_FA32')).toHaveCount(1)
-    await page.evaluate(() => {
-        return document.querySelector('#itm_FA32').value = 'FA32~YES';
-    })
-
+    expect(true).toBeFalsy()
     // await page.locator('#itm_FA31').selectOption('FA31~YES')
     // await page.locator('#itm_FA32').selectOption('FA32~YES')
 
