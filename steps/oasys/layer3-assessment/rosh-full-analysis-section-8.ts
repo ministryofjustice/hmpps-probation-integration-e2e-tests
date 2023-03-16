@@ -15,8 +15,18 @@ export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
     console.log('itm_FA31', await page.locator('#itm_FA31').count())
     console.log('itm_FA32', await page.locator('#itm_FA32').count())
 
-    await page.locator('#itm_FA31').selectOption('FA31~YES')
-    await page.locator('#itm_FA32').selectOption('FA32~YES')
+    await expect(page.locator('#itm_FA31')).toHaveCount(1)
+    await page.evaluate(() => {
+        return document.querySelector('#itm_FA31').value = 'FA31~YES';
+    })
+
+    await expect(page.locator('#itm_FA32')).toHaveCount(1)
+    await page.evaluate(() => {
+        return document.querySelector('#itm_FA32').value = 'FA32~YES';
+    })
+
+    // await page.locator('#itm_FA31').selectOption('FA31~YES')
+    // await page.locator('#itm_FA32').selectOption('FA32~YES')
 
     // await page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).selectOption('FA31~YES');
     // await page.getByRole('combobox', { name: 'Are there any current concerns about self-harm' }).selectOption('FA32~YES');
