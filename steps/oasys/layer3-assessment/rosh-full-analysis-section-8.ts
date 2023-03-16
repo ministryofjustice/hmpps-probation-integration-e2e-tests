@@ -9,9 +9,9 @@ export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
     // await page.locator('#textarea_FA41').fill('test');
 
     page.on('console', msg => console.log(msg.text()))
-    console.log(page.content())
+    console.log(await page.content())
     console.log(page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }))
-    console.log(page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).count())
+    console.log(await page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).count())
 
     await page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).selectOption('FA31~YES');
     await page.getByRole('combobox', { name: 'Are there any current concerns about self-harm' }).selectOption('FA32~YES');
