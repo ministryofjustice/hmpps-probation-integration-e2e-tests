@@ -4,7 +4,7 @@ import {waitForJS} from "../../common/common.js";
 export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
     // await waitForJS(page, 3000)
 
-
+    //
     // await page.locator('#textarea_FA41').click();
     // await page.locator('#textarea_FA41').fill('test');
 
@@ -13,8 +13,8 @@ export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
     console.log(page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }))
     console.log(page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).count())
 
-    await page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).selectOption('FA31~N0');
-    await page.getByRole('combobox', { name: 'Are there any current concerns about self-harm' }).selectOption('FA32~NO');
+    await page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).selectOption('FA31~YES');
+    await page.getByRole('combobox', { name: 'Are there any current concerns about self-harm' }).selectOption('FA32~YES');
 
 
     await page.fill(

@@ -5,7 +5,7 @@ export const selectCreatePlacementAction = async (page: Page) => {
     await actionsButton.click()
     const listButton = await page.locator('a', { hasText: 'Create a placement' })
     await listButton.click()
-    await expect(page.locator('#main-content h1')).toHaveText('Create a placement')
+    await expect(page.locator('#main-content div > h1')).toHaveText('Create a placement')
 }
 
 export const managePlacement = async (page: Page, crn: string) => {
