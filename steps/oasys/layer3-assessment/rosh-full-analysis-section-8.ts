@@ -12,8 +12,17 @@ export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
     console.log(await page.content())
     console.log(page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }))
     console.log(await page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).count())
+    console.log('itm_FA31', await page.locator('#itm_FA31').count())
+    console.log('itm_FA32', await page.locator('#itm_FA32').count())
+
+    await page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).selectOption('FA31~YES');
+    await page.getByRole('combobox', { name: 'Are there any current concerns about self-harm' }).selectOption('FA32~YES');
 
 
+    await page.fill(
+        '#textarea_FA33',
+        "OASys Question - 'Describe circumstances, relevant issues and needs regarding current concerns (refer to sections 1-12 for indicators, particularly Section 1' - Answer Input - 'Test concerns about self-harm and suicide'"
+    )
 
     await page.getByLabel('Are there any current concerns about coping in custody').selectOption({ label: 'Yes' }),
     await page
@@ -32,16 +41,6 @@ export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
         '#textarea_FA45_t',
         "OASys Question - 'R8.3.1 Are there any current concerns about vulnerability (eg victimisation, being bullied, assaulted, exploited) - Yes - Describe circumstances, relevant issues and needs' - Answer Input - 'Test Issues and Needs'"
     )
-
-    await page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).selectOption('FA31~YES');
-    await page.getByRole('combobox', { name: 'Are there any current concerns about self-harm' }).selectOption('FA32~YES');
-
-
-    await page.fill(
-        '#textarea_FA33',
-        "OASys Question - 'Describe circumstances, relevant issues and needs regarding current concerns (refer to sections 1-12 for indicators, particularly Section 1' - Answer Input - 'Test concerns about self-harm and suicide'"
-    )
-
     await page.keyboard.down('End')
     await page.click('input[value="Save"]')
     await page.click('input[value="Next"]')
