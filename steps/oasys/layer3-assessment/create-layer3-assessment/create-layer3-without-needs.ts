@@ -23,35 +23,16 @@ import { completeOffenceAnalysis } from '../analysis-of-offences-layer3.js'
 import { completeRoSHFullSec8RisksToIndvdl } from '../rosh-full-analysis-section-8.js'
 
 export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string) => {
-
-
     // And I select "Warwickshire" from Choose Provider Establishment
     await selectRegion(page)
     // And I click on the Search button from the top menu
     await clickSearch(page)
     // And I enter the crn number and search
     await crnSearch(page, crn)
-
-    // const crn = 'X609269'
-
-    // await page.getByLabel('Open Existing Offender').click()
-    // await page.locator('button', { hasText: 'Open Existing Offender' }).click()
-
-    // await page.locator('#B74262616222222107').click()
-
-    // await page.locator('#B2799414815519187').click()
-
-    // await page.locator('#report_R6586767371592399 > tbody > tr').click()
-    // await page.locator('#report_R5522906992105444 > tbody > tr').click()
-
-    //
-    //
     // And I click on Create Offender button
     await clickCreateOffenderButton(page)
     // And I click on Create Assessment Button
     await clickCreateAssessmentButton(page)
-
-
     // And I say OK for CRN Amendment
     await clickOKForCRNAmendment(page)
     // And I click on CMS Record

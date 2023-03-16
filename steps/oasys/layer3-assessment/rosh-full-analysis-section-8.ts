@@ -4,16 +4,15 @@ export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
     await expect(page.locator('#itm_FA31')).toHaveCount(1)
     await expect(page.locator('#itm_FA32')).toHaveCount(1)
     await page.evaluate(() => {
-        document.querySelector('#itm_FA31').value = 'FA31~YES';
-        document.querySelector('#itm_FA31').dispatchEvent(new Event('change'));
-        document.querySelector('#itm_FA32').value = 'FA32~YES';
-        document.querySelector('#itm_FA32').dispatchEvent(new Event('change'));
+        document.querySelector('#itm_FA31').value = 'FA31~YES'
+        document.querySelector('#itm_FA31').dispatchEvent(new Event('change'))
+        document.querySelector('#itm_FA32').value = 'FA32~YES'
+        document.querySelector('#itm_FA32').dispatchEvent(new Event('change'))
     })
     await page.fill(
         '#textarea_FA33',
         "OASys Question - 'Describe circumstances, relevant issues and needs regarding current concerns (refer to sections 1-12 for indicators, particularly Section 1' - Answer Input - 'Test concerns about self-harm and suicide'"
     )
-
     await page.getByLabel('Are there any current concerns about coping in custody').selectOption({ label: 'Yes' }),
     await page
         .getByLabel('Are there any current concerns about coping in hostel settings')

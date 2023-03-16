@@ -17,7 +17,7 @@ import { verifyKeyworkerAvailability } from '../../steps/approved-premises/mark-
 import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
 import { submitAPApplication } from '../../steps/approved-premises/applications/submit-application-full.js'
-import {login as oasysLogin, UserType} from '../../steps/oasys/login.js'
+import { login as oasysLogin, UserType } from '../../steps/oasys/login.js'
 import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs.js'
 import { verifyContacts } from '../../steps/delius/contact/find-contacts.js'
 import { contact } from '../../steps/delius/utils/contact.js'
@@ -38,9 +38,6 @@ test('Create an approved premises booking', async ({ page }) => {
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
-
-    // const crn = 'X642568'
-
     await oasysLogin(page, UserType.Booking)
     // And I create a Layer 3 Assessment without Needs in OASys
     await createLayer3AssessmentWithoutNeeds(page, crn)
