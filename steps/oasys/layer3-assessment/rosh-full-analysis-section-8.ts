@@ -1,31 +1,6 @@
 import { type Page, expect } from '@playwright/test'
-import {waitForJS} from "../../common/common.js";
 
 export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
-    // await waitForJS(page, 3000)
-
-    //
-    // await page.locator('#textarea_FA41').click();
-    // await page.locator('#textarea_FA41').fill('test');
-
-    page.on('console', msg => console.log(msg.text()))
-    console.log(await page.content())
-    console.log(page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }))
-    console.log(await page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).count())
-    console.log('itm_FA31', await page.locator('#itm_FA31').count())
-    console.log('itm_FA32', await page.locator('#itm_FA32').count())
-
-    // await expect(page.locator('#itm_FA31')).toHaveCount(1)
-    // await page.evaluate(() => {
-    //     return document.querySelector('#itm_FA31').value = 'FA31~YES';
-    // })
-    //
-    // await expect(page.locator('#itm_FA32')).toHaveCount(1)
-    // await page.evaluate(() => {
-    //     return document.querySelector('#itm_FA32').value = 'FA32~YES';
-    // })
-
-    // await expect(page.locator('#itm_FA31')).toHaveCount(1)
     await expect(page.locator('#itm_FA31')).toHaveCount(1)
     await expect(page.locator('#itm_FA32')).toHaveCount(1)
     await page.evaluate(() => {
@@ -34,14 +9,6 @@ export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
         document.querySelector('#itm_FA32').value = 'FA32~YES';
         document.querySelector('#itm_FA32').dispatchEvent(new Event('change'));
     })
-    // expect(true).toBeFalsy()
-    // await page.locator('#itm_FA31').selectOption('FA31~YES')
-    // await page.locator('#itm_FA32').selectOption('FA32~YES')
-
-    // await page.getByRole('combobox', { name: 'Are there any current concerns about suicide' }).selectOption('FA31~YES');
-    // await page.getByRole('combobox', { name: 'Are there any current concerns about self-harm' }).selectOption('FA32~YES');
-
-
     await page.fill(
         '#textarea_FA33',
         "OASys Question - 'Describe circumstances, relevant issues and needs regarding current concerns (refer to sections 1-12 for indicators, particularly Section 1' - Answer Input - 'Test concerns about self-harm and suicide'"
