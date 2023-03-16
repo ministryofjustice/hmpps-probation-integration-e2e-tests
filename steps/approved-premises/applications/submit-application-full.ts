@@ -36,9 +36,9 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     // And I click on Save and Continue confirming the offender's details
     await clickSaveAndContinue(page)
     // And I say this an exceptional case
-    // await clickExceptionalCaseYes(page)
+    await clickExceptionalCaseYes(page)
     // And I say add the agreed date and exception details
-    // await addExemptionDetails(page)
+    await addExemptionDetails(page)
     // And I select Sentence Type and click on Submit
     await selectSentenceType(page)
     // And I select "Referral for risk management" Option that describes the situation

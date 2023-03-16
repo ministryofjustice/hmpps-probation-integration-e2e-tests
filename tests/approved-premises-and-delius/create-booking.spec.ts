@@ -26,7 +26,7 @@ import { findOffenderByCRN } from '../../steps/delius/offender/find-offender.js'
 const nomisIds = []
 
 test('Create an approved premises booking', async ({ page }) => {
-    // test.slow() // increase the timeout - Delius/OASys/AP Applications/Approved premises can take a few minutes
+    test.slow() // increase the timeout - Delius/OASys/AP Applications/Approved premises can take a few minutes
     // Given I login in to NDelius
     await hmppsLogin(page)
     await deliusLogin(page)
@@ -49,38 +49,38 @@ test('Create an approved premises booking', async ({ page }) => {
     // And I navigate to Approved Premises - Applications
     await navigateToApplications(page)
     // And I complete all the sections and submit the application for this CRN
-    // await submitAPApplication(page, crn)
-    // // And I log back to Approved Premises
-    // await approvedPremisesLogin(page)
-    // // And I choose a premises # Choose the first premises in the list
-    // await selectApprovedPremises(page)
-    // // And I navigate to create a placement # Choose Actions > Create a placement
-    // await selectCreatePlacementAction(page)
-    // // And I search for the offender with CRN
-    // await searchOffenderWithCrn(page, crn)
-    // // When I create a booking in Approved Premises
-    // await createBooking(page)
-    // // And I click on "Back to dashboard" link
-    // await clickBackToDashboard(page)
-    // // And I select to manage the placement
-    // await managePlacement(page, crn)
-    // // And I click on the Search button from the top menu
-    // await selectMarkAsArrivedAction(page)
-    // // Then I should see the staff member in the list of Key Workers
-    // await verifyKeyworkerAvailability(
-    //     page,
-    //     `${data.staff.approvedPremisesKeyWorker.firstName} ${data.staff.approvedPremisesKeyWorker.lastName}`
-    // )
-    // // And login to nDelius
-    // await deliusLogin(page)
-    // // And I Search for offender with CRN
-    // await findOffenderByCRN(page, crn)
-    // // And I should see a contact in Delius for the booking
-    // await verifyContacts(page, crn, [contact('Person', 'Approved Premises Booking for Bedford AP')])
+    await submitAPApplication(page, crn)
+    // And I log back to Approved Premises
+    await approvedPremisesLogin(page)
+    // And I choose a premises # Choose the first premises in the list
+    await selectApprovedPremises(page)
+    // And I navigate to create a placement # Choose Actions > Create a placement
+    await selectCreatePlacementAction(page)
+    // And I search for the offender with CRN
+    await searchOffenderWithCrn(page, crn)
+    // When I create a booking in Approved Premises
+    await createBooking(page)
+    // And I click on "Back to dashboard" link
+    await clickBackToDashboard(page)
+    // And I select to manage the placement
+    await managePlacement(page, crn)
+    // And I click on the Search button from the top menu
+    await selectMarkAsArrivedAction(page)
+    // Then I should see the staff member in the list of Key Workers
+    await verifyKeyworkerAvailability(
+        page,
+        `${data.staff.approvedPremisesKeyWorker.firstName} ${data.staff.approvedPremisesKeyWorker.lastName}`
+    )
+    // And login to nDelius
+    await deliusLogin(page)
+    // And I Search for offender with CRN
+    await findOffenderByCRN(page, crn)
+    // And I should see a contact in Delius for the booking
+    await verifyContacts(page, crn, [contact('Person', 'Approved Premises Booking for Bedford AP')])
 })
 
-// test.afterAll(async () => {
-//     for (const nomsId of nomisIds) {
-//         await releasePrisoner(nomsId)
-//     }
-// })
+test.afterAll(async () => {
+    for (const nomsId of nomisIds) {
+        await releasePrisoner(nomsId)
+    }
+})
