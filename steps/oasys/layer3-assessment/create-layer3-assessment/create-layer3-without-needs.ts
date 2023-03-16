@@ -36,7 +36,9 @@ export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string
 
     // await page.getByLabel('Open Existing Offender').click()
     // await page.locator('button', { hasText: 'Open Existing Offender' }).click()
-    await page.locator('#B74262616222222107').click()
+
+    // await page.locator('#B74262616222222107').click()
+
     // await page.locator('#B2799414815519187').click()
 
     // await page.locator('#report_R6586767371592399 > tbody > tr').click()
@@ -44,9 +46,9 @@ export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string
 
     //
     //
-    // // And I click on Create Offender button
-    // await clickCreateOffenderButton(page)
-    // // And I click on Create Assessment Button
+    // And I click on Create Offender button
+    await clickCreateOffenderButton(page)
+    // And I click on Create Assessment Button
     await clickCreateAssessmentButton(page)
 
 
@@ -66,19 +68,19 @@ export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string
     await clickSection2To4NextButton(page)
     // And I complete "RoSH Screening" Section 5 and Click Save & Next
     await completeRoSHSection5FullAnalysisYes(page)
-    // // And I Click on "RoSH Summary" Section
-    // await clickRoSHSummary(page)
-    // // And I complete "RoSH Summary - R10" Questions
-    // await completeRoSHSection10RoSHSummary(page)
-    // // And I Click on "Risk Management Plan" Section
-    // await clickRiskManagementPlan(page)
-    // // And I complete "Risk Management Plan" Questions
-    // await completeRiskManagementPlan(page)
-    // // And I click on "Section 2 to 13" & "2 - Offence Analysis"
-    // await clickOffenceAnalysis(page)
-    // // And I complete Offence Analysis Plan Questions
-    // await completeOffenceAnalysis(page)
-    // // And I click on "Section 8" under Rosh Full Analysis
+    // And I Click on "RoSH Summary" Section
+    await clickRoSHSummary(page)
+    // And I complete "RoSH Summary - R10" Questions
+    await completeRoSHSection10RoSHSummary(page)
+    // And I Click on "Risk Management Plan" Section
+    await clickRiskManagementPlan(page)
+    // And I complete "Risk Management Plan" Questions
+    await completeRiskManagementPlan(page)
+    // And I click on "Section 2 to 13" & "2 - Offence Analysis"
+    await clickOffenceAnalysis(page)
+    // And I complete Offence Analysis Plan Questions
+    await completeOffenceAnalysis(page)
+    // And I click on "Section 8" under Rosh Full Analysis
     await clickRoshFullRisksToIndividual(page)
     // And I complete "Risks to Individual(Risks to Self)" Section
     await completeRoSHFullSec8RisksToIndvdl(page)
