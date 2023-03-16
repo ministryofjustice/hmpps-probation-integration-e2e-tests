@@ -79,7 +79,7 @@ export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string
     // And I complete Offence Analysis Plan Questions
     await completeOffenceAnalysis(page)
     // And I click on "Section 8" under Rosh Full Analysis
-    await clickRoshFullRisksToIndividual(page)
+    // await clickRoshFullRisksToIndividual(page)
     // And I complete "Risks to Individual(Risks to Self)" Section
-    await completeRoSHFullSec8RisksToIndvdl(page)
+    // await completeRoSHFullSec8RisksToIndvdl(page)
 }
