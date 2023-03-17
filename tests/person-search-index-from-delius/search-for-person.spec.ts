@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv'
 import { doUntil } from '../../steps/delius/utils/refresh.js'
 import { createContact } from '../../steps/delius/contact/create-contact.js'
 import { LastMonth, Tomorrow, Yesterday } from '../../steps/delius/utils/date-time.js'
-import {data} from "../../test-data/test-data.js";
+import { data } from '../../test-data/test-data.js'
 
 dotenv.config() // read environment variables into process.env
 
@@ -37,28 +37,44 @@ test('Create and search for contacts', async ({ page }) => {
         type: 'CV Created',
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
         date: LastMonth,
-        allocation : {team: data.teams.allocationsTestTeam, staff: data.staff.allocationsTester2 , providerName: data.teams.allocationsTestTeam.provider},
+        allocation: {
+            team: data.teams.allocationsTestTeam,
+            staff: data.staff.allocationsTester2,
+            providerName: data.teams.allocationsTestTeam.provider,
+        },
     })
     await createContact(page, crn, {
         category: 'Community Management',
         type: 'Other Contact',
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
         date: Yesterday,
-        allocation : {team: data.teams.allocationsTestTeam, staff: data.staff.allocationsTester2 , providerName: data.teams.allocationsTestTeam.provider},
+        allocation: {
+            team: data.teams.allocationsTestTeam,
+            staff: data.staff.allocationsTester2,
+            providerName: data.teams.allocationsTestTeam.provider,
+        },
     })
     await createContact(page, crn, {
         category: 'Case Administration',
         type: 'Clerical Officer Contact',
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
         date: new Date(),
-        allocation : {team: data.teams.allocationsTestTeam, staff: data.staff.allocationsTester2 , providerName: data.teams.allocationsTestTeam.provider},
+        allocation: {
+            team: data.teams.allocationsTestTeam,
+            staff: data.staff.allocationsTester2,
+            providerName: data.teams.allocationsTestTeam.provider,
+        },
     })
     await createContact(page, crn, {
         category: 'Case Administration',
         type: 'Clerical Officer Contact',
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
         date: Tomorrow,
-        allocation : {team: data.teams.allocationsTestTeam, staff: data.staff.allocationsTester2 , providerName: data.teams.allocationsTestTeam.provider},
+        allocation: {
+            team: data.teams.allocationsTestTeam,
+            staff: data.staff.allocationsTester2,
+            providerName: data.teams.allocationsTestTeam.provider,
+        },
     })
 
     await page.locator('input.btn', { hasText: /Text Search/ }).click()

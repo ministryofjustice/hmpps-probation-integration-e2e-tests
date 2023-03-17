@@ -4,7 +4,7 @@ dotenv.config() // read environment variables into process.env
 import { login as deliusLogin } from '../../steps/delius/login.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
-import {login as oasysLogin, UserType} from '../../steps/oasys/login.js'
+import { login as oasysLogin, UserType } from '../../steps/oasys/login.js'
 import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
 import { login as approvedPremisesLogin, navigateToApplications } from '../../steps/approved-premises/login.js'
 import { enterCRN } from '../../steps/approved-premises/applications/enter-crn.js'

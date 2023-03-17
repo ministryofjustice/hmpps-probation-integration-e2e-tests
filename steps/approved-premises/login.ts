@@ -17,11 +17,10 @@ export const login = async (page: Page) => {
     await page.fill('#password', process.env.DELIUS_PASSWORD!)
     await page.click('#submit')
     await expect(page).toHaveTitle(approvedPremisesTitle)
-    await page.locator('.govuk-link', {hasText:'Manage an Approved Premises'}).click()
+    await page.locator('.govuk-link', { hasText: 'Manage an Approved Premises' }).click()
 }
 
 export const navigateToApplications = async (page: Page) => {
     await page.goto(`${process.env.APPROVEDPREMISES_URL}applications/new`)
     await expect(page).toHaveTitle("Approved Premises - Enter the person's CRN")
 }
-

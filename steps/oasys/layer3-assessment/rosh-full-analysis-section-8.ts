@@ -14,9 +14,9 @@ export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
         "OASys Question - 'Describe circumstances, relevant issues and needs regarding current concerns (refer to sections 1-12 for indicators, particularly Section 1' - Answer Input - 'Test concerns about self-harm and suicide'"
     )
     await page.getByLabel('Are there any current concerns about coping in custody').selectOption({ label: 'Yes' }),
-    await page
-        .getByLabel('Are there any current concerns about coping in hostel settings')
-        .selectOption({ label: 'Yes' })
+        await page
+            .getByLabel('Are there any current concerns about coping in hostel settings')
+            .selectOption({ label: 'Yes' })
     await page.fill(
         '#textarea_FA41',
         "OASys Question - 'R8.2 Coping in custody / hostel setting - Describe circumstances, relevant issues and needs' - Answer Input - 'Test Issues and Needs'"
