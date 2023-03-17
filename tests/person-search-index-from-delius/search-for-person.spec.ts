@@ -40,7 +40,6 @@ test('Create and search for contacts', async ({ page }) => {
         allocation: {
             team: data.teams.allocationsTestTeam,
             staff: data.staff.allocationsTester2,
-            providerName: data.teams.allocationsTestTeam.provider,
         },
     })
     await createContact(page, crn, {
@@ -51,7 +50,6 @@ test('Create and search for contacts', async ({ page }) => {
         allocation: {
             team: data.teams.allocationsTestTeam,
             staff: data.staff.allocationsTester2,
-            providerName: data.teams.allocationsTestTeam.provider,
         },
     })
     await createContact(page, crn, {
@@ -62,7 +60,6 @@ test('Create and search for contacts', async ({ page }) => {
         allocation: {
             team: data.teams.allocationsTestTeam,
             staff: data.staff.allocationsTester2,
-            providerName: data.teams.allocationsTestTeam.provider,
         },
     })
     await createContact(page, crn, {
@@ -73,7 +70,6 @@ test('Create and search for contacts', async ({ page }) => {
         allocation: {
             team: data.teams.allocationsTestTeam,
             staff: data.staff.allocationsTester2,
-            providerName: data.teams.allocationsTestTeam.provider,
         },
     })
 
