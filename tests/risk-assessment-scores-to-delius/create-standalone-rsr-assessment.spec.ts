@@ -16,7 +16,7 @@ import { createEvent } from '../../steps/delius/event/create-event.js'
 import { findOffenderByCRN } from '../../steps/delius/offender/find-offender.js'
 import { verifyRsrScore } from '../../steps/delius/oasys-rsr-score/verify-rsr-score.js'
 
-test('Create a standalone RSR Assessment in OASys and verify the RSR Score in nDelius', async ({ page }) => {
+test('Create a standalone RSR Assessment', async ({ page }) => {
     // Given I create new Offender in nDelius
     await deliusLogin(page)
     const person = deliusPerson()
