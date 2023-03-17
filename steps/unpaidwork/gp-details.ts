@@ -15,10 +15,8 @@ export const completeGPDetails = async (page: Page) => {
     await page.getByLabel('Phone number').fill(faker.phone.number())
     await page.getByRole('button', { name: 'Save' }).click()
     await expect(page.locator('.govuk-heading-xl')).toContainText('GP Details')
-    await page.getByRole('group', { name: 'Mark GP details section as complete?' }).getByLabel('Yes').check()
+    await page.locator('#gp_details_complete').click()
     await page.getByRole('button', { name: 'Save' }).click()
+    await expect(page.locator('li:has-text("GP Details")').first()).toContainText('COMPLETED'.toLowerCase())
     await expect(page.locator('#main-content h1')).toHaveText('Community payback assessment')
-    await expect(page.locator('.govuk-caption-l')).toHaveText(
-        'Most of the questions in this assessment must be answered, but some are optional and are marked as such.'
-    )
 }

@@ -23,13 +23,10 @@ export const completeRiskHarmCommunitySection = async (page: Page) => {
     await page.locator('#high_profile_person_details').fill(' Entering Text related to high-profile person')
     await page.locator('#additional_rosh_info').click()
     await page.locator('#additional_rosh_info_details').fill('Entering Text related to Additional information ')
-    await page
-        .getByRole('group', { name: 'Mark risk of harm in the community section as complete?' })
-        .getByLabel('Yes')
-        .check()
+    await page.locator('#rosh_community_complete').click()
     await page.getByRole('button', { name: 'Save' }).click()
-    await expect(page.locator('#main-content h1')).toHaveText('Community payback assessment')
-    await expect(page.locator('.govuk-caption-l')).toHaveText(
-        'Most of the questions in this assessment must be answered, but some are optional and are marked as such.'
+    await expect(page.locator('li:has-text("Risk of harm in the community")').first()).toContainText(
+        'COMPLETED'.toLowerCase()
     )
+    await expect(page.locator('#main-content h1')).toHaveText('Community payback assessment')
 }

@@ -85,3 +85,10 @@ export const clickChooseEquipmentSizesLink = async (page: Page) => {
     await page.getByRole('link', { name: 'Choose equipment sizes' }).click()
     await expect(page.locator('#main-content h1')).toContainText('Choose equipment sizes')
 }
+
+export const submitUPWAssessment = async (page: Page) => {
+    await expect(page.getByRole('link', { name: 'Completed assessment' })).toBeEnabled()
+    await page.locator('.govuk-button', { hasText: 'Submit' }).click()
+    await expect(page.locator('#main-content h1')).toContainText('You have completed the Community Payback assessment')
+    await page.close()
+}

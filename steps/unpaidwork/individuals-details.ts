@@ -19,20 +19,15 @@ export const completeIndividualDetailsSection = async (page: Page) => {
     await expect(page.locator('#main-content h1')).toHaveText("Individual's details")
     await page.getByRole('button', { name: 'Add contact' }).click()
     await expect(page.locator('#main-content h1')).toHaveText('Emergency contact')
-    await page.locator('#emergency_contact_first_name').click()
-    await page.locator('#emergency_contact_first_name').press('CapsLock')
     await page.locator('#emergency_contact_first_name').fill(faker.name.firstName())
     await page.getByLabel('Surname').fill(faker.name.lastName())
-    await page.getByLabel('Relationship to the individual').press('CapsLock')
     await page.getByLabel('Relationship to the individual').fill('Friend')
     await page.getByLabel('Mobile').fill(faker.phone.number())
     await page.getByLabel('Phone number').fill(faker.phone.number())
     await page.getByRole('button', { name: 'Save' }).click()
     await expect(page.locator('#main-content h1')).toHaveText("Individual's details")
-    await page.getByLabel('Yes').check()
+    await page.locator('#individual_details_complete').click()
     await page.getByRole('button', { name: 'Save' }).click()
+    await expect(page.locator('li:has-text("Individual\'s details")').first()).toContainText('COMPLETED'.toLowerCase())
     await expect(page.locator('#main-content h1')).toHaveText('Community payback assessment')
-    await expect(page.locator('.govuk-caption-l')).toHaveText(
-        'Most of the questions in this assessment must be answered, but some are optional and are marked as such.'
-    )
 }
