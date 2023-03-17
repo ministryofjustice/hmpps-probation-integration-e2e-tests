@@ -17,7 +17,7 @@ export interface Staff {
     lastName: string
 }
 export interface Allocation {
-    staff: Staff
+    staff?: Staff
     team: Team
 }
 export interface ContactType {
@@ -28,7 +28,7 @@ export interface Contact extends ContactType {
     relatesTo: string
     date?: Date
     instance?: number
-    allocation?: Optional<Allocation>
+    allocation?: Allocation
     startTime?: Date
     endTime?: Date
 }

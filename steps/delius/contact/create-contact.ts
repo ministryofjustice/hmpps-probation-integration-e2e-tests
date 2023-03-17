@@ -1,10 +1,10 @@
 import { expect, type Page } from '@playwright/test'
 import { findContactsByCRN } from './find-contacts.js'
 import { fillDate, fillTime, selectOptionAndWait } from '../utils/inputs.js'
-import {Contact, data, Staff, Team} from '../../../test-data/test-data.js'
+import { Contact, data, Team } from '../../../test-data/test-data.js'
 import { doUntil } from '../utils/refresh.js'
 
-export const createContact = async (page: Page, crn: string, options: { date: Date; allocation: { staff: Staff; team: Team; providerName: string }; category: string; type: string; relatesTo: string }) => {
+export const createContact = async (page: Page, crn: string, options: Contact) => {
     await findContactsByCRN(page, crn)
     await page.locator('input.btn', { hasText: 'Add Contact' }).first().click()
     await expect(page).toHaveTitle('Add Contact Details')
@@ -37,7 +37,7 @@ export const createContact = async (page: Page, crn: string, options: { date: Da
 export const createInitialAppointment = async (page: Page, crn: string, eventNumber: string, team: Team) =>
     createContact(page, crn, {
         relatesTo: `Event ${eventNumber} - ORA Community Order (6 Months)`,
-        allocation: {team: team},
+        allocation: { team: team },
         startTime: new Date(),
         endTime: new Date(new Date().getTime() + 60000),
         ...data.contacts.initialAppointment,
