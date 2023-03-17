@@ -4,7 +4,7 @@ dotenv.config() // read environment variables into process.env
 import { login as deliusLogin } from '../../steps/delius/login.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
-import { login as oasysLogin } from '../../steps/oasys/login.js'
+import { login as oasysLogin, UserType } from '../../steps/oasys/login.js'
 import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
 import { login as approvedPremisesLogin, navigateToApplications } from '../../steps/approved-premises/login.js'
 import { enterCRN } from '../../steps/approved-premises/applications/enter-crn.js'
@@ -34,6 +34,7 @@ import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-ass
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs.js'
 
 const nomisIds = []
+
 test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
     page,
 }) => {
@@ -48,7 +49,7 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
     // And I log in to OASys as a "OASYS_T2_LOGIN_USER" user
-    await oasysLogin(page)
+    await oasysLogin(page, UserType.Timeline)
     // And I create a Layer 3 Assessment without Needs in OASys
     await createLayer3AssessmentWithoutNeeds(page, crn)
     // And I add Needs for Layer 3 Assessment

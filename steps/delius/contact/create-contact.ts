@@ -11,12 +11,16 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
     if (options.date) {
         await fillDate(page, '#addContactForm\\:StartDate', options.date)
     }
+
     await selectOptionAndWait(page, '#addContactForm\\:RelatedTo', options.relatesTo)
-    await selectOptionAndWait(page, '#addContactForm\\:TransferToTrust', options.allocation?.team?.provider)
     await selectOptionAndWait(page, '#addContactForm\\:ContactCategory', options.category)
-    await selectOptionAndWait(page, '#addContactForm\\:TransferToTeam', options.allocation?.team?.name)
     await selectOptionAndWait(page, '#addContactForm\\:ContactType', options.type)
-    await selectOptionAndWait(page, '#addContactForm\\:Location', options.allocation?.team?.location)
+    await selectOptionAndWait(page, '#addContactForm\\:TransferToTrust', options.allocation?.team?.provider)
+    await selectOptionAndWait(page, '#addContactForm\\:TransferToTeam', options.allocation?.team?.name)
+
+    if (options.allocation?.team?.location) {
+        await selectOptionAndWait(page, '#addContactForm\\:Location', options.allocation?.team?.location)
+    }
     if (options.startTime) {
         await fillTime(page, '#addContactForm\\:StartTime', options.startTime)
     }

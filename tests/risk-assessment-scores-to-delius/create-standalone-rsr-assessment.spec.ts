@@ -5,7 +5,7 @@ import { login as deliusLogin } from '../../steps/delius/login.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { data } from '../../test-data/test-data.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
-import { login as oasysLogin } from '../../steps/oasys/login.js'
+import { login as oasysLogin, UserType } from '../../steps/oasys/login.js'
 import { setProviderEstablishment as selectRegion } from '../../steps/oasys/set-provider-establishment.js'
 import { clickSearch } from '../../steps/oasys/task-manager.js'
 import { offenderSearchWithCRN as crnSearch } from '../../steps/oasys/offender-search.js'
@@ -24,7 +24,7 @@ test('Create a standalone RSR Assessment', async ({ page }) => {
     // And I create an event in nDelius
     await createEvent(page, { crn, event: data.events.adjournedForFastPreSentenceReport })
     // Given I log in to OASys as a "OASYS_T2_LOGIN_USER" user
-    await oasysLogin(page)
+    await oasysLogin(page, UserType.RSR)
     // And I select "Warwickshire" from Choose Provider Establishment
     await selectRegion(page)
     // And I click on the Search button from the top menu

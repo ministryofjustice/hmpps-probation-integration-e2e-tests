@@ -15,6 +15,12 @@ export const doUntil = async <T>(
     }).toPass(options)
 }
 
+export const waitForJS = (page: Page, timeout = 0) => {
+    const timeToWait = (timeout: number) => new Promise(resolve => setTimeout(resolve, timeout))
+    return page.evaluate(timeToWait, timeout)
+}
+
 export const waitForAjax = async (page: Page) => {
     await page.waitForResponse(page.url())
+    await waitForJS(page)
 }
