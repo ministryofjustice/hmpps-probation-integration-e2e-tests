@@ -34,7 +34,7 @@ import { completeTrainingEmplOpportunitiesSection } from './training-employment-
 import { completeIntensiveWorkingSection } from './intensive-working.js'
 import { completeEquipmentSizesSection } from './choose-equipment-sizes.js'
 import { completeAvailabilitySection } from './availability.js'
-import {completeAddtlInformationSection} from "./additional-information.js";
+import { completeAddtlInformationSection } from './additional-information.js'
 
 export const completeAllUPWSections = async (page: Page) => {
     // And I click on "Individual's details" link
