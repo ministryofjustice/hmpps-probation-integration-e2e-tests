@@ -21,7 +21,7 @@
     "@typescript-eslint/parser": "^5.55.0",
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
-    "eslint-config-prettier": "^8.7.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "node-stream-zip": "^1.15.0",
     "pdf2json": "^3.0.3",
