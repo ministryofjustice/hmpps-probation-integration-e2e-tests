@@ -2,7 +2,7 @@ import { expect, type Page } from '@playwright/test'
 import { selectOption } from '../utils/inputs.js'
 import { findEventByCRN } from '../event/find-events.js'
 
-export const createLicenceCondition = async (page: Page, crn: string, eventNumber = 1) => {
+export const createLicenceCondition = async (page: Page, crn: string, eventNumber = 1): Promise<string> => {
     await findEventByCRN(page, crn, eventNumber)
     await page.getByRole('link', { name: 'Licence Conditions' }).click()
     await expect(page.locator('h1')).toHaveText('Licence Conditions')
@@ -14,4 +14,5 @@ export const createLicenceCondition = async (page: Page, crn: string, eventNumbe
     await page.getByRole('button', { name: 'Add' }).click()
     await page.getByRole('button', { name: 'Save' }).click()
     await expect(page.locator('h1')).toHaveText('Licence Conditions')
+    return await page.locator('table tr:first-child td:nth-child(2)').textContent()
 }

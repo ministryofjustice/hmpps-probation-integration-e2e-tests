@@ -26,7 +26,7 @@ export const deliusPerson = (person?: Person) => {
     const firstName = person?.firstName ? person.firstName : faker.name.firstName(gender)
     const lastName = person?.lastName ? person.lastName : faker.name.lastName(gender)
     const genderStr = gender.toString()
-    const dob = faker.date.birthdate({ min: 18, max: 69, mode: 'age' })
+    const dob = person?.dob || faker.date.birthdate({ min: 18, max: 69, mode: 'age' })
     return {
         firstName,
         lastName,

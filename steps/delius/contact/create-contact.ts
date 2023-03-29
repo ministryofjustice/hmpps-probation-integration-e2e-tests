@@ -34,7 +34,7 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
     )
 }
 
-export const createInitialAppointment = async (page: Page, crn: string, eventNumber: string, team: Team) =>
+export const createInitialAppointment = async (page: Page, crn: string, eventNumber: string, team: Team = null) =>
     createContact(page, crn, {
         relatesTo: `Event ${eventNumber} - ORA Community Order (6 Months)`,
         allocation: { team: team },

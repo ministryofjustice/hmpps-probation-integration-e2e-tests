@@ -1,7 +1,8 @@
 import { expect, type Page } from '@playwright/test'
-import { fillDate, selectOption } from '../utils/inputs.js'
+import { selectOption } from '../utils/inputs.js'
 import { findEventByCRN } from '../event/find-events.js'
 import { DeliusDateFormatter, Tomorrow, Yesterday } from '../utils/date-time.js'
+import {doUntil} from "../utils/refresh.js";
 
 export const createRelease = async (page: Page, crn: string, eventNumber = 1, temporary = false) => {
     await findEventByCRN(page, crn, eventNumber)
@@ -20,7 +21,13 @@ export const createRelease = async (page: Page, crn: string, eventNumber = 1, te
         await page.getByLabel(/Release on Licence Length/).fill('1')
         await page.getByLabel(/Release on Licence End Date/).fill(DeliusDateFormatter(new Date()))
     }
-    await page.getByRole('button', { name: 'Save' }).click()
-    await page.getByRole('button', { name: 'Confirm' }).click()
+    await doUntil(
+        () =>  page.getByRole('button', { name: 'Save' }).click(),
+        () => expect(page).toHaveTitle(/Add Release/)
+    )
+    await doUntil(
+        () => page.getByRole('button', { name: 'Confirm' }).click(),
+        () => expect(page).toHaveTitle(/Add Components/)
+    )
     await expect(page.locator('h1')).toHaveText('Add Licence Conditions')
 }
