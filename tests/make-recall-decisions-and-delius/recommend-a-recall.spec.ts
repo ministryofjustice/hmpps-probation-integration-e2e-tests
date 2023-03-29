@@ -51,7 +51,7 @@ test('Make a recall recommendation', async ({ page }) => {
     // And I create a Licence Condition
     const licenceCondition = await createLicenceCondition(page, crn)
 
-    //When I login to Recall System and Search for the person to recommend
+    // When I login to Recall System and Search for the person to recommend
     await makeRecallDecisionsLogin(page)
     await enableContactFeatureFlag(page)
     await searchForPersonToRecommend(page, crn, name)
@@ -61,6 +61,8 @@ test('Make a recall recommendation', async ({ page }) => {
     await verifyRecallOffendersAddress(page, address.street, address.cityName, address.zipCode)
     await verifyLicenceCondition(page, licenceCondition)
     await verifyContact(page, contactDetails.type)
+
+    // And I start a Recall Recommendation
     await startRecommendation(page)
 
     // And I log back to Delius and verify the contact
