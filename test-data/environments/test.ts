@@ -29,12 +29,6 @@ export const testEnvironmentData: TestData = {
             firstName: 'Barry',
             lastName: 'Kshlerin',
         },
-        commmunityOffenderManager: {
-            name: 'Kshlerin, Barry (CRC - Additional Grade)',
-            firstName: 'Barry',
-            lastName: 'Kshlerin',
-        },
-
     },
     teams: {
         allocationsTestTeam: {
@@ -49,10 +43,6 @@ export const testEnvironmentData: TestData = {
             provider: 'NPS North East',
         },
         approvedPremisesTestTeam: {
-            name: 'Lancashire PICS',
-            provider: 'NPS North West',
-        },
-        communityOffenderManagerTeam: {
             name: 'Lancashire PICS',
             provider: 'NPS North West',
         },
