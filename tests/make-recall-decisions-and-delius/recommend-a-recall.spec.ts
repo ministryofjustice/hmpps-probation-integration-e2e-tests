@@ -15,13 +15,11 @@ import * as dotenv from 'dotenv'
 import { buildAddress, createAddress } from '../../steps/delius/address/create-address.js'
 import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
 import { createLicenceCondition } from '../../steps/delius/licence-condition/create-licence-condition.js'
-
 import { createRelease } from '../../steps/delius/release/create-release.js'
 import {createContact} from "../../steps/delius/contact/create-contact.js";
 import {Yesterday} from "../../steps/delius/utils/date-time.js";
 import {verifyContacts} from "../../steps/delius/contact/find-contacts.js";
 import {contact} from "../../steps/delius/utils/contact.js";
-
 dotenv.config() // read environment variables into process.env
 
 test('Make a recall recommendation', async ({ page }) => {
