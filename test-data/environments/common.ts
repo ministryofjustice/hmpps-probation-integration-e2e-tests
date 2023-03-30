@@ -36,6 +36,11 @@ export const commonData: TestData = {
             subCategory: 'Curfew',
             length: '6',
         },
+        rar: {
+            category: 'Rehabilitation Activity Requirement (RAR)',
+            subCategory: 'Rehabilitation Activity Requirement (RAR)',
+            length: '10',
+        },
         unpaidWork: {
             category: 'Unpaid Work',
             subCategory: 'Regular',
