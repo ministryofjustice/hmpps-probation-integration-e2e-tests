@@ -38,8 +38,12 @@ export const selectOption = async (
  * @param option
  * @param filter
  */
-export const selectOptionAndWait = async (page: Page, selector: string, option: string = null, filter: (s: string) => boolean = null): Promise<string> =>
-    (await Promise.all([selectOption(page, selector, option, filter), waitForAjax(page)]))[0]
+export const selectOptionAndWait = async (
+    page: Page,
+    selector: string,
+    option: string = null,
+    filter: (s: string) => boolean = null
+): Promise<string> => (await Promise.all([selectOption(page, selector, option, filter), waitForAjax(page)]))[0]
 
 export const fillDate = async (page: Page, selector: string, date: Date) => {
     await page.fill(selector, DeliusDateFormatter(date))

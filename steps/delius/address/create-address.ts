@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test'
-import {selectOption, selectOptionAndWait} from '../utils/inputs.js'
+import { selectOption, selectOptionAndWait } from '../utils/inputs.js'
 import { findOffenderByCRN } from '../offender/find-offender.js'
 import { faker } from '@faker-js/faker'
 

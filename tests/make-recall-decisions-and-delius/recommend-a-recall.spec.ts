@@ -1,4 +1,4 @@
-import {expect, Page, test} from '@playwright/test'
+import { expect, Page, test } from '@playwright/test'
 import { login as deliusLogin } from '../../steps/delius/login.js'
 import { login as makeRecallDecisionsLogin } from '../../steps/make-recall-decisions/login.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
@@ -6,7 +6,8 @@ import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { enableContactFeatureFlag } from '../../steps/make-recall-decisions/flags.js'
 import {
     searchForPersonToRecommend,
-    startRecommendation, verifyContact,
+    startRecommendation,
+    verifyContact,
     verifyLicenceCondition,
     verifyRecallOffenderDetails,
     verifyRecallOffendersAddress,
@@ -16,10 +17,10 @@ import { buildAddress, createAddress } from '../../steps/delius/address/create-a
 import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
 import { createLicenceCondition } from '../../steps/delius/licence-condition/create-licence-condition.js'
 import { createRelease } from '../../steps/delius/release/create-release.js'
-import {createContact} from "../../steps/delius/contact/create-contact.js";
-import {Yesterday} from "../../steps/delius/utils/date-time.js";
-import {verifyContacts} from "../../steps/delius/contact/find-contacts.js";
-import {contact} from "../../steps/delius/utils/contact.js";
+import { createContact } from '../../steps/delius/contact/create-contact.js'
+import { Yesterday } from '../../steps/delius/utils/date-time.js'
+import { verifyContacts } from '../../steps/delius/contact/find-contacts.js'
+import { contact } from '../../steps/delius/utils/contact.js'
 dotenv.config() // read environment variables into process.env
 
 test('Make a recall recommendation', async ({ page }) => {
