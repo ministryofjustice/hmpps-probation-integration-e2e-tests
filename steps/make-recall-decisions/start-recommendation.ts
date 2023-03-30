@@ -16,7 +16,7 @@ export const verifyRecallOffenderDetails = async ( page: Page, crnInDelius: stri
     const dobInRecall = page.locator('[data-qa="personalDetailsOverview-dateOfBirth"]')
     const genderInRecall = page.locator('[data-qa="personalDetailsOverview-gender"]')
     await expect(crnInRecall).toContainText(crnInDelius)
-    await expect(dobInRecall).toContainText(recallDateFormatter(dobInDelius))
+    await expect(dobInRecall).toContainText(dobInDelius.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }))
     await expect(genderInRecall).toContainText(genderInDelius)
 }
 
