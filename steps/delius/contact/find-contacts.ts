@@ -17,7 +17,16 @@ export async function verifyContacts(page: Page, crn: string, contacts: Contact[
 }
 
 export async function verifyContact(page: Page, contact: Contact) {
-    const matchingContactRecord = page.locator('tr', { hasText: contact.type }).nth(contact.instance)
+    let matchingContactRecord = page.locator('tr', { hasText: contact.type }).nth(contact.instance)
+    if (contact.outcome) {
+        matchingContactRecord = matchingContactRecord.filter({ hasText: contact.outcome })
+    }
+    if (contact.attended) {
+        matchingContactRecord = matchingContactRecord.filter({ hasText: contact.attended })
+    }
+    if (contact.complied) {
+        matchingContactRecord = matchingContactRecord.filter({ hasText: contact.complied })
+    }
     const contactSearchButton = page.locator('input.btn-primary', { hasText: 'Context Search' })
     await doUntil(
         () => contactSearchButton.click(),

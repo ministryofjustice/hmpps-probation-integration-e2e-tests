@@ -1,6 +1,16 @@
 import { expect, type Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
 
+export const referralProgress = async (page: Page, referralRef: string) => {
+    // Navigate to list of referrals
+    await page.locator('a', { hasText: 'My cases' }).click()
+    await expect(page).toHaveURL(/service-provider\/dashboard\/my-cases/)
+
+    // Find the correct referral using the Referral Reference
+    await page.locator('tr', { hasText: referralRef }).locator('a', { hasText: 'View' }).click()
+    await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
+}
+
 export const makeReferral = async (page: Page, crn: string) => {
     // Navigate to list of available interventions
     await page.locator('text=Find interventions').click()

@@ -31,6 +31,9 @@ export interface Contact extends ContactType {
     allocation?: Optional<Allocation>
     startTime?: Date
     endTime?: Date
+    outcome?: string
+    attended?: string
+    complied?: string
 }
 
 export class TestData {
