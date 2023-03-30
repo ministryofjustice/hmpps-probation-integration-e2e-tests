@@ -5,8 +5,10 @@ import { Contact } from '../../../test-data/test-data.js'
 
 export async function findContactsByCRN(page: Page, crn: string) {
     await findOffenderByCRN(page, crn)
-    await page.click('#linkNavigation1ContactList')
-    await expect(page).toHaveTitle(/Contact List/)
+    await doUntil(
+        () => page.click('#linkNavigation1ContactList'),
+        () => expect(page).toHaveTitle(/Contact List/)
+    )
 }
 
 export async function verifyContacts(page: Page, crn: string, contacts: Contact[]) {
