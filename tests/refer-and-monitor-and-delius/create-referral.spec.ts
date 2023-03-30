@@ -184,6 +184,6 @@ test('Create R&M Referral - Notify OM', async ({ page }) => {
         contact('1 - CRS Accommodation', 'Appointment with CRS Provider (NS)', null, 'Failed To Attend', 'N', 'N'),
         //check there are now 3 Notification Contacts
         contact('1 - CRS Accommodation', 'Notification from CRS Provider', null, null, null, null),
-        contact('1 - CRS Accommodation', 'Refer to Offender Manager')
+        contact('1 - CRS Accommodation', 'Refer to Offender Manager'),
     ])
 })

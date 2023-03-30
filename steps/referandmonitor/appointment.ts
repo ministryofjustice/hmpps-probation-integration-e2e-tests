@@ -58,12 +58,7 @@ export const editSessions = async (
     }
 }
 
-const editSession = async (
-    page: Page,
-    referralRef: string,
-    sessionDate: Date,
-    detail: SessionDetail
-) => {
+const editSession = async (page: Page, referralRef: string, sessionDate: Date, detail: SessionDetail) => {
     await page
         .locator('tr', { hasText: `Session ${detail.number}` })
         .locator('a.govuk-link', { hasText: 'Edit session details' })
@@ -106,7 +101,7 @@ const editSession = async (
         // add behaviour
         await page.fill('#behaviour-description', 'A description of the behaviour')
         // notify OM
-        await page.click(`input[value=${detail.notifyOm ? "yes" : "no"}]`)
+        await page.click(`input[value=${detail.notifyOm ? 'yes' : 'no'}]`)
         // save
         await page.click('button.govuk-button')
     }
