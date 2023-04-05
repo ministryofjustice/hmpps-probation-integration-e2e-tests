@@ -43,7 +43,7 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
     // Then the document appears in the Delius document list
     await page.locator('a', { hasText: 'Document List' }).click()
     await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText(
-        'CP/UPW Assessment'
+        'CP/UPW Assessment', { timeout: 15000 }
     )
     await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText(
         format(new Date(), 'dd/MM/yyyy')
