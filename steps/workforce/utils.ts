@@ -1,6 +1,6 @@
 import {Allocation} from "../../test-data/test-data.js";
 import { subDays, isBefore } from 'date-fns';
-import { parse } from 'date-fns/esm';
+import { parse } from 'date-fns';
 import {expect, Page} from "@playwright/test";
 import {doUntil, refreshUntil} from "../delius/utils/refresh.js";
 import {selectTeam} from "./allocations.js";

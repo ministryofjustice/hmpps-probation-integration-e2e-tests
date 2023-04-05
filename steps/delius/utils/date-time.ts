@@ -1,5 +1,4 @@
 import { addMonths, addYears, addDays, subMonths, subDays } from 'date-fns'
-
 export const options = { day: 'numeric', month: 'long', year: 'numeric' } as Intl.DateTimeFormatOptions
 export const recallDateFormatter = date => date.toLocaleDateString('en-GB', options)
 export const DeliusDateFormatter = (date: Date) => date.toLocaleDateString('en-GB')
