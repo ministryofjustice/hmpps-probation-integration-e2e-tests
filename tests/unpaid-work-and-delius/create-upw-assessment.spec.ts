@@ -23,10 +23,10 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
     // And I create Supervision Community Event in Delius
     await createCommunityEvent(page, {
         crn,
-        allocation: { team: data.teams.allocationsTestTeam, staff: data.staff.allocationsTester2 },
+        allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff },
     })
     // And I add a requirement for this event with the type called "unpaid work"
-    await createRequirementForEvent(page, { crn, requirement: data.requirements.unpaidWork })
+    await createRequirementForEvent(page, { crn, requirement: data.requirements.unpaidWork, team: data.teams.genericTeam })
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)

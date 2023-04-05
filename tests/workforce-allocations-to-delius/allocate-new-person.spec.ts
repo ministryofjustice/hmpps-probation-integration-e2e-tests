@@ -10,7 +10,7 @@ import { internalTransfer } from '../../steps/delius/transfer/internal-transfer.
 import { terminateEvent } from '../../steps/delius/event/terminate-events.js'
 import { contact } from '../../steps/delius/utils/contact.js'
 import { Allocation, data } from '../../test-data/test-data.js'
-import { test } from '@playwright/test'
+import {chromium, test} from '@playwright/test'
 import { createInitialAppointment } from '../../steps/delius/contact/create-contact.js'
 
 test.beforeEach(async ({ page }) => {
@@ -21,10 +21,20 @@ test.beforeEach(async ({ page }) => {
 const practitioner: Allocation = { staff: data.staff.allocationsTester1, team: data.teams.allocationsTestTeam }
 // and another staff member in the same team, for currently/previously allocated cases:
 const anotherPractitioner: Allocation = { staff: data.staff.allocationsTester2, team: data.teams.allocationsTestTeam }
+// get all the crns
+const crns: string[] = [];
+
+const successful = async (crn: string): Promise<void> => {
+    const index = crns.indexOf(crn);
+    if (index > -1) {
+        crns.splice(index, 1);
+    }
+};
 
 test('Allocate new person', async ({ page }) => {
     // Given a new person in Delius, with an unallocated event and requirement in the allocations testing team
     const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.provider })
+    crns.push(crn)
     await createCommunityEvent(page, {
         crn,
         allocation: {
@@ -47,11 +57,13 @@ test('Allocate new person', async ({ page }) => {
         contact('1 - Curfew (Police Checks Only) (Curfew) (6 Weeks)', 'Sentence Component Transfer', practitioner),
         contact('1 - ORA Community Order', 'Order Supervisor Transfer', practitioner),
     ])
+    await successful(crn)
 })
 
 test('Allocate currently-managed person', async ({ page }) => {
     // Given an existing person in Delius, with a currently allocated un-sentenced event
     const crn = await createOffender(page, { providerName: anotherPractitioner.team.provider })
+    crns.push(crn)
     await createEvent(page, { crn, event: data.events.appeal, allocation: { team: data.teams.allocationsTestTeam } })
     await internalTransfer(page, { crn, allocation: { team: data.teams.allocationsTestTeam } })
 
@@ -70,11 +82,13 @@ test('Allocate currently-managed person', async ({ page }) => {
         contact('Person', 'Responsible Officer Change', practitioner),
         contact('2 - ORA Community Order', 'Order Supervisor Transfer', practitioner),
     ])
+    await successful(crn)
 })
 
 test('Allocate previously-managed person', async ({ page }) => {
     // Given an existing person in Delius, with a previously allocated (now terminated) community event
     const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.provider })
+    crns.push(crn)
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.allocationsTestTeam } })
     await internalTransfer(page, { crn, allocation: anotherPractitioner })
     await terminateEvent(page, crn, '1', 'Completed - early good progress')
@@ -96,4 +110,24 @@ test('Allocate previously-managed person', async ({ page }) => {
         contact('2 - Curfew (Police Checks Only) (Curfew) (6 Weeks)', 'Sentence Component Transfer', practitioner),
         contact('2 - ORA Community Order', 'Order Supervisor Transfer', practitioner),
     ])
+    await successful(crn)
 })
+
+//If any test fails, allocate in Delius to prevent allocations lists continually build up
+test.afterAll(async () => {
+    if (crns.length > 0) {
+        const browser = await chromium.launch();
+        const page = await browser.newPage();
+
+        try {
+            for (const crn of crns) {
+                await internalTransfer(page, { crn, allocation: anotherPractitioner });
+            }
+        } catch (error) {
+            console.error(`Error occurred during internal transfer: ${error}`);
+        } finally {
+            await page.close();
+            await browser.close();
+        }
+    }
+});

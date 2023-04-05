@@ -8,6 +8,7 @@ import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
+import {data} from "../../test-data/test-data.js";
 
 const nomisIds = []
 
@@ -16,7 +17,7 @@ test('Create a new case note', async ({ page }) => {
     await deliusLogin(page)
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
-    const event = await createCustodialEvent(page, { crn })
+    const event = await createCustodialEvent(page, { crn, allocation: {team: data.teams.genericTeam, staff: data.staff.genericStaff} })
 
     // And a corresponding person and booking in NOMIS
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
