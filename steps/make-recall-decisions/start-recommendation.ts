@@ -45,7 +45,7 @@ export const verifyRecallOffendersAddress = async (
 
 export const verifyLicenceCondition = async (page: Page, licenceCondition: string): Promise<void> => {
     await page.getByRole('link', { name: 'Licence conditions' }).click()
-    const recallLicenseDesc = await page.locator('[data-qa="condition-description"]').textContent()
+    const recallLicenseDesc = await page.locator('#accordion-with-summary-sections-content-2 p, [data-qa="condition-description"]').first().textContent()
     await expect(recallLicenseDesc).toMatch(licenceCondition.replace(/(.*)-/, '').trim())
 }
 
