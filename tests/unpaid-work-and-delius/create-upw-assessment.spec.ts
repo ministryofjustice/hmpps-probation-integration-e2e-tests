@@ -42,6 +42,9 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
 
     // Then the document appears in the Delius document list
     await page.locator('a', { hasText: 'Document List' }).click()
+    await page.locator('[title="Button to search for Documents"]').click()
+
+    // await page.locator('#documentListForm\\:j_id_id70').click()
     await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText(
         'CP/UPW Assessment', { timeout: 15000 }
     )
