@@ -116,18 +116,17 @@ test('Allocate previously-managed person', async ({ page }) => {
 //If any test fails, allocate in Delius to prevent allocations lists continually build up
 test.afterAll(async () => {
     if (crns.length > 0) {
-        const browser = await chromium.launch()
-        const page = await browser.newPage()
+        const browser = await chromium.launch();
+        const page = await browser.newPage();
 
-        try {
-            for (const crn of crns) {
-                await internalTransfer(page, { crn, allocation: anotherPractitioner })
+        for (const crn of crns) {
+            try {
+                await internalTransfer(page, {crn, allocation: anotherPractitioner});
+            } catch (error) {
+                console.error(`Error occurred during internal transfer: ${error}`);
             }
-        } catch (error) {
-            console.error(`Error occurred during internal transfer: ${error}`)
-        } finally {
-            await page.close()
-            await browser.close()
         }
+        await page.close();
+        await browser.close();
     }
-})
+});

@@ -13,6 +13,7 @@ import { login as unpaidWorkLogin } from '../../steps/unpaidwork/login.js'
 import { submitUPWAssessment } from '../../steps/unpaidwork/task-list.js'
 import { completeAllUPWSections } from '../../steps/unpaidwork/complete-all-upw-sections.js'
 import { format } from 'date-fns'
+import {doUntil} from "../../steps/delius/utils/refresh.js";
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {
@@ -48,11 +49,13 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
     await page.locator('a', { hasText: 'Document List' }).click()
     await page.locator('[title="Button to search for Documents"]').click()
 
-    // await page.locator('#documentListForm\\:j_id_id70').click()
-    await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText(
-        'CP/UPW Assessment',
-        { timeout: 15000 }
+    await page.locator('a', { hasText: 'Document List' }).click()
+
+    await doUntil(
+        () => page.getByRole('button', {name: 'Search'}).click(),
+        () => expect(page.locator('table')).toContainText('CP/UPW Assessment')
     )
+
     await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText(
         format(new Date(), 'dd/MM/yyyy')
     )
