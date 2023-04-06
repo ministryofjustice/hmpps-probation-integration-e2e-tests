@@ -38,10 +38,10 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
                 await page.locator('[class$="prompt-warning"]').first()
             }
         }
-    );
+    )
 
-    if (await page.title() !== 'Contact List') {
-        await page.locator('[value="Confirm"]').click();
+    if ((await page.title()) !== 'Contact List') {
+        await page.locator('[value="Confirm"]').click()
     }
 
     await expect(page).toHaveTitle(/Contact List/)
