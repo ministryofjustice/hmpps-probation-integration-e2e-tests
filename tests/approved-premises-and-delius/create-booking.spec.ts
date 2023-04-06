@@ -33,7 +33,10 @@ test('Create an approved premises booking', async ({ page }) => {
     await deliusLogin(page)
     const person = deliusPerson()
     // And I create an offender
-    const crn: string = await createOffender(page, { person, providerName: data.teams.approvedPremisesTestTeam.provider })
+    const crn: string = await createOffender(page, {
+        person,
+        providerName: data.teams.approvedPremisesTestTeam.provider,
+    })
     // And I create an event in nDelius
     await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)

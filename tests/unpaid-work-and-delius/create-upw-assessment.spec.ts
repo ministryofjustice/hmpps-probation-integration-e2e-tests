@@ -13,7 +13,7 @@ import { login as unpaidWorkLogin } from '../../steps/unpaidwork/login.js'
 import { submitUPWAssessment } from '../../steps/unpaidwork/task-list.js'
 import { completeAllUPWSections } from '../../steps/unpaidwork/complete-all-upw-sections.js'
 import { format } from 'date-fns'
-import {doUntil} from "../../steps/delius/utils/refresh.js";
+import { doUntil } from '../../steps/delius/utils/refresh.js'
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {
@@ -52,7 +52,7 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
     await page.locator('a', { hasText: 'Document List' }).click()
 
     await doUntil(
-        () => page.getByRole('button', {name: 'Search'}).click(),
+        () => page.getByRole('button', { name: 'Search' }).click(),
         () => expect(page.locator('table')).toContainText('CP/UPW Assessment')
     )
 
