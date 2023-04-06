@@ -31,8 +31,20 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
     await selectOptionAndWait(page, '#addContactForm\\:TransferToOfficer', options.allocation?.staff?.name)
     await doUntil(
         () => page.locator('#addContactForm\\:saveButton').click(),
-        () => expect(page).toHaveTitle(/Contact List/)
-    )
+        async () => {
+            try {
+                await expect(page).toHaveTitle(/Contact List/)
+            } catch (error) {
+                await page.locator('[class$="prompt-warning"]').first()
+            }
+        }
+    );
+
+    if (await page.title() !== 'Contact List') {
+        await page.locator('[value="Confirm"]').click();
+    }
+
+    await expect(page).toHaveTitle(/Contact List/)
 }
 
 export const createInitialAppointment = async (page: Page, crn: string, eventNumber: string, team: Team = null) =>
