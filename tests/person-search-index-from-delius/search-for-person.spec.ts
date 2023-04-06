@@ -38,8 +38,8 @@ test('Create and search for contacts', async ({ page }) => {
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
         date: LastMonth,
         allocation: {
-            team: data.teams.allocationsTestTeam,
-            staff: data.staff.allocationsTester2,
+            team: data.teams.genericTeam,
+            staff: data.staff.genericStaff,
         },
     })
     await createContact(page, crn, {
@@ -48,8 +48,8 @@ test('Create and search for contacts', async ({ page }) => {
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
         date: Yesterday,
         allocation: {
-            team: data.teams.allocationsTestTeam,
-            staff: data.staff.allocationsTester2,
+            team: data.teams.genericTeam,
+            staff: data.staff.genericStaff,
         },
     })
     await createContact(page, crn, {
@@ -58,8 +58,8 @@ test('Create and search for contacts', async ({ page }) => {
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
         date: new Date(),
         allocation: {
-            team: data.teams.allocationsTestTeam,
-            staff: data.staff.allocationsTester2,
+            team: data.teams.genericTeam,
+            staff: data.staff.genericStaff,
         },
     })
     await createContact(page, crn, {
@@ -68,8 +68,8 @@ test('Create and search for contacts', async ({ page }) => {
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
         date: Tomorrow,
         allocation: {
-            team: data.teams.allocationsTestTeam,
-            staff: data.staff.allocationsTester2,
+            team: data.teams.genericTeam,
+            staff: data.staff.genericStaff,
         },
     })
 

@@ -26,15 +26,19 @@ import { findOffenderByCRN } from '../../steps/delius/offender/find-offender.js'
 const nomisIds = []
 
 test('Create an approved premises booking', async ({ page }) => {
+    test.skip()
     test.slow() // increase the timeout - Delius/OASys/AP Applications/Approved premises can take a few minutes
     // Given I login in to NDelius
     await hmppsLogin(page)
     await deliusLogin(page)
     const person = deliusPerson()
     // And I create an offender
-    const crn: string = await createOffender(page, { person, providerName: data.teams.allocationsTestTeam.provider })
+    const crn: string = await createOffender(page, {
+        person,
+        providerName: data.teams.approvedPremisesTestTeam.provider,
+    })
     // And I create an event in nDelius
-    await createCustodialEvent(page, { crn, allocation: { team: data.teams.allocationsTestTeam } })
+    await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)

@@ -24,6 +24,12 @@ export const testEnvironmentData: TestData = {
             firstName: 'Derek',
             lastName: 'Pint',
         },
+        genericStaff: {
+            name: 'Cobio, Titus ZZ (NPS - PSO)',
+            firstName: 'Titus',
+            lastName: 'Cobio',
+        },
+
         approvedPremisesKeyWorker: {
             name: 'Kshlerin, Barry (CRC - Additional Grade)',
             firstName: 'Barry',
@@ -45,6 +51,10 @@ export const testEnvironmentData: TestData = {
         approvedPremisesTestTeam: {
             name: 'Lancashire PICS',
             provider: 'NPS North West',
+        },
+        genericTeam: {
+            name: 'OMU A',
+            provider: 'NPS North East',
         },
     },
     sentencedPrisoner: {

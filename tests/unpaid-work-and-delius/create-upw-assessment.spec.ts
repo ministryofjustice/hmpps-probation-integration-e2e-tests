@@ -13,6 +13,7 @@ import { login as unpaidWorkLogin } from '../../steps/unpaidwork/login.js'
 import { submitUPWAssessment } from '../../steps/unpaidwork/task-list.js'
 import { completeAllUPWSections } from '../../steps/unpaidwork/complete-all-upw-sections.js'
 import { format } from 'date-fns'
+import { doUntil } from '../../steps/delius/utils/refresh.js'
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {
@@ -23,10 +24,14 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
     // And I create Supervision Community Event in Delius
     await createCommunityEvent(page, {
         crn,
-        allocation: { team: data.teams.allocationsTestTeam, staff: data.staff.allocationsTester2 },
+        allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff },
     })
     // And I add a requirement for this event with the type called "unpaid work"
-    await createRequirementForEvent(page, { crn, requirement: data.requirements.unpaidWork })
+    await createRequirementForEvent(page, {
+        crn,
+        requirement: data.requirements.unpaidWork,
+        team: data.teams.genericTeam,
+    })
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
@@ -42,9 +47,12 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
 
     // Then the document appears in the Delius document list
     await page.locator('a', { hasText: 'Document List' }).click()
-    await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText(
-        'CP/UPW Assessment'
+
+    await doUntil(
+        () => page.getByRole('button', { name: 'Search' }).click(),
+        () => expect(page.locator('table')).toContainText('CP/UPW Assessment')
     )
+
     await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText(
         format(new Date(), 'dd/MM/yyyy')
     )

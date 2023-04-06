@@ -3,6 +3,7 @@ import { findContactsByCRN } from './find-contacts.js'
 import { fillDate, fillTime, selectOptionAndWait } from '../utils/inputs.js'
 import { Contact, data, Team } from '../../../test-data/test-data.js'
 import { doUntil } from '../utils/refresh.js'
+import { Tomorrow } from '../utils/date-time.js'
 
 export const createContact = async (page: Page, crn: string, options: Contact) => {
     await findContactsByCRN(page, crn)
@@ -38,7 +39,8 @@ export const createInitialAppointment = async (page: Page, crn: string, eventNum
     createContact(page, crn, {
         relatesTo: `Event ${eventNumber} - ORA Community Order (6 Months)`,
         allocation: { team: team },
-        startTime: new Date(),
-        endTime: new Date(new Date().getTime() + 60000),
+        date: Tomorrow,
+        startTime: Tomorrow,
+        endTime: new Date(Tomorrow.getTime() + 60000),
         ...data.contacts.initialAppointment,
     })
