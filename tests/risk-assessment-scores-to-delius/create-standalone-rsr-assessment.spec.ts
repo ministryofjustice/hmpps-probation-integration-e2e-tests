@@ -22,7 +22,11 @@ test('Create a standalone RSR Assessment', async ({ page }) => {
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
     // And I create an event in nDelius
-    await createEvent(page, { crn, event: data.events.adjournedForFastPreSentenceReport, allocation: {team: data.teams.genericTeam, staff: data.staff.genericStaff} })
+    await createEvent(page, {
+        crn,
+        event: data.events.adjournedForFastPreSentenceReport,
+        allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff },
+    })
     // Given I log in to OASys as a "OASYS_T2_LOGIN_USER" user
     await oasysLogin(page, UserType.RSR)
     // And I select "Warwickshire" from Choose Provider Establishment

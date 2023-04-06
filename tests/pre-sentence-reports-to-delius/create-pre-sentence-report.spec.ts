@@ -18,7 +18,11 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     await deliusLogin(page)
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
-    const event = await createEvent(page, { crn, event: data.events.adjournedForFastPreSentenceReport, allocation: {team: data.teams.genericTeam, staff: data.staff.genericStaff} })
+    const event = await createEvent(page, {
+        crn,
+        event: data.events.adjournedForFastPreSentenceReport,
+        allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff },
+    })
     await page.locator('input', { hasText: 'Save' }).click()
     await findCourtReport(page, crn)
     await createDocumentFromTemplate(page, data.documentTemplates.shortFormatPreSentenceReport)

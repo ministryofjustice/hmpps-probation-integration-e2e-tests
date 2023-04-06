@@ -3,7 +3,7 @@ import { findContactsByCRN } from './find-contacts.js'
 import { fillDate, fillTime, selectOptionAndWait } from '../utils/inputs.js'
 import { Contact, data, Team } from '../../../test-data/test-data.js'
 import { doUntil } from '../utils/refresh.js'
-import {Tomorrow} from "../utils/date-time.js";
+import { Tomorrow } from '../utils/date-time.js'
 
 export const createContact = async (page: Page, crn: string, options: Contact) => {
     await findContactsByCRN(page, crn)

@@ -21,7 +21,7 @@ import { createContact } from '../../steps/delius/contact/create-contact.js'
 import { Yesterday } from '../../steps/delius/utils/date-time.js'
 import { verifyContacts } from '../../steps/delius/contact/find-contacts.js'
 import { contact } from '../../steps/delius/utils/contact.js'
-import {data} from "../../test-data/test-data.js";
+import { data } from '../../test-data/test-data.js'
 dotenv.config() // read environment variables into process.env
 
 test('Make a recall recommendation', async ({ page }) => {
@@ -45,7 +45,10 @@ test('Make a recall recommendation', async ({ page }) => {
     await createContact(page, crn, contactDetails)
 
     // And I create a Custodial Event
-    await createCustodialEvent(page, { crn, allocation: {team: data.teams.genericTeam, staff: data.staff.genericStaff} })
+    await createCustodialEvent(page, {
+        crn,
+        allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff },
+    })
 
     // And I create a Release
     await createRelease(page, crn)

@@ -10,7 +10,7 @@ import { internalTransfer } from '../../steps/delius/transfer/internal-transfer.
 import { terminateEvent } from '../../steps/delius/event/terminate-events.js'
 import { contact } from '../../steps/delius/utils/contact.js'
 import { Allocation, data } from '../../test-data/test-data.js'
-import {chromium, test} from '@playwright/test'
+import { chromium, test } from '@playwright/test'
 import { createInitialAppointment } from '../../steps/delius/contact/create-contact.js'
 
 test.beforeEach(async ({ page }) => {
@@ -22,14 +22,14 @@ const practitioner: Allocation = { staff: data.staff.allocationsTester1, team: d
 // and another staff member in the same team, for currently/previously allocated cases:
 const anotherPractitioner: Allocation = { staff: data.staff.allocationsTester2, team: data.teams.allocationsTestTeam }
 // get all the crns
-const crns: string[] = [];
+const crns: string[] = []
 
 const successful = async (crn: string): Promise<void> => {
-    const index = crns.indexOf(crn);
+    const index = crns.indexOf(crn)
     if (index > -1) {
-        crns.splice(index, 1);
+        crns.splice(index, 1)
     }
-};
+}
 
 test('Allocate new person', async ({ page }) => {
     // Given a new person in Delius, with an unallocated event and requirement in the allocations testing team
@@ -116,18 +116,18 @@ test('Allocate previously-managed person', async ({ page }) => {
 //If any test fails, allocate in Delius to prevent allocations lists continually build up
 test.afterAll(async () => {
     if (crns.length > 0) {
-        const browser = await chromium.launch();
-        const page = await browser.newPage();
+        const browser = await chromium.launch()
+        const page = await browser.newPage()
 
         try {
             for (const crn of crns) {
-                await internalTransfer(page, { crn, allocation: anotherPractitioner });
+                await internalTransfer(page, { crn, allocation: anotherPractitioner })
             }
         } catch (error) {
-            console.error(`Error occurred during internal transfer: ${error}`);
+            console.error(`Error occurred during internal transfer: ${error}`)
         } finally {
-            await page.close();
-            await browser.close();
+            await page.close()
+            await browser.close()
         }
     }
-});
+})

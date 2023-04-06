@@ -26,7 +26,11 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
         allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff },
     })
     // And I add a requirement for this event with the type called "unpaid work"
-    await createRequirementForEvent(page, { crn, requirement: data.requirements.unpaidWork, team: data.teams.genericTeam })
+    await createRequirementForEvent(page, {
+        crn,
+        requirement: data.requirements.unpaidWork,
+        team: data.teams.genericTeam,
+    })
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
@@ -46,7 +50,8 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
 
     // await page.locator('#documentListForm\\:j_id_id70').click()
     await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText(
-        'CP/UPW Assessment', { timeout: 15000 }
+        'CP/UPW Assessment',
+        { timeout: 15000 }
     )
     await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText(
         format(new Date(), 'dd/MM/yyyy')
