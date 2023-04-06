@@ -28,7 +28,7 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
     if (options.endTime) {
         await fillTime(page, '#addContactForm\\:EndTime', options.endTime)
     }
-        await selectOptionAndWait(page, '#addContactForm\\:TransferToOfficer', options.allocation?.staff?.name)
+    await selectOptionAndWait(page, '#addContactForm\\:TransferToOfficer', options.allocation?.staff?.name)
     await doUntil(
         () => page.locator('#addContactForm\\:saveButton').click(),
         () => expect(page).toHaveTitle(/Contact List/)
