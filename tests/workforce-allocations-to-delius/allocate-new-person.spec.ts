@@ -10,7 +10,7 @@ import { internalTransfer } from '../../steps/delius/transfer/internal-transfer.
 import { terminateEvent } from '../../steps/delius/event/terminate-events.js'
 import { contact } from '../../steps/delius/utils/contact.js'
 import { Allocation, data } from '../../test-data/test-data.js'
-import {chromium, test} from '@playwright/test'
+import { chromium, test } from '@playwright/test'
 import { createInitialAppointment } from '../../steps/delius/contact/create-contact.js'
 
 test.beforeEach(async ({ page }) => {
