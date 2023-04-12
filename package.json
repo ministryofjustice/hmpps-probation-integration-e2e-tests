@@ -15,7 +15,7 @@
   "type": "module",
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
-    "@playwright/test": "1.32.2",
+    "@playwright/test": "1.32.3",
     "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.58.0",
