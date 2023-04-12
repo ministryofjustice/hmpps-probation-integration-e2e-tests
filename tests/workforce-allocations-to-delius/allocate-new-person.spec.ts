@@ -32,6 +32,7 @@ const successful = async (crn: string): Promise<void> => {
 }
 
 test('Allocate new person', async ({ page }) => {
+    test.slow()
     // Given a new person in Delius, with an unallocated event and requirement in the allocations testing team
     const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.provider })
     crns.push(crn)
@@ -61,6 +62,7 @@ test('Allocate new person', async ({ page }) => {
 })
 
 test('Allocate currently-managed person', async ({ page }) => {
+    test.slow()
     // Given an existing person in Delius, with a currently allocated un-sentenced event
     const crn = await createOffender(page, { providerName: anotherPractitioner.team.provider })
     crns.push(crn)
@@ -86,6 +88,7 @@ test('Allocate currently-managed person', async ({ page }) => {
 })
 
 test('Allocate previously-managed person', async ({ page }) => {
+    test.slow()
     // Given an existing person in Delius, with a previously allocated (now terminated) community event
     const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.provider })
     crns.push(crn)
@@ -115,6 +118,7 @@ test('Allocate previously-managed person', async ({ page }) => {
 
 //If any test fails, allocate in Delius to prevent allocations lists continually build up
 test.afterAll(async () => {
+    test.slow()
     if (crns.length > 0) {
         const browser = await chromium.launch()
         const page = await browser.newPage()

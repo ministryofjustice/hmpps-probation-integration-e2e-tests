@@ -62,7 +62,7 @@ export const allocateUnallocatedCasesWithinDateRange = async (
             const crn = await page
                 .locator('div > table > tbody > tr:nth-child(1) > td:nth-child(1) > span')
                 .textContent()
-            console.log(`Running iteration ${i} for ${crn} with Sentence DATE ${date}`)
+            console.log(`Allocating Case ${i} for ${crn} with Sentence DATE ${date}`)
             await selectTeam(page, allocation.team)
             await page.click('div > table > tbody > tr:nth-child(1) > td:nth-child(1) > a')
             await page.locator('a', { hasText: 'Continue' }).click()
@@ -94,8 +94,6 @@ export const allocateUnallocatedCasesWithinDateRange = async (
         } finally {
             // Always clear cookies and storage to ensure a fresh start for the next iteration
             await page.context().clearCookies()
-            window.localStorage.clear()
-            window.sessionStorage.clear()
         }
     }
 }
