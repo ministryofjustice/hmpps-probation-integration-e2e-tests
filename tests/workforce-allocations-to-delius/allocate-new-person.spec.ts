@@ -10,8 +10,9 @@ import { internalTransfer } from '../../steps/delius/transfer/internal-transfer.
 import { terminateEvent } from '../../steps/delius/event/terminate-events.js'
 import { contact } from '../../steps/delius/utils/contact.js'
 import { Allocation, data } from '../../test-data/test-data.js'
-import { chromium, test } from '@playwright/test'
+import {chromium, Page, test} from '@playwright/test'
 import { createInitialAppointment } from '../../steps/delius/contact/create-contact.js'
+import {allocateUnallocatedCasesWithinDateRange} from "../../steps/workforce/utils.js";
 
 test.beforeEach(async ({ page }) => {
     await login(page)
@@ -32,6 +33,7 @@ const successful = async (crn: string): Promise<void> => {
 }
 
 test('Allocate new person', async ({ page }) => {
+    test.slow()
     // Given a new person in Delius, with an unallocated event and requirement in the allocations testing team
     const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.provider })
     crns.push(crn)
@@ -61,6 +63,7 @@ test('Allocate new person', async ({ page }) => {
 })
 
 test('Allocate currently-managed person', async ({ page }) => {
+    test.slow()
     // Given an existing person in Delius, with a currently allocated un-sentenced event
     const crn = await createOffender(page, { providerName: anotherPractitioner.team.provider })
     crns.push(crn)
@@ -86,6 +89,7 @@ test('Allocate currently-managed person', async ({ page }) => {
 })
 
 test('Allocate previously-managed person', async ({ page }) => {
+    test.slow()
     // Given an existing person in Delius, with a previously allocated (now terminated) community event
     const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.provider })
     crns.push(crn)
@@ -115,6 +119,7 @@ test('Allocate previously-managed person', async ({ page }) => {
 
 //If any test fails, allocate in Delius to prevent allocations lists continually build up
 test.afterAll(async () => {
+    test.slow()
     if (crns.length > 0) {
         const browser = await chromium.launch()
         const page = await browser.newPage()
