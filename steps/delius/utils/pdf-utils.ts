@@ -1,4 +1,4 @@
-import PDFParser from "pdf2json";
+import PDFParser from 'pdf2json'
 
 export const getPdfText = async (file: Buffer) =>
     await new Promise<string>((resolve, reject) => {

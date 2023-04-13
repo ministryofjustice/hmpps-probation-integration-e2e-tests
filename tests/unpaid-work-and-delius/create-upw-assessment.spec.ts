@@ -14,8 +14,8 @@ import { submitUPWAssessment } from '../../steps/unpaidwork/task-list.js'
 import { completeAllUPWSections } from '../../steps/unpaidwork/complete-all-upw-sections.js'
 import { format } from 'date-fns'
 import { doUntil } from '../../steps/delius/utils/refresh.js'
-import * as fs from "fs";
-import { getPdfText } from "../../steps/delius/utils/pdf-utils.js";
+import * as fs from 'fs'
+import { getPdfText } from '../../steps/delius/utils/pdf-utils.js'
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {
@@ -26,7 +26,7 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
     // And I create Supervision Community Event in Delius
     await createCommunityEvent(page, {
         crn,
-        allocation: {team: data.teams.genericTeam, staff: data.staff.genericStaff},
+        allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff },
     })
     // And I add a requirement for this event with the type called "unpaid work"
     await createRequirementForEvent(page, {
@@ -62,7 +62,7 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
     // And I verify the content in the PDF (CRN)
     const [download] = await Promise.all([
         page.waitForEvent('download'),
-        page.getByRole('link', {name: 'view document'}).click(),
+        page.getByRole('link', { name: 'view document' }).click(),
     ])
     await download.saveAs(`downloads/${crn}-assessment.pdf`)
     const assessmentPdf = fs.readFileSync(`downloads/${crn}-assessment.pdf`)
