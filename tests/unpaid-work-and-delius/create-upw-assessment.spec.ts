@@ -75,5 +75,3 @@ test.afterAll(async () => {
         await releasePrisoner(nomsId)
     }
 })
-
-
