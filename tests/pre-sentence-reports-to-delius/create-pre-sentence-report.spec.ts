@@ -10,6 +10,7 @@ import PDFParser from 'pdf2json'
 import { findCourtReport } from '../../steps/delius/court-report/find-court-report.js'
 import { createDocumentFromTemplate } from '../../steps/delius/document/create-document.js'
 import { createSubjectAccessReport, getFileFromZip } from '../../steps/delius/document/subject-access-report.js'
+import {getPdfText} from "../../steps/delius/utils/pdf-utils.js";
 
 test('Create a short format pre-sentence report', async ({ page }) => {
     // Given a person with an event that has been adjourned for pre-sentence report,
@@ -109,18 +110,3 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     const pdfText = await getPdfText(file)
     await expect(pdfText).not.toContain('DRAFT')
 })
-
-export const getPdfText = async (file: Buffer) =>
-    await new Promise<string>((resolve, reject) => {
-        const pdf = new PDFParser()
-        const textContent: Array<string> = []
-        pdf.on('data', async page => {
-            if (page == null) {
-                resolve(textContent.join()) // all pages parsed, return the content
-            } else {
-                textContent.push(...page.Texts.flatMap(t => t.R).map(t => t.T)) // new page, add text content to array
-            }
-        })
-        pdf.on('pdfParser_dataError', reject)
-        pdf.parseBuffer(file)
-    })
