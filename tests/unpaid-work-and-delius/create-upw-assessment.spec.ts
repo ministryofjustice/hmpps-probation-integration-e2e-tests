@@ -14,6 +14,8 @@ import { submitUPWAssessment } from '../../steps/unpaidwork/task-list.js'
 import { completeAllUPWSections } from '../../steps/unpaidwork/complete-all-upw-sections.js'
 import { format } from 'date-fns'
 import { doUntil } from '../../steps/delius/utils/refresh.js'
+import * as fs from 'fs'
+import { getPdfText } from '../../steps/delius/utils/pdf-utils.js'
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {
@@ -47,7 +49,6 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
 
     // Then the document appears in the Delius document list
     await page.locator('a', { hasText: 'Document List' }).click()
-
     await doUntil(
         () => page.getByRole('button', { name: 'Search' }).click(),
         () => expect(page.locator('table')).toContainText('CP/UPW Assessment')
@@ -57,6 +58,16 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
         format(new Date(), 'dd/MM/yyyy')
     )
     await expect(page.getByRole('link', { name: 'view document' })).toBeEnabled()
+
+    // And I verify the content in the PDF (CRN)
+    const [download] = await Promise.all([
+        page.waitForEvent('download'),
+        page.getByRole('link', { name: 'view document' }).click(),
+    ])
+    await download.saveAs(`downloads/${crn}-assessment.pdf`)
+    const assessmentPdf = fs.readFileSync(`downloads/${crn}-assessment.pdf`)
+    const pdfText = await getPdfText(assessmentPdf)
+    await expect(pdfText).toContain(crn)
 })
 
 test.afterAll(async () => {
