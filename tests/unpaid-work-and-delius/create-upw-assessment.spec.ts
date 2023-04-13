@@ -18,7 +18,7 @@ import * as fs from "fs";
 import { getPdfText } from "../../steps/delius/utils/pdf-utils.js";
 
 const nomisIds = []
-test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({page}) => {
+test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {
     // Given I create new Offender in nDelius
     await deliusLogin(page)
     const person = deliusPerson()
@@ -35,7 +35,7 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
         team: data.teams.genericTeam,
     })
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
-    const {nomisId} = await createAndBookPrisoner(page, crn, person)
+    const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
     // And I start UPW Assessment from Delius
     const popup = await startUPWAssessmentFromDelius(page)
