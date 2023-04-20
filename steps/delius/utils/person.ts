@@ -26,18 +26,11 @@ export const deliusPerson = (person?: Person) => {
     const firstName = person?.firstName ? person.firstName : faker.name.firstName(gender)
     const lastName = person?.lastName ? person.lastName : faker.name.lastName(gender)
     const genderStr = gender.toString()
-    const dob = person?.dob ? person.dob : faker.date.birthdate({ min: 18, max: 70, mode: 'age' })
+    const dob = person?.dob || faker.date.birthdate({ min: 18, max: 69, mode: 'age' })
     return {
         firstName,
         lastName,
         gender: genderStr[0].toUpperCase() + genderStr.substring(1),
         dob,
     }
-}
-
-export interface Practitioner {
-    firstName: string
-    lastName: string
-    providerName: string
-    teamName: string
 }
