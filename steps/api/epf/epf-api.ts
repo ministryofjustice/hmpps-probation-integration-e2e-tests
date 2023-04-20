@@ -1,5 +1,5 @@
-import {type APIRequestContext, expect, request} from '@playwright/test'
-import {getToken} from '../auth/get-token.js'
+import { type APIRequestContext, expect, request } from '@playwright/test'
+import { getToken } from '../auth/get-token.js'
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()
@@ -19,33 +19,32 @@ export async function epfContext(crn: string, eventNumber: string): Promise<Resp
     return response.json()
 }
 
-
 export interface Response {
-    name: Name;
-    dateOfBirth: Date;
-    gender: string;
-    sentence: Sentence;
-    responsibleProvider: ResponsibleProvider;
-    age: number;
+    name: Name
+    dateOfBirth: Date
+    gender: string
+    sentence: Sentence
+    responsibleProvider: ResponsibleProvider
+    age: number
 }
 
 export interface Name {
-    forename: string;
-    middleName: string;
-    surname: string;
+    forename: string
+    middleName: string
+    surname: string
 }
 
 export interface ResponsibleProvider {
-    code: string;
-    name: string;
+    code: string
+    name: string
 }
 
 export interface Sentence {
-    date: Date;
-    sentencingCourt: SentencingCourt;
-    releaseDate: Date;
+    date: Date
+    sentencingCourt: SentencingCourt
+    releaseDate: Date
 }
 
 export interface SentencingCourt {
-    name: string;
+    name: string
 }
