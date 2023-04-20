@@ -17,8 +17,6 @@ test('test epf context api endpoint', async ({ page }) => {
     //get the epf context and check the json returned is correct
     const json = await epfContext(crn, "1")
 
-    console.log(json)
-
     expect(json.name.forename).toBe(person.firstName);
     expect(json.name.surname).toBe(person.lastName);
     expect(json.name.middleName).toBe("");
