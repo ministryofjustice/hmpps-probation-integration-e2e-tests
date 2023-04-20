@@ -32,11 +32,27 @@ export const commonData: TestData = {
     },
     requirements: {
         curfew: {
-            category: 'Curfew',
+            category: 'Curfew (Police Checks Only)',
             subCategory: 'Curfew',
             length: '6',
         },
+        rar: {
+            category: 'Rehabilitation Activity Requirement (RAR)',
+            subCategory: 'Rehabilitation Activity Requirement (RAR)',
+            length: '10',
+        },
+        unpaidWork: {
+            category: 'Unpaid Work',
+            subCategory: 'Regular',
+            length: '120',
+        },
     },
-    staff: {},
+    staff: {
+        unallocated: {
+            name: 'Unallocated',
+            firstName: 'Unallocated',
+            lastName: 'Unallocated',
+        },
+    },
     teams: {},
 }

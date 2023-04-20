@@ -13,5 +13,16 @@ export async function setNomisId(page: Page, crn: string, nomisId: string) {
     await page.fill('#updateOffenderForm\\:identifierValue', nomisId)
     await page.locator('input', { hasText: 'Add/Update' }).click()
     await page.locator('input', { hasText: 'Save' }).click()
-    await expect(page).toHaveTitle(/Personal Details/)
+
+    try {
+        await expect(page).toHaveTitle(/Personal Details/)
+    } catch (e) {
+        const ole = await page.locator('span.text-danger', {
+            hasText:
+                'Entity could not be updated - it has been modified in another transaction since it was loaded. [DAOERR002]',
+        })
+        if (ole != null) {
+            await setNomisId(page, crn, nomisId)
+        }
+    }
 }

@@ -6,3 +6,53 @@ export const createLayer3Assessment = async (page: Page) => {
     await page.click('#B3730320750239994')
     await expect(page.locator('#contextleft > h3')).toHaveText('Case ID - Offender Information (Layer 3)')
 }
+
+export const clickRoSHScreeningSection1 = async (page: Page) => {
+    await page.locator('a', { hasText: 'RoSH Screening' }).click()
+    await page.locator('a[href *= "ROSHA1"]', { hasText: 'Section 1' }).click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Screening (Layer 3)')
+    await expect(page.locator('#R2846717162014845 > h6')).toHaveText(
+        'R1 Information from other sections of OASys and risk of serious harm to others - screening'
+    )
+}
+
+export const clickRoSHSummary = async (page: Page) => {
+    await page.locator('a', { hasText: 'RoSH Summary' }).click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Summary (Layer 3)')
+}
+
+export const clickRiskManagementPlan = async (page: Page) => {
+    await page.locator('a', { hasText: 'Risk Management Plan' }).click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('Risk Management Plan (Layer 3)')
+}
+
+export const clickOffenceAnalysis = async (page: Page) => {
+    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
+    await page.locator('a', { hasText: '2 - Offence Analysis' }).click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('2 - Analysis of Offences (Layer 3)')
+}
+
+export const clickRoshFullRisksToIndividual = async (page: Page) => {
+    await page.locator('a', { hasText: 'RoSH Full Analysis' }).click()
+    await page.locator('[href*="ROSHFA6"]', { hasText: 'Section 8' }).click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Full Analysis (Layer 3)')
+    await expect(page.locator('#R2846717162014845 > h6')).toHaveText('R8 Risks to the individual - full analysis')
+}
+
+export const clickAccommodation = async (page: Page) => {
+    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
+    await page.locator('a', { hasText: '3 - Accommodation' }).click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('3 - Accommodation (Layer 3)')
+}
+
+export const clickEducationTrainingEmpl = async (page: Page) => {
+    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
+    await page.locator('a', { hasText: '4 - ETE' }).click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('4 - Education, Training and Employability (Layer 3)')
+}
+
+export const clickRelationships = async (page: Page) => {
+    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
+    await page.locator('a', { hasText: '6 - Relationships' }).click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('6 - Relationships (Layer 3)')
+}

@@ -6,10 +6,10 @@ import { createEvent } from '../../steps/delius/event/create-event.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
 import { data } from '../../test-data/test-data.js'
 import { faker } from '@faker-js/faker'
-import PDFParser from 'pdf2json'
 import { findCourtReport } from '../../steps/delius/court-report/find-court-report.js'
 import { createDocumentFromTemplate } from '../../steps/delius/document/create-document.js'
 import { createSubjectAccessReport, getFileFromZip } from '../../steps/delius/document/subject-access-report.js'
+import { getPdfText } from '../../steps/delius/utils/pdf-utils.js'
 
 test('Create a short format pre-sentence report', async ({ page }) => {
     // Given a person with an event that has been adjourned for pre-sentence report,
@@ -18,7 +18,11 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     await deliusLogin(page)
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
-    const event = await createEvent(page, { crn, event: data.events.adjournedForFastPreSentenceReport })
+    const event = await createEvent(page, {
+        crn,
+        event: data.events.adjournedForFastPreSentenceReport,
+        allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff },
+    })
     await page.locator('input', { hasText: 'Save' }).click()
     await findCourtReport(page, crn)
     await createDocumentFromTemplate(page, data.documentTemplates.shortFormatPreSentenceReport)
@@ -38,6 +42,7 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     // - Sentencing court details
     await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Sentencing court details/)
     await expect(popup.locator('#court')).toHaveValue(event.court)
+    await popup.locator('input[name="localJusticeArea"]').fill(faker.address.cityName())
     const dateOfHearing = faker.date.recent()
     await popup.locator('input[name="dateOfHearing-day"]').fill(dateOfHearing.getDate().toString())
     await popup.locator('input[name="dateOfHearing-month"]').fill((dateOfHearing.getMonth() + 1).toString())
@@ -104,18 +109,3 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     const pdfText = await getPdfText(file)
     await expect(pdfText).not.toContain('DRAFT')
 })
-
-export const getPdfText = async (file: Buffer) =>
-    await new Promise<string>((resolve, reject) => {
-        const pdf = new PDFParser()
-        const textContent: Array<string> = []
-        pdf.on('data', async page => {
-            if (page == null) {
-                resolve(textContent.join()) // all pages parsed, return the content
-            } else {
-                textContent.push(page.Texts.flatMap(t => t.R).map(t => t.T)) // new page, add text content to array
-            }
-        })
-        pdf.on('error', reject)
-        pdf.parseBuffer(file)
-    })

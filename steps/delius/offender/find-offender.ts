@@ -1,7 +1,7 @@
 import { expect, type Page } from '@playwright/test'
-import { type Practitioner } from '../utils/person.js'
 import { refreshUntil } from '../utils/refresh.js'
 import { selectOption } from '../utils/inputs.js'
+import { Allocation } from '../../../test-data/test-data.js'
 
 export async function findOffenderByName(page: Page, forename: string, surname: string) {
     await page.locator('a', { hasText: 'National search' }).click()
@@ -39,23 +39,25 @@ export async function findOffenderByNomisId(page: Page, nomisId: string): Promis
     return await page.locator('//*[contains(@title, "Case Reference Number")]').first().textContent()
 }
 
-export async function verifyAllocation(page: Page, args: { practitioner: Practitioner; crn: string }) {
+export async function verifyAllocation(page: Page, args: { allocation: Allocation; crn: string }) {
     await page.goto(process.env.DELIUS_URL)
 
     await findOffenderByCRN(page, args.crn)
 
     const locator = await page
         .locator("a:right-of(:text('Community Manager:'))", {
-            hasText: `${args.practitioner.lastName}, ${args.practitioner.firstName}`,
+            hasText: `${args.allocation.staff.lastName}, ${args.allocation.staff.firstName}`,
         })
         .first()
 
     await refreshUntil(page, () => expect(locator).not.toHaveCount(0))
 
-    await expect(await locator.textContent()).toEqual(`${args.practitioner.lastName}, ${args.practitioner.firstName}`)
+    await expect(await locator.textContent()).toEqual(
+        `${args.allocation.staff.lastName}, ${args.allocation.staff.firstName}`
+    )
     await page.locator('a', { hasText: 'Community Supervisor' }).click()
-    await expect(page.locator('#SearchForm\\:provider')).toHaveText(args.practitioner.providerName)
-    await expect(page.locator('#SearchForm\\:supervisorCommunityTeam')).toHaveText(args.practitioner.teamName)
+    await expect(page.locator('#SearchForm\\:provider')).toHaveText(args.allocation.team.provider)
+    await expect(page.locator('#SearchForm\\:supervisorCommunityTeam')).toHaveText(args.allocation.team.name)
 }
 
 export async function isInOffenderContext(page: Page, crn: string): Promise<boolean> {

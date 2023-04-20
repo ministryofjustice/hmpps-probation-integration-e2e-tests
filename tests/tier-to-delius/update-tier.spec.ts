@@ -19,6 +19,6 @@ test('Create person and check tier is updated', async ({ page }) => {
 
     // Then the tier is updated
     await page.locator('a', { hasText: 'Management Tier' }).click()
-    await refreshUntil(page, () => expect(page.locator('table')).toContainText('B-0'))
-    await expect(page.locator('#offender-overview').first()).toContainText('Tier:B-0')
+    await refreshUntil(page, () => expect(page.locator('table')).toContainText('B_0'))
+    await expect(page.locator('#offender-overview').first()).toContainText('Tier:B_0')
 })

@@ -7,8 +7,8 @@ import { verifyContacts } from '../../steps/delius/contact/find-contacts.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
-import { setNomisId } from '../../steps/delius/offender/update-offender.js'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
+import { data } from '../../test-data/test-data.js'
 
 const nomisIds = []
 
@@ -17,12 +17,14 @@ test('Create a new case note', async ({ page }) => {
     await deliusLogin(page)
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
-    const event = await createCustodialEvent(page, { crn })
+    const event = await createCustodialEvent(page, {
+        crn,
+        allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff },
+    })
 
     // And a corresponding person and booking in NOMIS
-    const nomisId = await createAndBookPrisoner(person)
+    const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
-    await setNomisId(page, crn, nomisId)
 
     // When I add a case note in DPS
     await dpsLogin(page)
@@ -36,7 +38,7 @@ test('Create a new case note', async ({ page }) => {
 
     // Then the case note appears as a contact in delius
     await deliusLogin(page)
-    await verifyContacts(page, crn, [contact(event.outcome, 'Case Notes')])
+    await verifyContacts(page, crn, [contact(event.outcome, 'NOMIS case note - offender supervisor entry')])
 })
 
 test.afterAll(async () => {
