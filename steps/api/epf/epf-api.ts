@@ -1,7 +1,6 @@
 import { type APIRequestContext, expect, request } from '@playwright/test'
 import { getToken } from '../auth/get-token.js'
 
-
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()
     return request.newContext({
@@ -13,10 +12,8 @@ async function getContext(): Promise<APIRequestContext> {
     })
 }
 
-export async function epfContext(crn: String, eventNumber: String): Promise<any> {
-    const response = await (
-        await getContext()
-    ).get(`/case-details/${crn}/${eventNumber}`)
+export async function epfContext(crn: string, eventNumber: string): Promise<any> {
+    const response = await (await getContext()).get(`/case-details/${crn}/${eventNumber}`)
 
     expect(response.ok()).toBeTruthy()
     return response.json()
