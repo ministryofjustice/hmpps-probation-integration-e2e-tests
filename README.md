@@ -49,6 +49,8 @@ CRED_PASSWORD=<client_secret>
 
 PRISON_API=https://api-dev.prison.service.justice.gov.uk/
 
+EPF_API=https://effective-proposal-framework-and-delius-dev.hmpps.service.justice.gov.uk/
+
 REFERANDMONITOR_URL=https://hmpps-interventions-ui-dev.apps.live-1.cloud-platform.service.justice.gov.uk
 REFERANDMONITOR_SUPPLIER_USERNAME=<r&m_supplier_username>
 REFERANDMONITOR_SUPPLIER_PASSWORD=<r&m_supplier_password>
