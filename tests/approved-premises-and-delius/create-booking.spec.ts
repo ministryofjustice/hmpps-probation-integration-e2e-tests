@@ -1,87 +1,189 @@
 import { test } from '@playwright/test'
-import * as dotenv from 'dotenv'
-dotenv.config() // read environment variables into process.env
-import { login as deliusLogin } from '../../steps/delius/login.js'
-import { login as hmppsLogin } from '../../steps/hmpps-auth/login.js'
+
+import { login as loginDelius } from '../../steps/delius/login.js'
+import { logout as logoutDelius } from '../../steps/delius/logout.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
+import { createCommunityEvent } from '../../steps/delius/event/create-event.js'
+import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement.js'
+import { findNSIByCRN } from '../../steps/delius/event/find-nsi.js'
+import {
+    login as loginRandM,
+    loginAsSupplier as loginRandMAsSupplier,
+    logoutSupplier as logoutRandMSupplier,
+} from '../../steps/referandmonitor/login.js'
+import { assignReferral, cancelReferral, makeReferral } from '../../steps/referandmonitor/referral.js'
+import { createSupplierAssessmentAppointment, editSessions } from '../../steps/referandmonitor/appointment.js'
 import { data } from '../../test-data/test-data.js'
-import { deliusPerson } from '../../steps/delius/utils/person.js'
-import { login as approvedPremisesLogin, navigateToApplications } from '../../steps/approved-premises/login.js'
-import { selectApprovedPremises } from '../../steps/approved-premises/approved-premises-home.js'
-import { managePlacement, selectCreatePlacementAction } from '../../steps/approved-premises/approved-premises.js'
-import { searchOffenderWithCrn } from '../../steps/approved-premises/create-placement.js'
-import { createBooking } from '../../steps/approved-premises/create-booking.js'
-import { clickBackToDashboard } from '../../steps/approved-premises/placement-confirmation.js'
-import { selectMarkAsArrivedAction } from '../../steps/approved-premises/placement-details.js'
-import { verifyKeyworkerAvailability } from '../../steps/approved-premises/mark-as-arrived.js'
-import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
-import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
-import { submitAPApplication } from '../../steps/approved-premises/applications/submit-application-full.js'
-import { login as oasysLogin, UserType } from '../../steps/oasys/login.js'
-import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs.js'
-import { verifyContacts } from '../../steps/delius/contact/find-contacts.js'
 import { contact } from '../../steps/delius/utils/contact.js'
-import { findOffenderByCRN } from '../../steps/delius/offender/find-offender.js'
+import { verifyContacts } from '../../steps/delius/contact/find-contacts.js'
+import { approveActionPlan, createActionPlan } from '../../steps/referandmonitor/action-plan.js'
+import { createEndOfServiceReport } from '../../steps/referandmonitor/end-of-service-report.js'
+import { validateRarCount } from '../../steps/delius/requirement/find-requirement.js'
 
-const nomisIds = []
-
-test('Create an approved premises booking', async ({ page }) => {
-    test.skip()
-    test.slow() // increase the timeout - Delius/OASys/AP Applications/Approved premises can take a few minutes
-    // Given I login in to NDelius
-    await hmppsLogin(page)
-    await deliusLogin(page)
-    const person = deliusPerson()
-    // And I create an offender
-    const crn: string = await createOffender(page, {
-        person,
-        providerName: data.teams.approvedPremisesTestTeam.provider,
-    })
-    // And I create an event in nDelius
-    await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
-    // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
-    const { nomisId } = await createAndBookPrisoner(page, crn, person)
-    nomisIds.push(nomisId)
-    await oasysLogin(page, UserType.Booking)
-    // And I create a Layer 3 Assessment without Needs in OASys
-    await createLayer3AssessmentWithoutNeeds(page, crn)
-    // And I login to Approved Premises
-    await approvedPremisesLogin(page)
-    // And I navigate to Approved Premises - Applications
-    await navigateToApplications(page)
-    // And I complete all the sections and submit the application for this CRN
-    await submitAPApplication(page, crn)
-    // And I log back to Approved Premises
-    await approvedPremisesLogin(page)
-    // And I choose a premises # Choose the first premises in the list
-    await selectApprovedPremises(page)
-    // And I navigate to create a placement # Choose Actions > Create a placement
-    await selectCreatePlacementAction(page)
-    // And I search for the offender with CRN
-    await searchOffenderWithCrn(page, crn)
-    // When I create a booking in Approved Premises
-    await createBooking(page)
-    // And I click on "Back to dashboard" link
-    await clickBackToDashboard(page)
-    // And I select to manage the placement
-    await managePlacement(page, crn)
-    // And I click on the Search button from the top menu
-    await selectMarkAsArrivedAction(page)
-    // Then I should see the staff member in the list of Key Workers
-    await verifyKeyworkerAvailability(
-        page,
-        `${data.staff.approvedPremisesKeyWorker.firstName} ${data.staff.approvedPremisesKeyWorker.lastName}`
-    )
-    // And login to nDelius
-    await deliusLogin(page)
-    // And I Search for offender with CRN
-    await findOffenderByCRN(page, crn)
-    // And I should see a contact in Delius for the booking
-    await verifyContacts(page, crn, [contact('Person', 'Approved Premises Booking for Bedford AP')])
+test.beforeEach(async ({ page }) => {
+    await loginDelius(page)
 })
 
-test.afterAll(async () => {
-    for (const nomsId of nomisIds) {
-        await releasePrisoner(nomsId)
-    }
+const EVENT_NUMBER = 1
+
+test('Create R&M Referral - Not RAR', async ({ page }) => {
+    // Create a person to work with
+    const crn: string = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
+    await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
+    await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
+
+    // As the Refer and Monitor probation practioner
+    // when I create a referral for the person in Refer and Monitor
+    await loginRandM(page)
+    const referralRef: string = await makeReferral(page, crn)
+
+    // Then an NSI is created in Delius
+    await loginDelius(page)
+    await findNSIByCRN(page, crn, EVENT_NUMBER, 'Commissioned Rehab Services')
+    await logoutDelius(page)
+
+    // As the Refer and Monitor supplier
+    // When I create a SAA appointment in Refer and Monitor
+    await logoutRandMSupplier(page)
+    await loginRandMAsSupplier(page)
+
+    // Assign the referral
+    await assignReferral(page, referralRef)
+
+    // Create a supplier assessment appointment (SAA) for the referral and action plan
+    await createSupplierAssessmentAppointment(page, referralRef)
+    await createActionPlan(page)
+    await logoutRandMSupplier(page)
+
+    await loginRandM(page)
+    await approveActionPlan(page, referralRef)
+
+    await logoutRandMSupplier(page)
+    await loginRandMAsSupplier(page)
+    await editSessions(page, referralRef)
+    await createEndOfServiceReport(page)
+    await logoutRandMSupplier(page)
+
+    // Check that the Completed contact has been created in Delius
+    await loginDelius(page)
+    await verifyContacts(page, crn, [
+        contact('1 - CRS Accommodation', 'In Progress'),
+        contact('1 - CRS Accommodation', 'Completed'),
+        //check both appointment outcomes are present
+        contact('1 - CRS Accommodation', 'Appointment with CRS Provider (NS)', null, 'Attended - Complied', 'Y', 'Y'),
+        //check there are now 3 Notification Contacts
+        contact('1 - CRS Accommodation', 'Notification from CRS Provider', null, null, null, null),
+        contact('1 - CRS Accommodation', 'NSI Terminated'),
+    ])
+})
+
+test('Create R&M Referral - RAR', async ({ page }) => {
+    // Create a person to work with
+    const crn: string = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
+    await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
+    await createRequirementForEvent(page, {
+        crn,
+        team: data.teams.referAndMonitorTestTeam,
+        requirement: data.requirements.rar,
+    })
+
+    // As the Refer and Monitor probation practioner
+    // when I create a referral for the person in Refer and Monitor
+    await loginRandM(page)
+    const referralRef: string = await makeReferral(page, crn)
+
+    // Then an NSI is created in Delius
+    await loginDelius(page)
+    await findNSIByCRN(page, crn, EVENT_NUMBER, 'Commissioned Rehab Services')
+    await logoutDelius(page)
+
+    // As the Refer and Monitor supplier
+    // When I create a SAA appointment in Refer and Monitor
+    await logoutRandMSupplier(page)
+    await loginRandMAsSupplier(page)
+
+    // Assign the referral
+    await assignReferral(page, referralRef)
+
+    // Create a supplier assessment appointment (SAA) for the referral and action plan
+    await createSupplierAssessmentAppointment(page, referralRef)
+    await createActionPlan(page)
+    await logoutRandMSupplier(page)
+
+    await loginRandM(page)
+    await approveActionPlan(page, referralRef)
+
+    await logoutRandMSupplier(page)
+    await loginRandMAsSupplier(page)
+    await editSessions(page, referralRef)
+    await createEndOfServiceReport(page)
+    await logoutRandMSupplier(page)
+
+    // Check that the Completed contact has been created in Delius
+    await loginDelius(page)
+    await verifyContacts(page, crn, [
+        contact('1 - CRS Accommodation', 'In Progress'),
+        contact('1 - CRS Accommodation', 'Completed'),
+        //check both appointment outcomes are present
+        contact('1 - CRS Accommodation', 'Appointment with CRS Provider (NS)', null, 'Attended - Complied', 'Y', 'Y'),
+        //check there are now 3 Notification Contacts
+        contact('1 - CRS Accommodation', 'Notification from CRS Provider', null, null, null, null),
+        contact('1 - CRS Accommodation', 'NSI Terminated'),
+    ])
+    await validateRarCount(
+        page,
+        crn,
+        EVENT_NUMBER,
+        'Rehabilitation Activity Requirement (RAR) - Rehabilitation Activity Requirement (RAR)',
+        1
+    )
+})
+
+test('Create R&M Referral - Notify OM', async ({ page }) => {
+    // Create a person to work with
+    const crn: string = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
+    await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
+    await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
+
+    // As the Refer and Monitor probation practioner
+    // when I create a referral for the person in Refer and Monitor
+    await loginRandM(page)
+    const referralRef: string = await makeReferral(page, crn)
+
+    // Then an NSI is created in Delius
+    await loginDelius(page)
+    await findNSIByCRN(page, crn, EVENT_NUMBER, 'Commissioned Rehab Services')
+    await logoutDelius(page)
+
+    // As the Refer and Monitor supplier
+    // When I create a SAA appointment in Refer and Monitor
+    await logoutRandMSupplier(page)
+    await loginRandMAsSupplier(page)
+
+    // Assign the referral
+    await assignReferral(page, referralRef)
+
+    // Create a supplier assessment appointment (SAA) for the referral and action plan
+    await createSupplierAssessmentAppointment(page, referralRef)
+    await createActionPlan(page)
+    await logoutRandMSupplier(page)
+
+    await loginRandM(page)
+    await approveActionPlan(page, referralRef)
+
+    await logoutRandMSupplier(page)
+    await loginRandMAsSupplier(page)
+    await editSessions(page, referralRef, [{ number: 1, attended: false, notifyOm: true }])
+    await logoutRandMSupplier(page)
+
+    // Check that the Completed contact has been created in Delius
+    await loginDelius(page)
+    await verifyContacts(page, crn, [
+        contact('1 - CRS Accommodation', 'In Progress'),
+        //check both appointment outcomes are present
+        contact('1 - CRS Accommodation', 'Appointment with CRS Provider (NS)', null, 'Failed To Attend', 'N', 'N'),
+        //check there are now 3 Notification Contacts
+        contact('1 - CRS Accommodation', 'Notification from CRS Provider', null, null, null, null),
+        contact('1 - CRS Accommodation', 'Refer to Offender Manager'),
+    ])
 })
