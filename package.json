@@ -25,7 +25,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "node-stream-zip": "^1.15.0",
     "pdf2json": "^3.0.3",
-    "prettier": "2.8.7",
+    "prettier": "2.8.8",
     "uuid": "^9.0.0"
   }
 }
