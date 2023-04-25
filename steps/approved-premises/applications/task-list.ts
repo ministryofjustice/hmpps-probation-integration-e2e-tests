@@ -1,4 +1,15 @@
 import { type Page, expect } from '@playwright/test'
+import {login as approvedPremisesLogin, navigateToApplications} from "../login.js";
+import {enterCRN} from "./enter-crn.js";
+import {clickSaveAndContinue} from "./confirm-details.js";
+import {clickExceptionalCaseYes} from "./application-not-eligible.js";
+import {addExemptionDetails} from "./add-exemption-details.js";
+import {selectSentenceType} from "./select-sentence-type.js";
+import {selectSituationOption} from "./select-situation-option.js";
+import {selectReleaseDateKnownStatus} from "./release-date-known-status.js";
+import {confirmPlacementStartdate} from "./placement-start-date.js";
+import {selectAPPlacementPurpose} from "./ap-placement-purpose.js";
+import {selectTypeOfAPRequired} from "./select-type-ap-required.js";
 
 export const clickTypeOfAPRequiredLink = async (page: Page) => {
     await page.locator('a', { hasText: 'Type of AP required' }).click()
@@ -63,4 +74,33 @@ export const verifyRoshScoresAreAsPerOasys = async (page: Page) => {
     await expect(page.locator(`td:right-of(:text-is("Public"))`).first()).toHaveText('Medium')
     await expect(page.locator(`td:right-of(:text-is("Known adult"))`).first()).toHaveText('High')
     await expect(page.locator(`td:right-of(:text-is("Staff"))`).first()).toHaveText('Medium')
+}
+
+export const naviagateToTaskListPage = async (page: Page, crn: string) => {
+    // When I login in to Approved Premises
+    await approvedPremisesLogin(page)
+    // And I navigate to AP Applications
+    await navigateToApplications(page)
+    // And I enter the CRN & Submit
+    await enterCRN(page, crn)
+    // And I click on Save and Continue confirming the offender's details
+    await clickSaveAndContinue(page)
+    // And I say this an exceptional case
+    await clickExceptionalCaseYes(page)
+    // And I say add the agreed date and exception details
+    await addExemptionDetails(page)
+    // And I select Sentence Type and click on Submit
+    await selectSentenceType(page)
+    // And I select "Referral for risk management" Option that describes the situation
+    await selectSituationOption(page)
+    // And I select that I know release date
+    await selectReleaseDateKnownStatus(page)
+    // And I confirm placement start date is same as release date
+    await confirmPlacementStartdate(page)
+    // And I select "Public protection" as the purpose of the Approved Premises (AP) placement
+    await selectAPPlacementPurpose(page)
+    // And I click on Type Of AP Required Link
+    await clickTypeOfAPRequiredLink(page)
+    // And I select Type Of Approved Premises Required and Click on Submit
+    await selectTypeOfAPRequired(page)
 }
