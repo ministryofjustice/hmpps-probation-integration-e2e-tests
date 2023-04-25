@@ -21,7 +21,6 @@ export const createBooking = async (page: Page) => {
     await expect(page.locator('#main-content h1')).toHaveText('Placement confirmed')
 }
 
-
 export const createAPBooking = async (page: Page, crn: string) => {
     // And I login to Approved Premises
     await approvedPremisesLogin(page)
