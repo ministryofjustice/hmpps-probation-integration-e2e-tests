@@ -57,6 +57,7 @@ test('Allocate new person', async ({ page }) => {
         contact('Person', 'Responsible Officer Change', practitioner),
         contact('1 - Curfew (Police Checks Only) (Curfew) (6 Weeks)', 'Sentence Component Transfer', practitioner),
         contact('1 - ORA Community Order', 'Order Supervisor Transfer', practitioner),
+        contact('1 - ORA Community Order', 'Case Allocation Decision Evidence', practitioner),
     ])
     await successful(crn)
 })
@@ -83,6 +84,7 @@ test('Allocate currently-managed person', async ({ page }) => {
         contact('Person', 'Community Practitioner Transfer', practitioner),
         contact('Person', 'Responsible Officer Change', practitioner),
         contact('2 - ORA Community Order', 'Order Supervisor Transfer', practitioner),
+        contact('2 - ORA Community Order', 'Case Allocation Decision Evidence', practitioner),
     ])
     await successful(crn)
 })
