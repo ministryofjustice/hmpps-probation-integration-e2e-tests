@@ -77,7 +77,10 @@ export const allocateUnallocatedCasesWithinDateRange = async (
 
             // Explain the reason for allocation to this Practitioner
             await expect(page).toHaveTitle(/.*Explain your decision | Manage a workforce.*/)
-            await page.fill('#evidenceText', `${allocation.staff.firstName} ${allocation.staff.lastName} is allocated on case with ${crn} has the necessary specialized knowledge, skills, experience, and training to manage it.`)
+            await page.fill(
+                '#evidenceText',
+                `${allocation.staff.firstName} ${allocation.staff.lastName} is allocated on case with ${crn} has the necessary specialized knowledge, skills, experience, and training to manage it.`
+            )
             await page.click('#isSensitive')
             await page.locator('button', { hasText: 'Continue' }).click()
 

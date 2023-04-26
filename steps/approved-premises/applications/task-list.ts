@@ -1,16 +1,16 @@
 import { type Page, expect } from '@playwright/test'
-import {login as approvedPremisesLogin, navigateToApplications} from "../login.js";
-import {enterCRN} from "./enter-crn.js";
-import {clickSaveAndContinue} from "./confirm-details.js";
-import {clickExceptionalCaseYes} from "./application-not-eligible.js";
-import {addExemptionDetails} from "./add-exemption-details.js";
-import {selectSentenceType} from "./select-sentence-type.js";
-import {selectSituationOption} from "./select-situation-option.js";
-import {selectReleaseDateKnownStatus} from "./release-date-known-status.js";
-import {confirmPlacementStartdate} from "./placement-start-date.js";
-import {selectAPPlacementPurpose} from "./ap-placement-purpose.js";
-import {selectTypeOfAPRequired} from "./select-type-ap-required.js";
-import {selectTransgenderStatus} from "./select-transgender-status.js";
+import { login as approvedPremisesLogin, navigateToApplications } from '../login.js'
+import { enterCRN } from './enter-crn.js'
+import { clickSaveAndContinue } from './confirm-details.js'
+import { clickExceptionalCaseYes } from './application-not-eligible.js'
+import { addExemptionDetails } from './add-exemption-details.js'
+import { selectSentenceType } from './select-sentence-type.js'
+import { selectSituationOption } from './select-situation-option.js'
+import { selectReleaseDateKnownStatus } from './release-date-known-status.js'
+import { confirmPlacementStartdate } from './placement-start-date.js'
+import { selectAPPlacementPurpose } from './ap-placement-purpose.js'
+import { selectTypeOfAPRequired } from './select-type-ap-required.js'
+import { selectTransgenderStatus } from './select-transgender-status.js'
 
 export const clickTypeOfAPRequiredLink = async (page: Page) => {
     await page.locator('a', { hasText: 'Type of AP required' }).click()
