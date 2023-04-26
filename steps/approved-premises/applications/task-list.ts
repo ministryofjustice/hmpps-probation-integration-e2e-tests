@@ -87,17 +87,17 @@ export const navigateToTaskListPage = async (page: Page, crn: string) => {
     // And I enter the CRN & Submit
     await enterCRN(page, crn)
 
-    // Run the following functions in parallel
-    await Promise.all([
-        // And I click on Save and Continue confirming the offender's details
-        clickSaveAndContinue(page),
-        // And I say this an exceptional case
-        clickExceptionalCaseYes(page),
-        // And I say add the agreed date and exception details
-        addExemptionDetails(page),
-        // And I say there no transgender history
-        selectTransgenderStatus(page)
-    ])
+    // And I click on Save and Continue confirming the offender's details
+    await clickSaveAndContinue(page)
+
+    // And I say this an exceptional case
+    await clickExceptionalCaseYes(page)
+
+    // And I say add the agreed date and exception details
+    await addExemptionDetails(page)
+
+    // And I say there no transgender history
+    await selectTransgenderStatus(page)
 
     // And I select Sentence Type and click on Submit
     await selectSentenceType(page)

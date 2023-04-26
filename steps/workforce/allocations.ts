@@ -30,7 +30,7 @@ export const allocateCase = async (page: Page, crn: string, allocation: Allocati
     await page.locator('button', { hasText: 'Continue' }).click()
 
     // Confirm allocation
-    await expect(page).toHaveTitle(/.*[A-Z][a-z''-]+([ -][A-Z][A-z''-]+)* | Choose practitioner | Manage a workforce.*/)
+    await expect(page).toHaveTitle(/.*Choose practitioner | Manage a workforce.*/)
     await page.locator('a', { hasText: 'Continue' }).click()
 
     // Explain the reason for allocation to this Practitioner
