@@ -77,33 +77,46 @@ export const verifyRoshScoresAreAsPerOasys = async (page: Page) => {
     await expect(page.locator(`td:right-of(:text-is("Staff"))`).first()).toHaveText('Medium')
 }
 
-export const naviagateToTaskListPage = async (page: Page, crn: string) => {
+export const navigateToTaskListPage = async (page: Page, crn: string) => {
     // When I login in to Approved Premises
     await approvedPremisesLogin(page)
+
     // And I navigate to AP Applications
     await navigateToApplications(page)
+
     // And I enter the CRN & Submit
     await enterCRN(page, crn)
-    // And I click on Save and Continue confirming the offender's details
-    await clickSaveAndContinue(page)
-    // And I say this an exceptional case
-    await clickExceptionalCaseYes(page)
-    // And I say add the agreed date and exception details
-    await addExemptionDetails(page)
-    // And I say there no transgender history
-    await selectTransgenderStatus(page)
+
+    // Run the following functions in parallel
+    await Promise.all([
+        // And I click on Save and Continue confirming the offender's details
+        clickSaveAndContinue(page),
+        // And I say this an exceptional case
+        clickExceptionalCaseYes(page),
+        // And I say add the agreed date and exception details
+        addExemptionDetails(page),
+        // And I say there no transgender history
+        selectTransgenderStatus(page)
+    ])
+
     // And I select Sentence Type and click on Submit
     await selectSentenceType(page)
+
     // And I select "Referral for risk management" Option that describes the situation
     await selectSituationOption(page)
+
     // And I select that I know release date
     await selectReleaseDateKnownStatus(page)
+
     // And I confirm placement start date is same as release date
     await confirmPlacementStartdate(page)
+
     // And I select "Public protection" as the purpose of the Approved Premises (AP) placement
     await selectAPPlacementPurpose(page)
+
     // And I click on Type Of AP Required Link
     await clickTypeOfAPRequiredLink(page)
+
     // And I select Type Of Approved Premises Required and Click on Submit
     await selectTypeOfAPRequired(page)
 }

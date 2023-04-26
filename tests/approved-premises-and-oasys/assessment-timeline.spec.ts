@@ -9,7 +9,7 @@ import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
 import {
     clickChooseSectionsOfOASysToImportLink,
-     naviagateToTaskListPage,
+    navigateToTaskListPage,
     verifyRoshScoresAreAsPerOasys,
 } from '../../steps/approved-premises/applications/task-list.js'
 import { selectNeedsAndSubmit } from '../../steps/approved-premises/applications/import-oasys-sections.js'
@@ -32,34 +32,40 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     await deliusLogin(page)
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
+
     // And I create an event in nDelius
     await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
+
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
+
     // And I log in to OASys as a "OASYS_T2_LOGIN_USER" user
     await oasysLogin(page, UserType.Timeline)
+
     // And I create a Layer 3 Assessment without Needs in OASys
     await createLayer3AssessmentWithoutNeeds(page, crn)
+
     // And I add Needs for Layer 3 Assessment
     await addLayer3AssessmentNeeds(page, crn)
+
     // When I login in to Approved Premises and navigate to Applications Task-list page
-    await naviagateToTaskListPage(page, crn)
+    await navigateToTaskListPage(page, crn)
+
     // And I Verify that the "RoSH Risk scores" in the RoSH Widget are as per OASys
     await verifyRoshScoresAreAsPerOasys(page)
+
     // And I click on "Choose sections of OASys to import" link
     await clickChooseSectionsOfOASysToImportLink(page)
+
     // And I select the "Needs" related to the offender
     await selectNeedsAndSubmit(page)
-    // Then I verify that "RoSH Summary" information is as per the OASys
+
+    // Then I verify that "RoSH Summary", "Risk Management Plan", "Offence Analysis", "Risk to Self" information &  "Supporting Information"  is as per the OASys
     await verifyRoSHSummaryIsAsPerOASys(page)
-    // And I verify the "Risk Management Plan" information is as per the OASys
     await verifyRMPInfoIsAsPerOASys(page)
-    // And I verify the "Offence Analysis" information is as per the OASys
     await verifyOffenceAnalysisIsAsPerOASys(page)
-    // And I verify the "Risk to Self" information is as per the OASys
     await verifyRiskToSelfIsAsPerOASys(page)
-    // And I verify the "Supporting Information" is as per the OASys
     await verifySupportingInfoIsAsPerOASys(page)
 })
 

@@ -22,20 +22,21 @@ export const createBooking = async (page: Page) => {
 }
 
 export const createAPBooking = async (page: Page, crn: string) => {
-    // And I login to Approved Premises
-    await approvedPremisesLogin(page)
-    // And I navigate to Approved Premises - Applications
-    await navigateToApplications(page)
-    // And I complete all the sections and submit the application for this CRN
-    await submitAPApplication(page, crn)
-    // And I log back to Approved Premises
-    await approvedPremisesLogin(page)
-    // And I choose a premises # Choose the first premises in the list
-    await selectApprovedPremises(page)
-    // And I navigate to create a placement # Choose Actions > Create a placement
-    await selectCreatePlacementAction(page)
-    // And I search for the offender with CRN
-    await searchOffenderWithCrn(page, crn)
-    // When I create a booking in Approved Premises
-    await createBooking(page)
-}
+    // Login to Approved Premises and navigate to Applications
+    await approvedPremisesLogin(page);
+    await navigateToApplications(page);
+
+    // Complete all the sections and submit the application for this CRN
+    await submitAPApplication(page, crn);
+
+    // Choose a premises, create a placement, and search for the offender with CRN
+    await selectApprovedPremises(page);
+    await selectCreatePlacementAction(page);
+    await searchOffenderWithCrn(page, crn);
+
+    // Create a booking in Approved Premises
+    await createBooking(page);
+
+    // Log back in to Approved Premises
+    await approvedPremisesLogin(page);
+};
