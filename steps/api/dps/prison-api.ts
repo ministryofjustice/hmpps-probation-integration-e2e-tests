@@ -1,8 +1,9 @@
 import { type Person } from '../../delius/utils/person.js'
-import { type APIRequestContext, expect, Page, request } from '@playwright/test'
+import { type APIRequestContext, Page, request } from '@playwright/test'
 import { getToken } from '../auth/get-token.js'
 import { EuropeLondonFormat } from '../../delius/utils/date-time.js'
 import { setNomisId } from '../../delius/offender/update-offender.js'
+import {sanitiseError} from "../utils/sanitise-auth.js";
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()
@@ -23,10 +24,11 @@ export async function createAndBookPrisoner(page: Page, crn: string, person: Per
     return { nomisId: offenderNo, bookingId: bookingId }
 }
 
-async function createPrisoner(person: Person): Promise<string> {
+export const createPrisoner = sanitiseError(async (person) => {
     const response = await (
         await getContext()
     ).post(`/api/offenders`, {
+        failOnStatusCode: true,
         data: {
             firstName: person.firstName,
             lastName: person.lastName,
@@ -34,74 +36,74 @@ async function createPrisoner(person: Person): Promise<string> {
             gender: person.gender.charAt(0),
         },
     })
-
     const json = await response.json()
     return json.offenderNo
-}
+});
 
-async function bookPrisoner(offenderNo: string) {
+export const bookPrisoner = sanitiseError(async (offenderNo: string) => {
     const response = await (
         await getContext()
     ).post(`/api/offenders/${offenderNo}/booking`, {
+        failOnStatusCode: true,
         data: {
             movementReasonCode: 'N',
             prisonId: 'MDI',
             imprisonmentStatus: 'SENT03',
         },
     })
-    expect(response.ok()).toBeTruthy()
     const json = await response.json()
     return json.bookingId
-}
+})
 
-export const releasePrisoner = async (offenderNo: string) => {
-    const response = await (
+export const releasePrisoner = sanitiseError(async (offenderNo: string) => {
+    await (
         await getContext()
     ).put(`/api/offenders/${offenderNo}/release`, {
+        failOnStatusCode: true,
         data: {
             movementReasonCode: 'CR',
         },
     })
-    expect(response.ok()).toBeTruthy()
-}
+})
 
-export const temporaryReleasePrisoner = async (offenderNo: string) => {
-    const response = await (
+export const temporaryReleasePrisoner = sanitiseError(async (offenderNo: string) => {
+    await (
         await getContext()
     ).put(`/api/offenders/${offenderNo}/temporary-absence-out`, {
+        failOnStatusCode: true,
         data: {
             toCity: '18248',
             transferReasonCode: '1',
         },
     })
-    expect(response.ok()).toBeTruthy()
-}
+})
 
-export const temporaryAbsenceReturn = async (offenderNo: string) => {
-    const response = await (
+export const temporaryAbsenceReturn = sanitiseError(async (offenderNo: string) => {
+  await (
         await getContext()
     ).put(`/api/offenders/${offenderNo}/temporary-absence-arrival`, {
+        failOnStatusCode: true,
         data: {
             agencyId: 'MDI',
             cellLocation: 'MDI-RECP',
         },
     })
-    expect(response.ok()).toBeTruthy()
-}
+})
 
-export const recallPrisoner = async (offenderNo: string) => {
+export const recallPrisoner = sanitiseError(async (offenderNo: string) => {
     const date = EuropeLondonFormat(new Date())
-    const response = await (
+  await (
         await getContext()
     ).put(`/api/offenders/${offenderNo}/recall`, {
+        failOnStatusCode: true,
         data: {
             prisonId: 'MDI',
             recallTime: date,
             movementReasonCode: '24',
         },
     })
-    expect(response.ok()).toBeTruthy()
-}
+
+})
 
 export interface CustodyDates {
     calculationUuid: string
@@ -118,11 +120,11 @@ export interface CustodyDates {
     }
 }
 
-export const updateCustodyDates = async (bookingId: number, custodyDates: CustodyDates) => {
-    const response = await (
+export const updateCustodyDates = sanitiseError(async (bookingId: number, custodyDates: CustodyDates) => {
+       await (
         await getContext()
     ).post(`/api/offender-dates/${bookingId}`, {
+           failOnStatusCode: true,
         data: custodyDates,
     })
-    expect(response.ok()).toBeTruthy()
-}
+})

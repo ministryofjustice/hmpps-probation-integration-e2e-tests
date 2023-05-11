@@ -57,7 +57,7 @@ test('Release and recall test', async ({ page }) => {
 
 test('Temporary absence test', async ({ page }) => {
     test.slow() // increase the timeout - releases/recall publishing can take a few minutes
-
+    page.on('console', msg => console.log(msg.text()))
     // Given a person with a sentenced event in Delius
     await deliusLogin(page)
     // await hmppsLogin(page)

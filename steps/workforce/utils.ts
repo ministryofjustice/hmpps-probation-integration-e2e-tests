@@ -70,7 +70,10 @@ export const allocateUnallocatedCasesWithinDateRange = async (
 
             // Allocate to team/staff
             await page
-                .locator('tr', { hasText: `${allocation.staff.firstName} ${allocation.staff.lastName}` })
+                // .locator('tr', { hasText: `${allocation.staff.firstName} ${allocation.staff.lastName}` })
+                .locator('tr', { hasText: `Isaiah Lakanu` })
+
+
                 .getByRole('radio')
                 .check()
             await page.locator('button', { hasText: 'Continue' }).click()
