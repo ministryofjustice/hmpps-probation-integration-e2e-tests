@@ -3,7 +3,7 @@ import { type APIRequestContext, Page, request } from '@playwright/test'
 import { getToken } from '../auth/get-token.js'
 import { EuropeLondonFormat } from '../../delius/utils/date-time.js'
 import { setNomisId } from '../../delius/offender/update-offender.js'
-import {sanitiseError} from "../utils/sanitise-auth.js";
+import { sanitiseError } from '../utils/sanitise-auth.js'
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()
@@ -24,7 +24,7 @@ export async function createAndBookPrisoner(page: Page, crn: string, person: Per
     return { nomisId: offenderNo, bookingId: bookingId }
 }
 
-export const createPrisoner = sanitiseError(async (person) => {
+export const createPrisoner = sanitiseError(async person => {
     const response = await (
         await getContext()
     ).post(`/api/offenders`, {
@@ -38,7 +38,7 @@ export const createPrisoner = sanitiseError(async (person) => {
     })
     const json = await response.json()
     return json.offenderNo
-});
+})
 
 export const bookPrisoner = sanitiseError(async (offenderNo: string) => {
     const response = await (
@@ -79,7 +79,7 @@ export const temporaryReleasePrisoner = sanitiseError(async (offenderNo: string)
 })
 
 export const temporaryAbsenceReturn = sanitiseError(async (offenderNo: string) => {
-  await (
+    await (
         await getContext()
     ).put(`/api/offenders/${offenderNo}/temporary-absence-arrival`, {
         failOnStatusCode: true,
@@ -92,7 +92,7 @@ export const temporaryAbsenceReturn = sanitiseError(async (offenderNo: string) =
 
 export const recallPrisoner = sanitiseError(async (offenderNo: string) => {
     const date = EuropeLondonFormat(new Date())
-  await (
+    await (
         await getContext()
     ).put(`/api/offenders/${offenderNo}/recall`, {
         failOnStatusCode: true,
@@ -120,10 +120,10 @@ export interface CustodyDates {
 }
 
 export const updateCustodyDates = sanitiseError(async (bookingId: number, custodyDates: CustodyDates) => {
-       await (
+    await (
         await getContext()
     ).post(`/api/offender-dates/${bookingId}`, {
-           failOnStatusCode: true,
+        failOnStatusCode: true,
         data: custodyDates,
     })
 })
