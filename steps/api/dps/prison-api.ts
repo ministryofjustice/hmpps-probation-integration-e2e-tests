@@ -102,7 +102,6 @@ export const recallPrisoner = sanitiseError(async (offenderNo: string) => {
             movementReasonCode: '24',
         },
     })
-
 })
 
 export interface CustodyDates {
