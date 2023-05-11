@@ -16,10 +16,10 @@ export const validateRarCount = async (
     page: Page,
     crn: string,
     eventNumber: number,
-    description: string,
+    requirement: { category: string; subCategory: string },
     count: number
 ) => {
-    await findRequirement(page, crn, eventNumber, description)
+    await findRequirement(page, crn, eventNumber, `${requirement.category} - ${requirement.subCategory}`)
     await page.locator('tr', { hasText: 'CRS Accommodation' }).locator('a', { hasText: 'View' }).click()
     await expect(page.locator('#nsiDetailsForm\\:rarCount')).toHaveText(count.toString())
 }
