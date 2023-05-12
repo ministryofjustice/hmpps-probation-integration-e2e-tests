@@ -1,8 +1,16 @@
 import { expect, type Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
 import { referralProgress } from './referral.js'
+import { addDays, parse } from 'date-fns'
+import { get12Hour, getTimeOfDay } from '../delius/utils/date-time.js'
+import { refreshUntil } from '../delius/utils/refresh.js'
 
-export const createSupplierAssessmentAppointment = async (page: Page, referralRef: string) => {
+export const createSupplierAssessmentAppointment = async (
+    page: Page,
+    referralRef: string,
+    appointmentDate: Date = addDays(faker.date.soon(10), 1),
+    appointmentTime = parse('10:00', 'HH:mm', appointmentDate)
+) => {
     await referralProgress(page, referralRef)
 
     // Navigate to the SA appointment form
@@ -10,13 +18,12 @@ export const createSupplierAssessmentAppointment = async (page: Page, referralRe
     await expect(page).toHaveURL(/service-provider\/referrals\/.*\/supplier-assessment\/schedule\/.*\/details/)
 
     // Appointment date and time
-    const appointmentDate = faker.date.soon(10)
     await page.locator('input[name="date-day"]').fill(appointmentDate.getDate().toString())
     await page.locator('input[name="date-month"]').fill((appointmentDate.getMonth() + 1).toString())
     await page.locator('input[name="date-year"]').fill(appointmentDate.getFullYear().toString())
-    await page.locator('input[name="time-hour"]').fill('10')
-    await page.locator('input[name="time-minute"]').fill('0')
-    await page.locator('select[name="time-part-of-day"]').selectOption('am')
+    await page.locator('input[name="time-hour"]').fill(get12Hour(appointmentTime).toString())
+    await page.locator('input[name="time-minute"]').fill(appointmentTime.getMinutes().toString())
+    await page.locator('select[name="time-part-of-day"]').selectOption(getTimeOfDay(appointmentTime))
 
     // Appointment duration
     await page.locator('input[name="duration-hours"]').fill('0')
@@ -36,42 +43,35 @@ export const createSupplierAssessmentAppointment = async (page: Page, referralRe
 
 interface SessionDetail {
     number: number
-    attended: boolean
-    notifyOm: boolean
+    attended?: boolean
+    notifyOm?: boolean
+    date: Date
 }
 
 export const editSessions = async (
     page: Page,
     referralRef: string,
-    sessionDetails: SessionDetail[] = [{ number: 1, attended: true, notifyOm: false }]
+    sessionDetails: SessionDetail[] = [{ number: 1, attended: true, notifyOm: false, date: new Date() }]
 ) => {
     await referralProgress(page, referralRef)
-    const now = new Date()
-    const sessionDate = new Date(new Date().setHours(now.getHours() - sessionDetails.length))
     for (const detail of sessionDetails) {
-        await editSession(
-            page,
-            referralRef,
-            new Date(sessionDate.setHours(sessionDate.getHours() + detail.number - 1)),
-            detail
-        )
+        await editSession(page, referralRef, detail)
     }
 }
 
-const editSession = async (page: Page, referralRef: string, sessionDate: Date, detail: SessionDetail) => {
+const editSession = async (page: Page, referralRef: string, detail: SessionDetail) => {
     await page
         .locator('tr', { hasText: `Session ${detail.number}` })
         .locator('a.govuk-link', { hasText: 'Edit session details' })
         .click()
 
+    const sessionDate = detail.date
     await page.locator('input[name="date-day"]').fill(sessionDate.getDate().toString())
     await page.locator('input[name="date-month"]').fill((sessionDate.getMonth() + 1).toString())
     await page.locator('input[name="date-year"]').fill(sessionDate.getFullYear().toString())
-    const hours = sessionDate.getHours() > 12 ? sessionDate.getHours() - 12 : sessionDate.getHours()
-    await page.locator('input[name="time-hour"]').fill(hours.toString())
+    await page.locator('input[name="time-hour"]').fill(get12Hour(sessionDate).toString())
     await page.locator('input[name="time-minute"]').fill(sessionDate.getMinutes().toString())
-    const ampm = sessionDate.getHours() > 12 ? 'pm' : 'am'
-    await page.locator('select[name="time-part-of-day"]').selectOption(ampm)
+    await page.locator('select[name="time-part-of-day"]').selectOption(getTimeOfDay(sessionDate))
 
     await page.locator('input[name="duration-hours"]').fill('0')
     await page.locator('input[name="duration-minutes"]').fill('15')
@@ -117,4 +117,16 @@ const editSession = async (page: Page, referralRef: string, sessionDate: Date, d
     // return to progress screen
     await page.click('a.govuk-button')
     await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
+}
+
+export async function addAppointmentFeedback(page: Page, attended: boolean) {
+    const addFeedbackLink = page.getByRole('link', { name: 'Mark attendance and add feedback' })
+    await refreshUntil(page, () => expect(addFeedbackLink).toBeVisible())
+    await addFeedbackLink.click()
+    await page.getByLabel(attended ? 'Yes' : 'No').check()
+    await page.getByRole('button', { name: 'Save and continue' }).click()
+    await page.getByRole('button', { name: 'Confirm' }).click()
+    await expect(page).toHaveTitle(/Submission confirmation/)
+    await page.getByRole('link', { name: 'Return to progress' }).click()
+    await expect(page.locator('#supplier-assessment-status')).toContainText(attended ? 'attended' : 'did not attend')
 }

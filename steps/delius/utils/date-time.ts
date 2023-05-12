@@ -6,6 +6,8 @@ export const DeliusTimeFormatter = (time: Date) =>
     `${time.getHours().toString().padStart(2, '0')}:${time.getMinutes().toString().padStart(2, '0')}`
 export const EuropeLondonFormat = (date: Date) =>
     date.toLocaleString('sv', { timeZone: 'Europe/London' }).replace(' ', 'T')
+export const get12Hour = (date: Date) => (date.getHours() > 12 ? date.getHours() - 12 : date.getHours())
+export const getTimeOfDay = (date: Date) => (date.getHours() < 12 ? 'am' : 'pm')
 
 //Getting dates using date-fns lib
 export const NextMonth = addMonths(new Date(), 1)
