@@ -95,7 +95,7 @@ export const makeReferral = async (page: Page, crn: string) => {
     await expect(page).toHaveURL(/referrals\/.*\/completion-deadline/)
 
     // Completion deadline
-    const futureDate = faker.date.future(2)
+    const futureDate = faker.date.future({ years: 2 })
     await page.locator('input[name="completion-deadline-day"]').fill(futureDate.getDate().toString())
     await page.locator('input[name="completion-deadline-month"]').fill((futureDate.getMonth() + 1).toString())
     await page.locator('input[name="completion-deadline-year"]').fill(futureDate.getFullYear().toString())

@@ -1,36 +1,30 @@
-import { faker, Gender } from '@faker-js/faker'
-
-export const randomGender = () => {
-    const genders = [Gender.male, Gender.female]
-    return genders[Math.floor(Math.random() * genders.length)]
-}
+import { faker, Sex, SexType } from '@faker-js/faker'
 
 export interface Person {
     firstName: string
     lastName: string
-    gender: string
+    sex: string
     dob: Date
 }
 
-const genderOf = (genderStr: string) => {
-    switch (genderStr) {
+const sexOf = (str: string): SexType => {
+    switch (str) {
         case 'Male':
-            return Gender.male
+            return Sex.Male
         case 'Female':
-            return Gender.female
+            return Sex.Female
     }
 }
 
-export const deliusPerson = (person?: Person) => {
-    const gender = person?.gender ? genderOf(person.gender) : randomGender()
-    const firstName = person?.firstName ? person.firstName : faker.name.firstName(gender)
-    const lastName = person?.lastName ? person.lastName : faker.name.lastName(gender)
-    const genderStr = gender.toString()
+export const deliusPerson = (person?: Person): Person => {
+    const sex = person?.sex ? sexOf(person.sex) : faker.person.sexType()
+    const firstName = person?.firstName ? person.firstName : faker.person.firstName(sex)
+    const lastName = person?.lastName ? person.lastName : faker.person.lastName(sex)
     const dob = person?.dob || faker.date.birthdate({ min: 18, max: 69, mode: 'age' })
     return {
         firstName,
         lastName,
-        gender: genderStr[0].toUpperCase() + genderStr.substring(1),
+        sex: sex[0].toUpperCase() + sex.substring(1),
         dob,
     }
 }

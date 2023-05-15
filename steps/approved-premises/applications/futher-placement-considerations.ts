@@ -38,9 +38,9 @@ export const addFurtherPlacementConsiderations = async (page: Page) => {
     // "Contingency plans" Page
     await expect(page.locator('#main-content h1')).toContainText('Contingency plans')
     await page.getByLabel('Name of partner agency').fill(faker.company.name())
-    await page.getByLabel('Named contact').fill(faker.name.fullName())
+    await page.getByLabel('Named contact').fill(faker.person.fullName())
     await page.locator('#phoneNumber').fill('01452364589')
-    await page.getByLabel('Role in contingency plan').fill(faker.company.bsAdjective())
+    await page.getByLabel('Role in contingency plan').fill(faker.company.buzzAdjective())
     await page.locator('button', { hasText: 'Add another agency' }).click()
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
     await page

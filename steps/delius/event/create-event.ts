@@ -32,7 +32,7 @@ export async function createEvent(page: Page, { crn, allocation, event }: Create
     await page.click('#linkNavigation2EventList')
     await expect(page).toHaveTitle(/Events/)
     await page.locator('input', { hasText: 'Add' }).click()
-    const date = faker.date.recent(1, Yesterday)
+    const date = faker.date.recent({ days: 1, refDate: Yesterday })
     await fillDate(page, '#ReferralDate', date)
     await fillDate(page, '#OffenceDate', date)
     await fillDate(page, '#ConvictionDate', date)

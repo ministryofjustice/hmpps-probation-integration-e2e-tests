@@ -7,7 +7,7 @@ const [agreedDay, agreedMonth, agreedYear] = splitDate(Yesterday)
 
 export const addExemptionDetails = async (page: Page) => {
     await page.locator('#agreedCaseWithManager').click()
-    await page.getByLabel('Name of senior manager').fill(faker.name.firstName() + ' ' + faker.name.lastName())
+    await page.getByLabel('Name of senior manager').fill(faker.person.firstName() + ' ' + faker.person.lastName())
     await page.getByLabel('Day').fill(agreedDay)
     await page.getByLabel('Month').fill(agreedMonth)
     await page.getByLabel('Year').fill(agreedYear)

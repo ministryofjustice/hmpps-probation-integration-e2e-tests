@@ -2,13 +2,13 @@ import { expect, type Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
 import { referralProgress } from './referral.js'
 import { addDays, parse } from 'date-fns'
-import { get12Hour, getTimeOfDay } from '../delius/utils/date-time.js'
+import { get12Hour, getTimeOfDay, Tomorrow } from '../delius/utils/date-time.js'
 import { refreshUntil } from '../delius/utils/refresh.js'
 
 export const createSupplierAssessmentAppointment = async (
     page: Page,
     referralRef: string,
-    appointmentDate: Date = addDays(faker.date.soon(10), 1),
+    appointmentDate: Date = addDays(faker.date.soon({ days: 10, refDate: Tomorrow }), 1),
     appointmentTime = parse('10:00', 'HH:mm', appointmentDate)
 ) => {
     await referralProgress(page, referralRef)
