@@ -24,7 +24,7 @@ export async function createAndBookPrisoner(page: Page, crn: string, person: Per
     return { nomisId: offenderNo, bookingId: bookingId }
 }
 
-export const createPrisoner = sanitiseError(async person => {
+export const createPrisoner = sanitiseError(async (person: Person) => {
     const response = await (
         await getContext()
     ).post(`/api/offenders`, {
@@ -33,7 +33,7 @@ export const createPrisoner = sanitiseError(async person => {
             firstName: person.firstName,
             lastName: person.lastName,
             dateOfBirth: person.dob,
-            gender: person.gender.charAt(0),
+            gender: person.sex.charAt(0),
         },
     })
     const json = await response.json()

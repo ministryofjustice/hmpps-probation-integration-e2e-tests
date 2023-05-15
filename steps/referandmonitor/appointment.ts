@@ -10,7 +10,7 @@ export const createSupplierAssessmentAppointment = async (page: Page, referralRe
     await expect(page).toHaveURL(/service-provider\/referrals\/.*\/supplier-assessment\/schedule\/.*\/details/)
 
     // Appointment date and time
-    const appointmentDate = faker.date.soon(10)
+    const appointmentDate = faker.date.soon({ days: 10 })
     await page.locator('input[name="date-day"]').fill(appointmentDate.getDate().toString())
     await page.locator('input[name="date-month"]').fill((appointmentDate.getMonth() + 1).toString())
     await page.locator('input[name="date-year"]').fill(appointmentDate.getFullYear().toString())

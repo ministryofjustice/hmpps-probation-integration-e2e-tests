@@ -13,11 +13,11 @@ export interface Address {
 
 export const buildAddress = () => {
     return {
-        buildingNumber: faker.address.buildingNumber(),
-        street: faker.address.street(),
-        cityName: faker.address.cityName(),
-        county: faker.address.county(),
-        zipCode: faker.address.zipCode(),
+        buildingNumber: faker.location.buildingNumber(),
+        street: faker.location.street(),
+        cityName: faker.location.city(),
+        county: faker.location.county(),
+        zipCode: faker.location.zipCode(),
     }
 }
 

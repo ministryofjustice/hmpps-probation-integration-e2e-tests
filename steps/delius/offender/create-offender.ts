@@ -11,7 +11,7 @@ export async function createOffender(page: Page, args: { person?: Person; provid
     await selectOption(page, '#addOffenderForm\\:Trust', args.providerName)
     await page.fill('#addOffenderForm\\:FirstName', person.firstName)
     await page.fill('#addOffenderForm\\:Surname', person.lastName)
-    await selectOption(page, '#addOffenderForm\\:Sex', person.gender)
+    await selectOption(page, '#addOffenderForm\\:Sex', person.sex)
     await fillDate(page, '#DateOfBirth', person.dob)
     await page.locator('input', { hasText: 'Save' }).click()
     if ((await page.locator('.prompt-warning').count()) > 0) {
