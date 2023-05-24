@@ -147,7 +147,7 @@ test('Add feedback to a scheduled appointment', async ({ page }) => {
     ])
 })
 
-async function createAndAssignReferral(page: Page, crn: string) {
+export const createAndAssignReferral = async (page: Page, crn: string) => {
     // As the Refer and Monitor probation practitioner
     // when I create a referral for the person in Refer and Monitor
     await loginRandMAsPractitioner(page)
