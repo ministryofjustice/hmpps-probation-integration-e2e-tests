@@ -39,6 +39,9 @@ export const createSupplierAssessmentAppointment = async (
     await page.waitForURL(/service-provider\/referrals\/.*\/supplier-assessment\/scheduled-confirmation/)
     await page.locator('text=Return to progress').click()
     await page.waitForURL(/service-provider\/referrals\/.*\/progress/)
+
+    // Return the appointment date and time
+    return page.locator('[data-cy="supplier-assessment-table"] .govuk-table__cell:first-child').innerText();
 }
 
 interface SessionDetail {
