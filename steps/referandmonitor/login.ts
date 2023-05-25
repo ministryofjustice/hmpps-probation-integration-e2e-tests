@@ -22,4 +22,5 @@ export const logout = async (page: Page) => {
     await page.goto(process.env.REFERANDMONITOR_URL)
     await expect(page).toHaveTitle(/HMPPS Interventions/)
     await page.locator('a', { hasText: 'Sign out' }).click()
+    await expect(page.locator('h1')).toContainText('You have been signed out')
 }
