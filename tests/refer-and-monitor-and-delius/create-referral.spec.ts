@@ -29,6 +29,8 @@ test.beforeEach(async ({ page }) => {
     await loginDelius(page)
 })
 
+test.slow()
+
 test('Create a referral for a non-RAR requirement', async ({ page }) => {
     // Given a person in Delius
     const crn: string = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
