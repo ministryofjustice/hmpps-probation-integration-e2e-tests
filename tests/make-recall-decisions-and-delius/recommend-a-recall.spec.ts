@@ -62,7 +62,7 @@ test('Make a recall recommendation', async ({ page }) => {
     await searchForPersonToRecommend(page, crn, name)
 
     // Then I verify all the person's details are as per Delius
-    await verifyRecallOffenderDetails(page, crn, person.dob, person.gender)
+    await verifyRecallOffenderDetails(page, crn, person.dob, person.sex)
     await verifyRecallOffendersAddress(page, address.street, address.cityName, address.zipCode)
     await verifyLicenceCondition(page, licenceCondition)
     await verifyContact(page, contactDetails.type)
