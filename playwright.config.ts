@@ -24,6 +24,7 @@ const config: PlaywrightTestConfig = {
     reporter: 'html',
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
+        timezoneId: 'Europe/London',
         launchOptions: { slowMo: 150 },
         screenshot: 'only-on-failure',
         trace: process.env.CI ? 'off' : 'on',
