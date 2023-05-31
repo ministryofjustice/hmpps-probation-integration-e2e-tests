@@ -40,13 +40,9 @@ test('Create a Layer 3 Assessment in OASys and verify this assessments can be re
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
 
-    // And I log in to OASys as a "OASYS_T2_LOGIN_USER" user
+    // And I create a Layer 3 Assessment with Needs in OASys
     await oasysLogin(page, UserType.Timeline)
-
-    // And I create a Layer 3 Assessment without Needs in OASys
     await createLayer3AssessmentWithoutNeeds(page, crn)
-
-    // And I add Needs for Layer 3 Assessment
     await addLayer3AssessmentNeeds(page, crn)
 
     // When I login in to Approved Premises and navigate to Applications Task-list page
