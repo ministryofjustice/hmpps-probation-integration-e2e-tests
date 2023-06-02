@@ -4,12 +4,12 @@ import {
     loginAsSupplier as loginRandMAsSupplier,
     logout as logoutRandM,
 } from '../../steps/referandmonitor/login.js'
-import { login as loginDelius } from '../../steps/delius/login'
-import { logout as logoutDelius } from '../../steps/delius/logout'
+import { login as loginDelius } from '../../steps/delius/login.js'
+import { logout as logoutDelius } from '../../steps/delius/logout.js'
 import { editSessions } from '../../steps/referandmonitor/appointment.js'
 import { approveActionPlan, createActionPlan } from '../../steps/referandmonitor/action-plan.js'
-import { assignReferral, makeReferral } from '../../steps/referandmonitor/referral'
-import { findNSIByCRN } from '../../steps/delius/event/find-nsi'
+import { assignReferral, makeReferral } from '../../steps/referandmonitor/referral.js'
+import { findNSIByCRN } from '../../steps/delius/event/find-nsi.js'
 
 export const createAndAssignReferral = async (page: Page, crn: string) => {
     // As the Refer and Monitor probation practitioner

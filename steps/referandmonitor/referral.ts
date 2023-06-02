@@ -58,6 +58,13 @@ export const makeReferral = async (page: Page, crn: string) => {
 
     await page.locator('#current-location-2').check()
     await page.locator('text=Save and continue').click()
+    // await expect(page).toHaveURL(/referrals\/.*\/form/)
+    await expect(page).toHaveURL(/referrals\/.*\/confirm-probation-practitioner-details/)
+
+
+    // Confirm probation practitioner details
+    await page.locator('#confirm-details').check()
+    await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/referrals\/.*\/form/)
 
     // Confirm the relevant sentence
@@ -108,8 +115,9 @@ export const makeReferral = async (page: Page, crn: string) => {
     await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/referrals\/.*\/form/)
 
-    await page.locator('text=Check your answers >> nth=1').click()
-    await expect(page).toHaveURL(/referrals\/.*\/check-answers/)
+    //Check all referral information and submit referral
+    await page.locator('[href="check-all-referral-information"]').click()
+    await expect(page).toHaveURL(/referrals\/.*\/check-all-referral-information/)
 
     // Click text=Submit referral
     await page.locator('text=Submit referral').click()
