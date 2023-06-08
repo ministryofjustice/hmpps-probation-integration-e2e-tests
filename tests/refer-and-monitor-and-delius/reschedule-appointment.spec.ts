@@ -1,25 +1,25 @@
-import {test} from '@playwright/test'
-import {login as loginDelius} from '../../steps/delius/login.js'
-import {logout as logoutDelius} from '../../steps/delius/logout.js'
-import {createOffender} from '../../steps/delius/offender/create-offender.js'
-import {createCommunityEvent} from '../../steps/delius/event/create-event.js'
-import {createRequirementForEvent} from '../../steps/delius/requirement/create-requirement.js'
-import {loginAsSupplier as loginRandMAsSupplier, logout as logoutRandM} from '../../steps/referandmonitor/login.js'
-import {createSupplierAssessmentAppointment} from '../../steps/referandmonitor/appointment.js'
-import {data} from '../../test-data/test-data.js'
+import { test } from '@playwright/test'
+import { login as loginDelius } from '../../steps/delius/login.js'
+import { logout as logoutDelius } from '../../steps/delius/logout.js'
+import { createOffender } from '../../steps/delius/offender/create-offender.js'
+import { createCommunityEvent } from '../../steps/delius/event/create-event.js'
+import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement.js'
+import { loginAsSupplier as loginRandMAsSupplier, logout as logoutRandM } from '../../steps/referandmonitor/login.js'
+import { createSupplierAssessmentAppointment } from '../../steps/referandmonitor/appointment.js'
+import { data } from '../../test-data/test-data.js'
 import {
     navigateToNSIContactDetails,
-    rescheduleSupplierAssessmentAppointment, verifyContact,
+    rescheduleSupplierAssessmentAppointment,
+    verifyContact,
 } from '../../steps/delius/contact/find-contacts.js'
-import {addDays, subDays, subHours} from 'date-fns'
-import {faker} from '@faker-js/faker'
-import {formatRMDateToDelius, Tomorrow} from '../../steps/delius/utils/date-time.js'
-import {createAndAssignReferral} from './common.js'
+import { addDays, subDays, subHours } from 'date-fns'
+import { faker } from '@faker-js/faker'
+import { formatRMDateToDelius, Tomorrow } from '../../steps/delius/utils/date-time.js'
+import { createAndAssignReferral } from './common.js'
 
-test.beforeEach(async ({page}) => {
+test.beforeEach(async ({ page }) => {
     await loginDelius(page)
 })
-
 
 test('Reschedule Supplier Assessment Appointment to future date', async ({ page }) => {
     test.slow()
@@ -39,8 +39,8 @@ test('Reschedule Supplier Assessment Appointment to future date', async ({ page 
     // Verify the initial Supplier Assessment Appointment in Delius
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
-    const formattedInitialDateTime = formatRMDateToDelius(initialAppointmentDateTime);
-    console.log("************INITIAL FORMATTED DATE******************" + formattedInitialDateTime)
+    const formattedInitialDateTime = formatRMDateToDelius(initialAppointmentDateTime)
+    console.log('************INITIAL FORMATTED DATE******************' + formattedInitialDateTime)
     await verifyContact(
         page,
         {
@@ -48,7 +48,7 @@ test('Reschedule Supplier Assessment Appointment to future date', async ({ page 
             relatesTo: '1 - CRS Accommodation',
             date: formattedInitialDateTime,
             type: 'Appointment with CRS Staff (NS)',
-            outcome:''
+            outcome: '',
         },
         true
     )
@@ -67,7 +67,7 @@ test('Reschedule Supplier Assessment Appointment to future date', async ({ page 
     // Verify that both the Initial and Rescheduled Supplier Assessment Appointments are available in Delius
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
-    const formattedDateTime = formatRMDateToDelius(rescheduledAppointmentDateTime);
+    const formattedDateTime = formatRMDateToDelius(rescheduledAppointmentDateTime)
     await verifyContact(
         page,
         {
@@ -77,7 +77,7 @@ test('Reschedule Supplier Assessment Appointment to future date', async ({ page 
             type: 'Appointment with CRS Staff (NS)',
             outcome: '',
             attended: '',
-            complied: ''
+            complied: '',
         },
         true
     )
@@ -90,13 +90,15 @@ test('Reschedule Supplier Assessment Appointment to future date', async ({ page 
             type: 'Appointment with CRS Staff (NS)',
             outcome: 'Rescheduled - Service Request',
             attended: 'N',
-            complied: 'Y'
+            complied: 'Y',
         },
         true
     )
 })
 
-test('Reschedule Supplier Assessment Appointment to past date/time with attendance set to Yes and notify practitioner set to No', async ({ page }) => {
+test('Reschedule Supplier Assessment Appointment to past date/time with attendance set to Yes and notify practitioner set to No', async ({
+    page,
+}) => {
     test.slow()
     const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
@@ -114,7 +116,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
     // Verify the initial Supplier Assessment Appointment in Delius
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
-    const formattedInitialDateTime = formatRMDateToDelius(initialAppointmentDateTime);
+    const formattedInitialDateTime = formatRMDateToDelius(initialAppointmentDateTime)
     await verifyContact(
         page,
         {
@@ -122,7 +124,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
             relatesTo: '1 - CRS Accommodation',
             date: formattedInitialDateTime,
             type: 'Appointment with CRS Staff (NS)',
-            outcome:''
+            outcome: '',
         },
         true
     )
@@ -143,7 +145,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
     // Verify that both the Initial and Rescheduled Supplier Assessment Appointments are available in Delius
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
-    const formattedDateTime = formatRMDateToDelius(rescheduledAppointmentDateTime);
+    const formattedDateTime = formatRMDateToDelius(rescheduledAppointmentDateTime)
     await verifyContact(
         page,
         {
@@ -153,7 +155,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
             type: 'Appointment with CRS Staff (NS)',
             outcome: 'Attended - Complied',
             attended: 'Y',
-            complied: 'Y'
+            complied: 'Y',
         },
         true
     )
@@ -166,12 +168,11 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
             type: 'Appointment with CRS Staff (NS)',
             outcome: 'Rescheduled - Service Request',
             attended: 'N',
-            complied: 'Y'
+            complied: 'Y',
         },
         true
     )
 })
-
 
 test('Reschedule Supplier Assessment Appointment to past date/time with attendance set to No', async ({ page }) => {
     test.slow()
@@ -191,7 +192,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
     // Verify the initial Supplier Assessment Appointment in Delius
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
-    const formattedInitialDateTime = formatRMDateToDelius(initialAppointmentDateTime);
+    const formattedInitialDateTime = formatRMDateToDelius(initialAppointmentDateTime)
 
     await verifyContact(
         page,
@@ -200,7 +201,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
             relatesTo: '1 - CRS Accommodation',
             date: formattedInitialDateTime,
             type: 'Appointment with CRS Staff (NS)',
-            outcome:''
+            outcome: '',
         },
         true
     )
@@ -214,13 +215,13 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
         page,
         referralRef,
         pastAppointmentDate,
-        false,
+        false
     )
 
     // Verify that both the Initial and Rescheduled Supplier Assessment Appointments are available in Delius
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
-    const formattedDateTime = formatRMDateToDelius(rescheduledAppointmentDateTime);
+    const formattedDateTime = formatRMDateToDelius(rescheduledAppointmentDateTime)
     await verifyContact(
         page,
         {
@@ -230,7 +231,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
             type: 'Appointment with CRS Staff (NS)',
             outcome: 'Failed to Attend',
             attended: 'N',
-            complied: 'N'
+            complied: 'N',
         },
         true
     )
@@ -243,17 +244,19 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
             type: 'Appointment with CRS Staff (NS)',
             outcome: 'Rescheduled - Service Request',
             attended: 'N',
-            complied: 'Y'
+            complied: 'Y',
         },
         true
     )
 })
 
-test('Reschedule Supplier Assessment Appointment to past date/time with attendance set to Yes and notify practitioner set to Yes', async ({page}) => {
+test('Reschedule Supplier Assessment Appointment to past date/time with attendance set to Yes and notify practitioner set to Yes', async ({
+    page,
+}) => {
     test.slow()
-    const crn = await createOffender(page, {providerName: data.teams.referAndMonitorTestTeam.provider})
-    await createCommunityEvent(page, {crn, allocation: {team: data.teams.referAndMonitorTestTeam}})
-    await createRequirementForEvent(page, {crn, team: data.teams.referAndMonitorTestTeam})
+    const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
+    await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
+    await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
 
     // Create an initial Supplier Assessment Appointment in R&M
     const referralRef = await createAndAssignReferral(page, crn)
@@ -264,14 +267,14 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
     )
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
-    const formattedInitialDateTime = formatRMDateToDelius(initialAppointmentDateTime);
+    const formattedInitialDateTime = formatRMDateToDelius(initialAppointmentDateTime)
     await verifyContact(
         page,
         {
             instance: 0,
             relatesTo: '1 - CRS Accommodation',
             date: formattedInitialDateTime,
-            type: 'Appointment with CRS Staff (NS)'
+            type: 'Appointment with CRS Staff (NS)',
         },
         true
     )
@@ -288,7 +291,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
         true,
         true
     )
-    const formattedDateTime = formatRMDateToDelius(rescheduledAppointmentDateTime);
+    const formattedDateTime = formatRMDateToDelius(rescheduledAppointmentDateTime)
 
     // Verify that both the Initial and Rescheduled Supplier Assessment Appointments are available in Delius
     await loginDelius(page)
@@ -302,7 +305,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
             type: 'Appointment with CRS Staff (NS)',
             outcome: 'Attended - Failed to Comply',
             attended: 'Y',
-            complied: 'N'
+            complied: 'N',
         },
         true
     )
@@ -315,7 +318,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
             type: 'Appointment with CRS Staff (NS)',
             outcome: 'Rescheduled - Service Request',
             attended: 'Y',
-            complied: 'Y'
+            complied: 'Y',
         },
         true
     )
