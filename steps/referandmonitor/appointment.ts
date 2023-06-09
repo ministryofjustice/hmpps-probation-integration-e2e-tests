@@ -97,7 +97,9 @@ const editSession = async (page: Page, referralRef: string, detail: SessionDetai
     await page.click('button.govuk-button')
 
     if (detail.attended) {
-        await page.waitForURL(/service-provider\/action-plan\/.*\/appointment\/.*\/post-session-feedback\/edit\/.*\/behaviour/)
+        await page.waitForURL(
+            /service-provider\/action-plan\/.*\/appointment\/.*\/post-session-feedback\/edit\/.*\/behaviour/
+        )
         // add behaviour
         await page.fill('#behaviour-description', 'A description of the behaviour')
         // notify OM
