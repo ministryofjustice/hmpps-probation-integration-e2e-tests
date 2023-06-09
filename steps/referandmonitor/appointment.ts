@@ -107,7 +107,7 @@ const editSession = async (page: Page, referralRef: string, detail: SessionDetai
     }
 
     await page.waitForURL(
-        /service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/edit\/.*\/check-your-answers/
+        /service-provider\/action-plan\/.*\/appointment\/.*\/post-session-feedback\/edit\/.*\/check-your-answers/
     )
 
     // confirm feedback
