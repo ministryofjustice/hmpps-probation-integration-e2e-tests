@@ -34,13 +34,11 @@ test('Reschedule Supplier Assessment Appointment to future date', async ({ page 
         referralRef,
         addDays(new Date(), 2)
     )
-    console.log(initialAppointmentDateTime) // Output the appointment date and time
 
     // Verify the initial Supplier Assessment Appointment in Delius
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
     const formattedInitialDateTime = formatRMDateToDelius(initialAppointmentDateTime);
-    console.log("************INITIAL FORMATTED DATE******************" + formattedInitialDateTime)
     await verifyContact(
         page,
         {
@@ -109,7 +107,6 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
         referralRef,
         addDays(new Date(), 2)
     )
-    console.log(initialAppointmentDateTime) // Output the appointment date and time
 
     // Verify the initial Supplier Assessment Appointment in Delius
     await loginDelius(page)
@@ -186,7 +183,6 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
         referralRef,
         addDays(new Date(), 2)
     )
-    console.log(initialAppointmentDateTime) // Output the appointment date and time
 
     // Verify the initial Supplier Assessment Appointment in Delius
     await loginDelius(page)

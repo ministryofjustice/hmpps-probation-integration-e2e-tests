@@ -123,6 +123,5 @@ export const rescheduleSupplierAssessmentAppointment = async (
     const rescheduledAppointmentDateTime = await page
         .locator('[data-cy="supplier-assessment-table"] .govuk-table__cell:first-child')
         .innerText()
-    console.log(rescheduledAppointmentDateTime)
     return rescheduledAppointmentDateTime
 }
