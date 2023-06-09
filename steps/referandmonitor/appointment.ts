@@ -75,12 +75,12 @@ const editSession = async (page: Page, referralRef: string, detail: SessionDetai
     await page.locator('input[name="time-hour"]').fill(get12Hour(sessionDate).toString())
     await page.locator('input[name="time-minute"]').fill(sessionDate.getMinutes().toString())
     await page.locator('select[name="time-part-of-day"]').selectOption(getTimeOfDay(sessionDate))
-
     await page.locator('input[name="duration-hours"]').fill('0')
     await page.locator('input[name="duration-minutes"]').fill('15')
 
     // select session type
     await page.locator('input[value="ONE_TO_ONE"]').check()
+
     // select method
     await page.locator('input[value="PHONE_CALL"]').check()
 
@@ -100,7 +100,6 @@ const editSession = async (page: Page, referralRef: string, detail: SessionDetai
         await page.waitForURL(
             /service-provider\/action-plan\/.*\/appointment\/.*\/post-session-feedback\/edit\/.*\/behaviour/
         )
-
         // add behaviour
         await page.fill('#behaviour-description', 'A description of the behaviour')
         // notify OM

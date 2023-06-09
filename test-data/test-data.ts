@@ -26,7 +26,7 @@ export interface ContactType {
 }
 export interface Contact extends ContactType {
     relatesTo: string
-    date?: Date
+    date?: Date | string
     instance?: number
     allocation?: Optional<Allocation>
     startTime?: Date
