@@ -58,10 +58,7 @@ export const makeReferral = async (page: Page, crn: string) => {
 
     await page.locator('#current-location-2').check()
     await page.locator('text=Save and continue').click()
-    // await expect(page).toHaveURL(/referrals\/.*\/confirm-probation-practitioner-details/)
-    await expect(page).toHaveURL(/referrals\/.*\/form/)
-
-    // Received string:  "https://hmpps-interventions-ui-dev.apps.live-1.cloud-platform.service.justice.gov.uk/referrals/55d14123-f09c-4201-bd23-55bf7b73c722/form"
+    await expect(page).toHaveURL(/referrals\/.*\/confirm-probation-practitioner-details/)
 
     // Confirm probation practitioner details
     await page.locator('#confirm-details').check()
