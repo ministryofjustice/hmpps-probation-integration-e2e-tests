@@ -10,7 +10,7 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
     await page.locator('input.btn', { hasText: 'Add Contact' }).first().click()
     await expect(page).toHaveTitle('Add Contact Details')
     if (options.date) {
-        await fillDate(page, '#addContactForm\\:StartDate', options.date)
+        await fillDate(page, '#addContactForm\\:StartDate', options.date as Date)
     }
 
     await selectOptionAndWait(page, '#addContactForm\\:RelatedTo', options.relatesTo)

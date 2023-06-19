@@ -126,3 +126,34 @@ export const rescheduleSupplierAssessmentAppointment = async (
         .innerText()
     return rescheduledAppointmentDateTime
 }
+
+export const updateSAAppointmentLocation = async (page: Page, referralRef: string, appointmentMethod: string, NPSOfficeLocationToBeSelected: string, NPSLocationToBeVerifiedInRAndM: string) =>{
+    await referralProgress(page, referralRef);
+    await page.getByRole('link', { name: 'View details or reschedule' }).click();
+    await expect(page.locator('.govuk-heading-xl')).toContainText('View appointment details');
+    await page.getByRole('link', { name: 'Change appointment details' }).click();
+    await expect(page.locator('.govuk-heading-xl')).toContainText('Change appointment details');
+
+    // Updated the Appointment Location
+    await page.getByLabel(appointmentMethod).check();
+    await page.locator('#delius-office-location-code').selectOption({ label: NPSOfficeLocationToBeSelected });
+    await page.locator('.govuk-button', { hasText: 'Save and continue' }).click();
+    await page.waitForURL(/service-provider\/referrals\/.*\/supplier-assessment\/schedule\/.*\/check-answers/);
+    await page.click('.govuk-button');
+    await page.waitForURL(/service-provider\/referrals\/.*\/supplier-assessment\/rescheduled-confirmation/);
+    await page.locator('.govuk-button', { hasText: 'Return to progress' }).click();
+    await page.getByRole('link', { name: 'View details or reschedule' }).click();
+
+    // Verify the Updated Appointment Location
+    const appointmentDL = await page.locator('.govuk-summary-list');
+    await expect(await appointmentDL.locator('p').nth(4).textContent()).toContain(NPSLocationToBeVerifiedInRAndM);
+}
+
+export const verifySAApptmntLocationInDelius = async (page: Page, appointmentType: string, NPSOfficeLocationToBeVerified: string) => {
+    let matchingContactRecord = await page.locator('tr', { hasText: appointmentType});
+    await matchingContactRecord.locator('[title="Link to view the contact details."]').click();
+
+    // Verify the Updated Appointment Location in Delius
+    let location = await page.locator('#searchContactForm\\:Location').textContent();
+    await expect(location).toBe(NPSOfficeLocationToBeVerified);
+}
