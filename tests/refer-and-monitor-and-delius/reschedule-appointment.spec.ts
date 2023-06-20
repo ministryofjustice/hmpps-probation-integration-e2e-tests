@@ -348,7 +348,7 @@ test('Update Future Dated Supplier Assessment Appointment Location in Refer and 
     await navigateToNSIContactDetails(page, crn)
     await verifySAApptmntLocationInDelius(page,
         'Appointment with CRS Staff (NS)',
-        'Workington - Progress House'
+        'Workington - Progress House' //This corresponds to "Alderdale: Progress House" location in R&M
     );
 })
 
