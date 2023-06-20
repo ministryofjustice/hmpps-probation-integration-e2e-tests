@@ -27,14 +27,14 @@ export const createActionPlan = async (page: Page, numberOfSessions = 1) => {
 export const approveActionPlan = async (page: Page, referralRef: string) => {
     await page.locator('a.moj-sub-navigation__link', { hasText: 'Open cases' }).click()
     await expect(page).toHaveURL(/probation-practitioner\/dashboard\/open-cases/)
-    const referralLinkLocator = page.locator('tr', { hasText: referralRef }).locator('a', { hasText: 'View' });
-    const dateSentHeaderLocator = page.locator('.govuk-table__header', { hasText: 'Date sent' });
+    const referralLinkLocator = page.locator('tr', { hasText: referralRef }).locator('a', { hasText: 'View' })
+    const dateSentHeaderLocator = page.locator('.govuk-table__header', { hasText: 'Date sent' })
 
     try {
-        await referralLinkLocator.click();
+        await referralLinkLocator.click()
     } catch (error) {
-        await dateSentHeaderLocator.click();
-        await referralLinkLocator.click();
+        await dateSentHeaderLocator.click()
+        await referralLinkLocator.click()
     }
 
     await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/progress/)
