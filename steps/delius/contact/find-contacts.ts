@@ -140,7 +140,7 @@ export const updateSAAppointmentLocation = async (
     await page.getByRole('link', { name: 'Change appointment details' }).click()
     await expect(page.locator('.govuk-heading-xl')).toContainText('Change appointment details')
 
-    // Updated the Appointment Location
+    // Update the Appointment Location
     await page.getByLabel(appointmentMethod).check()
     await page.locator('#delius-office-location-code').selectOption({ label: NPSOfficeLocationToBeSelected })
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
