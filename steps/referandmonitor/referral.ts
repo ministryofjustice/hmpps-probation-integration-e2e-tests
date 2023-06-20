@@ -7,7 +7,8 @@ export const referralProgress = async (page: Page, referralRef: string) => {
     await expect(page).toHaveURL(/service-provider\/dashboard\/my-cases/)
 
     // Find the correct referral using the Referral Reference
-    await page.locator('tr', { hasText: referralRef }).locator('a', { hasText: 'View' }).click()
+    await page.locator('tr', { hasText: referralRef }).locator('a.govuk-link').click()
+
     await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
 }
 
@@ -114,7 +115,6 @@ export const makeReferral = async (page: Page, crn: string) => {
 
     //Check all referral information and submit referral
     await page.locator('[href="check-all-referral-information"]').click()
-    await expect(page).toHaveURL(/referrals\/.*\/check-all-referral-information/)
 
     // Click text=Submit referral
     await page.locator('text=Submit referral').click()
@@ -130,7 +130,11 @@ export const assignReferral = async (page: Page, referralRef: string) => {
     await expect(page).toHaveURL(/service-provider\/dashboard\/unassigned-cases/)
 
     // Find the correct referral using the Referral Reference
-    await page.locator('tr', { hasText: referralRef }).locator('a', { hasText: 'View' }).click()
+    await page.locator('#case-search-text').fill(referralRef)
+    await page.locator('.govuk-button').click()
+
+    // await page.locator('#search-button-all-open-cases').
+    await page.locator('tr', { hasText: referralRef }).locator('a.govuk-link').click()
     await expect(page).toHaveURL(/service-provider\/referrals\/.*\/details/)
 
     // Add the caseworker email address

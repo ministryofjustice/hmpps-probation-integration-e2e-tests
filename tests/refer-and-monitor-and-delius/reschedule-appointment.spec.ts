@@ -10,7 +10,9 @@ import { data } from '../../test-data/test-data.js'
 import {
     navigateToNSIContactDetails,
     rescheduleSupplierAssessmentAppointment,
+    updateSAAppointmentLocation,
     verifyContact,
+    verifySAApptmntLocationInDelius,
 } from '../../steps/delius/contact/find-contacts.js'
 import { addDays, subDays, subHours } from 'date-fns'
 import { faker } from '@faker-js/faker'
@@ -317,5 +319,37 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
             complied: 'Y',
         },
         true
+    )
+})
+
+test('Update Future Dated Supplier Assessment Appointment Location in Refer and Monitor and verify in Delius ', async ({
+    page,
+}) => {
+    const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
+    await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
+    await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
+
+    // Create a Supplier Assessment Appointment in R&M with future date
+    const referralRef = await createAndAssignReferral(page, crn)
+    await createSupplierAssessmentAppointment(page, referralRef, addDays(new Date(), 2))
+
+    // Update Supplier Assessment Appointment Location in Refer and Monitor
+    await logoutRandM(page)
+    await loginRandMAsSupplier(page)
+    await updateSAAppointmentLocation(
+        page,
+        referralRef,
+        'In-person meeting - NPS offices',
+        'Alderdale: Progress House',
+        'Alderdale: Progress House'
+    )
+
+    // Verify that updated Supplier Assessment Appointment Location is available in Delius
+    await loginDelius(page)
+    await navigateToNSIContactDetails(page, crn)
+    await verifySAApptmntLocationInDelius(
+        page,
+        'Appointment with CRS Staff (NS)',
+        'Workington - Progress House' //This corresponds to "Alderdale: Progress House" location in R&M
     )
 })
