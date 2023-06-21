@@ -357,7 +357,7 @@ test('Update Future Dated Supplier Assessment Appointment Location in Refer and 
 })
 
 
-test('Schedule a supplier assessment appointment with Conflicting Appointment in Delius', async ({page,}) => {
+test('Perform supplier assessment appointment scheduling with conflicting appointment in Delius', async ({page,}) => {
 test.slow()
     const person = deliusPerson()
     const crn = await createOffender(page, { person, providerName: data.teams.referAndMonitorTestTeam.provider })
@@ -365,7 +365,7 @@ test.slow()
     await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
     const startTime = parse('10:00', 'HH:mm', addDays(new Date(), 2))
 
-    // Create aN Appointment in Delius with future date
+    // Create an Appointment in Delius with future date
     await createContact(page, crn, {
         category: 'All/Always',
         type: 'Other Appointment (Non NS)',
@@ -383,5 +383,7 @@ test.slow()
     // Create a Supplier Assessment Appointment in R&M in the same date and time
     const referralRef = await createAndAssignReferral(page, crn)
     await createSupplierAssessmentAppointment(page, referralRef, addDays(new Date(), 2), startTime,  true )
+
+    // Verify the error message
     await expect(page.locator('.govuk-error-summary__body')).toHaveText('The proposed date and time you selected clashes with another appointment. Please select a different date and time.')
 })
