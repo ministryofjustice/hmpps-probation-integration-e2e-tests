@@ -1,4 +1,4 @@
-import { test } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { login as loginDelius } from '../../steps/delius/login.js'
 import { logout as logoutDelius } from '../../steps/delius/logout.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
@@ -14,10 +14,12 @@ import {
     verifyContact,
     verifySAApptmntLocationInDelius,
 } from '../../steps/delius/contact/find-contacts.js'
-import { addDays, subDays, subHours } from 'date-fns'
+import { addDays, parse, subHours } from 'date-fns'
 import { faker } from '@faker-js/faker'
 import { formatRMDateToDelius, Tomorrow } from '../../steps/delius/utils/date-time.js'
 import { createAndAssignReferral } from './common.js'
+import { createContact } from '../../steps/delius/contact/create-contact.js'
+import { deliusPerson } from '../../steps/delius/utils/person.js'
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
@@ -322,7 +324,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
     )
 })
 
-test('Update Future Dated Supplier Assessment Appointment Location in Refer and Monitor and verify in Delius ', async ({
+test('Update Future Dated Supplier Assessment Appointment Location in Refer and Monitor and verify in Delius', async ({
     page,
 }) => {
     const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
@@ -351,5 +353,38 @@ test('Update Future Dated Supplier Assessment Appointment Location in Refer and 
         page,
         'Appointment with CRS Staff (NS)',
         'Workington - Progress House' //This corresponds to "Alderdale: Progress House" location in R&M
+    )
+})
+
+test('Perform supplier assessment appointment scheduling with conflicting appointment in Delius', async ({ page }) => {
+    test.slow()
+    const person = deliusPerson()
+    const crn = await createOffender(page, { person, providerName: data.teams.referAndMonitorTestTeam.provider })
+    await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
+    await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
+    const startTime = parse('10:00', 'HH:mm', addDays(new Date(), 2))
+
+    // Create an Appointment in Delius with future date
+    await createContact(page, crn, {
+        category: 'All/Always',
+        type: 'Other Appointment (Non NS)',
+        relatesTo: 'Event 1 - ORA Community Order (6 Months)',
+        date: addDays(new Date(), 2),
+        startTime: startTime,
+        endTime: parse('10:30', 'HH:mm', addDays(new Date(), 2)),
+
+        allocation: {
+            team: data.teams.genericTeam,
+            staff: data.staff.genericStaff,
+        },
+    })
+
+    // Create a Supplier Assessment Appointment in R&M in the same date and time
+    const referralRef = await createAndAssignReferral(page, crn)
+    await createSupplierAssessmentAppointment(page, referralRef, addDays(new Date(), 2), startTime, true)
+
+    // Verify the error message
+    await expect(page.locator('.govuk-error-summary__body')).toHaveText(
+        'The proposed date and time you selected clashes with another appointment. Please select a different date and time.'
     )
 })
