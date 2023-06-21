@@ -9,7 +9,8 @@ export const createSupplierAssessmentAppointment = async (
     page: Page,
     referralRef: string,
     appointmentDate: Date = addDays(faker.date.soon({ days: 10, refDate: Tomorrow }), 1),
-    appointmentTime = parse('10:00', 'HH:mm', appointmentDate)
+    appointmentTime = parse('10:00', 'HH:mm', appointmentDate),
+    conflictingAppointment: Boolean = false
 ) => {
     await referralProgress(page, referralRef)
 
@@ -36,12 +37,19 @@ export const createSupplierAssessmentAppointment = async (
     await page.locator('text=Save and continue').click()
     await page.waitForURL(/service-provider\/referrals\/.*\/supplier-assessment\/schedule\/.*\/check-answers/)
     await page.locator('button:has-text("Confirm")').click()
+
+    if (conflictingAppointment) {
+        await page.waitForURL(/service-provider\/referrals\/.*\/supplier-assessment\/schedule\/.*\/details/)
+        return null
+    } else {
+
     await page.waitForURL(/service-provider\/referrals\/.*\/supplier-assessment\/scheduled-confirmation/)
     await page.locator('text=Return to progress').click()
     await page.waitForURL(/service-provider\/referrals\/.*\/progress/)
 
     // Return the appointment date and time
     return page.locator('[data-cy="supplier-assessment-table"] .govuk-table__cell:first-child').innerText()
+    }
 }
 
 interface SessionDetail {
