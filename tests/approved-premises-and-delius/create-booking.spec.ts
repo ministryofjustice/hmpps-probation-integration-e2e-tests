@@ -22,7 +22,6 @@ import { findOffenderByCRN } from '../../steps/delius/offender/find-offender.js'
 const nomisIds = []
 
 test('Create an approved premises booking', async ({ page }) => {
-    test.skip()
     test.slow() // increase the timeout - Delius/OASys/AP Applications/Approved premises can take a few minutes
     // Given I login in to NDelius
     await hmppsLogin(page)
