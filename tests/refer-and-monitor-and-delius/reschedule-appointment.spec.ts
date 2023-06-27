@@ -1,10 +1,14 @@
-import { expect, test } from '@playwright/test'
+import {expect, Page, test} from '@playwright/test'
 import { login as loginDelius } from '../../steps/delius/login.js'
 import { logout as logoutDelius } from '../../steps/delius/logout.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { createCommunityEvent } from '../../steps/delius/event/create-event.js'
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement.js'
-import { loginAsSupplier as loginRandMAsSupplier, logout as logoutRandM } from '../../steps/referandmonitor/login.js'
+import {
+    loginAsPractitioner,
+    loginAsSupplier as loginRandMAsSupplier,
+    logout as logoutRandM
+} from '../../steps/referandmonitor/login.js'
 import { createSupplierAssessmentAppointment } from '../../steps/referandmonitor/appointment.js'
 import { data } from '../../test-data/test-data.js'
 import {
@@ -20,6 +24,8 @@ import { formatRMDateToDelius, Tomorrow } from '../../steps/delius/utils/date-ti
 import { createAndAssignReferral } from './common.js'
 import { createContact } from '../../steps/delius/contact/create-contact.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
+import {cancelReferral, referralProgress} from "../../steps/referandmonitor/referral.js";
+import {findOffenderByCRN} from "../../steps/delius/offender/find-offender.js";
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
@@ -388,3 +394,39 @@ test('Perform supplier assessment appointment scheduling with conflicting appoin
         'The proposed date and time you selected clashes with another appointment. Please select a different date and time.'
     )
 })
+
+test('Verify Referral Cancellation by Probation Practitioner and its Reflection in Delius', async ({ page }) => {
+    test.slow()
+
+    // Create offender, community event, and requirement
+    const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
+    await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
+    await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
+
+    // Create an initial Supplier Assessment Appointment in R&M
+    const referralRef = await createAndAssignReferral(page, crn)
+    await createSupplierAssessmentAppointment(
+        page,
+        referralRef,
+        addDays(new Date(), 2)
+    )
+
+    // Find the correct referral using the Referral Reference & Cancel the Referral
+    await logoutRandM(page)
+    await loginAsPractitioner(page)
+    await cancelReferral(page, referralRef)
+
+    // Verify the referral cancellation should reflect in Delius
+    await loginDelius(page)
+    await navigateToNSIContactDetails(page, crn, true)
+
+    //  Verify that the outcome is set to 'CRS Referral Cancelled'
+    const outcomeSiblingElement = await page.evaluate(() => {
+        const elements = document.querySelectorAll('div.form-group.form-group-sm > div.col-sm-7');
+        const matchingElement = Array.from(elements).find(element => element.textContent.includes('CRS Referral Cancelled'));
+        return matchingElement?.textContent || null;
+    });
+    expect(outcomeSiblingElement).toContain('CRS Referral Cancelled');
+})
+
+
