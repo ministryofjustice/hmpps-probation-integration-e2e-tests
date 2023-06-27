@@ -1,4 +1,4 @@
-import { type Page, expect } from '@playwright/test'
+import { expect, type Page } from '@playwright/test'
 import { enterCRN } from './enter-crn.js'
 import { clickSaveAndContinue } from './confirm-details.js'
 import { clickExceptionalCaseYes } from './application-not-eligible.js'
@@ -29,6 +29,7 @@ import { addFurtherPlacementConsiderations } from './futher-placement-considerat
 import { addMoveOnInformation } from './add-move-on-info.js'
 import { attachReqrdDocuments } from './attach-required-documents.js'
 import { checkYourAnswers } from './check-your-answers.js'
+import { selectTransgenderStatus } from './select-transgender-status.js'
 
 export const submitAPApplication = async (page: Page, crn: string) => {
     // And I enter the CRN & Submit
@@ -39,6 +40,8 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     await clickExceptionalCaseYes(page)
     // And I say add the agreed date and exception details
     await addExemptionDetails(page)
+    // And I select their transgender status
+    await selectTransgenderStatus(page)
     // And I select Sentence Type and click on Submit
     await selectSentenceType(page)
     // And I select "Referral for risk management" Option that describes the situation
@@ -80,4 +83,5 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     // Then I submit the application
     await page.locator('button', { hasText: 'Submit application' }).click()
     await expect(page.locator('#main-content h1')).toContainText('Application confirmation')
+    await page.locator('a', { hasText: 'Back to dashboard' }).click()
 }

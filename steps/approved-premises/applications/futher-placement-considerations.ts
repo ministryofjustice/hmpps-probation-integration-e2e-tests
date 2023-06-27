@@ -20,14 +20,9 @@ export const addFurtherPlacementConsiderations = async (page: Page) => {
     await page.locator('#previousPlacement-2').check()
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
 
-    // "Complex case board" Page
-    await expect(page.locator('#main-content h1')).toContainText('Complex case board')
-    await page.locator('#complexCaseBoard-2').check()
-    await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
-
     // "Catering requirements" Page
     await expect(page.locator('#main-content h1')).toContainText('Catering requirements')
-    await page.locator('#catering-2').check()
+    await page.locator('#catering').check()
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
 
     // "Arson" Page
@@ -35,13 +30,18 @@ export const addFurtherPlacementConsiderations = async (page: Page) => {
     await page.locator('#arson-2').check()
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
 
+    // "Additional circumstances" Page
+    await expect(page.locator('#main-content h1')).toContainText('Additional circumstances')
+    await page.locator('#additionalCircumstances-2').check()
+    await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
+
     // "Contingency plans" Page
     await expect(page.locator('#main-content h1')).toContainText('Contingency plans')
-    await page.getByLabel('Name of partner agency').fill(faker.company.name())
-    await page.getByLabel('Named contact').fill(faker.person.fullName())
-    await page.locator('#phoneNumber').fill('01452364589')
-    await page.getByLabel('Role in contingency plan').fill(faker.company.buzzAdjective())
-    await page.locator('button', { hasText: 'Add another agency' }).click()
+    const agency = page.getByRole('group', { name: 'Partner Agency 1' })
+    await agency.getByLabel('Name of partner agency').fill(faker.company.name())
+    await agency.getByLabel('Named contact').fill(faker.person.fullName())
+    await agency.getByLabel('Contact details').fill('01452364589')
+    await agency.getByLabel('Role in contingency plan').fill(faker.company.buzzAdjective())
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
     await page
         .locator('#noReturn')

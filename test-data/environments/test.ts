@@ -29,11 +29,10 @@ export const testEnvironmentData: TestData = {
             firstName: 'Titus',
             lastName: 'Cobio',
         },
-
         approvedPremisesKeyWorker: {
-            name: 'Kshlerin, Barry (CRC - Additional Grade)',
-            firstName: 'Barry',
-            lastName: 'Kshlerin',
+            name: 'AutomatedTestUser, AutomatedTestUser (NPS - PO)',
+            firstName: 'AutomatedTestUser',
+            lastName: 'AutomatedTestUser',
         },
     },
     teams: {
@@ -49,8 +48,8 @@ export const testEnvironmentData: TestData = {
             provider: 'NPS North East',
         },
         approvedPremisesTestTeam: {
-            name: 'Lancashire PICS',
-            provider: 'NPS North West',
+            name: 'Ascot House Approved Premises',
+            provider: 'Greater Manchester',
         },
         genericTeam: {
             name: 'OMU A',

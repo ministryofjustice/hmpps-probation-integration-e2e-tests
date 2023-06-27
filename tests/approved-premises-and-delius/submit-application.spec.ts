@@ -1,16 +1,10 @@
 import { test } from '@playwright/test'
 import * as dotenv from 'dotenv'
-dotenv.config() // read environment variables into process.env
 import { login as deliusLogin } from '../../steps/delius/login.js'
 import { login as hmppsLogin } from '../../steps/hmpps-auth/login.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { data } from '../../test-data/test-data.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
-import { managePlacement } from '../../steps/approved-premises/approved-premises.js'
-import { createAPBooking } from '../../steps/approved-premises/create-booking.js'
-import { clickBackToDashboard } from '../../steps/approved-premises/placement-confirmation.js'
-import { selectMarkAsArrivedAction } from '../../steps/approved-premises/placement-details.js'
-import { verifyKeyworkerAvailability } from '../../steps/approved-premises/mark-as-arrived.js'
 import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login.js'
@@ -18,11 +12,16 @@ import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-ass
 import { verifyContacts } from '../../steps/delius/contact/find-contacts.js'
 import { contact } from '../../steps/delius/utils/contact.js'
 import { findOffenderByCRN } from '../../steps/delius/offender/find-offender.js'
+import { login as approvedPremisesLogin, navigateToApplications } from '../../steps/approved-premises/login.js'
+import { submitAPApplication } from '../../steps/approved-premises/applications/submit-application-full.js'
+import { reallocateApplication } from '../../steps/approved-premises/applications/reallocate.js'
+import { assessApplication } from '../../steps/approved-premises/applications/assess-application.js'
+
+dotenv.config() // read environment variables into process.env
 
 const nomisIds = []
 
-test('Create an approved premises booking', async ({ page }) => {
-    test.slow() // increase the timeout - Delius/OASys/AP Applications/Approved premises can take a few minutes
+test('Create an approved premises application', async ({ page }) => {
     // Given I login in to NDelius
     await hmppsLogin(page)
     await deliusLogin(page)
@@ -43,26 +42,24 @@ test('Create an approved premises booking', async ({ page }) => {
     // And I create a Layer 3 Assessment without Needs
     await createLayer3AssessmentWithoutNeeds(page, crn)
 
-    // When I login to Approved Premises and create a booking
-    await createAPBooking(page, crn)
-    // And I click on "Back to dashboard" link
-    await clickBackToDashboard(page)
-    // And I select to manage the placement
-    await managePlacement(page, crn)
-    // And I click on the Search button from the top menu
-    await selectMarkAsArrivedAction(page)
-    // Then I should see the staff member in the list of Key Workers
-    await verifyKeyworkerAvailability(
-        page,
-        `${data.staff.approvedPremisesKeyWorker.firstName} ${data.staff.approvedPremisesKeyWorker.lastName}`
-    )
+    // When I login to Approved Premises
+    await approvedPremisesLogin(page)
+    // And I submit an application
+    await navigateToApplications(page)
+    await submitAPApplication(page, crn)
+    // And I approve the application
+    await reallocateApplication(page, `${person.firstName} ${person.lastName}`)
+    await assessApplication(page, `${person.firstName} ${person.lastName}`)
 
     // And login to nDelius
     await deliusLogin(page)
     // And I Search for offender with CRN
     await findOffenderByCRN(page, crn)
-    // And I should see a contact in Delius for the booking
-    await verifyContacts(page, crn, [contact('Person', 'Approved Premises Booking for Bedford AP')])
+    // Then I should see a contact in Delius for the approved application
+    await verifyContacts(page, crn, [
+        contact('1 - Adult Custody < 12m', 'Approved Premises Application Submitted'),
+        contact('1 - Adult Custody < 12m', 'Approved Premises Application Accepted'),
+    ])
 })
 
 test.afterAll(async () => {
