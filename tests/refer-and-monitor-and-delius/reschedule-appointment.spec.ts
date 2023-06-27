@@ -402,7 +402,7 @@ test('Verify Referral Cancellation by Probation Practitioner and its Reflection 
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
     await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
 
-    // Create an initial Supplier Assessment Appointment in R&M
+    // Generate a referral and assign it, then create a Supplier Assessment Appointment in R&M
     const referralRef = await createAndAssignReferral(page, crn)
     await createSupplierAssessmentAppointment(
         page,
