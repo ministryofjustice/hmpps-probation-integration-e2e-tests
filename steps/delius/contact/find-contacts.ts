@@ -55,21 +55,6 @@ export async function verifyContact(page: Page, contact: Contact, isNSIContact =
         )
     }
 }
-//
-// export const navigateToNSIContactDetails = async (page: Page, crn: string) => {
-//     await findOffenderByCRN(page, crn)
-//     await page.click('#linkNavigation2EventList')
-//     await expect(page).toHaveTitle(/Events/)
-//     await page.locator('[title="View event"]', { hasText: 'View' }).click()
-//     await expect(page).toHaveTitle(/Event Details/)
-//     await page.click('#linkNavigation3EventNsi')
-//     await expect(page).toHaveTitle(/Non Statutory Intervention List/)
-//     await page.locator('main[role="main"]').locator('a', { hasText: 'view' }).click()
-//     await expect(page).toHaveTitle(/Non Statutory Intervention Details/)
-//     await page.locator('[value="Contact List for this NSI"]').click()
-//     await expect(page).toHaveTitle(/Contact List for NSIs/)
-// }
-
 
 export const navigateToNSIContactDetails = async (page: Page, crn: string, terminatedEvent?: boolean) => {
     await findOffenderByCRN(page, crn);
@@ -91,7 +76,6 @@ export const navigateToNSIContactDetails = async (page: Page, crn: string, termi
         await expect(page).toHaveTitle(/Contact List for NSIs/);
     }
 };
-
 
 export const rescheduleSupplierAssessmentAppointment = async (
     page: Page,

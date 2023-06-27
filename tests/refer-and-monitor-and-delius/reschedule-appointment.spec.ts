@@ -1,4 +1,4 @@
-import {expect, Page, test} from '@playwright/test'
+import {expect, test} from '@playwright/test'
 import { login as loginDelius } from '../../steps/delius/login.js'
 import { logout as logoutDelius } from '../../steps/delius/logout.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
@@ -24,8 +24,7 @@ import { formatRMDateToDelius, Tomorrow } from '../../steps/delius/utils/date-ti
 import { createAndAssignReferral } from './common.js'
 import { createContact } from '../../steps/delius/contact/create-contact.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
-import {cancelReferral, referralProgress} from "../../steps/referandmonitor/referral.js";
-import {findOffenderByCRN} from "../../steps/delius/offender/find-offender.js";
+import {cancelReferral} from "../../steps/referandmonitor/referral.js";
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
