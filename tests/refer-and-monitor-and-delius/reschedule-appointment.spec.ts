@@ -418,14 +418,5 @@ test('Verify Referral Cancellation by Probation Practitioner and its Reflection 
     // Verify the referral cancellation should reflect in Delius
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn, true)
-
-    //  Verify that the outcome is set to 'CRS Referral Cancelled'
-    const outcomeSiblingElement = await page.evaluate(() => {
-        const elements = document.querySelectorAll('div.form-group.form-group-sm > div.col-sm-7');
-        const matchingElement = Array.from(elements).find(element => element.textContent.includes('CRS Referral Cancelled'));
-        return matchingElement?.textContent || null;
-    });
-    expect(outcomeSiblingElement).toContain('CRS Referral Cancelled');
+    await expect(page.locator('div:right-of(:text("Outcome:"))').first()).toContainText('CRS Referral Cancelled')
 })
-
-
