@@ -56,7 +56,7 @@ export async function verifyContact(page: Page, contact: Contact, isNSIContact =
     }
 }
 
-export const navigateToNSIContactDetails = async (page: Page, crn: string, terminatedEvent?: boolean) => {
+export const navigateToNSIContactDetails = async (page: Page, crn: string, terminatedEvent: boolean = false) => {
     await findOffenderByCRN(page, crn);
     await page.click('#linkNavigation2EventList');
     await expect(page).toHaveTitle(/Events/);
