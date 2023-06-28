@@ -12,7 +12,7 @@ import {
 import { createSupplierAssessmentAppointment } from '../../steps/referandmonitor/appointment.js'
 import { data } from '../../test-data/test-data.js'
 import {
-    navigateToNSIContactDetails,
+    navigateToNSIContactDetails, navigateToNSIDetails,
     rescheduleSupplierAssessmentAppointment,
     updateSAAppointmentLocation,
     verifyContact,
@@ -417,6 +417,6 @@ test('Verify Referral Cancellation by Probation Practitioner and its Reflection 
 
     // Verify the referral cancellation should reflect in Delius
     await loginDelius(page)
-    await navigateToNSIContactDetails(page, crn, true)
+    await navigateToNSIDetails(page, crn, true)
     await expect(page.locator('div:right-of(:text("Outcome:"))').first()).toContainText('CRS Referral Cancelled')
 })
