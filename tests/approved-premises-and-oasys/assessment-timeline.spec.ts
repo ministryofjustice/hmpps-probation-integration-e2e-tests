@@ -24,9 +24,7 @@ import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/cr
 
 const nomisIds = []
 
-test('Create a Layer 3 Assessment in OASys and verify this assessments can be read by Approved Premises', async ({
-    page,
-}) => {
+test('View OASys assessments in Approved Premises service', async ({ page }) => {
     test.slow() // increase the timeout - Delius/OASys/AP Applications can take a few minutes
     // Given I create new Offender in nDelius
     await deliusLogin(page)
