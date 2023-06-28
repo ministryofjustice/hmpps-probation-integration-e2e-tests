@@ -56,7 +56,13 @@ export async function verifyContact(page: Page, contact: Contact, isNSIContact =
     }
 }
 
-export const navigateToNSIContactDetails = async (page: Page, crn: string) => {
+export const navigateToNSIContactDetails = async (page: Page, crn: string, includeTerminatedNSI = false) => {
+    await navigateToNSIDetails(page, crn, includeTerminatedNSI)
+    await page.locator('[value="Contact List for this NSI"]').click()
+    await expect(page).toHaveTitle(/Contact List for NSIs/)
+}
+
+export const navigateToNSIDetails = async (page: Page, crn: string, includeTerminatedNSI = false) => {
     await findOffenderByCRN(page, crn)
     await page.click('#linkNavigation2EventList')
     await expect(page).toHaveTitle(/Events/)
@@ -64,10 +70,11 @@ export const navigateToNSIContactDetails = async (page: Page, crn: string) => {
     await expect(page).toHaveTitle(/Event Details/)
     await page.click('#linkNavigation3EventNsi')
     await expect(page).toHaveTitle(/Non Statutory Intervention List/)
-    await page.locator('main[role="main"]').locator('a', { hasText: 'view' }).click()
-    await expect(page).toHaveTitle(/Non Statutory Intervention Details/)
-    await page.locator('[value="Contact List for this NSI"]').click()
-    await expect(page).toHaveTitle(/Contact List for NSIs/)
+    if (includeTerminatedNSI) {
+        await page.locator('#nsiListForm\\:ShowTerminated').selectOption({ label: 'Yes' })
+    }
+    await page.locator('#nsiListForm\\:nsiTable\\:tbody_element').getByRole('link', { name: 'view' }).click()
+    await expect(page.locator('#content > h1')).toHaveText('Non Statutory Intervention Details')
 }
 
 export const rescheduleSupplierAssessmentAppointment = async (
