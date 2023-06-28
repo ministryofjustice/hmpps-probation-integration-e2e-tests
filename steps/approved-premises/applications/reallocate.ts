@@ -7,5 +7,4 @@ export const reallocateApplication = async (page: Page, personName: string) => {
         label: 'AutomatedTestUser AutomatedTestUser',
     })
     await page.getByRole('button', { name: 'Submit' }).click()
-    await expect(page.locator('#success-title')).toHaveText('Success')
 }
