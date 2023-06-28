@@ -20,8 +20,8 @@ export const addAccessCulturalHealthCareNeeds = async (page: Page) => {
 
     // "COVID information" Page
     await expect(page.locator('#main-content h1')).toHaveText('COVID information')
-    await page.locator('#fullyVaccinated-2').check()
-    await page.locator('#highRisk-2').check()
+    await page.locator('#boosterEligibility-2').check()
+    await page.locator('#immunosuppressed-2').check()
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
     await expect(page.locator('#access-and-healthcare-status')).toHaveText('Completed')
 }
