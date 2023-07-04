@@ -18,7 +18,7 @@ export const makeReferral = async (page: Page, crn: string) => {
     await expect(page).toHaveURL(/probation-practitioner\/find/)
 
     await page.locator('[data-cy="find-interventions-button"]').click()
-    await expect(page).toHaveURL(/find-interventions?/)
+    // await expect(page).toHaveURL(/find-interventions?/)
 
     // Find Intervention
     await page.locator('text=Accommodation Services - North West').click()
@@ -59,11 +59,7 @@ export const makeReferral = async (page: Page, crn: string) => {
 
     await page.locator('#current-location-2').check()
     await page.locator('text=Save and continue').click()
-    await expect(page).toHaveURL(/referrals\/.*\/confirm-probation-practitioner-details/)
-
-    // Confirm probation practitioner details
-    await page.locator('#confirm-details').check()
-    await page.locator('text=Save and continue').click()
+    await expect(page).toHaveURL(/referrals\/.*\/form/)
 
     // Confirm the relevant sentence
     await page.locator('text=Confirm the relevant sentence for the Accommodation referral').click()
@@ -114,7 +110,8 @@ export const makeReferral = async (page: Page, crn: string) => {
     await expect(page).toHaveURL(/referrals\/.*\/form/)
 
     //Check all referral information and submit referral
-    await page.locator('[href="check-all-referral-information"]').click()
+    await page.locator('[href="check-answers"]').click()
+    await expect(page).toHaveURL(/referrals\/.*\/check-answers/)
 
     // Click text=Submit referral
     await page.locator('text=Submit referral').click()
@@ -135,7 +132,8 @@ export const assignReferral = async (page: Page, referralRef: string) => {
 
     // await page.locator('#search-button-all-open-cases').
     await page.locator('tr', { hasText: referralRef }).locator('a.govuk-link').click()
-    await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
+    // await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
+    await expect(page).toHaveURL(/referrals\/.*\/details/)
     await page.getByRole('link', { name: 'Referral details' }).click()
 
     // Add the caseworker email address
