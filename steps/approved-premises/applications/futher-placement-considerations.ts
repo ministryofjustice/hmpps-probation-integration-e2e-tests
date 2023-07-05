@@ -20,6 +20,11 @@ export const addFurtherPlacementConsiderations = async (page: Page) => {
     await page.locator('#previousPlacement-2').check()
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
 
+    // "Recovery Focused Approved Premises (RFAP)" Page
+    await expect(page.locator('#main-content h1')).toContainText(/Recovery Focused Approved Premises/)
+    await page.locator('#needARfap-2').check()
+    await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
+
     // "Catering requirements" Page
     await expect(page.locator('#main-content h1')).toContainText('Catering requirements')
     await page.locator('#catering').check()

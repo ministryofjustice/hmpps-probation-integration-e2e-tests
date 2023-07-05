@@ -47,6 +47,7 @@ test('Create an approved premises application', async ({ page }) => {
     // And I submit an application
     await navigateToApplications(page)
     await submitAPApplication(page, crn)
+
     // And I approve the application
     await reallocateApplication(page, `${person.firstName} ${person.lastName}`)
     await assessApplication(page, `${person.firstName} ${person.lastName}`)

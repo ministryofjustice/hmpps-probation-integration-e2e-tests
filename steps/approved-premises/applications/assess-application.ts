@@ -17,6 +17,9 @@ export const assessApplication = async (page: Page, personName: string) => {
     await page.locator('#locationOfPlacement').check()
     await page.locator('#moveOnPlan').check()
     await page.getByRole('button', { name: 'Submit' }).click()
+    await page.locator('#contingencyPlanSufficient-2').check()
+    await page.locator('#additionalComments').fill('Test Comments')
+    await page.getByRole('button', { name: 'Submit' }).click()
     await page.getByRole('link', { name: 'Provide any requirements to support placement' }).click()
     await page
         .getByRole('group', {
