@@ -3,9 +3,7 @@ import { type Page, expect } from '@playwright/test'
 export const selectTransgenderStatus = async (page: Page) => {
     await page.locator('#transgenderOrHasTransgenderHistory-2').check()
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
-    await expect(page.locator('#main-content h1')).toHaveText(
-        'Which of the following dates are relevant?'
-    )
+    await expect(page.locator('#main-content h1')).toHaveText('Which of the following dates are relevant?')
 }
 
 export const enterSedLedPssDates = async (page: Page) => {

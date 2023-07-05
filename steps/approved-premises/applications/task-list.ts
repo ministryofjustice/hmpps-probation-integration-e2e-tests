@@ -10,7 +10,7 @@ import { selectReleaseDateKnownStatus } from './release-date-known-status.js'
 import { confirmPlacementStartdate } from './placement-start-date.js'
 import { selectAPPlacementPurpose } from './ap-placement-purpose.js'
 import { selectTypeOfAPRequired } from './select-type-ap-required.js'
-import {enterSedLedPssDates, selectTransgenderStatus} from './select-transgender-status.js'
+import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status.js'
 
 export const clickTypeOfAPRequiredLink = async (page: Page) => {
     await page.locator('a', { hasText: 'Type of AP required' }).click()
