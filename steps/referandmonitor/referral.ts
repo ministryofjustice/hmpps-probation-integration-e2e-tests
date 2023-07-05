@@ -132,7 +132,6 @@ export const assignReferral = async (page: Page, referralRef: string) => {
 
     // await page.locator('#search-button-all-open-cases').
     await page.locator('tr', { hasText: referralRef }).locator('a.govuk-link').click()
-    // await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
     await expect(page).toHaveURL(/referrals\/.*\/details/)
     await page.getByRole('link', { name: 'Referral details' }).click()
 
