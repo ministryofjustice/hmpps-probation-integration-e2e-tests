@@ -18,7 +18,7 @@ export const makeReferral = async (page: Page, crn: string) => {
     await expect(page).toHaveURL(/probation-practitioner\/find/)
 
     await page.locator('[data-cy="find-interventions-button"]').click()
-    // await expect(page).toHaveURL(/find-interventions?/)
+    await expect(page).toHaveURL(/find-interventions?/)
 
     // Find Intervention
     await page.locator('text=Accommodation Services - North West').click()
