@@ -72,5 +72,8 @@ export const addFurtherPlacementConsiderations = async (page: Page) => {
         .fill('Test information to support Out of Hours (OoH) decision making, in the event of a breach')
     await page.locator('#otherConsiderations').fill('Test other considerations')
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
+    await page.locator('#planInPlace-2').check()
+    await page.locator('#additionalConditions-2').check()
+    await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
     await expect(page.locator('#further-considerations-status')).toHaveText('Completed')
 }
