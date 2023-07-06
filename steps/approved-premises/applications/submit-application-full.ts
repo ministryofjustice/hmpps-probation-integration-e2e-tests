@@ -29,7 +29,7 @@ import { addFurtherPlacementConsiderations } from './futher-placement-considerat
 import { addMoveOnInformation } from './add-move-on-info.js'
 import { attachReqrdDocuments } from './attach-required-documents.js'
 import { checkYourAnswers } from './check-your-answers.js'
-import {enterSedLedPssDates, selectTransgenderStatus} from './select-transgender-status.js'
+import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status.js'
 
 export const submitAPApplication = async (page: Page, crn: string) => {
     // And I enter the CRN & Submit
