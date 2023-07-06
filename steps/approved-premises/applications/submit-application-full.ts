@@ -29,7 +29,7 @@ import { addFurtherPlacementConsiderations } from './futher-placement-considerat
 import { addMoveOnInformation } from './add-move-on-info.js'
 import { attachReqrdDocuments } from './attach-required-documents.js'
 import { checkYourAnswers } from './check-your-answers.js'
-import { selectTransgenderStatus } from './select-transgender-status.js'
+import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status.js'
 
 export const submitAPApplication = async (page: Page, crn: string) => {
     // And I enter the CRN & Submit
@@ -42,6 +42,8 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     await addExemptionDetails(page)
     // And I select their transgender status
     await selectTransgenderStatus(page)
+    // And I enter Sentence end date (SED), Licence end date (LED), Post-sentence supervision (PSS)
+    await enterSedLedPssDates(page)
     // And I select Sentence Type and click on Submit
     await selectSentenceType(page)
     // And I select "Referral for risk management" Option that describes the situation

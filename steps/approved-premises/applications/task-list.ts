@@ -10,7 +10,7 @@ import { selectReleaseDateKnownStatus } from './release-date-known-status.js'
 import { confirmPlacementStartdate } from './placement-start-date.js'
 import { selectAPPlacementPurpose } from './ap-placement-purpose.js'
 import { selectTypeOfAPRequired } from './select-type-ap-required.js'
-import { selectTransgenderStatus } from './select-transgender-status.js'
+import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status.js'
 
 export const clickTypeOfAPRequiredLink = async (page: Page) => {
     await page.locator('a', { hasText: 'Type of AP required' }).click()
@@ -97,6 +97,9 @@ export const navigateToTaskListPage = async (page: Page, crn: string) => {
 
     // And I say there no transgender history
     await selectTransgenderStatus(page)
+
+    // And I enter Sentence end date (SED), Licence end date (LED), Post-sentence supervision (PSS)
+    await enterSedLedPssDates(page)
 
     // And I select Sentence Type and click on Submit
     await selectSentenceType(page)
