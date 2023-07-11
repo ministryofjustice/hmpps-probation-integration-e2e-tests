@@ -1,6 +1,10 @@
 import { test } from '@playwright/test'
 import { login as deliusLogin } from '../../steps/delius/login.js'
-import {login as makeRecallDecisionsLogin, loginAsSupervisor, logout} from '../../steps/make-recall-decisions/login.js'
+import {
+    login as makeRecallDecisionsLogin,
+    loginAsSupervisor,
+    logout,
+} from '../../steps/make-recall-decisions/login.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import {
@@ -71,8 +75,8 @@ test('Make a Management Oversight Decision and verify in Delius', async ({ page 
     const caseLinkSharedByPO = await recommendAPersonForRecall(page)
 
     // And I logout as practitioner and login as Supervisor
-    await logout(page);
-    await loginAsSupervisor(page);
+    await logout(page)
+    await loginAsSupervisor(page)
 
     // And I Make a Management Oversight Decision as a Supervisor
     await makeManagementOversightDecision(page, caseLinkSharedByPO)
