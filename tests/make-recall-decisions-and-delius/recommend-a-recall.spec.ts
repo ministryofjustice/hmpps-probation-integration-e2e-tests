@@ -1,12 +1,16 @@
-import { expect, Page, test } from '@playwright/test'
+import { test } from '@playwright/test'
 import { login as deliusLogin } from '../../steps/delius/login.js'
-import { login as makeRecallDecisionsLogin } from '../../steps/make-recall-decisions/login.js'
+import {
+    login as makeRecallDecisionsLogin,
+    loginAsSupervisor,
+    logout,
+} from '../../steps/make-recall-decisions/login.js'
 import { deliusPerson } from '../../steps/delius/utils/person.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
-import { enableContactFeatureFlag } from '../../steps/make-recall-decisions/flags.js'
 import {
+    makeManagementOversightDecision,
+    recommendAPersonForRecall,
     searchForPersonToRecommend,
-    startRecommendation,
     verifyContact,
     verifyLicenceCondition,
     verifyRecallOffenderDetails,
@@ -24,7 +28,8 @@ import { contact } from '../../steps/delius/utils/contact.js'
 import { data } from '../../test-data/test-data.js'
 dotenv.config() // read environment variables into process.env
 
-test('Make a recall recommendation', async ({ page }) => {
+test('Make a Management Oversight Decision and verify in Delius', async ({ page }) => {
+    test.slow()
     // Given a new person in Delius
     await deliusLogin(page)
     const person = deliusPerson()
@@ -58,7 +63,6 @@ test('Make a recall recommendation', async ({ page }) => {
 
     // When I login to Recall System and Search for the person to recommend
     await makeRecallDecisionsLogin(page)
-    await enableContactFeatureFlag(page)
     await searchForPersonToRecommend(page, crn, name)
 
     // Then I verify all the person's details are as per Delius
@@ -67,10 +71,17 @@ test('Make a recall recommendation', async ({ page }) => {
     await verifyLicenceCondition(page, licenceCondition)
     await verifyContact(page, contactDetails.type)
 
-    // And I start a Recall Recommendation
-    await startRecommendation(page)
+    // And I Recommend the Person for Recall as practitioner
+    const caseLinkSharedByPO = await recommendAPersonForRecall(page)
 
-    // And I log back to Delius and verify the contact
+    // And I logout as practitioner and login as Supervisor
+    await logout(page)
+    await loginAsSupervisor(page)
+
+    // And I Make a Management Oversight Decision as a Supervisor
+    await makeManagementOversightDecision(page, caseLinkSharedByPO)
+
+    // Then I log back to Delius and verify the contact
     await deliusLogin(page)
-    await verifyContacts(page, crn, [contact('Person', 'Recommendation Started (Recall or No Recall)')])
+    await verifyContacts(page, crn, [contact('Person', 'Management Oversight - Recall')])
 })
