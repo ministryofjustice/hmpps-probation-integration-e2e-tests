@@ -60,12 +60,15 @@ OASYS_USERNAME_TIMELINE=<oasys_t2_timeline_username>
 OASYS_PASSWORD_TIMELINE=<oasys_t2_timeline_password>
 
 OASYS_USERNAME_BOOKING=<oasys_t2_booking_username>
-OASYS_PASSWORD_BOOKING=<oasys_t2_booking_username>
+OASYS_PASSWORD_BOOKING=<oasys_t2_booking_password>
 
 OASYS_USERNAME_RSR=<oasys_t2_rsr_username>
-OASYS_PASSWORD_RSR=<oasys_t2_rsr_username>
+OASYS_PASSWORD_RSR=<oasys_t2_rsr_password>
 
 APPROVEDPREMISES_URL=https://approved-premises-dev.hmpps.service.justice.gov.uk/
+
+CONSIDER_RECALL_MRD_USERNAME=<mrd_username>
+CONSIDER_RECALL_MRD_PASSWORD=<mrd_password>
 
 ```
 

@@ -1,15 +1,86 @@
 import { expect, type Page } from '@playwright/test'
-import { recallDateFormatter } from '../delius/utils/date-time.js'
 
 export const searchForPersonToRecommend = async (page: Page, crn: string, name: string) => {
     await page.getByRole('button', { name: 'Start now' }).click()
     await searchForPerson(page, crn, name)
 }
 
-export const startRecommendation = async (page: Page) => {
-    await page.getByRole('link', { name: 'Make a recommendation' }).click()
-    await page.getByRole('button', { name: 'Continue' }).click()
-}
+export const recommendAPersonForRecall = async (page: Page): Promise<string> => {
+    await page.getByRole('link', { name: 'Make a recommendation' }).click();
+    await page.getByRole('button', { name: 'Continue' }).click();
+    await expect(page.locator('#main-content h1')).toContainText('Consider a recall');
+
+    // What has made you think about recalling the Person
+    await page.getByRole('link', { name: new RegExp(`What has made you think about recalling [\\w'-]+ [\\w'-]+\\?`) }).click();
+    await page.locator('#triggerLeadingToRecall').fill('Test reason - Binge Drinking is the reason for recalling');
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    // How has Person responded to probation so far?
+    await page.getByRole('link', { name: new RegExp(`How has [\\w'-]+ [\\w'-]+ responded to probation so far\\?`) }).click();
+    await expect(page.locator('#main-content h1')).toContainText(new RegExp(`How has [\\w'-]+ [\\w'-]+ responded to probation so far\\?`));
+    await page.locator('#responseToProbation').fill('Test Response - Not responded quite well');
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    // What licence conditions has Person breached?
+    await page.getByRole('link', { name: new RegExp(`What licence conditions has [\\w'-]+ [\\w'-]+ breached\\?`) }).click();
+    await expect(page.locator('#main-content h1')).toContainText(new RegExp(`What licence conditions has [\\w'-]+ [\\w'-]+ breached\\?`));
+    await page.locator('#licenceConditionsBreached').check();
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    // What alternatives to recall have been tried already?
+    await page.getByRole('link', { name: 'What alternatives to recall have been tried already?' }).click();
+    await expect(page.locator('#main-content h1')).toContainText('What alternatives to recall have been tried already?');
+    await page.locator('#alternativesToRecallTried').check();
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    // Is Person on an indeterminate sentence?
+    await page.getByRole('link', { name: new RegExp(`Is [\\w'-]+ [\\w'-]+ on an indeterminate sentence\\?`) }).click();
+    await expect(page.locator('#main-content h1')).toContainText(new RegExp(`Is [\\w'-]+ [\\w'-]+ on an indeterminate sentence\\?`));
+    await page.locator('#isIndeterminateSentence-2').check();
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    // Is Person on an extended sentence?
+    await expect(page.locator('#main-content h1')).toContainText(new RegExp(`Is [\\w'-]+ [\\w'-]+ on an extended sentence\\?`));
+    await page.locator('#isExtendedSentence-2').check();
+    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    // Share this case link with the manager
+    await expect(page.locator('#main-content h1')).toContainText('Share this case with your manager');
+    const caseLinkToShareWithManager = await page.locator('pre[data-qa="case-link"]').textContent();
+    return caseLinkToShareWithManager;
+};
+
+export const makeManagementOversightDecision = async (page: Page, caseLinkSharedByPO: string) => {
+    await page.goto(caseLinkSharedByPO);
+
+    // Review practitioner's concerns
+    await expect(page.locator('#main-content h1')).toContainText(/Consider a recall/);
+    await page.getByRole('link', { name: "Review practitioner's concerns" }).click();
+    await expect(page.locator('#main-content h1')).toContainText("Review practitioner's concerns");
+    await page.locator('.govuk-button', { hasText: 'Continue' }).click();
+
+    // Review profile of Person
+    await page.getByRole('link', { name: /Review profile of [\w'-]+ [\w'-]+/ }).click();
+    await page.locator('.govuk-button', { hasText: 'Continue' }).click();
+
+    // Explain the decision
+    await page.getByRole('link', { name: 'Explain the decision' }).click();
+    await expect(page.locator('#main-content h1')).toContainText('Explain the decision');
+    await page.locator('#spoRecallType').check();
+    await page.locator('#spoRecallRationale').fill('Recall from spo user');
+    await page.locator('.govuk-button', { hasText: 'Continue' }).click();
+
+    // Record the decision
+    await page.locator('.govuk-button', { hasText: 'Record the decision' }).click();
+    await expect(page.locator('#main-content legend')).toContainText(/Record the decision in NDelius/);
+    await expect(page.locator('#sensitive-hint > p')).toContainText(/The decision will be recorded as a contact in NDelius called 'Management oversight - recall'/);
+
+    // Send to NDelius
+    await page.locator('#sensitive').check();
+    await page.locator('.govuk-button', { hasText: /Send to NDelius/ }).click();
+    await expect(page.locator('.govuk-panel__title')).toContainText(/Decision to recall/);
+};
 
 export const verifyRecallOffenderDetails = async (
     page: Page,
