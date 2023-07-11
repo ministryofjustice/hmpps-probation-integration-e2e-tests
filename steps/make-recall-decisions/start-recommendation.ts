@@ -11,19 +11,19 @@ export const recommendAPersonForRecall = async (page: Page): Promise<string> => 
     await expect(page.locator('#main-content h1')).toContainText('Consider a recall');
 
     // What has made you think about recalling the Person
-    await page.getByRole('link', { name: new RegExp(`What has made you think about recalling [\\w'-]+ [\\w'-]+\\?`) }).click();
+    await page.getByRole('link', { name: /What has made you think about recalling [\w'-]+\s[\w'-]+\?/ }).click();
     await page.locator('#triggerLeadingToRecall').fill('Test reason - Binge Drinking is the reason for recalling');
     await page.getByRole('button', { name: 'Continue' }).click();
 
     // How has Person responded to probation so far?
-    await page.getByRole('link', { name: new RegExp(`How has [\\w'-]+ [\\w'-]+ responded to probation so far\\?`) }).click();
-    await expect(page.locator('#main-content h1')).toContainText(new RegExp(`How has [\\w'-]+ [\\w'-]+ responded to probation so far\\?`));
+    await page.getByRole('link', { name: /How has [\w'-]+\s[\w'-]+ responded to probation so far\?/ }).click();
+    await expect(page.locator('#main-content h1')).toContainText(/How has [\w'-]+\s[\w'-]+ responded to probation so far\?/);
     await page.locator('#responseToProbation').fill('Test Response - Not responded quite well');
     await page.getByRole('button', { name: 'Continue' }).click();
 
     // What licence conditions has Person breached?
-    await page.getByRole('link', { name: new RegExp(`What licence conditions has [\\w'-]+ [\\w'-]+ breached\\?`) }).click();
-    await expect(page.locator('#main-content h1')).toContainText(new RegExp(`What licence conditions has [\\w'-]+ [\\w'-]+ breached\\?`));
+    await page.getByRole('link', { name: /What licence conditions has [\w'-]+\s[\w'-]+ breached\?/ }).click();
+    await expect(page.locator('#main-content h1')).toContainText(/What licence conditions has [\w'-]+\s[\w'-]+ breached\?/);
     await page.locator('#licenceConditionsBreached').check();
     await page.getByRole('button', { name: 'Continue' }).click();
 
@@ -34,13 +34,13 @@ export const recommendAPersonForRecall = async (page: Page): Promise<string> => 
     await page.getByRole('button', { name: 'Continue' }).click();
 
     // Is Person on an indeterminate sentence?
-    await page.getByRole('link', { name: new RegExp(`Is [\\w'-]+ [\\w'-]+ on an indeterminate sentence\\?`) }).click();
-    await expect(page.locator('#main-content h1')).toContainText(new RegExp(`Is [\\w'-]+ [\\w'-]+ on an indeterminate sentence\\?`));
+    await page.getByRole('link', { name: /Is [\w'-]+\s[\w'-]+ on an indeterminate sentence\?/ }).click();
+    await expect(page.locator('#main-content h1')).toContainText(/Is [\w'-]+\s[\w'-]+ on an indeterminate sentence\?/);
     await page.locator('#isIndeterminateSentence-2').check();
     await page.getByRole('button', { name: 'Continue' }).click();
 
     // Is Person on an extended sentence?
-    await expect(page.locator('#main-content h1')).toContainText(new RegExp(`Is [\\w'-]+ [\\w'-]+ on an extended sentence\\?`));
+    await expect(page.locator('#main-content h1')).toContainText(/Is [\w'-]+\s[\w'-]+ on an extended sentence\?/);
     await page.locator('#isExtendedSentence-2').check();
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
@@ -61,7 +61,7 @@ export const makeManagementOversightDecision = async (page: Page, caseLinkShared
     await page.locator('.govuk-button', { hasText: 'Continue' }).click();
 
     // Review profile of Person
-    await page.getByRole('link', { name: /Review profile of [\w'-]+ [\w'-]+/ }).click();
+    await page.getByRole('link', { name: /Review profile of [\w'-]+\s[\w'-]+/ }).click();
     await page.locator('.govuk-button', { hasText: 'Continue' }).click();
 
     // Explain the decision
