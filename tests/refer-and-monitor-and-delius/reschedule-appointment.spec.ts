@@ -182,7 +182,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
 })
 
 test('Reschedule Supplier Assessment Appointment to past date/time with attendance set to No', async ({ page }) => {
-    test.slow()
+    // test.slow()
     const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
     await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
@@ -295,7 +295,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
         referralRef,
         pastAppointmentDate,
         true,
-        true
+        false
     )
     const formattedDateTime = formatRMDateToDelius(rescheduledAppointmentDateTime)
 
@@ -309,9 +309,9 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
             relatesTo: '1 - CRS Accommodation',
             date: formattedDateTime,
             type: 'Appointment with CRS Staff (NS)',
-            outcome: 'Attended - Failed to Comply',
+            outcome: 'Attended - Complied',
             attended: 'Y',
-            complied: 'N',
+            complied: 'Y',
         },
         true
     )
@@ -323,7 +323,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
             date: formattedInitialDateTime,
             type: 'Appointment with CRS Staff (NS)',
             outcome: 'Rescheduled - Service Request',
-            attended: 'Y',
+            attended: 'N',
             complied: 'Y',
         },
         true

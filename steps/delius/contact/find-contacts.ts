@@ -106,27 +106,33 @@ export const rescheduleSupplierAssessmentAppointment = async (
             await page.waitForURL(
                 /service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/edit\/.*\/behaviour/
             )
-            // add behaviour
-            await page.fill('#behaviour-description', 'A description of the behaviour')
-            // notify OM
-            await page.click(`input[value=${notifyOm ? 'yes' : 'no'}]`)
-            // save
+
+            // What did you do in the session?
+            await page.fill('#session-summary', 'A description of the behaviour')
+
+            // How did person respond to the session?
+            await page.fill('#session-response', 'A description of the behaviour')
+
+            // Did anything concern you about the person
+            await page.locator('#notify-probation-practitioner-2').check()
             await page.click('button.govuk-button')
         }
+
+        await fillAndSaveIfTextBoxIsAvailable(
+            page,
+            '#attendance-failure-information',
+            'Additional information of the person not attending the appointment',
+            'button.govuk-button'
+        )
         await page.waitForURL(
             /service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/edit\/.*\/check-your-answers/
         )
-
-        // confirm feedback
         await page.click('button.govuk-button')
-        await page.waitForURL(
-            /service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/confirmation/
-        )
+    } else {
+        // return to progress screen
+        await page.click('a.govuk-button')
+        await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
     }
-
-    // return to progress screen
-    await page.click('a.govuk-button')
-    await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
 
     const rescheduledAppointmentDateTime = await page
         .locator('[data-cy="supplier-assessment-table"] .govuk-table__cell:first-child')
@@ -173,4 +179,17 @@ export const verifySAApptmntLocationInDelius = async (
     // Verify the Updated Appointment Location in Delius
     const location = await page.locator('#searchContactForm\\:Location').textContent()
     await expect(location).toBe(NPSOfficeLocationToBeVerified)
+}
+
+export const fillAndSaveIfTextBoxIsAvailable = async (
+    page: Page,
+    textBoxLocator: string,
+    textToBeEnteredInTextBox: string,
+    saveButtonLocator: string
+): Promise<void> => {
+    const textBox = page.locator(textBoxLocator)
+    if (await textBox.isVisible()) {
+        await textBox.fill(textToBeEnteredInTextBox)
+        await page.click(saveButtonLocator)
+    }
 }
