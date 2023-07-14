@@ -8,7 +8,6 @@ export const referralProgress = async (page: Page, referralRef: string) => {
 
     // Find the correct referral using the Referral Reference
     await page.locator('tr', { hasText: referralRef }).locator('a.govuk-link').click()
-
     await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
 }
 
@@ -16,7 +15,6 @@ export const makeReferral = async (page: Page, crn: string) => {
     // Navigate to list of available interventions
     await page.locator('text=Find interventions').click()
     await expect(page).toHaveURL(/probation-practitioner\/find/)
-
     await page.locator('[data-cy="find-interventions-button"]').click()
     await expect(page).toHaveURL(/find-interventions?/)
 
@@ -59,7 +57,11 @@ export const makeReferral = async (page: Page, crn: string) => {
 
     await page.locator('#current-location-2').check()
     await page.locator('text=Save and continue').click()
-    await expect(page).toHaveURL(/referrals\/.*\/form/)
+    await expect(page).toHaveURL(/referrals\/.*\/confirm-probation-practitioner-details/)
+
+    // Confirm probation practitioner details
+    await page.locator('#confirm-details').check()
+    await page.locator('text=Save and continue').click()
 
     // Confirm the relevant sentence
     await page.locator('text=Confirm the relevant sentence for the Accommodation referral').click()
@@ -88,7 +90,7 @@ export const makeReferral = async (page: Page, crn: string) => {
     await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/referrals\/.*\/enforceable-days/)
 
-    // Enforcable days
+    // Enforceable days
     await page.locator('input[name="maximum-enforceable-days"]').fill('10')
 
     // Save and continue
@@ -110,8 +112,7 @@ export const makeReferral = async (page: Page, crn: string) => {
     await expect(page).toHaveURL(/referrals\/.*\/form/)
 
     //Check all referral information and submit referral
-    await page.locator('[href="check-answers"]').click()
-    await expect(page).toHaveURL(/referrals\/.*\/check-answers/)
+    await page.locator('[href="check-all-referral-information"]').click()
 
     // Click text=Submit referral
     await page.locator('text=Submit referral').click()
@@ -132,8 +133,9 @@ export const assignReferral = async (page: Page, referralRef: string) => {
 
     // await page.locator('#search-button-all-open-cases').
     await page.locator('tr', { hasText: referralRef }).locator('a.govuk-link').click()
-    await expect(page).toHaveURL(/referrals\/.*\/details/)
+    await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
     await page.getByRole('link', { name: 'Referral details' }).click()
+    await expect(page).toHaveURL(/referrals\/.*\/details/)
 
     // Add the caseworker email address
     await page.fill('#email', process.env.REFERANDMONITOR_SUPPLIER_USERNAME!)
@@ -153,15 +155,21 @@ export const cancelReferral = async (page: Page, referralRef: string) => {
     await page.locator('a', { hasText: 'Open cases' }).click()
     await expect(page).toHaveURL(/probation-practitioner\/dashboard\/open-cases/)
 
-    await page.locator('tr', { hasText: referralRef }).locator('a', { hasText: 'View' }).click()
-    await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/progress/)
+    const referralLinkLocator = await page.locator('tr', { hasText: referralRef }).locator('a', { hasText: 'View' })
+    const dateSentHeaderLocator = page.locator('.govuk-table__header', { hasText: 'Date sent' })
 
+    try {
+        await referralLinkLocator.click()
+    } catch (error) {
+        await dateSentHeaderLocator.click()
+        await referralLinkLocator.click()
+    }
+
+    await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/progress/)
     await page.locator('a', { hasText: 'Cancel this referral' }).click()
     await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/cancellation\/.*\/reason/)
-
     await page.locator('label', { hasText: "Probation practitioner's professional judgement" }).click()
     await page.locator('button.govuk-button').click()
-
     await page.locator('p', { hasText: 'Are you sure you want to cancel this referral?' })
     await page.locator('button.govuk-button').click()
     await expect(page.locator('h1.govuk-panel__title')).toContainText('This referral has been cancelled')

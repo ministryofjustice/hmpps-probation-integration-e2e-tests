@@ -4,6 +4,7 @@ import { referralProgress } from './referral.js'
 import { addDays, parse } from 'date-fns'
 import { get12Hour, getTimeOfDay, Tomorrow } from '../delius/utils/date-time.js'
 import { refreshUntil } from '../delius/utils/refresh.js'
+import {fillAndSaveIfTextBoxIsAvailable} from "../delius/contact/find-contacts.js";
 
 export const createSupplierAssessmentAppointment = async (
     page: Page,
@@ -107,13 +108,18 @@ const editSession = async (page: Page, referralRef: string, detail: SessionDetai
         await page.waitForURL(
             /service-provider\/action-plan\/.*\/appointment\/.*\/post-session-feedback\/edit\/.*\/behaviour/
         )
-        // add behaviour
-        await page.fill('#behaviour-description', 'A description of the behaviour')
-        // notify OM
-        await page.click(`input[value=${detail.notifyOm ? 'yes' : 'no'}]`)
-        // save
+
+        // What did you do in the session?
+        await page.fill('#session-summary', 'A description of the behaviour')
+        // How did person respond to the session?
+        await page.fill('#session-response', 'A description of the response from the person')
+        // Did anything concern you about the person
+        await page.locator('#notify-probation-practitioner-2').check()
         await page.click('button.govuk-button')
     }
+
+    await fillAndSaveIfTextBoxIsAvailable(page, '#attendance-failure-information', 'Additional information of the person not attending the appointment', 'button.govuk-button', );
+
 
     await page.waitForURL(
         /service-provider\/action-plan\/.*\/appointment\/.*\/post-session-feedback\/edit\/.*\/check-your-answers/
@@ -121,21 +127,43 @@ const editSession = async (page: Page, referralRef: string, detail: SessionDetai
 
     // confirm feedback
     await page.click('button.govuk-button')
-    await page.waitForURL(/service-provider\/action-plan\/.*\/appointment\/.*\/post-session-feedback\/confirmation/)
+    // await page.waitForURL(/service-provider\/action-plan\/.*\/appointment\/.*\/post-session-feedback\/confirmation/)
 
-    // return to progress screen
-    await page.click('a.govuk-button')
-    await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
+    // await page.waitForURL(
+    //     /service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/progress\?showFeedbackBanner=true&notifyPP=null&dna=true/
+    // )
+
+    await page.waitForURL(/\/service-provider\/referrals\/[^/]+\/progress\?showFeedbackBanner=true&notify/)
+    // https://hmpps-interventions-ui-dev.apps.live-1.cloud-platform.service.justice.gov.uk/service-provider/referrals/a80789c2-d814-41dd-aff1-26cdf4dca97b/progress?showFeedbackBanner=true&notifyPP=false&dna=false
+
+
+    // /service-provider/referrals/2b52898f-1a0c-4dea-80b0-47df54d82d3f/progress?showFeedbackBanner=true&notifyPP=null&dna=true
+
+
+        // return to progress screen
+    // await page.click('a.govuk-button')
+    // await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
 }
 
 export async function addAppointmentFeedback(page: Page, attended: boolean) {
     const addFeedbackLink = page.getByRole('link', { name: 'Mark attendance and add feedback' })
     await refreshUntil(page, () => expect(addFeedbackLink).toBeVisible())
     await addFeedbackLink.click()
-    await page.getByLabel(attended ? 'Yes' : 'No').check()
+    // await page.waitForURL(/\/service-provider\/referrals\/[^/]+\/supplier-assessment\/post-assessment-feedback\/attendance/)
+
+    // await page.locator('#attended').click()
+    await page.locator(attended ? '#attended' : '#attended-3').check()
+    // const attendanceFailureInformationLocator = page.locator('#attendance-failure-information');
+    // if (await attendanceFailureInformationLocator.isVisible()) {
+    //     await attendanceFailureInformationLocator.fill('Additional information of the person not attending the appointment');
+    //     await page.click('button.govuk-button');
+    // }
+    await page.locator('#attendance-failure-information').fill('Additional information of the person not attending the appointment');
+
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await page.getByRole('button', { name: 'Confirm' }).click()
-    await expect(page).toHaveTitle(/Submission confirmation/)
-    await page.getByRole('link', { name: 'Return to progress' }).click()
+    // await expect(page).toHaveTitle(/Submission confirmation/)
+    await page.waitForURL(/\/service-provider\/referrals\/[^/]+\/progress\?showFeedbackBanner=true&notifyPP=null&dna=true/)
+    // await page.getByRole('link', { name: 'Return to progress' }).click()
     await expect(page.locator('#supplier-assessment-status')).toContainText(attended ? 'attended' : 'did not attend')
 }
