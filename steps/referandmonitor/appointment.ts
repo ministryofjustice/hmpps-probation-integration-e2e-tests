@@ -4,7 +4,7 @@ import { referralProgress } from './referral.js'
 import { addDays, parse } from 'date-fns'
 import { get12Hour, getTimeOfDay, Tomorrow } from '../delius/utils/date-time.js'
 import { refreshUntil } from '../delius/utils/refresh.js'
-import {fillAndSaveIfTextBoxIsAvailable} from "../delius/contact/find-contacts.js";
+import { fillAndSaveIfTextBoxIsAvailable } from '../delius/contact/find-contacts.js'
 
 export const createSupplierAssessmentAppointment = async (
     page: Page,
@@ -120,7 +120,12 @@ const editSession = async (page: Page, referralRef: string, detail: SessionDetai
         await page.click('button.govuk-button')
     }
 
-    await fillAndSaveIfTextBoxIsAvailable(page, '#attendance-failure-information', 'Additional information of the person not attending the appointment', 'button.govuk-button', );
+    await fillAndSaveIfTextBoxIsAvailable(
+        page,
+        '#attendance-failure-information',
+        'Additional information of the person not attending the appointment',
+        'button.govuk-button'
+    )
     await page.waitForURL(
         /service-provider\/action-plan\/.*\/appointment\/.*\/post-session-feedback\/edit\/.*\/check-your-answers/
     )
@@ -135,9 +140,13 @@ export async function addAppointmentFeedback(page: Page, attended: boolean) {
     await refreshUntil(page, () => expect(addFeedbackLink).toBeVisible())
     await addFeedbackLink.click()
     await page.locator(attended ? '#attended' : '#attended-3').check()
-    await page.locator('#attendance-failure-information').fill('Additional information of the person not attending the appointment');
+    await page
+        .locator('#attendance-failure-information')
+        .fill('Additional information of the person not attending the appointment')
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await page.getByRole('button', { name: 'Confirm' }).click()
-    await page.waitForURL(/\/service-provider\/referrals\/[^/]+\/progress\?showFeedbackBanner=true&notifyPP=null&dna=true/)
+    await page.waitForURL(
+        /\/service-provider\/referrals\/[^/]+\/progress\?showFeedbackBanner=true&notifyPP=null&dna=true/
+    )
     await expect(page.locator('#supplier-assessment-status')).toContainText(attended ? 'attended' : 'did not attend')
 }

@@ -118,7 +118,12 @@ export const rescheduleSupplierAssessmentAppointment = async (
             await page.click('button.govuk-button')
         }
 
-        await fillAndSaveIfTextBoxIsAvailable(page, '#attendance-failure-information', 'Additional information of the person not attending the appointment', 'button.govuk-button');
+        await fillAndSaveIfTextBoxIsAvailable(
+            page,
+            '#attendance-failure-information',
+            'Additional information of the person not attending the appointment',
+            'button.govuk-button'
+        )
         await page.waitForURL(
             /service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/edit\/.*\/check-your-answers/
         )
@@ -176,10 +181,15 @@ export const verifySAApptmntLocationInDelius = async (
     await expect(location).toBe(NPSOfficeLocationToBeVerified)
 }
 
-export const fillAndSaveIfTextBoxIsAvailable = async (page: Page, textBoxLocator: string, textToBeEnteredInTextBox: string, saveButtonLocator: string,): Promise<void> => {
-    const textBox = page.locator(textBoxLocator);
+export const fillAndSaveIfTextBoxIsAvailable = async (
+    page: Page,
+    textBoxLocator: string,
+    textToBeEnteredInTextBox: string,
+    saveButtonLocator: string
+): Promise<void> => {
+    const textBox = page.locator(textBoxLocator)
     if (await textBox.isVisible()) {
-        await textBox.fill(textToBeEnteredInTextBox);
-        await page.click(saveButtonLocator);
+        await textBox.fill(textToBeEnteredInTextBox)
+        await page.click(saveButtonLocator)
     }
-};
+}
