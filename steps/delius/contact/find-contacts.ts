@@ -81,8 +81,7 @@ export const rescheduleSupplierAssessmentAppointment = async (
     page: Page,
     referralRef: string,
     newAppointmentDate: Date,
-    attended = true,
-    notifyOm = false
+    attended = true
 ) => {
     await referralProgress(page, referralRef)
     await page.getByRole('link', { name: 'View details or reschedule' }).click()

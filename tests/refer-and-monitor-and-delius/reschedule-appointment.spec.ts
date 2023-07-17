@@ -145,8 +145,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
         page,
         referralRef,
         pastAppointmentDate,
-        true,
-        false
+        true
     )
 
     // Verify that both the Initial and Rescheduled Supplier Assessment Appointments are available in Delius
@@ -294,8 +293,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
         page,
         referralRef,
         pastAppointmentDate,
-        true,
-        false
+        true
     )
     const formattedDateTime = formatRMDateToDelius(rescheduledAppointmentDateTime)
 

@@ -9,4 +9,4 @@ export const sanitiseError = <T>(fn: AsyncFunction<T>): AsyncFunction<T> => {
     }
 }
 
-type AsyncFunction<T> = (...args: any[]) => Promise<T>
+type AsyncFunction<T> = (...args: unknown[]) => Promise<T>
