@@ -4,7 +4,7 @@ import { completeAccommodationSection } from '../accommodation-section.js'
 import { completeETESection } from '../ete-section.js'
 import { completeRelationshipsSection } from '../relationships-section.js'
 
-export const addLayer3AssessmentNeeds = async (page: Page, crn: string) => {
+export const addLayer3AssessmentNeeds = async (page: Page) => {
     // And I click on "Accommodation' under Section 2 to 4
     await clickAccommodation(page)
     // And I complete "Accommodation" Section

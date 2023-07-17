@@ -1,5 +1,4 @@
 import { expect, type Page } from '@playwright/test'
-import * as dotenv from 'dotenv'
 
 export const login = async (page: Page) => {
     await page.goto(process.env.APPROVEDPREMISES_URL)
@@ -8,7 +7,9 @@ export const login = async (page: Page) => {
 
     // may already be logged in
     if (title.trim() == approvedPremisesTitle) {
-        page.once('dialog', dialog => dialog.accept())
+        page.once('dialog', dialog => {
+            dialog.accept()
+        })
         await page.locator('a', { hasText: 'Sign out' }).click()
     }
 
