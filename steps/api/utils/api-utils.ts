@@ -15,7 +15,7 @@ export const retry = <T>(fn: AsyncFunction<T>, retryCount = 2): AsyncFunction<T>
         try {
             return await fn(...args)
         } catch (error) {
-            if (attempts++ > retryCount) {
+            if (++attempts > retryCount) {
                 console.error(`Failed after ${attempts} attempts`, error)
                 throw new Error(`Failed after ${attempts} attempts`)
             }
