@@ -3,7 +3,7 @@ import { type APIRequestContext, Page, request } from '@playwright/test'
 import { getToken } from '../auth/get-token.js'
 import { EuropeLondonFormat } from '../../delius/utils/date-time.js'
 import { setNomisId } from '../../delius/offender/update-offender.js'
-import { sanitiseError } from '../utils/sanitise-auth.js'
+import { retry, sanitiseError } from '../utils/api-utils.js'
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()
@@ -24,85 +24,97 @@ export async function createAndBookPrisoner(page: Page, crn: string, person: Per
     return { nomisId: offenderNo, bookingId: bookingId }
 }
 
-export const createPrisoner = sanitiseError(async (person: Person) => {
-    const response = await (
-        await getContext()
-    ).post(`/api/offenders`, {
-        failOnStatusCode: true,
-        data: {
-            firstName: person.firstName,
-            lastName: person.lastName,
-            dateOfBirth: person.dob,
-            gender: person.sex.charAt(0),
-        },
+export const createPrisoner = retry(
+    sanitiseError(async (person: Person) => {
+        const response = await (
+            await getContext()
+        ).post(`/api/offenders`, {
+            failOnStatusCode: true,
+            data: {
+                firstName: person.firstName,
+                lastName: person.lastName,
+                dateOfBirth: person.dob,
+                gender: person.sex.charAt(0),
+            },
+        })
+        const json = await response.json()
+        return json.offenderNo
     })
-    const json = await response.json()
-    return json.offenderNo
-})
+)
 
-export const bookPrisoner = sanitiseError(async (offenderNo: string) => {
-    const response = await (
-        await getContext()
-    ).post(`/api/offenders/${offenderNo}/booking`, {
-        failOnStatusCode: true,
-        data: {
-            movementReasonCode: 'N',
-            prisonId: 'MDI',
-            imprisonmentStatus: 'SENT03',
-        },
+export const bookPrisoner = retry(
+    sanitiseError(async (offenderNo: string) => {
+        const response = await (
+            await getContext()
+        ).post(`/api/offenders/${offenderNo}/booking`, {
+            failOnStatusCode: true,
+            data: {
+                movementReasonCode: 'N',
+                prisonId: 'MDI',
+                imprisonmentStatus: 'SENT03',
+            },
+        })
+        const json = await response.json()
+        return json.bookingId
     })
-    const json = await response.json()
-    return json.bookingId
-})
+)
 
-export const releasePrisoner = sanitiseError(async (offenderNo: string) => {
-    await (
-        await getContext()
-    ).put(`/api/offenders/${offenderNo}/release`, {
-        failOnStatusCode: true,
-        data: {
-            movementReasonCode: 'CR',
-        },
+export const releasePrisoner = retry(
+    sanitiseError(async (offenderNo: string) => {
+        await (
+            await getContext()
+        ).put(`/api/offenders/${offenderNo}/release`, {
+            failOnStatusCode: true,
+            data: {
+                movementReasonCode: 'CR',
+            },
+        })
     })
-})
+)
 
-export const temporaryReleasePrisoner = sanitiseError(async (offenderNo: string) => {
-    await (
-        await getContext()
-    ).put(`/api/offenders/${offenderNo}/temporary-absence-out`, {
-        failOnStatusCode: true,
-        data: {
-            toCity: '18248',
-            transferReasonCode: '1',
-        },
+export const temporaryReleasePrisoner = retry(
+    sanitiseError(async (offenderNo: string) => {
+        await (
+            await getContext()
+        ).put(`/api/offenders/${offenderNo}/temporary-absence-out`, {
+            failOnStatusCode: true,
+            data: {
+                toCity: '18248',
+                transferReasonCode: '1',
+            },
+        })
     })
-})
+)
 
-export const temporaryAbsenceReturn = sanitiseError(async (offenderNo: string) => {
-    await (
-        await getContext()
-    ).put(`/api/offenders/${offenderNo}/temporary-absence-arrival`, {
-        failOnStatusCode: true,
-        data: {
-            agencyId: 'MDI',
-            cellLocation: 'MDI-RECP',
-        },
+export const temporaryAbsenceReturn = retry(
+    sanitiseError(async (offenderNo: string) => {
+        await (
+            await getContext()
+        ).put(`/api/offenders/${offenderNo}/temporary-absence-arrival`, {
+            failOnStatusCode: true,
+            data: {
+                agencyId: 'MDI',
+                cellLocation: 'MDI-RECP',
+            },
+        })
     })
-})
+)
 
-export const recallPrisoner = sanitiseError(async (offenderNo: string) => {
-    const date = EuropeLondonFormat(new Date())
-    await (
-        await getContext()
-    ).put(`/api/offenders/${offenderNo}/recall`, {
-        failOnStatusCode: true,
-        data: {
-            prisonId: 'MDI',
-            recallTime: date,
-            movementReasonCode: '24',
-        },
+export const recallPrisoner = retry(
+    sanitiseError(async (offenderNo: string) => {
+        const date = EuropeLondonFormat(new Date())
+        await (
+            await getContext()
+        ).put(`/api/offenders/${offenderNo}/recall`, {
+            failOnStatusCode: true,
+            data: {
+                prisonId: 'MDI',
+                recallTime: date,
+                movementReasonCode: '24',
+            },
+        })
     })
-})
+)
 
 export interface CustodyDates {
     calculationUuid: string
@@ -119,11 +131,13 @@ export interface CustodyDates {
     }
 }
 
-export const updateCustodyDates = sanitiseError(async (bookingId: number, custodyDates: CustodyDates) => {
-    await (
-        await getContext()
-    ).post(`/api/offender-dates/${bookingId}`, {
-        failOnStatusCode: true,
-        data: custodyDates,
+export const updateCustodyDates = retry(
+    sanitiseError(async (bookingId: number, custodyDates: CustodyDates) => {
+        await (
+            await getContext()
+        ).post(`/api/offender-dates/${bookingId}`, {
+            failOnStatusCode: true,
+            data: custodyDates,
+        })
     })
-})
+)
