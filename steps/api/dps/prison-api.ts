@@ -50,7 +50,7 @@ export const bookPrisoner = retry(
             failOnStatusCode: true,
             data: {
                 movementReasonCode: 'N',
-                prisonId: 'MDI',
+                prisonId: 'SWI',
                 imprisonmentStatus: 'SENT03',
             },
         })

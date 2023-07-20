@@ -48,8 +48,8 @@ export const testEnvironmentData: TestData = {
             provider: 'NPS North East',
         },
         approvedPremisesTestTeam: {
-            name: 'Ascot House Approved Premises',
-            provider: 'Greater Manchester',
+            name: 'The Crescent',
+            provider: 'North East Region',
         },
         genericTeam: {
             name: 'OMU A',
