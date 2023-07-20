@@ -56,8 +56,15 @@ export const testEnvironmentData: TestData = {
             provider: 'NPS North East',
         },
     },
-    sentencedPrisoner: {
-        crn: 'X600508',
-        bookingId: 1203957,
+    prisoners: {
+        sentencedPrisoner: {
+            crn: 'X600508',
+            nomsNumber: 'A0260DZ',
+            bookingId: 1203957,
+        },
+        allocatedPrisoner: {
+            crn: 'X698315',
+            nomsNumber: 'G5012UJ',
+        },
     },
 }

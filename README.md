@@ -67,8 +67,11 @@ OASYS_PASSWORD_RSR=<oasys_t2_rsr_password>
 
 APPROVEDPREMISES_URL=https://approved-premises-dev.hmpps.service.justice.gov.uk/
 
-CONSIDER_RECALL_MRD_USERNAME=<mrd_username>
-CONSIDER_RECALL_MRD_PASSWORD=<mrd_password>
+CONSIDER_A_RECALL_URL=https://consider-a-recall-dev.hmpps.service.justice.gov.uk
+CONSIDER_A_RECALL_MRD_USERNAME=<mrd_username>
+CONSIDER_A_RECALL_MRD_PASSWORD=<mrd_password>
+
+MANAGE_POM_CASES_URL=https://test.moic.service.justice.gov.uk
 
 ```
 
