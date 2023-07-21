@@ -28,19 +28,25 @@ export async function getPodName(namespace: string, deploymentName: string): Pro
  * @param podName
  * @param containerName
  * @param command
+ * @param enableStdout
+ * @param enableStderr
  */
 export async function execCommand(
     namespace: string,
     podName: string,
     containerName: string,
-    command: string | string[]
+    command: string | string[],
+    enableStdout: boolean = false,
+    enableStderr: boolean = true
 ) {
     const kubeConfig = new KubeConfig()
     kubeConfig.loadFromDefault()
     const exec = new Exec(kubeConfig)
     console.log('Starting k8s exec command at ', new Date())
+    const stdout = enableStdout ? process.stdout : null
+    const stderr = enableStderr ? process.stderr : null
     const status = await new Promise((resolve, reject) => {
-        exec.exec(namespace, podName, containerName, command, process.stdout, process.stderr, null, false, v1Status => {
+        exec.exec(namespace, podName, containerName, command, stdout, stderr, null, false, v1Status => {
             if (v1Status.status === 'Failure') reject(new Error(v1Status.message))
             else resolve(v1Status)
         })
