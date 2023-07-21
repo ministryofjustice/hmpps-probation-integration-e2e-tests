@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test'
+import { expect, Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
 import { login as deliusLogin } from '../login.js'
 import { findOffenderByNomisId } from '../offender/find-offender.js'
@@ -8,7 +8,8 @@ export async function randomiseCommunityManagerName(page: Page, nomsNumber: stri
     const newValue = `ZZ${faker.string.alpha(6)}`
     await deliusLogin(page)
     await findOffenderByNomisId(page, nomsNumber)
-    await page.getByTitle('Expand Community Supervisor').click()
+    await page.getByRole('link', { name: 'Community Supervisor' }).click()
+    await expect(page.locator('#communitySupervisorPanel')).toHaveClass(/in/)
     const provider = await page.locator('#SearchForm\\:provider').textContent()
     const surname = /[^,]+/.exec(await page.locator('#SearchForm\\:communityPractitioner').textContent())[0]
     await page.getByRole('link', { name: /Reference Data/ }).click()
