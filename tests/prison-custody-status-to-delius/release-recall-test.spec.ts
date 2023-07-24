@@ -32,11 +32,9 @@ test('Release and recall test', async ({ page }) => {
     nomisIds.push(nomisId)
 
     await findCustodyForEventByCRN(page, crn, 1)
-    await refreshUntil(
-        page,
-        () => expect(page.locator("//span[contains(text(),'Moorland (HMP & YOI)')]")).toHaveCount(3),
-        { timeout: 180_000 }
-    )
+    await refreshUntil(page, () => expect(page.locator("//span[contains(text(),'Swansea (HMP)')]")).toHaveCount(3), {
+        timeout: 180_000,
+    })
 
     // When the person in nomis is released
     await releasePrisoner(nomisId)
@@ -48,11 +46,9 @@ test('Release and recall test', async ({ page }) => {
     // When the person in nomis is recalled
     await recallPrisoner(nomisId)
     // Then the person is recalled in Delius
-    await refreshUntil(
-        page,
-        () => expect(page.locator("//span[contains(text(),'Moorland (HMP & YOI)')]")).toHaveCount(3),
-        { timeout: 180_000 }
-    )
+    await refreshUntil(page, () => expect(page.locator("//span[contains(text(),'Swansea (HMP)')]")).toHaveCount(3), {
+        timeout: 180_000,
+    })
 })
 
 test('Temporary absence test', async ({ page }) => {
@@ -69,11 +65,9 @@ test('Temporary absence test', async ({ page }) => {
     nomisIds.push(nomisId)
 
     await findCustodyForEventByCRN(page, crn, 1)
-    await refreshUntil(
-        page,
-        () => expect(page.locator("//span[contains(text(),'Moorland (HMP & YOI)')]")).toHaveCount(3),
-        { timeout: 180_000 }
-    )
+    await refreshUntil(page, () => expect(page.locator("//span[contains(text(),'Swansea (HMP)')]")).toHaveCount(3), {
+        timeout: 180_000,
+    })
 
     await temporaryReleasePrisoner(nomisId)
     await createRelease(page, crn, 1, true)
@@ -84,11 +78,9 @@ test('Temporary absence test', async ({ page }) => {
 
     await findCustodyForEventByCRN(page, crn, 1)
     // Then the person is recalled in Delius
-    await refreshUntil(
-        page,
-        () => expect(page.locator("//span[contains(text(),'Moorland (HMP & YOI)')]")).toHaveCount(3),
-        { timeout: 180_000 }
-    )
+    await refreshUntil(page, () => expect(page.locator("//span[contains(text(),'Swansea (HMP)')]")).toHaveCount(3), {
+        timeout: 180_000,
+    })
 })
 
 test.afterAll(async () => {
