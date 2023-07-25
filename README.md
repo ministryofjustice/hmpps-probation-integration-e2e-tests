@@ -172,6 +172,16 @@ For this reason, there are three data files:
 Use the `ENV` variable in your `.env` file to specify which set of data to use.
 Valid values are `test` or `pre-prod`.
 
+### Data Creation
+Playwright tests can also be useful for setting up data in systems where APIs aren't available.
+
+Data creation scripts can be found in the [test-data-setup](./test-data-setup) directory. 
+To run them, set the `TEST_DIR` environment variable:
+
+```shell
+TEST_DIR=./test-data-setup npx playwright test
+```
+
 # Support
 
 For any issues or questions, please contact the Probation Integration team via
