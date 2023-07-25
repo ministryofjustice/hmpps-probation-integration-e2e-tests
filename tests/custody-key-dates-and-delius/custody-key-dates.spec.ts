@@ -10,7 +10,7 @@ import { commonData } from '../../test-data/environments/common.js'
 
 test('Update Custody Key Dates', async ({ page }) => {
     await deliusLogin(page)
-    await findCustodyForEventByCRN(page, data.sentencedPrisoner.crn, 1)
+    await findCustodyForEventByCRN(page, data.prisoners.sentencedPrisoner.crn, 1)
     const id = await page.locator('label', { hasText: 'Sentence Expiry Date:' }).getAttribute('for')
     const currentDate = await page.locator(`[id="${id}"]`).innerText()
     const dateParts = currentDate.split('/')
@@ -20,7 +20,7 @@ test('Update Custody Key Dates', async ({ page }) => {
     date.setFullYear(Number(dateParts[2]))
     date.setUTCDate(date.getUTCDate() + 1)
 
-    await updateCustodyDates(data.sentencedPrisoner.bookingId, {
+    await updateCustodyDates(data.prisoners.sentencedPrisoner.bookingId, {
         calculationUuid: uuid(),
         submissionUser: process.env.DPS_USERNAME,
         keyDates: {
@@ -31,8 +31,8 @@ test('Update Custody Key Dates', async ({ page }) => {
         },
     })
 
-    await verifyKeyDates(page, data.sentencedPrisoner.crn, 1, date)
-    await verifyContacts(page, data.sentencedPrisoner.crn, [
+    await verifyKeyDates(page, data.prisoners.sentencedPrisoner.crn, 1, date)
+    await verifyContacts(page, data.prisoners.sentencedPrisoner.crn, [
         contact(commonData.events.custodial.outcome, 'Data Share Update Contact'),
     ])
 })
