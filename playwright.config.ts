@@ -1,5 +1,4 @@
-import { type PlaywrightTestConfig } from '@playwright/test'
-import { devices } from '@playwright/test'
+import { devices, type PlaywrightTestConfig } from '@playwright/test'
 
 /**
  * Read environment variables from file.
@@ -11,9 +10,11 @@ import { devices } from '@playwright/test'
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
-    testDir: './tests',
+    testDir: process.env.TEST_DIR ? process.env.TEST_DIR : './tests',
     /* Maximum time one test can run for. */
     timeout: 180 * 1000,
+    /* Maximum time test suite can run for. */
+    globalTimeout: 60 * 60 * 1000,
     /* Run tests in files in parallel */
     fullyParallel: true,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -28,17 +29,11 @@ const config: PlaywrightTestConfig = {
         launchOptions: { slowMo: 150 },
         screenshot: 'only-on-failure',
         trace: process.env.CI ? 'off' : 'on',
+        ...devices['Desktop Chrome'],
     },
 
-    /* Configure projects for major browsers */
-    projects: [
-        {
-            name: 'chromium',
-            use: {
-                ...devices['Desktop Chrome'],
-            },
-        },
-    ],
+    /* Configure projects */
+    projects: [{ name: 'default' }],
 }
 
 export default config
