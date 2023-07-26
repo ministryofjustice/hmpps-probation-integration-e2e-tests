@@ -93,8 +93,8 @@ export const temporaryAbsenceReturn = retry(
         ).put(`/api/offenders/${offenderNo}/temporary-absence-arrival`, {
             failOnStatusCode: true,
             data: {
-                agencyId: 'MDI',
-                cellLocation: 'MDI-RECP',
+                agencyId: 'SWI',
+                cellLocation: 'SWI-RECP',
             },
         })
     })
@@ -108,7 +108,7 @@ export const recallPrisoner = retry(
         ).put(`/api/offenders/${offenderNo}/recall`, {
             failOnStatusCode: true,
             data: {
-                prisonId: 'MDI',
+                prisonId: 'SWI',
                 recallTime: date,
                 movementReasonCode: '24',
             },
