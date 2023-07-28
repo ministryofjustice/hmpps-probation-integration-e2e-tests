@@ -22,6 +22,6 @@ export const login = async (page: Page) => {
 }
 
 export const navigateToApplications = async (page: Page) => {
-    await page.goto(`${process.env.APPROVEDPREMISES_URL}applications/new`)
+    await page.goto(`${process.env.APPROVEDPREMISES_URL}/applications/new`)
     await expect(page).toHaveTitle("Approved Premises - Enter the person's CRN")
 }
