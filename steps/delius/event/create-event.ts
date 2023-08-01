@@ -16,8 +16,8 @@ export interface CreateEvent {
         appearanceType?: string
         outcome?: string
         length?: string
-        reportType?: string,
-    },
+        reportType?: string
+    }
     date?: Date
 }
 

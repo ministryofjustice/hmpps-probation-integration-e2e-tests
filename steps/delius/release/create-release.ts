@@ -4,7 +4,13 @@ import { findEventByCRN } from '../event/find-events.js'
 import { DeliusDateFormatter, Yesterday } from '../utils/date-time.js'
 import { doUntil } from '../utils/refresh.js'
 
-export const createRelease = async (page: Page, crn: string, eventNumber = 1, temporary = false, releaseDate: Date = Yesterday) => {
+export const createRelease = async (
+    page: Page,
+    crn: string,
+    eventNumber = 1,
+    temporary = false,
+    releaseDate: Date = Yesterday
+) => {
     await findEventByCRN(page, crn, eventNumber)
     await page.getByRole('button', { name: 'Throughcare' }).click()
     await expect(page.locator('h1')).toHaveText('Throughcare Details')

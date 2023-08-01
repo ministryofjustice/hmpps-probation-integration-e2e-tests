@@ -1,5 +1,5 @@
 import { type Page, expect } from '@playwright/test'
-import {selectOption} from "../../delius/utils/inputs";
+import { selectOption } from '../../delius/utils/inputs'
 
 export const addLocationFactors = async (page: Page) => {
     await page.locator('#postcodeArea').fill('SW11')
