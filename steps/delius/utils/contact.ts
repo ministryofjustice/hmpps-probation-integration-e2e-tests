@@ -1,4 +1,4 @@
-import { Allocation, Contact } from '../../../test-data/test-data.js'
+import { Allocation, Contact } from '../../../test-data/test-data'
 
 export function contact(
     relatesTo: string,

@@ -1,10 +1,10 @@
 import { expect, type Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
-import { referralProgress } from './referral.js'
+import { referralProgress } from './referral'
 import { addDays, parse } from 'date-fns'
-import { get12Hour, getTimeOfDay, Tomorrow } from '../delius/utils/date-time.js'
-import { refreshUntil } from '../delius/utils/refresh.js'
-import { fillAndSaveIfTextBoxIsAvailable } from '../delius/contact/find-contacts.js'
+import { get12Hour, getTimeOfDay, Tomorrow } from '../delius/utils/date-time'
+import { refreshUntil } from '../delius/utils/refresh'
+import { fillAndSaveIfTextBoxIsAvailable } from '../delius/contact/find-contacts'
 
 export const createSupplierAssessmentAppointment = async (
     page: Page,

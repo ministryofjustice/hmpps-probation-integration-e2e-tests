@@ -1,8 +1,8 @@
 import { expect, type Page } from '@playwright/test'
-import { refreshUntil } from '../delius/utils/refresh.js'
-import { WorkforceDateFormat } from './utils.js'
-import { Allocation, Team } from '../../test-data/test-data.js'
-import { Tomorrow } from '../delius/utils/date-time.js'
+import { refreshUntil } from '../delius/utils/refresh'
+import { WorkforceDateFormat } from './utils'
+import { Allocation, Team } from '../../test-data/test-data'
+import { Tomorrow } from '../delius/utils/date-time'
 
 export const viewAllocation = async (page: Page, crn: string) => {
     const matchingRow = page.locator('tr', { hasText: crn })

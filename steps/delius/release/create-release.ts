@@ -1,8 +1,8 @@
 import { expect, type Page } from '@playwright/test'
-import { selectOption } from '../utils/inputs.js'
-import { findEventByCRN } from '../event/find-events.js'
-import { DeliusDateFormatter, Yesterday } from '../utils/date-time.js'
-import { doUntil } from '../utils/refresh.js'
+import { selectOption } from '../utils/inputs'
+import { findEventByCRN } from '../event/find-events'
+import { DeliusDateFormatter, Yesterday } from '../utils/date-time'
+import { doUntil } from '../utils/refresh'
 
 export const createRelease = async (
     page: Page,

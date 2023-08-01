@@ -1,11 +1,11 @@
 import { type Page } from '@playwright/test'
-import { setProviderEstablishment as selectRegion } from '../../set-provider-establishment.js'
-import { clickSearch } from '../../task-manager.js'
-import { offenderSearchWithCRN as crnSearch } from '../../offender-search.js'
-import { clickCreateOffenderButton } from '../../cms-offender-details.js'
-import { clickCreateAssessmentButton, clickUpdateOffenderButton } from '../create-ofender.js'
-import { clickOKForCRNAmendment } from '../crn-amendment.js'
-import { clickCMSRecord } from '../cms-search-results.js'
+import { setProviderEstablishment as selectRegion } from '../../set-provider-establishment'
+import { clickSearch } from '../../task-manager'
+import { offenderSearchWithCRN as crnSearch } from '../../offender-search'
+import { clickCreateOffenderButton } from '../../cms-offender-details'
+import { clickCreateAssessmentButton, clickUpdateOffenderButton } from '../create-ofender'
+import { clickOKForCRNAmendment } from '../crn-amendment'
+import { clickCMSRecord } from '../cms-search-results'
 import {
     clickOffenceAnalysis,
     clickRiskManagementPlan,
@@ -13,14 +13,14 @@ import {
     clickRoSHScreeningSection1,
     clickRoSHSummary,
     createLayer3Assessment,
-} from '../create-assessment.js'
-import { completeRoSHSection1MarkAllNo } from '../section-1.js'
-import { clickSection2To4NextButton } from '../section-2-4.js'
-import { completeRoSHSection5FullAnalysisYes } from '../section-5.js'
-import { completeRoSHSection10RoSHSummary } from '../section-10.js'
-import { completeRiskManagementPlan } from '../risk-management-plan.js'
-import { completeOffenceAnalysis } from '../analysis-of-offences-layer3.js'
-import { completeRoSHFullSec8RisksToIndvdl } from '../rosh-full-analysis-section-8.js'
+} from '../create-assessment'
+import { completeRoSHSection1MarkAllNo } from '../section-1'
+import { clickSection2To4NextButton } from '../section-2-4'
+import { completeRoSHSection5FullAnalysisYes } from '../section-5'
+import { completeRoSHSection10RoSHSummary } from '../section-10'
+import { completeRiskManagementPlan } from '../risk-management-plan'
+import { completeOffenceAnalysis } from '../analysis-of-offences-layer3'
+import { completeRoSHFullSec8RisksToIndvdl } from '../rosh-full-analysis-section-8'
 
 export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string) => {
     // And I select "Warwickshire" from Choose Provider Establishment

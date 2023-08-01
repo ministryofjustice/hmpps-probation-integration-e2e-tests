@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test'
-import { type Person } from '../../utils/person.js'
+import { type Person } from '../../utils/person'
 
 export const ClickAddToAddProviderOfficer = async (page: Page) => {
     await page.locator('input', { hasText: 'Add' }).click()

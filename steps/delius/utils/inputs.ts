@@ -1,6 +1,6 @@
 import { type Page } from '@playwright/test'
-import { DeliusDateFormatter, DeliusTimeFormatter } from './date-time.js'
-import { waitForAjax } from './refresh.js'
+import { DeliusDateFormatter, DeliusTimeFormatter } from './date-time'
+import { waitForAjax } from './refresh'
 
 const getOptions = async (page: Page, selector: string, filter: (s: string) => boolean = null) => {
     return (await page.$$eval(`${selector} > option`, opts => opts.map(option => option.textContent)))

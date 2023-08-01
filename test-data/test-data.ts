@@ -1,6 +1,6 @@
-import { commonData } from './environments/common.js'
-import { testEnvironmentData } from './environments/test.js'
-import { preProdEnvironmentData } from './environments/pre-prod.js'
+import { commonData } from './environments/common'
+import { testEnvironmentData } from './environments/test'
+import { preProdEnvironmentData } from './environments/pre-prod'
 import * as dotenv from 'dotenv'
 
 export type Optional<T> = { [K in keyof T]?: T[K] }

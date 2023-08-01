@@ -1,12 +1,12 @@
 import { test } from '@playwright/test'
-import { login as deliusLogin } from '../../steps/delius/login.js'
-import { updateCustodyDates } from '../../steps/api/dps/prison-api.js'
-import { findCustodyForEventByCRN, verifyKeyDates } from '../../steps/delius/event/find-events.js'
+import { login as deliusLogin } from '../../steps/delius/login'
+import { updateCustodyDates } from '../../steps/api/dps/prison-api'
+import { findCustodyForEventByCRN, verifyKeyDates } from '../../steps/delius/event/find-events'
 import { v4 as uuid } from 'uuid'
-import { verifyContacts } from '../../steps/delius/contact/find-contacts.js'
-import { contact } from '../../steps/delius/utils/contact.js'
-import { data } from '../../test-data/test-data.js'
-import { commonData } from '../../test-data/environments/common.js'
+import { verifyContacts } from '../../steps/delius/contact/find-contacts'
+import { contact } from '../../steps/delius/utils/contact'
+import { data } from '../../test-data/test-data'
+import { commonData } from '../../test-data/environments/common'
 
 test('Update Custody Key Dates', async ({ page }) => {
     await deliusLogin(page)

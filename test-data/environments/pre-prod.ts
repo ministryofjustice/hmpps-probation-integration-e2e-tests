@@ -1,4 +1,4 @@
-import { type TestData } from '../test-data.js'
+import { type TestData } from '../test-data'
 
 export const preProdEnvironmentData: TestData = {
     documentTemplates: {

@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test'
-import { findOffenderByCRN } from '../offender/find-offender.js'
-import { findEventByCRN } from './find-events.js'
+import { findOffenderByCRN } from '../offender/find-offender'
+import { findEventByCRN } from './find-events'
 
 export async function findNSIByCRN(page: Page, crn: string, eventNumber: number, NSIText: string) {
     // Search for event

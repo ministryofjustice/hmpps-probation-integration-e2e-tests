@@ -1,12 +1,12 @@
 import { expect, type Page } from '@playwright/test'
-import { enterCRN } from './enter-crn.js'
-import { clickSaveAndContinue } from './confirm-details.js'
-import { clickExceptionalCaseYes } from './application-not-eligible.js'
-import { selectSentenceType } from './select-sentence-type.js'
-import { selectSituationOption } from './select-situation-option.js'
-import { selectReleaseDateKnownStatus } from './release-date-known-status.js'
-import { confirmPlacementStartdate } from './placement-start-date.js'
-import { selectAPPlacementPurpose } from './ap-placement-purpose.js'
+import { enterCRN } from './enter-crn'
+import { clickSaveAndContinue } from './confirm-details'
+import { clickExceptionalCaseYes } from './application-not-eligible'
+import { selectSentenceType } from './select-sentence-type'
+import { selectSituationOption } from './select-situation-option'
+import { selectReleaseDateKnownStatus } from './release-date-known-status'
+import { confirmPlacementStartdate } from './placement-start-date'
+import { selectAPPlacementPurpose } from './ap-placement-purpose'
 import {
     clickAddAccessCulturalHealthcareNeedsLink,
     clickAddDetailsManagingRisksNeedsLink,
@@ -18,18 +18,18 @@ import {
     clickDtlFrtherConsidPlacementLink,
     clickreviewPrisoninformationLink,
     clickTypeOfAPRequiredLink,
-} from './task-list.js'
-import { selectTypeOfAPRequired } from './select-type-ap-required.js'
-import { addExemptionDetails } from './add-exemption-details.js'
-import { addRisksNeedsDetails } from './add-details-managing-risks-needs.js'
-import { reviewPrisoninformation } from './review-prison-information.js'
-import { addLocationFactors } from './location-factors.js'
-import { addAccessCulturalHealthCareNeeds } from './access-cultural-healthcare-needs.js'
-import { addFurtherPlacementConsiderations } from './futher-placement-considerations.js'
-import { addMoveOnInformation } from './add-move-on-info.js'
-import { attachReqrdDocuments } from './attach-required-documents.js'
-import { checkYourAnswers } from './check-your-answers.js'
-import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status.js'
+} from './task-list'
+import { selectTypeOfAPRequired } from './select-type-ap-required'
+import { addExemptionDetails } from './add-exemption-details'
+import { addRisksNeedsDetails } from './add-details-managing-risks-needs'
+import { reviewPrisoninformation } from './review-prison-information'
+import { addLocationFactors } from './location-factors'
+import { addAccessCulturalHealthCareNeeds } from './access-cultural-healthcare-needs'
+import { addFurtherPlacementConsiderations } from './futher-placement-considerations'
+import { addMoveOnInformation } from './add-move-on-info'
+import { attachReqrdDocuments } from './attach-required-documents'
+import { checkYourAnswers } from './check-your-answers'
+import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status'
 
 export const submitAPApplication = async (page: Page, crn: string) => {
     // And I enter the CRN & Submit

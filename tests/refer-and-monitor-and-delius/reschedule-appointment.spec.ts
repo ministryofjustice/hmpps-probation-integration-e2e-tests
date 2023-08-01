@@ -1,16 +1,16 @@
 import { expect, test } from '@playwright/test'
-import { login as loginDelius } from '../../steps/delius/login.js'
-import { logout as logoutDelius } from '../../steps/delius/logout.js'
-import { createOffender } from '../../steps/delius/offender/create-offender.js'
-import { createCommunityEvent } from '../../steps/delius/event/create-event.js'
-import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement.js'
+import { login as loginDelius } from '../../steps/delius/login'
+import { logout as logoutDelius } from '../../steps/delius/logout'
+import { createOffender } from '../../steps/delius/offender/create-offender'
+import { createCommunityEvent } from '../../steps/delius/event/create-event'
+import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement'
 import {
     loginAsPractitioner,
     loginAsSupplier as loginRandMAsSupplier,
     logout as logoutRandM,
-} from '../../steps/referandmonitor/login.js'
-import { createSupplierAssessmentAppointment } from '../../steps/referandmonitor/appointment.js'
-import { data } from '../../test-data/test-data.js'
+} from '../../steps/referandmonitor/login'
+import { createSupplierAssessmentAppointment } from '../../steps/referandmonitor/appointment'
+import { data } from '../../test-data/test-data'
 import {
     navigateToNSIContactDetails,
     navigateToNSIDetails,
@@ -18,14 +18,14 @@ import {
     updateSAAppointmentLocation,
     verifyContact,
     verifySAApptmntLocationInDelius,
-} from '../../steps/delius/contact/find-contacts.js'
+} from '../../steps/delius/contact/find-contacts'
 import { addDays, parse, subHours } from 'date-fns'
 import { faker } from '@faker-js/faker'
-import { formatRMDateToDelius, Tomorrow } from '../../steps/delius/utils/date-time.js'
-import { createAndAssignReferral } from './common.js'
-import { createContact } from '../../steps/delius/contact/create-contact.js'
-import { deliusPerson } from '../../steps/delius/utils/person.js'
-import { cancelReferral } from '../../steps/referandmonitor/referral.js'
+import { formatRMDateToDelius, Tomorrow } from '../../steps/delius/utils/date-time'
+import { createAndAssignReferral } from './common'
+import { createContact } from '../../steps/delius/contact/create-contact'
+import { deliusPerson } from '../../steps/delius/utils/person'
+import { cancelReferral } from '../../steps/referandmonitor/referral'
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)

@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test'
-import { data } from '../../test-data/test-data.js'
-import { randomiseCommunityManagerName } from '../../steps/delius/staff/community-manager.js'
-import { login as mpcLogin } from '../../steps/manage-pom-cases/login.js'
-import { execCommand, getPodName } from '../../steps/k8s/k8s-utils.js'
+import { data } from '../../test-data/test-data'
+import { randomiseCommunityManagerName } from '../../steps/delius/staff/community-manager'
+import { login as mpcLogin } from '../../steps/manage-pom-cases/login'
+import { execCommand, getPodName } from '../../steps/k8s/k8s-utils'
 
 test('View Delius case data', async ({ page }) => {
     test.slow() // extend the timeout - the import job can take a few minutes
@@ -12,7 +12,7 @@ test('View Delius case data', async ({ page }) => {
     const newManagerName = await randomiseCommunityManagerName(page, nomsNumber)
 
     // When the probation import job runs
-    const namespace = 'offender-management-test'
+    const namespace = 'offender-management-staging'
     const deploymentName = 'allocation-manager'
     const podName = await getPodName(namespace, deploymentName)
     await execCommand(namespace, podName, deploymentName, ['sh', '-c', 'rake community_api:import'])

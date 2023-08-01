@@ -1,8 +1,8 @@
 import { expect, type Page } from '@playwright/test'
-import { findOffenderByCRN } from '../offender/find-offender.js'
-import { doUntil } from '../utils/refresh.js'
-import { Contact } from '../../../test-data/test-data.js'
-import { referralProgress } from '../../referandmonitor/referral.js'
+import { findOffenderByCRN } from '../offender/find-offender'
+import { doUntil } from '../utils/refresh'
+import { Contact } from '../../../test-data/test-data'
+import { referralProgress } from '../../referandmonitor/referral'
 
 export async function findContactsByCRN(page: Page, crn: string) {
     await findOffenderByCRN(page, crn)

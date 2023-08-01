@@ -1,7 +1,7 @@
 import { type Page } from '@playwright/test'
-import { data, Team } from '../../../test-data/test-data.js'
-import { findEventByCRN } from '../event/find-events.js'
-import { selectOption } from '../utils/inputs.js'
+import { data, Team } from '../../../test-data/test-data'
+import { findEventByCRN } from '../event/find-events'
+import { selectOption } from '../utils/inputs'
 
 export async function createRequirementForEvent(
     page: Page,

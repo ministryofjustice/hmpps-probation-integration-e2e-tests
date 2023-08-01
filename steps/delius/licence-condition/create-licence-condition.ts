@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test'
-import { selectOption } from '../utils/inputs.js'
-import { findEventByCRN } from '../event/find-events.js'
+import { selectOption } from '../utils/inputs'
+import { findEventByCRN } from '../event/find-events'
 
 export const createLicenceCondition = async (page: Page, crn: string, eventNumber = 1): Promise<string> => {
     await findEventByCRN(page, crn, eventNumber)

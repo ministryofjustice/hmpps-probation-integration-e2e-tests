@@ -1,26 +1,26 @@
 import { test } from '@playwright/test'
 import * as dotenv from 'dotenv'
 dotenv.config() // read environment variables into process.env
-import { login as deliusLogin } from '../../steps/delius/login.js'
-import { createOffender } from '../../steps/delius/offender/create-offender.js'
-import { deliusPerson } from '../../steps/delius/utils/person.js'
-import { login as oasysLogin, UserType } from '../../steps/oasys/login.js'
-import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
-import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
+import { login as deliusLogin } from '../../steps/delius/login'
+import { createOffender } from '../../steps/delius/offender/create-offender'
+import { deliusPerson } from '../../steps/delius/utils/person'
+import { login as oasysLogin, UserType } from '../../steps/oasys/login'
+import { createCustodialEvent } from '../../steps/delius/event/create-event'
+import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import {
     clickChooseSectionsOfOASysToImportLink,
     navigateToTaskListPage,
     verifyRoshScoresAreAsPerOasys,
-} from '../../steps/approved-premises/applications/task-list.js'
-import { selectNeedsAndSubmit } from '../../steps/approved-premises/applications/import-oasys-sections.js'
-import { verifyRoSHSummaryIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rosh.js'
-import { data } from '../../test-data/test-data.js'
-import { verifyRMPInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rmp.js'
-import { verifyOffenceAnalysisIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-offence-analysis.js'
-import { verifyRiskToSelfIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-risk-to-self.js'
-import { verifySupportingInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-supporting-info.js'
-import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs.js'
-import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs.js'
+} from '../../steps/approved-premises/applications/task-list'
+import { selectNeedsAndSubmit } from '../../steps/approved-premises/applications/import-oasys-sections'
+import { verifyRoSHSummaryIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rosh'
+import { data } from '../../test-data/test-data'
+import { verifyRMPInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rmp'
+import { verifyOffenceAnalysisIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-offence-analysis'
+import { verifyRiskToSelfIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-risk-to-self'
+import { verifySupportingInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-supporting-info'
+import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
+import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 
 const nomisIds = []
 

@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test'
-import { findOffenderByCRN } from '../offender/find-offender.js'
-import { fillDate, selectOption } from '../utils/inputs.js'
+import { findOffenderByCRN } from '../offender/find-offender'
+import { fillDate, selectOption } from '../utils/inputs'
 import { faker } from '@faker-js/faker'
 
 export async function terminateEvent(page: Page, crn: string, eventNumber: string, reason: string) {

@@ -1,7 +1,7 @@
 import { expect, type Page } from '@playwright/test'
-import { selectOption } from '../utils/inputs.js'
-import { findOffenderByCRN } from '../offender/find-offender.js'
-import { Allocation, Optional } from '../../../test-data/test-data.js'
+import { selectOption } from '../utils/inputs'
+import { findOffenderByCRN } from '../offender/find-offender'
+import { Allocation, Optional } from '../../../test-data/test-data'
 
 export async function internalTransfer(
     page: Page,

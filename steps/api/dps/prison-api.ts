@@ -1,9 +1,9 @@
-import { type Person } from '../../delius/utils/person.js'
+import { type Person } from '../../delius/utils/person'
 import { type APIRequestContext, Page, request } from '@playwright/test'
-import { getToken } from '../auth/get-token.js'
-import { EuropeLondonFormat } from '../../delius/utils/date-time.js'
-import { setNomisId } from '../../delius/offender/update-offender.js'
-import { retry, sanitiseError } from '../utils/api-utils.js'
+import { getToken } from '../auth/get-token'
+import { EuropeLondonFormat } from '../../delius/utils/date-time'
+import { setNomisId } from '../../delius/offender/update-offender'
+import { retry, sanitiseError } from '../utils/api-utils'
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()

@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test'
-import { deliusPerson } from '../../utils/person.js'
+import { deliusPerson } from '../../utils/person'
 import { format, subDays } from 'date-fns'
 
 export const addProviderOfficerDetails = async (page: Page) => {
