@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test'
-import { refreshUntil } from '../utils/refresh.js'
-import { findOffenderByCRN } from '../offender/find-offender.js'
+import { refreshUntil } from '../utils/refresh'
+import { findOffenderByCRN } from '../offender/find-offender'
 import StreamZip from 'node-stream-zip'
 
 export async function createSubjectAccessReport(page: Page, crn, downloadLocation: string) {

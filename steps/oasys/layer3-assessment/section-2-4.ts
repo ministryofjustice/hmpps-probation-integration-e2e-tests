@@ -1,5 +1,5 @@
 import { type Page, expect } from '@playwright/test'
-import { doUntil } from '../../delius/utils/refresh.js'
+import { doUntil } from '../../delius/utils/refresh'
 
 export const clickSection2To4NextButton = async (page: Page): Promise<void> => {
     await doUntilLinkIsVisible(page, 'RoSH Screening')

@@ -1,5 +1,5 @@
 import { type Page, expect } from '@playwright/test'
-import { doUntil } from '../delius/utils/refresh.js'
+import { doUntil } from '../delius/utils/refresh'
 
 export const inputRSRScoreAnswers = async (page: Page) => {
     await page.fill('#P5_CT_OFFENCE_CODE_TEXT', '029')

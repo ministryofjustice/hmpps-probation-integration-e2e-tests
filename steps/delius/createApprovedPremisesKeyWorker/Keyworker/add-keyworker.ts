@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test'
-import { type Person } from '../../utils/person.js'
+import { type Person } from '../../utils/person'
 
 export const addKeyWorker = async (page: Page, person: Person) => {
     await expect(page.locator('#AddKeyWorkerForm\\:ApprovedPremises')).toHaveText('Bedford AP - Bedford')

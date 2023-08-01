@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test'
-import { login as deliusLogin } from '../../steps/delius/login.js'
-import { createOffender } from '../../steps/delius/offender/create-offender.js'
-import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
-import { deliusPerson } from '../../steps/delius/utils/person.js'
-import { epfContext } from '../../steps/api/epf/epf-api.js'
-import { data } from '../../test-data/test-data.js'
+import { login as deliusLogin } from '../../steps/delius/login'
+import { createOffender } from '../../steps/delius/offender/create-offender'
+import { createCustodialEvent } from '../../steps/delius/event/create-event'
+import { deliusPerson } from '../../steps/delius/utils/person'
+import { epfContext } from '../../steps/api/epf/epf-api'
+import { data } from '../../test-data/test-data'
 
 test('test epf context api endpoint', async ({ page }) => {
     // Given a person with a sentenced event in Delius

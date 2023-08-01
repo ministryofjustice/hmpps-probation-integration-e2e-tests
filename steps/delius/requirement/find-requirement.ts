@@ -1,5 +1,5 @@
 import { expect, Page } from '@playwright/test'
-import { findEventByCRN } from '../event/find-events.js'
+import { findEventByCRN } from '../event/find-events'
 
 const findRequirements = async (page: Page, crn, eventNumber) => {
     await findEventByCRN(page, crn, eventNumber)

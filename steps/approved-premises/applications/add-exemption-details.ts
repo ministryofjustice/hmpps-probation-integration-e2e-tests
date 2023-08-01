@@ -1,6 +1,6 @@
 import { type Page, expect } from '@playwright/test'
-import { splitDate } from '../../common/common.js'
-import { Yesterday } from '../../delius/utils/date-time.js'
+import { splitDate } from '../../common/common'
+import { Yesterday } from '../../delius/utils/date-time'
 import { faker } from '@faker-js/faker'
 
 const [agreedDay, agreedMonth, agreedYear] = splitDate(Yesterday)

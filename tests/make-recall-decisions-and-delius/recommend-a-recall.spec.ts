@@ -1,12 +1,8 @@
 import { test } from '@playwright/test'
-import { login as deliusLogin } from '../../steps/delius/login.js'
-import {
-    login as makeRecallDecisionsLogin,
-    loginAsSupervisor,
-    logout,
-} from '../../steps/make-recall-decisions/login.js'
-import { deliusPerson } from '../../steps/delius/utils/person.js'
-import { createOffender } from '../../steps/delius/offender/create-offender.js'
+import { login as deliusLogin } from '../../steps/delius/login'
+import { login as makeRecallDecisionsLogin, loginAsSupervisor, logout } from '../../steps/make-recall-decisions/login'
+import { deliusPerson } from '../../steps/delius/utils/person'
+import { createOffender } from '../../steps/delius/offender/create-offender'
 import {
     makeManagementOversightDecision,
     recommendAPersonForRecall,
@@ -15,17 +11,17 @@ import {
     verifyLicenceCondition,
     verifyRecallOffenderDetails,
     verifyRecallOffendersAddress,
-} from '../../steps/make-recall-decisions/start-recommendation.js'
+} from '../../steps/make-recall-decisions/start-recommendation'
 import * as dotenv from 'dotenv'
-import { buildAddress, createAddress } from '../../steps/delius/address/create-address.js'
-import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
-import { createLicenceCondition } from '../../steps/delius/licence-condition/create-licence-condition.js'
-import { createRelease } from '../../steps/delius/release/create-release.js'
-import { createContact } from '../../steps/delius/contact/create-contact.js'
-import { Yesterday } from '../../steps/delius/utils/date-time.js'
-import { verifyContacts } from '../../steps/delius/contact/find-contacts.js'
-import { contact } from '../../steps/delius/utils/contact.js'
-import { data } from '../../test-data/test-data.js'
+import { buildAddress, createAddress } from '../../steps/delius/address/create-address'
+import { createCustodialEvent } from '../../steps/delius/event/create-event'
+import { createLicenceCondition } from '../../steps/delius/licence-condition/create-licence-condition'
+import { createRelease } from '../../steps/delius/release/create-release'
+import { createContact } from '../../steps/delius/contact/create-contact'
+import { Yesterday } from '../../steps/delius/utils/date-time'
+import { verifyContacts } from '../../steps/delius/contact/find-contacts'
+import { contact } from '../../steps/delius/utils/contact'
+import { data } from '../../test-data/test-data'
 dotenv.config() // read environment variables into process.env
 
 test('Make a Management Oversight Decision and verify in Delius', async ({ page }) => {

@@ -1,7 +1,7 @@
 import { expect, type Page } from '@playwright/test'
-import { findOffenderByCRN, isInOffenderContext } from '../offender/find-offender.js'
-import { DeliusDateFormatter } from '../utils/date-time.js'
-import { refreshUntil } from '../utils/refresh.js'
+import { findOffenderByCRN, isInOffenderContext } from '../offender/find-offender'
+import { DeliusDateFormatter } from '../utils/date-time'
+import { refreshUntil } from '../utils/refresh'
 
 export async function findEventByCRN(page: Page, crn: string, eventNumber: number) {
     if (await isInEventContext(page, crn, eventNumber)) {

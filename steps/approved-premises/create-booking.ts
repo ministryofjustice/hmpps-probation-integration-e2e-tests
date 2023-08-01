@@ -1,11 +1,11 @@
 import { expect, type Page } from '@playwright/test'
-import { splitDate } from '../common/common.js'
-import { NextMonth, Tomorrow } from '../delius/utils/date-time.js'
-import { login as approvedPremisesLogin, navigateToApplications } from './login.js'
-import { submitAPApplication } from './applications/submit-application-full.js'
-import { selectApprovedPremises } from './approved-premises-home.js'
-import { selectCreatePlacementAction } from './approved-premises.js'
-import { searchOffenderWithCrn } from './create-placement.js'
+import { splitDate } from '../common/common'
+import { NextMonth, Tomorrow } from '../delius/utils/date-time'
+import { login as approvedPremisesLogin, navigateToApplications } from './login'
+import { submitAPApplication } from './applications/submit-application-full'
+import { selectApprovedPremises } from './approved-premises-home'
+import { selectCreatePlacementAction } from './approved-premises'
+import { searchOffenderWithCrn } from './create-placement'
 
 const [arrivalDay, arrivalMonth, arrivalYear] = splitDate(Tomorrow)
 const [departureDay, departureMonth, departureYear] = splitDate(NextMonth)

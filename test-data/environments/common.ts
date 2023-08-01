@@ -1,4 +1,4 @@
-import { type TestData } from '../test-data.js'
+import { type TestData } from '../test-data'
 
 // Static / well-known data that should be available in all environments
 export const commonData: TestData = {

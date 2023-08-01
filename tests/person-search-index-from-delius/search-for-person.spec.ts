@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test'
-import { login as deliusLogin } from '../../steps/delius/login.js'
-import { createOffender } from '../../steps/delius/offender/create-offender.js'
-import { deliusPerson } from '../../steps/delius/utils/person.js'
+import { login as deliusLogin } from '../../steps/delius/login'
+import { createOffender } from '../../steps/delius/offender/create-offender'
+import { deliusPerson } from '../../steps/delius/utils/person'
 import * as dotenv from 'dotenv'
-import { doUntil } from '../../steps/delius/utils/refresh.js'
-import { createContact } from '../../steps/delius/contact/create-contact.js'
-import { LastMonth, Tomorrow, Yesterday } from '../../steps/delius/utils/date-time.js'
-import { data } from '../../test-data/test-data.js'
+import { doUntil } from '../../steps/delius/utils/refresh'
+import { createContact } from '../../steps/delius/contact/create-contact'
+import { LastMonth, Tomorrow, Yesterday } from '../../steps/delius/utils/date-time'
+import { data } from '../../test-data/test-data'
 
 dotenv.config() // read environment variables into process.env
 

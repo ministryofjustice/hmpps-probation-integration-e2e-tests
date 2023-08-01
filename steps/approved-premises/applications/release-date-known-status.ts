@@ -1,5 +1,5 @@
 import { type Page, expect } from '@playwright/test'
-import { splitDate } from '../../common/common.js'
+import { splitDate } from '../../common/common'
 import { addMonths } from 'date-fns'
 
 export const [futureDay, futureMonth, futureYear] = splitDate(addMonths(new Date(), 5))

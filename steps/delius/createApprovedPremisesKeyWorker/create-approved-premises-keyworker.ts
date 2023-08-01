@@ -1,18 +1,18 @@
 // import {Page} from '@playwright/test'
 import { type Page } from '@playwright/test'
 import * as dotenv from 'dotenv'
-import { clickReferenceData } from './create-staff-record/delius-home.js'
-import { clickLocalReferenceRecords } from './create-staff-record/reference-data.js'
-import { clickStaffButton } from './create-staff-record/local-reference-data.js'
+import { clickReferenceData } from './create-staff-record/delius-home'
+import { clickLocalReferenceRecords } from './create-staff-record/reference-data'
+import { clickStaffButton } from './create-staff-record/local-reference-data'
 import {
     ClickAddToAddProviderOfficer,
     clickUpdateButton,
     searchProviderOfficer,
-} from './create-staff-record/provider-officer-list.js'
-import { addProviderOfficerDetails } from './create-staff-record/add-provider-officer.js'
-import { addProviderOfficersApprovedPremises } from './create-staff-record/update-provider-officer.js'
-import { searchApprovedPremises } from './Keyworker/approved-premises-keyworker.js'
-import { addKeyWorker } from './Keyworker/add-keyworker.js'
+} from './create-staff-record/provider-officer-list'
+import { addProviderOfficerDetails } from './create-staff-record/add-provider-officer'
+import { addProviderOfficersApprovedPremises } from './create-staff-record/update-provider-officer'
+import { searchApprovedPremises } from './Keyworker/approved-premises-keyworker'
+import { addKeyWorker } from './Keyworker/add-keyworker'
 
 dotenv.config() // read environment variables into process.env
 

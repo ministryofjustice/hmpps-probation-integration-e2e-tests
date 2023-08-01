@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test'
-import { selectOption, selectOptionAndWait } from '../utils/inputs.js'
-import { findOffenderByCRN } from '../offender/find-offender.js'
+import { selectOption, selectOptionAndWait } from '../utils/inputs'
+import { findOffenderByCRN } from '../offender/find-offender'
 import { faker } from '@faker-js/faker'
 
 export interface Address {

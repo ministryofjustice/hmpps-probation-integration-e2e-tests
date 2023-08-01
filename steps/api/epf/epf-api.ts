@@ -1,5 +1,5 @@
 import { type APIRequestContext, expect, request } from '@playwright/test'
-import { getToken } from '../auth/get-token.js'
+import { getToken } from '../auth/get-token'
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()

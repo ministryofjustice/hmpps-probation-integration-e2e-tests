@@ -1,8 +1,8 @@
 import { expect, Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
-import { login as deliusLogin } from '../login.js'
-import { findOffenderByNomisId } from '../offender/find-offender.js'
-import { selectOption } from '../utils/inputs.js'
+import { login as deliusLogin } from '../login'
+import { findOffenderByNomisId } from '../offender/find-offender'
+import { selectOption } from '../utils/inputs'
 
 export async function randomiseCommunityManagerName(page: Page, nomsNumber: string) {
     const newValue = `ZZ${faker.string.alpha(6)}`

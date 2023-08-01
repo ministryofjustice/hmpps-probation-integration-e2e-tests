@@ -1,10 +1,10 @@
-import { Allocation } from '../../test-data/test-data.js'
+import { Allocation } from '../../test-data/test-data'
 import { subDays, isBefore } from 'date-fns'
 import { parse } from 'date-fns'
 import { expect, Page } from '@playwright/test'
-import { doUntil, refreshUntil } from '../delius/utils/refresh.js'
-import { selectTeam } from './allocations.js'
-import { login as workforceLogin } from '../../steps/workforce/login.js'
+import { doUntil, refreshUntil } from '../delius/utils/refresh'
+import { selectTeam } from './allocations'
+import { login as workforceLogin } from '../../steps/workforce/login'
 
 const months = [
     'January',
