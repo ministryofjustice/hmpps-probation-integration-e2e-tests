@@ -18,6 +18,7 @@ export interface CreateEvent {
         length?: string
         reportType?: string
     }
+    date?: Date
 }
 
 export class CreatedEvent {
@@ -26,16 +27,16 @@ export class CreatedEvent {
     provider: string
 }
 
-export async function createEvent(page: Page, { crn, allocation, event }: CreateEvent): Promise<CreatedEvent> {
+export async function createEvent(page: Page, { crn, allocation, event, date }: CreateEvent): Promise<CreatedEvent> {
     const createdEvent = new CreatedEvent()
     await findOffenderByCRN(page, crn)
     await page.click('#linkNavigation2EventList')
     await expect(page).toHaveTitle(/Events/)
     await page.locator('input', { hasText: 'Add' }).click()
-    const date = faker.date.recent({ days: 1, refDate: Yesterday })
-    await fillDate(page, '#ReferralDate', date)
-    await fillDate(page, '#OffenceDate', date)
-    await fillDate(page, '#ConvictionDate', date)
+    const _date = date ?? faker.date.recent({ days: 1, refDate: Yesterday })
+    await fillDate(page, '#ReferralDate', _date)
+    await fillDate(page, '#OffenceDate', _date)
+    await fillDate(page, '#ConvictionDate', _date)
     await selectOption(page, '#MainOffence', null, option => !option.startsWith('('))
     createdEvent.court = await selectOption(page, '#Court')
     await selectOptionAndWait(page, '#addEventForm\\:Area', allocation?.team.provider)
@@ -60,8 +61,8 @@ export async function createEvent(page: Page, { crn, allocation, event }: Create
         await selectOption(page, '#OutcomeArea')
     }
     if (autoAddCourtReport.includes(event.outcome)) {
-        await fillDate(page, '#addEventForm\\:NextAppearanceDate', date)
-        await fillTime(page, '#AppearanceTime', date)
+        await fillDate(page, '#addEventForm\\:NextAppearanceDate', _date)
+        await fillTime(page, '#AppearanceTime', _date)
         await selectOption(page, '#NextCourt')
     }
 
@@ -84,14 +85,14 @@ export async function createEvent(page: Page, { crn, allocation, event }: Create
 
 export async function createCustodialEvent(
     page: Page,
-    { crn, allocation, event = data.events.custodial }: CreateEvent
+    { crn, allocation, event = data.events.custodial, date }: CreateEvent
 ): Promise<CreatedEvent> {
-    return createEvent(page, { crn, allocation, event })
+    return createEvent(page, { crn, allocation, event, date })
 }
 
 export async function createCommunityEvent(
     page: Page,
-    { crn, allocation, event = data.events.community }: CreateEvent
+    { crn, allocation, event = data.events.community, date }: CreateEvent
 ): Promise<CreatedEvent> {
-    return createEvent(page, { crn, allocation, event })
+    return createEvent(page, { crn, allocation, event, date })
 }
