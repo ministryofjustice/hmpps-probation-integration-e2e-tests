@@ -4,7 +4,7 @@ import { deliusPerson } from '../../steps/delius/utils/person'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { data } from '../../test-data/test-data'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
-import { geCaseDetails } from '../../steps/api/external-api/external-api'
+import { getCaseDetails } from '../../steps/api/external-api/external-api'
 
 test('can retrieve case details', async ({ page }) => {
     await deliusLogin(page)
@@ -16,7 +16,7 @@ test('can retrieve case details', async ({ page }) => {
     })
     await createCustodialEvent(page, { crn, allocation: { team: data.teams.genericTeam } })
 
-    const json = await geCaseDetails(crn)
+    const json = await getCaseDetails(crn)
     const supervision = json.supervisions[0]
 
     expect(supervision.active).toBe(true)
