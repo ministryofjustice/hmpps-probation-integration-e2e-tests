@@ -22,6 +22,7 @@ test('can retrieve case details', async ({ page }) => {
     expect(supervision.active).toBe(true)
     expect(supervision.date).toBeTruthy()
     expect(supervision.sentence.description).toBe('Adult Custody < 12m')
+    expect(supervision.sentence.custodial).toBeTruthy()
     expect(supervision.mainOffence.code).toBeTruthy()
     expect(supervision.additionalOffences.length).toBe(0)
     expect(supervision.courtAppearances.length).toBe(1)
