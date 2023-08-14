@@ -4,6 +4,7 @@ import { getToken } from '../auth/get-token'
 import { EuropeLondonFormat } from '../../delius/utils/date-time'
 import { setNomisId } from '../../delius/offender/update-offender'
 import { retry, sanitiseError } from '../utils/api-utils'
+import { v4 as uuid } from 'uuid'
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()
@@ -117,18 +118,14 @@ export const recallPrisoner = retry(
 )
 
 export interface CustodyDates {
-    calculationUuid: string
-    submissionUser: string
-    keyDates: {
-        sentenceExpiryDate?: string
-        confirmedReleaseDate?: string
-        conditionalReleaseDate?: string
-        conditionalReleaseOverrideDate?: string
-        licenceExpiryDate?: string
-        paroleEligibilityDate?: string
-        topupSupervisionExpiryDate?: string
-        homeDetentionCurfewEligibilityDate?: string
-    }
+    sentenceExpiryDate?: string
+    confirmedReleaseDate?: string
+    conditionalReleaseDate?: string
+    conditionalReleaseOverrideDate?: string
+    licenceExpiryDate?: string
+    paroleEligibilityDate?: string
+    topupSupervisionExpiryDate?: string
+    homeDetentionCurfewEligibilityDate?: string
 }
 
 export const updateCustodyDates = retry(
@@ -137,7 +134,11 @@ export const updateCustodyDates = retry(
             await getContext()
         ).post(`/api/offender-dates/${bookingId}`, {
             failOnStatusCode: true,
-            data: custodyDates,
+            data: {
+                calculationUuid: uuid(),
+                submissionUser: process.env.DPS_USERNAME,
+                keyDates: custodyDates,
+            },
         })
     })
 )
