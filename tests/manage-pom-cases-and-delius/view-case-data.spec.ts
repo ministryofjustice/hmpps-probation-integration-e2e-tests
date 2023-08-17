@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test'
 import { data } from '../../test-data/test-data'
 import { randomiseCommunityManagerName } from '../../steps/delius/staff/community-manager'
 import { login as mpcLogin } from '../../steps/manage-pom-cases/login'
+import { switchCaseload } from '../../steps/manage-pom-cases/caseload'
 import { execCommand, getPodName } from '../../steps/k8s/k8s-utils'
 
 test('View Delius case data', async ({ page }) => {
@@ -19,6 +20,7 @@ test('View Delius case data', async ({ page }) => {
 
     // Then I can see the updated data
     await mpcLogin(page)
+    await switchCaseload(page, 'Moorland (HMP/YOI)')
     await page.getByRole('link', { name: 'All allocated cases' }).click()
     await page.getByLabel('Find a case').fill(nomsNumber)
     await page.getByRole('button', { name: 'Search' }).click()
