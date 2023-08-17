@@ -3,6 +3,7 @@ import { data } from '../../test-data/test-data'
 import { randomiseCommunityManagerName } from '../../steps/delius/staff/community-manager'
 import { login as mpcLogin } from '../../steps/manage-pom-cases/login'
 import { execCommand, getPodName } from '../../steps/k8s/k8s-utils'
+import { switchCaseload } from '../../steps/dps/caseload'
 
 test('View Delius case data', async ({ page }) => {
     test.slow() // extend the timeout - the import job can take a few minutes
@@ -19,6 +20,7 @@ test('View Delius case data', async ({ page }) => {
 
     // Then I can see the updated data
     await mpcLogin(page)
+    await switchCaseload(page, 'MDI')
     await page.getByRole('link', { name: 'All allocated cases' }).click()
     await page.getByLabel('Find a case').fill(nomsNumber)
     await page.getByRole('button', { name: 'Search' }).click()
