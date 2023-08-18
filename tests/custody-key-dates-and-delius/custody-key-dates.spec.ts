@@ -5,7 +5,6 @@ import { findCustodyForEventByCRN, verifyKeyDates } from '../../steps/delius/eve
 import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { contact } from '../../steps/delius/utils/contact'
 import { data } from '../../test-data/test-data'
-import { commonData } from '../../test-data/environments/common'
 import { format } from 'date-fns'
 
 test('Update Custody Key Dates', async ({ page }) => {
@@ -29,6 +28,6 @@ test('Update Custody Key Dates', async ({ page }) => {
 
     await verifyKeyDates(page, data.prisoners.sentencedPrisoner.crn, 1, date)
     await verifyContacts(page, data.prisoners.sentencedPrisoner.crn, [
-        contact(commonData.events.custodial.outcome, 'Data Share Update Contact'),
+        contact('1 - Adult Custody 12m plus', 'Data Share Update Contact'),
     ])
 })
