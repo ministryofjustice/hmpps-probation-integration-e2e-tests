@@ -73,7 +73,7 @@ export const editSessions = async (
 const editSession = async (page: Page, referralRef: string, detail: SessionDetail) => {
     await page
         .locator('tr', { hasText: `Session ${detail.number}` })
-        .locator('a.govuk-link', { hasText: 'Edit session details' })
+        .locator('a.govuk-link', { hasText: 'Add session details' })
         .click()
 
     const sessionDate = detail.date
