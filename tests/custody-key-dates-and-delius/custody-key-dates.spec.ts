@@ -29,6 +29,6 @@ test('Update Custody Key Dates', async ({ page }) => {
 
     await verifyKeyDates(page, data.prisoners.sentencedPrisoner.crn, 1, date)
     await verifyContacts(page, data.prisoners.sentencedPrisoner.crn, [
-        contact(commonData.events.custodial.outcome, 'Data Share Update Contact'),
+        contact("1 - Adult Custody 12m plus", 'Data Share Update Contact'),
     ])
 })
