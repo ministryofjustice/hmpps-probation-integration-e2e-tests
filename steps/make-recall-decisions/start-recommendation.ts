@@ -135,7 +135,8 @@ export const verifyContact = async (page: Page, contactDetails: string): Promise
 }
 
 async function searchForPerson(page: Page, crn: string, name: string) {
-    await expect(page.locator('h1')).toHaveText('Search for a person on probation')
+    await expect(page).toHaveTitle(/Search for a person on probation.*/)
+    await page.click('[href*="/search-by-crn"]')
     await page.fill('#crn', crn)
     await page.getByRole('button', { name: 'Search' }).click()
     await page.locator(`a`, { hasText: name }).click()
