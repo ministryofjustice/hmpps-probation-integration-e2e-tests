@@ -2,7 +2,7 @@ import { type Page, expect } from '@playwright/test'
 
 export const verifyRMPInfoIsAsPerOASys = async (page: Page) => {
     await page.locator('a', { hasText: 'Risk management plan' }).click()
-    await expect(page.getByLabel('Key information about current situation')).toContainText(
+    await expect(page.getByLabel('Key information about current situation')).toMatch(
         /"\w+ \w+ is currently in the community having received a Adult Custody \(voluntary supervision\) on the \d+\/\d+\/\d+ for 6 months[\s\S]*/
     )
     await expect(page.getByLabel('Further considerations')).toContainText(
