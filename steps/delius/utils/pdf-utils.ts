@@ -13,5 +13,5 @@ function mapToText(pdfData: Output) {
     return pdfData.Pages.flatMap(p => p.Texts)
         .flatMap(t => t.R)
         .map(t => t.T)
-        .join()
+        .join('')
 }
