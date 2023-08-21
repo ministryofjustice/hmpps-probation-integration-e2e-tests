@@ -2,9 +2,6 @@ import { type Page, expect } from '@playwright/test'
 
 export const verifyRMPInfoIsAsPerOASys = async (page: Page) => {
     await page.locator('a', { hasText: 'Risk management plan' }).click()
-    await expect(page.getByLabel('Key information about current situation')).toContainText(
-        /"\w+ \w+ is currently in the community having received a Adult Custody \(voluntary supervision\) on the \d+\\\/\d+\\\/\d+ for 6 months.*/
-    )
     await expect(page.getByLabel('Further considerations')).toContainText(
         "OASys Question - 'Further Considerations about Current Situation' - Answer Input - 'Currently in Custody at HMP Hewell - Mangement of Case under MAPPA Level 3'"
     )

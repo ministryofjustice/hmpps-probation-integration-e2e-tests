@@ -6,7 +6,7 @@ export const verifyOffenceAnalysisIsAsPerOASys = async (page: Page) => {
         "OASys Question - '2.1 Brief offence(s) details (indicate what exactly happened, when, where and how)' - Answer Input - 'HRosh to Partners, medium to male peers & children'"
     )
     await expect(page.getByLabel('Victim - perpetrator relationship')).toContainText(
-        "OASys Question - 'Victim - perpetrator relationship' - Answer Input - 'Spouse\\/Partner - Live in"
+        "OASys Question - 'Victim - perpetrator relationship' - Answer Input - 'Spouse/Partner - Live in"
     )
     await expect(page.getByLabel('Other victim information')).toContainText(
         "OASys Question - 'Any other information of specific note, consider vulnerability' - Answer Input - 'Test Other Information"
