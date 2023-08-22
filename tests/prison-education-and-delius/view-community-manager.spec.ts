@@ -17,6 +17,8 @@ const nomisIds = []
 const bookingIds = []
 
 test('View Community manager details', async ({ page }) => {
+    // skipped temporarily until application is using the integration
+    test.skip()
     // Given a prisoner with a release date within the next 12 weeks
     await deliusLogin(page)
     const person = deliusPerson()
