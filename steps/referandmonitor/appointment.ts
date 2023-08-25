@@ -1,16 +1,15 @@
 import { expect, type Page } from '@playwright/test'
-import { faker } from '@faker-js/faker'
 import { referralProgress } from './referral'
-import { addDays, parse } from 'date-fns'
-import { get12Hour, getTimeOfDay, Tomorrow } from '../delius/utils/date-time'
+import { addMinutes } from 'date-fns'
+import { get12Hour, getTimeOfDay } from '../delius/utils/date-time'
 import { refreshUntil } from '../delius/utils/refresh'
 import { fillAndSaveIfTextBoxIsAvailable } from '../delius/contact/find-contacts'
 
 export const createSupplierAssessmentAppointment = async (
     page: Page,
     referralRef: string,
-    appointmentDate: Date = addDays(faker.date.soon({ days: 10, refDate: Tomorrow }), 1),
-    appointmentTime = parse('10:00', 'HH:mm', appointmentDate),
+    appointmentDate: Date = new Date(),
+    appointmentTime = addMinutes(new Date(), 1),
     conflictingAppointment = false
 ) => {
     await referralProgress(page, referralRef)

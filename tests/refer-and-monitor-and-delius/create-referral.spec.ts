@@ -5,7 +5,7 @@ import { createOffender } from '../../steps/delius/offender/create-offender'
 import { createCommunityEvent } from '../../steps/delius/event/create-event'
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement'
 import { logout as logoutRandM } from '../../steps/referandmonitor/login'
-import { createSupplierAssessmentAppointment } from '../../steps/referandmonitor/appointment'
+import { addAppointmentFeedback, createSupplierAssessmentAppointment } from '../../steps/referandmonitor/appointment'
 import { data } from '../../test-data/test-data'
 import { contact } from '../../steps/delius/utils/contact'
 import { verifyContacts } from '../../steps/delius/contact/find-contacts'
@@ -28,6 +28,7 @@ test('Create a referral for a non-RAR requirement', async ({ page }) => {
     // And a referral with a supplier assessment appointment and an attended session
     const referralRef = await createAndAssignReferral(page, crn)
     await createSupplierAssessmentAppointment(page, referralRef)
+    await addAppointmentFeedback(page, true)
     await createAndApproveActionPlan(page, referralRef)
     await editSessionAttended(page, referralRef)
 
@@ -63,6 +64,7 @@ test('Create a referral for a RAR requirement', async ({ page }) => {
     // And a referral with a supplier assessment appointment and an attended session
     const referralRef = await createAndAssignReferral(page, crn)
     await createSupplierAssessmentAppointment(page, referralRef)
+    await addAppointmentFeedback(page, true)
     await createAndApproveActionPlan(page, referralRef)
     await editSessionAttended(page, referralRef)
 

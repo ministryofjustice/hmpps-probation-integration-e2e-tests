@@ -9,7 +9,6 @@ import { login as loginDelius } from '../../steps/delius/login'
 import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { contact } from '../../steps/delius/utils/contact'
 import { createAndApproveActionPlan, createAndAssignReferral, editSessionFailedToAttend } from './common'
-import { addMinutes } from 'date-fns'
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
@@ -24,6 +23,7 @@ test('Create an appointment that was not attended', async ({ page }) => {
     // And a referral with a supplier assessment appointment and action plan
     const referralRef = await createAndAssignReferral(page, crn)
     await createSupplierAssessmentAppointment(page, referralRef)
+    await addAppointmentFeedback(page, true)
     await createAndApproveActionPlan(page, referralRef)
 
     // When a session is failed to attend
@@ -50,7 +50,7 @@ test('Add feedback to a scheduled appointment', async ({ page }) => {
     await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
     // And a referral with a supplier assessment appointment in the future
     const referralRef = await createAndAssignReferral(page, crn)
-    await createSupplierAssessmentAppointment(page, referralRef, new Date(), addMinutes(new Date(), 1))
+    await createSupplierAssessmentAppointment(page, referralRef)
 
     // When I mark it as failed to attend
     await addAppointmentFeedback(page, false)
