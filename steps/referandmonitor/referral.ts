@@ -4,6 +4,9 @@ import { faker } from '@faker-js/faker'
 export const referralProgress = async (page: Page, referralRef: string) => {
     // Navigate to list of referrals
     await page.locator('a', { hasText: 'My cases' }).click()
+    await page.click('[data-index="1"]')
+    await page.click('[data-index="3"]')
+    await page.click('[data-index="3"]')
     await expect(page).toHaveURL(/service-provider\/dashboard\/my-cases/)
 
     // Find the correct referral using the Referral Reference
@@ -131,7 +134,6 @@ export const assignReferral = async (page: Page, referralRef: string) => {
     await page.locator('#case-search-text').fill(referralRef)
     await page.locator('.govuk-button').click()
 
-    // await page.locator('#search-button-all-open-cases').
     await page.locator('tr', { hasText: referralRef }).locator('a.govuk-link').click()
     await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
     await page.getByRole('link', { name: 'Referral details' }).click()
@@ -155,6 +157,9 @@ export const cancelReferral = async (page: Page, referralRef: string) => {
     await page.locator('a', { hasText: 'Open cases' }).click()
     await expect(page).toHaveURL(/probation-practitioner\/dashboard\/open-cases/)
 
+    await page.click('[data-index="1"]')
+    await page.click('[data-index="0"]')
+    await page.click('[data-index="0"]')
     const referralLinkLocator = await page.locator('tr', { hasText: referralRef }).locator('a', { hasText: 'View' })
     const dateSentHeaderLocator = page.locator('.govuk-table__header', { hasText: 'Date sent' })
 
