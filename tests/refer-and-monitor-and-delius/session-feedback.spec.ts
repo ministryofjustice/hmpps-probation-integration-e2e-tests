@@ -50,7 +50,7 @@ test('Add feedback to a scheduled appointment', async ({ page }) => {
     await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
     // And a referral with a supplier assessment appointment in the future
     const referralRef = await createAndAssignReferral(page, crn)
-    await createSupplierAssessmentAppointment(page, referralRef, new Date(), addMinutes(new Date(), 1))
+    await createSupplierAssessmentAppointment(page, referralRef, addMinutes(new Date(), 1))
 
     // When I mark it as failed to attend
     await addAppointmentFeedback(page, false)
