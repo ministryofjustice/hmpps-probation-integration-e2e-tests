@@ -42,14 +42,18 @@ export const createSupplierAssessmentAppointment = async (
         await page.waitForURL(/service-provider\/referrals\/.*\/supplier-assessment\/schedule\/.*\/details/)
         return null
     } else if (appointmentDate <= new Date()) {
-        await page.waitForURL(/service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/edit\/.*\/attendance/)
+        await page.waitForURL(
+            /service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/edit\/.*\/attendance/
+        )
         await page.click('#attended')
         await page.click('button.govuk-button')
-        await page.fill('#session-summary', "Summary about the session")
-        await page.fill('#session-response', "Response to the session")
+        await page.fill('#session-summary', 'Summary about the session')
+        await page.fill('#session-response', 'Response to the session')
         await page.click('#notify-probation-practitioner-2')
         await page.click('button.govuk-button')
-        await page.waitForURL(/service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/edit\/.*\/check-your-answers/)
+        await page.waitForURL(
+            /service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/edit\/.*\/check-your-answers/
+        )
         await page.click('button.govuk-button')
     } else {
         await page.waitForURL(/service-provider\/referrals\/.*\/supplier-assessment\/scheduled-confirmation/)
