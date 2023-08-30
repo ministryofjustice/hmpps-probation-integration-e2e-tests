@@ -132,11 +132,6 @@ export const rescheduleSupplierAssessmentAppointment = async (
         await page.click('a.govuk-button')
         await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
     }
-
-    const rescheduledAppointmentDateTime = await page
-        .locator('[data-cy="supplier-assessment-table"] .govuk-table__cell:first-child')
-        .innerText()
-    return rescheduledAppointmentDateTime
 }
 
 export const updateSAAppointmentLocation = async (

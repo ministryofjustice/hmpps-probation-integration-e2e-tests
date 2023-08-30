@@ -40,7 +40,7 @@ export const createSupplierAssessmentAppointment = async (
 
     if (conflictingAppointment) {
         await page.waitForURL(/service-provider\/referrals\/.*\/supplier-assessment\/schedule\/.*\/details/)
-        return null
+        return
     } else if (appointmentDate <= new Date()) {
         await page.waitForURL(
             /service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/edit\/.*\/attendance/
@@ -59,9 +59,6 @@ export const createSupplierAssessmentAppointment = async (
         await page.waitForURL(/service-provider\/referrals\/.*\/supplier-assessment\/scheduled-confirmation/)
         await page.locator('text=Return to progress').click()
         await page.waitForURL(/service-provider\/referrals\/.*\/progress/)
-
-        // Return the appointment date and time
-        return page.locator('[data-cy="supplier-assessment-table"] .govuk-table__cell:first-child').innerText()
     }
 }
 

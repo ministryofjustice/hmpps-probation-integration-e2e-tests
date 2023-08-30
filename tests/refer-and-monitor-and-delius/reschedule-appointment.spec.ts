@@ -20,8 +20,7 @@ import {
     verifySAApptmntLocationInDelius,
 } from '../../steps/delius/contact/find-contacts'
 import { addDays, parse, subHours } from 'date-fns'
-import { faker } from '@faker-js/faker'
-import { formatRMDateToDelius, Tomorrow } from '../../steps/delius/utils/date-time'
+import { DeliusDateFormatter } from '../../steps/delius/utils/date-time'
 import { createAndAssignReferral } from './common'
 import { createContact } from '../../steps/delius/contact/create-contact'
 import { deliusPerson } from '../../steps/delius/utils/person'
@@ -39,16 +38,13 @@ test('Reschedule Supplier Assessment Appointment to future date', async ({ page 
 
     // Create an initial Supplier Assessment Appointment in R&M
     const referralRef = await createAndAssignReferral(page, crn)
-    const initialAppointmentDateTime = await createSupplierAssessmentAppointment(
-        page,
-        referralRef,
-        addDays(new Date(), 2)
-    )
+    const initialAppointmentDateTime = addDays(new Date(), 2)
+    await createSupplierAssessmentAppointment(page, referralRef, initialAppointmentDateTime)
 
     // Verify the initial Supplier Assessment Appointment in Delius
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
-    const formattedInitialDateTime = formatRMDateToDelius(initialAppointmentDateTime)
+    const formattedInitialDateTime = DeliusDateFormatter(initialAppointmentDateTime)
     await verifyContact(
         page,
         {
@@ -65,17 +61,13 @@ test('Reschedule Supplier Assessment Appointment to future date', async ({ page 
     // Reschedule the Supplier Assessment Appointment in R&M
     await logoutRandM(page)
     await loginRandMAsSupplier(page)
-    const newAppointmentDate = addDays(faker.date.soon({ days: 10, refDate: Tomorrow }), 1)
-    const rescheduledAppointmentDateTime = await rescheduleSupplierAssessmentAppointment(
-        page,
-        referralRef,
-        newAppointmentDate
-    )
+    const newAppointmentDate = addDays(initialAppointmentDateTime, 1)
+    await rescheduleSupplierAssessmentAppointment(page, referralRef, newAppointmentDate)
 
     // Verify that both the Initial and Rescheduled Supplier Assessment Appointments are available in Delius
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
-    const formattedDateTime = formatRMDateToDelius(rescheduledAppointmentDateTime)
+    const formattedDateTime = DeliusDateFormatter(newAppointmentDate)
     await verifyContact(
         page,
         {
@@ -114,16 +106,13 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
 
     // Create an initial Supplier Assessment Appointment in R&M
     const referralRef = await createAndAssignReferral(page, crn)
-    const initialAppointmentDateTime = await createSupplierAssessmentAppointment(
-        page,
-        referralRef,
-        addDays(new Date(), 2)
-    )
+    const initialAppointmentDateTime = addDays(new Date(), 2)
+    await createSupplierAssessmentAppointment(page, referralRef, initialAppointmentDateTime)
 
     // Verify the initial Supplier Assessment Appointment in Delius
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
-    const formattedInitialDateTime = formatRMDateToDelius(initialAppointmentDateTime)
+    const formattedInitialDateTime = DeliusDateFormatter(initialAppointmentDateTime)
     await verifyContact(
         page,
         {
@@ -141,17 +130,12 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
     await logoutRandM(page)
     await loginRandMAsSupplier(page)
     const pastAppointmentDate = subHours(new Date(), 1)
-    const rescheduledAppointmentDateTime = await rescheduleSupplierAssessmentAppointment(
-        page,
-        referralRef,
-        pastAppointmentDate,
-        true
-    )
+    await rescheduleSupplierAssessmentAppointment(page, referralRef, pastAppointmentDate, true)
 
     // Verify that both the Initial and Rescheduled Supplier Assessment Appointments are available in Delius
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
-    const formattedDateTime = formatRMDateToDelius(rescheduledAppointmentDateTime)
+    const formattedDateTime = DeliusDateFormatter(pastAppointmentDate)
     await verifyContact(
         page,
         {
@@ -188,16 +172,13 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
 
     // Create an initial Supplier Assessment Appointment in R&M
     const referralRef = await createAndAssignReferral(page, crn)
-    const initialAppointmentDateTime = await createSupplierAssessmentAppointment(
-        page,
-        referralRef,
-        addDays(new Date(), 2)
-    )
+    const initialAppointmentDateTime = addDays(new Date(), 2)
+    await createSupplierAssessmentAppointment(page, referralRef, initialAppointmentDateTime)
 
     // Verify the initial Supplier Assessment Appointment in Delius
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
-    const formattedInitialDateTime = formatRMDateToDelius(initialAppointmentDateTime)
+    const formattedInitialDateTime = DeliusDateFormatter(initialAppointmentDateTime)
 
     await verifyContact(
         page,
@@ -216,17 +197,12 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
     await logoutRandM(page)
     await loginRandMAsSupplier(page)
     const pastAppointmentDate = subHours(new Date(), 1)
-    const rescheduledAppointmentDateTime = await rescheduleSupplierAssessmentAppointment(
-        page,
-        referralRef,
-        pastAppointmentDate,
-        false
-    )
+    await rescheduleSupplierAssessmentAppointment(page, referralRef, pastAppointmentDate, false)
 
     // Verify that both the Initial and Rescheduled Supplier Assessment Appointments are available in Delius
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
-    const formattedDateTime = formatRMDateToDelius(rescheduledAppointmentDateTime)
+    const formattedDateTime = DeliusDateFormatter(pastAppointmentDate)
     await verifyContact(
         page,
         {
@@ -265,14 +241,11 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
 
     // Create an initial Supplier Assessment Appointment in R&M
     const referralRef = await createAndAssignReferral(page, crn)
-    const initialAppointmentDateTime = await createSupplierAssessmentAppointment(
-        page,
-        referralRef,
-        addDays(new Date(), 2)
-    )
+    const initialAppointmentDateTime = addDays(new Date(), 2)
+    await createSupplierAssessmentAppointment(page, referralRef, initialAppointmentDateTime)
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
-    const formattedInitialDateTime = formatRMDateToDelius(initialAppointmentDateTime)
+    const formattedInitialDateTime = DeliusDateFormatter(initialAppointmentDateTime)
     await verifyContact(
         page,
         {
@@ -289,13 +262,8 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
     await logoutRandM(page)
     await loginRandMAsSupplier(page)
     const pastAppointmentDate = subHours(new Date(), 1)
-    const rescheduledAppointmentDateTime = await rescheduleSupplierAssessmentAppointment(
-        page,
-        referralRef,
-        pastAppointmentDate,
-        true
-    )
-    const formattedDateTime = formatRMDateToDelius(rescheduledAppointmentDateTime)
+    await rescheduleSupplierAssessmentAppointment(page, referralRef, pastAppointmentDate, true)
+    const formattedDateTime = DeliusDateFormatter(pastAppointmentDate)
 
     // Verify that both the Initial and Rescheduled Supplier Assessment Appointments are available in Delius
     await loginDelius(page)
@@ -366,16 +334,17 @@ test('Perform supplier assessment appointment scheduling with conflicting appoin
     const crn = await createOffender(page, { person, providerName: data.teams.referAndMonitorTestTeam.provider })
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
     await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
-    const startTime = parse('10:00', 'HH:mm', addDays(new Date(), 2))
 
     // Create an Appointment in Delius with future date
+    const appointmentDate = addDays(new Date(), 2)
+    const startTime = parse('10:00', 'HH:mm', appointmentDate)
     await createContact(page, crn, {
         category: 'All/Always',
         type: 'Other Appointment (Non NS)',
         relatesTo: 'Event 1 - ORA Community Order (6 Months)',
-        date: addDays(new Date(), 2),
+        date: appointmentDate,
         startTime: startTime,
-        endTime: parse('10:30', 'HH:mm', addDays(new Date(), 2)),
+        endTime: parse('10:30', 'HH:mm', appointmentDate),
 
         allocation: {
             team: data.teams.genericTeam,
@@ -385,7 +354,7 @@ test('Perform supplier assessment appointment scheduling with conflicting appoin
 
     // Create a Supplier Assessment Appointment in R&M in the same date and time
     const referralRef = await createAndAssignReferral(page, crn)
-    await createSupplierAssessmentAppointment(page, referralRef, addDays(new Date(), 2), startTime, true)
+    await createSupplierAssessmentAppointment(page, referralRef, appointmentDate, startTime, true)
 
     // Verify the error message
     await expect(page.locator('.govuk-error-summary__body')).toHaveText(
