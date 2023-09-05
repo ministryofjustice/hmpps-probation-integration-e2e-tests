@@ -8,7 +8,11 @@ import { logout as logoutRandM } from '../../steps/referandmonitor/login'
 import { login as loginDelius } from '../../steps/delius/login'
 import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { contact } from '../../steps/delius/utils/contact'
-import { createAndApproveActionPlan, createAndAssignReferral, editSessionFailedToAttend } from './common'
+import {
+    createAndApproveActionPlan,
+    createAndAssignReferral,
+    editSessionFailedToAttend,
+} from '../../tests/refer-and-monitor-and-delius/common'
 import { addMinutes } from 'date-fns'
 
 test.beforeEach(async ({ page }) => {
