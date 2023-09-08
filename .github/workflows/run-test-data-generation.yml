@@ -11,10 +11,6 @@ on:
           - approved-premises-data-creator
           - effective-proposal-framework
           - refer-and-monitor-functional-tests
-    outputs:
-      report-url:
-        description: The URL of the Playwright HTML report
-        value: ${{ jobs.test.outputs.report-url }}
 
 jobs:
   test:
