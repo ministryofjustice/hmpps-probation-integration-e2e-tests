@@ -21,7 +21,7 @@ import {
 } from '../../steps/delius/contact/find-contacts'
 import { addDays, parse, subHours } from 'date-fns'
 import { DeliusDateFormatter } from '../../steps/delius/utils/date-time'
-import { createAndAssignReferral } from '../refer-and-monitor-and-delius/common'
+import { createAndAssignReferral } from '../../tests/refer-and-monitor-and-delius/common'
 import { createContact } from '../../steps/delius/contact/create-contact'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { cancelReferral } from '../../steps/referandmonitor/referral'

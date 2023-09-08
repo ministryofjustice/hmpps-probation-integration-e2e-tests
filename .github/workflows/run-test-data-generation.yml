@@ -11,10 +11,6 @@ on:
           - approved-premises-data-creator
           - effective-proposal-framework
           - refer-and-monitor-functional-tests
-    outputs:
-      report-url:
-        description: The URL of the Playwright HTML report
-        value: ${{ jobs.test.outputs.report-url }}
 
 jobs:
   test:
@@ -38,7 +34,8 @@ jobs:
         run: npx playwright install
       - name: Run Playwright tests
         id: tests
-        run: npx playwright test --reporter=html,junit,json,line --workers=8
+        continue-on-error: true
+        run: npx playwright test --reporter=html,junit,json,line --workers=16
         env:
           TEST_DIR: ./test-data-setup/${{ inputs.project }}
           TZ: Europe/London

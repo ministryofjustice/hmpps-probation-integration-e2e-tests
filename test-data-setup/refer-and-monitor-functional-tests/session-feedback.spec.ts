@@ -12,7 +12,7 @@ import {
     createAndApproveActionPlan,
     createAndAssignReferral,
     editSessionFailedToAttend,
-} from '../refer-and-monitor-and-delius/common'
+} from '../../tests/refer-and-monitor-and-delius/common'
 import { addMinutes } from 'date-fns'
 
 test.beforeEach(async ({ page }) => {

@@ -15,7 +15,7 @@ import {
     createAndApproveActionPlan,
     createAndAssignReferral,
     editSessionAttended,
-} from '../refer-and-monitor-and-delius/common'
+} from '../../tests/refer-and-monitor-and-delius/common'
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
