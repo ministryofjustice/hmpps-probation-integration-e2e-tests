@@ -32,12 +32,12 @@ test('Create a referral for a non-RAR requirement', async ({ page }) => {
 
     // And a referral with a supplier assessment appointment and an attended session
     const referralRef = await createAndAssignReferral(page, crn)
-    await createSupplierAssessmentAppointment(page, referralRef, addDays(new Date(), 2))
-    // await createAndApproveActionPlan(page, referralRef)
-    // await editSessionAttended(page, referralRef)
-    //
-    // // When I complete the referral
-    // await createEndOfServiceReport(page)
+    await createSupplierAssessmentAppointment(page, referralRef)
+    await createAndApproveActionPlan(page, referralRef)
+    await editSessionAttended(page, referralRef)
+
+    // When I complete the referral
+    await createEndOfServiceReport(page)
 
     // Then the referral progress and appointment contacts appear in Delius
     await logoutRandM(page)
