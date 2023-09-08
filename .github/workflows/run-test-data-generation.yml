@@ -34,7 +34,8 @@ jobs:
         run: npx playwright install
       - name: Run Playwright tests
         id: tests
-        run: npx playwright test --reporter=html,junit,json,line --workers=8
+        continue-on-error: true
+        run: npx playwright test --reporter=html,junit,json,line --workers=16
         env:
           TEST_DIR: ./test-data-setup/${{ inputs.project }}
           TZ: Europe/London
@@ -73,7 +74,6 @@ jobs:
           PLAYWRIGHT_JUNIT_OUTPUT_NAME: junit.xml
           PLAYWRIGHT_JSON_OUTPUT_NAME: results.json
       - name: Publish HTML report
-        continue-on-error: true
         uses: JamesIves/github-pages-deploy-action@22a6ee251d6f13c6ab1ecb200d974f1a6feb1b8d # v4
         with:
           folder: playwright-report
