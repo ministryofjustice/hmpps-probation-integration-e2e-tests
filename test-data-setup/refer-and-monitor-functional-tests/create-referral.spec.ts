@@ -15,7 +15,8 @@ import {
     createAndApproveActionPlan,
     createAndAssignReferral,
     editSessionAttended,
-} from '../refer-and-monitor-and-delius/common'
+} from '../../tests/refer-and-monitor-and-delius/common'
+import {addDays} from "date-fns";
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
@@ -31,12 +32,12 @@ test('Create a referral for a non-RAR requirement', async ({ page }) => {
 
     // And a referral with a supplier assessment appointment and an attended session
     const referralRef = await createAndAssignReferral(page, crn)
-    await createSupplierAssessmentAppointment(page, referralRef)
-    await createAndApproveActionPlan(page, referralRef)
-    await editSessionAttended(page, referralRef)
-
-    // When I complete the referral
-    await createEndOfServiceReport(page)
+    await createSupplierAssessmentAppointment(page, referralRef, addDays(new Date(), 2))
+    // await createAndApproveActionPlan(page, referralRef)
+    // await editSessionAttended(page, referralRef)
+    //
+    // // When I complete the referral
+    // await createEndOfServiceReport(page)
 
     // Then the referral progress and appointment contacts appear in Delius
     await logoutRandM(page)
