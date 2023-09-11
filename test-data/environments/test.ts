@@ -29,6 +29,11 @@ export const testEnvironmentData: TestData = {
             firstName: 'Titus',
             lastName: 'Cobio',
         },
+        referAndMonitorStaff: {
+            name: 'Wood, Natalie (PS - PO)',
+            firstName: 'Natalie',
+            lastName: 'Wood',
+        },
         approvedPremisesKeyWorker: {
             name: 'AutomatedTestUser, AutomatedTestUser (NPS - PO)',
             firstName: 'AutomatedTestUser',
@@ -44,8 +49,8 @@ export const testEnvironmentData: TestData = {
             location: 'Wrexham Team Office',
         },
         referAndMonitorTestTeam: {
-            name: 'OMU D',
-            provider: 'NPS North East',
+            name: 'GM Manchester N1',
+            provider: 'Greater Manchester',
         },
         approvedPremisesTestTeam: {
             name: 'The Crescent',
