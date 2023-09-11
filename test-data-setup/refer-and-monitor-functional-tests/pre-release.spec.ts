@@ -3,19 +3,14 @@ import { test } from '@playwright/test'
 import { login as loginDelius } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
-import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement'
 import { logout as logoutRandM } from '../../steps/referandmonitor/login'
 import { createSupplierAssessmentAppointment } from '../../steps/referandmonitor/appointment'
 import { data } from '../../test-data/test-data'
 import { contact } from '../../steps/delius/utils/contact'
 import { verifyContacts } from '../../steps/delius/contact/find-contacts'
-import { createEndOfServiceReport } from '../../steps/referandmonitor/end-of-service-report'
-import {
-    createAndApproveActionPlan,
-    createAndAssignReferral,
-    editSessionAttended,
-} from '../../tests/refer-and-monitor-and-delius/common'
+import { createAndApproveActionPlan, createAndAssignReferral } from '../../tests/refer-and-monitor-and-delius/common'
 import { addWeeks } from 'date-fns'
+import { internalTransfer } from '../../steps/delius/transfer/internal-transfer'
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
@@ -25,8 +20,12 @@ test('Create a referral for a pre-release - COM allocated', async ({ page }) => 
     const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
     await createCustodialEvent(page, {
         crn,
-        allocation: { team: data.teams.referAndMonitorTestTeam, staff: data.staff.referAndMonitorStaff },
+        allocation: { team: data.teams.referAndMonitorTestTeam },
         date: addWeeks(new Date(), -23),
+    })
+    await internalTransfer(page, {
+        crn,
+        allocation: { team: data.teams.referAndMonitorTestTeam, staff: data.staff.referAndMonitorStaff },
     })
 
     const referralRef = await createAndAssignReferral(page, crn)
