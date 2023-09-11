@@ -7,7 +7,7 @@ import { Allocation, data, Optional } from '../../../test-data/test-data'
 
 const autoAddComponent = ['ORA Community Order']
 const autoAddCourtReport = ['Adjourned - Pre-Sentence Report']
-const requiresAdditionalOutcomeDetails = ['ORA Community Order', 'Adult Custody < 12m']
+const requiresAdditionalOutcomeDetails = ['ORA Community Order', 'Adult Custody < 12m', 'CJA - Std Determinate Custody']
 
 export interface CreateEvent {
     crn: string
