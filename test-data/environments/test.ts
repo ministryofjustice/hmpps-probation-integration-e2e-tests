@@ -29,6 +29,11 @@ export const testEnvironmentData: TestData = {
             firstName: 'Titus',
             lastName: 'Cobio',
         },
+        referAndMonitorStaff: {
+            name: 'Dixon, Beth (NPS - PO)',
+            firstName: 'Beth',
+            lastName: 'Dixon',
+        },
         approvedPremisesKeyWorker: {
             name: 'AutomatedTestUser, AutomatedTestUser (NPS - PO)',
             firstName: 'AutomatedTestUser',
