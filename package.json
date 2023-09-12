@@ -17,7 +17,7 @@
     "@faker-js/faker": "^8.0.2",
     "@kubernetes/client-node": "^0.18.1",
     "@playwright/test": "1.37.1",
-    "@types/uuid": "^9.0.2",
+    "@types/uuid": "^9.0.3",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.4.1",
     "date-fns": "^2.30.0",
