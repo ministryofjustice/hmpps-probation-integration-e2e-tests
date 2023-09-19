@@ -1,10 +1,10 @@
-import {expect, test} from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { login as loginDelius } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { data } from '../../test-data/test-data'
 import { createCommunityEvent } from '../../steps/delius/event/create-event'
 import { internalTransfer } from '../../steps/delius/transfer/internal-transfer'
-import {getCommunityManager} from "../../steps/api/resettlement-passport/resettlement-passport-api";
+import { getCommunityManager } from '../../steps/api/resettlement-passport/resettlement-passport-api'
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
