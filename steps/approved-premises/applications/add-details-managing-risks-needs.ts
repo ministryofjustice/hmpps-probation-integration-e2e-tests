@@ -10,7 +10,7 @@ export const addRisksNeedsDetails = async (page: Page) => {
 
     // "Has Offender ever been convicted of the following offences" Page
     await expect(page.locator('#main-content h1')).toHaveText(
-        /Has [A-Z][a-z'’-]+([ -][A-Z][A-z'’-]+)* ever been convicted of the following offences?/
+        /Has the person ever been convicted of the following offences?/
     )
     await page.getByLabel('No').check()
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
