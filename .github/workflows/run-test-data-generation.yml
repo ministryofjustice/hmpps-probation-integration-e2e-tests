@@ -10,6 +10,7 @@ on:
         options:
           - approved-premises-data-creator
           - effective-proposal-framework
+          - recommend-a-recall
           - refer-and-monitor-functional-tests
 
 jobs:
