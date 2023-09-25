@@ -29,7 +29,7 @@ test('Make a Management Oversight Decision and verify in Delius', async ({ page 
     // Given a new person in Delius
     await deliusLogin(page)
     const person = deliusPerson()
-    const name = person.firstName + ' ' + person.lastName
+    const name = 'Bob' + ' ' + 'the builder'
     const crn = await createOffender(page, { person, providerName: data.teams.genericTeam.provider })
 
     // And I create an Address
