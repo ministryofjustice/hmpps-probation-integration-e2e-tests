@@ -19,12 +19,13 @@ test('Create and search for a person', async ({ page }) => {
     // When I search for the person by name
     await page.locator('a', { hasText: 'New Search' }).click()
     const frame = await page.frameLocator('#elasticsearch-frame')
-    await frame.locator('#searchTerms').fill(person.firstName + ' ' + person.lastName)
+    await frame.locator('#search').click()
+    await frame.locator('#search').fill(person.firstName + ' ' + person.lastName)
 
     // Then the CRN appears in the search results
     await doUntil(
         () => page.keyboard.press('Enter'),
-        () => expect(frame.locator('#live-offender-results')).toContainText(crn)
+        () => expect(frame.locator('.app-result-body')).toContainText(crn)
     )
 })
 
