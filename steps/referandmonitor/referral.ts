@@ -32,53 +32,60 @@ export const makeReferral = async (page: Page, crn: string) => {
     // Submit CRN
     await page.locator('input[name="service-user-crn"]').fill(crn)
     await page.locator('text=Continue').click()
+    await expect(page).toHaveURL(/\/prison-release-form/)
+
+    // Enter prison release details
+    await page.getByLabel(/No/).check()
+    await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/\/referrals\/.*\/form/)
 
-    // Navigate to personal details page
-    await page.locator('text=Confirm their personal details').click()
-    await expect(page).toHaveURL(/referrals\/.*\/service-user-details/)
+    // Enter contact details
+    await page.locator('text=Name, email address and location').click()
+    await expect(page).toHaveURL(/referrals\/.*\/confirm-main-point-of-contact/)
+    await page.getByLabel(/Name/).fill(faker.person.fullName())
+    await page.getByLabel(/Role/).fill(faker.person.jobTitle())
+    await page.getByLabel(/Email address/).fill(faker.internet.exampleEmail())
+    await page.getByLabel(/Probation office/).check()
+    await page.locator('#probation-practitioner-office').fill('London: 71 Lordship Lane')
+    await page.locator('#probation-practitioner-office').press('Enter')
+    await page.locator('text=Save and continue').click()
+    await expect(page).toHaveURL(/\/referrals\/.*\/form/)
 
-    // Save and continue
+    // Enter contact details
+    await page.locator('text=Establishment').click()
+    await expect(page).toHaveURL(/referrals\/.*\/submit-current-location/)
+    await page.locator('#prison-select').fill('Belmarsh (HMP & YOI)')
+    await page.locator('#prison-select').press('Enter')
+    await page.locator('text=Save and continue').click()
+    await expect(page).toHaveURL(/\/referrals\/.*\/form/)
+
+    // Personal details
+    await page.locator('text=Personal details').click()
+    await expect(page).toHaveURL(/referrals\/.*\/service-user-details/)
     await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/referrals\/.*\/risk-information/)
 
     // Risk
     await page.locator('#edit-risk-confirmation-2').check()
     await page.locator('input[name="confirm-understood"]').check()
-
-    // Save and continue
     await page.locator('button:has-text("Save and continue")').click()
     await expect(page).toHaveURL(/referrals\/.*\/needs-and-requirements/)
 
     // Submit needs
     await page.locator('#needs-interpreter-2').check()
     await page.locator('#has-additional-responsibilities-2').check()
-
-    // Save and continue
     await page.locator('text=Save and continue').click()
-    await expect(page).toHaveURL(/referrals\/.*\/submit-current-location/)
-
-    await page.locator('#current-location-2').check()
-    await page.locator('text=Save and continue').click()
-    await expect(page).toHaveURL(/referrals\/.*\/confirm-probation-practitioner-details/)
-
-    // Confirm probation practitioner details
-    await page.locator('#confirm-details').check()
-    await page.locator('text=Save and continue').click()
+    await expect(page).toHaveURL(/\/referrals\/.*\/form/)
 
     // Confirm the relevant sentence
     await page.locator('text=Confirm the relevant sentence for the Accommodation referral').click()
     await expect(page).toHaveURL(/referrals\/.*\/relevant-sentence/)
     await page.locator('input[name="relevant-sentence-id"]').check()
-
-    // Save and continue
     await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/referrals\/.*\/service-category\/.*\/desired-outcomes/)
 
     // Desired outcomes
     await page.locator('#desired-outcomes-ids-2').check()
-
-    // Save and continue
     await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/referrals\/.*\/service-category\/.*\/complexity-level/)
 
@@ -88,15 +95,11 @@ export const makeReferral = async (page: Page, crn: string) => {
             'text=Medium complexity Service user is at risk of homelessness/is homeless, or will b >> input[name="complexity-level-id"]'
         )
         .check()
-
-    // Save and continue
     await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/referrals\/.*\/enforceable-days/)
 
     // Enforceable days
     await page.locator('input[name="maximum-enforceable-days"]').fill('10')
-
-    // Save and continue
     await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/referrals\/.*\/completion-deadline/)
 
@@ -105,8 +108,6 @@ export const makeReferral = async (page: Page, crn: string) => {
     await page.locator('input[name="completion-deadline-day"]').fill(futureDate.getDate().toString())
     await page.locator('input[name="completion-deadline-month"]').fill((futureDate.getMonth() + 1).toString())
     await page.locator('input[name="completion-deadline-year"]').fill(futureDate.getFullYear().toString())
-
-    // Click text=Save and continue
     await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/referrals\/.*\/further-information/)
 
