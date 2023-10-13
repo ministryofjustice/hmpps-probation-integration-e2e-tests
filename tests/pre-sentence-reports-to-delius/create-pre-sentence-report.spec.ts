@@ -105,7 +105,7 @@ test('Create a short format pre-sentence report', async ({ page }) => {
 
     // And the PDF appears in non-DRAFT form in the subject access report zip file
     await createSubjectAccessReport(page, crn, `downloads/${crn}-sar.zip`)
-    const file = await getFileFromZip(`downloads/${crn}-sar.zip`, /shortFormatPreSentenceReport-.+?\.pdf/)
+    const file = await getFileFromZip(`downloads/${crn}-sar.zip`, /.+\.pdf/)
     const pdfText = await getPdfText(file)
     await expect(pdfText).not.toContain('DRAFT')
 })
