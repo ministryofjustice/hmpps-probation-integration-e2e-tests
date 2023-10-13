@@ -30,6 +30,7 @@ import { addMoveOnInformation } from './add-move-on-info'
 import { attachReqrdDocuments } from './attach-required-documents'
 import { checkYourAnswers } from './check-your-answers'
 import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status'
+import { confirmYourDetails } from './confirm-your-details'
 
 export const submitAPApplication = async (page: Page, crn: string) => {
     // And I enter the CRN & Submit
@@ -40,6 +41,8 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     await clickExceptionalCaseYes(page)
     // And I say add the agreed date and exception details
     await addExemptionDetails(page)
+    // And I confirm the user's details
+    await confirmYourDetails(page)
     // And I select their transgender status
     await selectTransgenderStatus(page)
     // And I enter Sentence end date (SED), Licence end date (LED), Post-sentence supervision (PSS)
