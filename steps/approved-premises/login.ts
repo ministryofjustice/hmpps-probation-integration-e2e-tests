@@ -18,7 +18,6 @@ export const login = async (page: Page) => {
     await page.fill('#password', process.env.DELIUS_PASSWORD!)
     await page.click('#submit')
     await expect(page).toHaveTitle(approvedPremisesTitle)
-    await page.locator('.govuk-link', { hasText: 'Approved Premises' }).click()
 }
 
 export const navigateToApplications = async (page: Page) => {
