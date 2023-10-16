@@ -15,5 +15,5 @@ export const addExemptionDetails = async (page: Page) => {
         .getByLabel('Provide a summary of the reasons why this is an exempt application')
         .fill('Test reason for application exemption')
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
-    await expect(page.locator('#main-content h1')).toContainText(/do they have a transgender history?/)
+    await expect(page.locator('#main-content h1')).toContainText(/Confirm your details/)
 }

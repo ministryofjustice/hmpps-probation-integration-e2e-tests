@@ -11,6 +11,7 @@ import { confirmPlacementStartdate } from './placement-start-date'
 import { selectAPPlacementPurpose } from './ap-placement-purpose'
 import { selectTypeOfAPRequired } from './select-type-ap-required'
 import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status'
+import { confirmYourDetails } from './confirm-your-details'
 
 export const clickTypeOfAPRequiredLink = async (page: Page) => {
     await page.locator('a', { hasText: 'Type of AP required' }).click()
@@ -94,6 +95,9 @@ export const navigateToTaskListPage = async (page: Page, crn: string) => {
 
     // And I say add the agreed date and exception details
     await addExemptionDetails(page)
+
+    // And I confirm the user's details
+    await confirmYourDetails(page)
 
     // And I say there no transgender history
     await selectTransgenderStatus(page)
