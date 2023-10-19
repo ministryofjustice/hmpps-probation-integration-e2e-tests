@@ -136,8 +136,6 @@ export const assignReferral = async (page: Page, referralRef: string) => {
     await page.locator('.govuk-button').click()
 
     await page.locator('tr', { hasText: referralRef }).locator('a.govuk-link').click()
-    await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
-    await page.getByRole('link', { name: 'Referral details' }).click()
     await expect(page).toHaveURL(/referrals\/.*\/details/)
 
     // Add the caseworker email address
