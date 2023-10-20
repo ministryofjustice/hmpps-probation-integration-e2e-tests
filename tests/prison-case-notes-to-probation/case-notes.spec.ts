@@ -31,10 +31,10 @@ test('Create a new case note', async ({ page }) => {
     await page.goto(`${process.env.DPS_URL}/prisoner/${nomisId}/add-case-note`)
     await expect(page).toHaveTitle(/Add a case note - Digital Prison Services/)
     await selectOption(page, '#type', 'General')
-    await selectOption(page, '#subType', 'Offender Supervisor Entry')
+    await selectOption(page, '#sub-type', 'Offender Supervisor Entry')
     await page.fill('#text', 'Case Note added by HMPPS Probation Integration end to end tests')
     await page.locator('button', { hasText: 'Save' }).click()
-    await expect(page).toHaveTitle(/Overview - Digital Prison Services/)
+    await expect(page).toHaveTitle(/Case notes - Digital Prison Services/)
 
     // Then the case note appears as a contact in delius
     await deliusLogin(page)
