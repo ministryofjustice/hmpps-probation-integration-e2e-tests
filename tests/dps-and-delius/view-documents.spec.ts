@@ -5,7 +5,7 @@ import { login as deliusLogin } from '../../steps/delius/login'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
-import { createAndBookPrisoner } from '../../steps/api/dps/prison-api'
+import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { createDocumentFromTemplate } from '../../steps/delius/document/create-document'
 
 dotenv.config() // read environment variables into process.env
@@ -32,4 +32,10 @@ test('View probation documents in DPS', async ({ page }) => {
     await page.getByRole('button', { name: 'Show all sections' }).click()
     await expect(page.locator('#accordion-default-heading-1')).toContainText('Adult Custody < 12m (6 Months)')
     await expect(page.locator('#accordion-default-content-1')).toContainText('Sentence related')
+})
+
+test.afterAll(async () => {
+    for (const nomsId of nomisIds) {
+        await releasePrisoner(nomsId)
+    }
 })
