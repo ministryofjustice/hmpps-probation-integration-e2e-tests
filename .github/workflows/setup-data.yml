@@ -1,0 +1,21 @@
+name: Setup test data
+
+on:
+  workflow_dispatch:
+    inputs:
+      project:
+        description: Project
+        type: choice
+        required: true
+        options:
+          - approved-premises-data-creator
+          - effective-proposal-framework
+          - recommend-a-recall
+          - refer-and-monitor-functional-tests
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+    with:
+      directory: test-data-setup
+      projects: '["${{ github.event.inputs.project }}"]'

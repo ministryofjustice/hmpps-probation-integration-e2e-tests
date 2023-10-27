@@ -8,7 +8,7 @@ These tests are designed to exercise real services in test and pre-production en
 Testing against real services is particularly useful for highlighting integration issues with authentication, message
 queues, external databases etc. - components we can't reliably test using mocks.
 
-## Prerequisites
+## Getting Started
 
 ### Dependencies
 
@@ -182,10 +182,37 @@ To run them, set the `TEST_DIR` environment variable:
 TEST_DIR=./test-data-setup npx playwright test
 ```
 
-# Support
+## Pipeline
+This repository includes a re-usable GitHub Actions workflow to help you run the end-to-end tests in your own pipeline.
+Running end-to-end tests in your own pipeline is a great way to verify that your changes haven't broken integrations with other services, before deploying to production.
+
+Example usage:
+```yaml
+  build:
+    ...
+  deploy-to-dev:
+    ...
+
+  end-to-end-tests:
+    name: Run end-to-end tests
+    uses: ministryofjustice/hmpps-probation-integration-e2e-tests/.github/workflows/test-remote.yml@main
+    needs: deploy-to-dev
+    with:
+      projects: '["tier-to-delius"]' # A JSON array of integrations you want to test
+    secrets:
+      token: ${{ secrets.BOT_GITHUB_TOKEN }} # A personal access token with "actions:write" permissions on the hmpps-probation-integration-e2e-tests repository
+
+  deploy-to-prod:
+    needs: end-to-end-tests
+    ...
+
+```
+
+
+## Support
 
 For any issues or questions, please contact the Probation Integration team via
 the [#probation-integration-tech](https://mojdt.slack.com/archives/C02HQ4M2YQN)
 Slack channel. Or feel free to create
-a [new issue](https://github.com/ministryofjustice/hmpps-probation-integration-services/issues/new)
+a [new issue](https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests/issues/new)
 in this repository.

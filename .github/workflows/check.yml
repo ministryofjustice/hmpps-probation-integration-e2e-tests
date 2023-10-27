@@ -1,0 +1,48 @@
+name: Run example tests
+
+on: push
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+    - name: Download example test script
+      run: wget https://raw.githubusercontent.com/microsoft/create-playwright/main/assets/example.spec.ts
+      working-directory: tests
+    - name: Install dependencies
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Run Playwright tests
+      run: npx playwright test example
+
+  lint:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Lint changes
+        uses: github/super-linter/slim@v5
+        env:
+          DEFAULT_BRANCH: main
+          VALIDATE_ALL_CODEBASE: false # changes only
+          VALIDATE_BASH: true
+          VALIDATE_BASH_EXEC: true
+          VALIDATE_DOCKERFILE_HADOLINT: true
+          VALIDATE_GITHUB_ACTIONS: true
+          VALIDATE_RUBY: true
+          VALIDATE_XML: true
+          VALIDATE_YAML: true
+          LINTER_RULES_PATH: /
+          GITHUB_ACTIONS_CONFIG_FILE: .github/actionlint.yml
+          GITHUB_ACTIONS_COMMAND_ARGS: -ignore=SC.+:info:.+
+          GITHUB_TOKEN: ${{ github.token }}
