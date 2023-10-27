@@ -4,50 +4,13 @@ on:
   # Every weekday at 08:00 UTC
   schedule:
     - cron: "0 8 * * MON-FRI"
-  # Run manually via GitHub UI or API
+  # Run manually via GitHub API
   workflow_dispatch:
     inputs:
       projects:
-        description: Project
-        type: choice
+        description: A JSON array of projects to deploy e.g. '["approved-premises-and-delius"]'
+        type: string
         required: true
-        options:
-          - 'All'
-          - '["approved-premises-and-delius"]'
-          - '["approved-premises-and-oasys"]'
-          - '["court-case-and-delius"]'
-          - '["create-and-vary-a-licence-and-delius"]'
-          - '["custody-key-dates-and-delius"]'
-          - '["domain-events-and-delius"]'
-          - '["effective-proposal-framework-and-delius"]'
-          - '["external-api-and-delius"]'
-          - '["make-recall-decisions-and-delius"]'
-          - '["manage-pom-cases-and-delius"]'
-          - '["offender-events-and-delius"]'
-          - '["pathfinder-and-delius"]'
-          - '["person-search-index-from-delius"]'
-          - '["pre-sentence-reports-to-delius"]'
-          - '["prison-case-notes-to-probation"]'
-          - '["prison-custody-status-to-delius"]'
-          - '["refer-and-monitor-and-delius"]'
-          - '["risk-assessment-scores-to-delius"]'
-          - '["sentence-plan-and-delius"]'
-          - '["sentence-plan-and-oasys"]'
-          - '["soc-and-delius"]'
-          - '["tier-to-delius"]'
-          - '["unpaid-work-and-delius"]'
-          - '["workforce-allocations-to-delius"]'
-          - '["manage-offences-and-delius"]'
-          - '["resettlement-passport-and-delius"]'
-          - '["prison-education-and-delius"]'
-          - '["opd-and-delius"]'
-          - '["hmpps-auth-and-delius"]'
-          - '["dps-and-delius"]'
-          - '["arns-and-delius"]'
-          - '["cas3-and-delius"]'
-          # ^ add new projects here
-          # GitHub Actions doesn't support dynamic choices, we must add each project here to enable manual deployments
-          # See https://github.com/community/community/discussions/11795
       directory:
         description: Directory containing test files
         type: string
@@ -56,7 +19,7 @@ on:
   workflow_call:
     inputs:
       projects:
-        description: Projects
+        description: A JSON array of projects to deploy e.g. '["approved-premises-and-delius"]'
         type: string
         required: true
       directory:
@@ -150,7 +113,7 @@ jobs:
         id: json
         run: |
           if [ -f results.json ]; then
-            skipped_projects=$(echo "$all_projects" | jq -r '.[]' | while read -r project; do if [ ! -d "tests/$project" ]; then echo $project; fi; done | jq --raw-input . | jq --slurp --compact-output .)
+            skipped_projects=$(echo "$all_projects" | jq -r '.[]' | while read -r project; do if [ ! -d "tests/$project" ]; then echo "$project"; fi; done | jq --raw-input . | jq --slurp --compact-output .)
             failed_projects=$(jq -r '.suites[].specs[] | select(.ok == false).file' results.json | xargs -n1 dirname | sort -u | jq --raw-input . | jq --slurp --compact-output .)
             passed_projects=$(jq --compact-output --null-input --argjson all "$all_projects" --argjson failed "$failed_projects" --argjson skipped "$skipped_projects" '{all: $all, failed: $failed, skipped: $skipped} | .all - .failed - .skipped')
             merged=$(echo "$auto_pass_projects $passed_projects" | jq -s 'add')
