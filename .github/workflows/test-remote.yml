@@ -37,7 +37,7 @@ jobs:
         id: run
         run: |
           # Start workflow run
-          gh workflow run test.yml --repo "$repo" -f "projects=$projects" && sleep 10
+          gh workflow run test.yml --repo "$repo" -f "projects=$projects" && sleep 10 || exit 1
           run_id=$(gh run list --workflow=test.yml --repo "$repo" -L1 --json databaseId --jq '.[0].databaseId')
           echo "Workflow started, follow the logs here: https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests/actions/runs/$run_id"
           

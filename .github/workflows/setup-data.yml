@@ -1,4 +1,4 @@
-name: Setup test data
+name: '* Setup test data'
 
 on:
   workflow_dispatch:
