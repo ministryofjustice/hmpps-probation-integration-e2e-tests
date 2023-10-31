@@ -51,3 +51,4 @@ jobs:
     uses: ./.github/workflows/test.yml
     with:
       projects: ${{ inputs.projects }}
+    secrets: inherit
