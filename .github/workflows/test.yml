@@ -77,7 +77,7 @@ jobs:
           PLAYWRIGHT_JUNIT_OUTPUT_NAME: junit.xml
           PLAYWRIGHT_JSON_OUTPUT_NAME: results.json
           # URLs
-          DELIUS_URL: https://ndelius.test.probation.service.justice.gov.uk
+          DELIUS_URL: https://ndelius-sr28.test.probation.service.justice.gov.uk
           WORKFORCE_URL: https://workforce-management-dev.hmpps.service.justice.gov.uk
           DPS_URL: https://digital-dev.prison.service.justice.gov.uk
           AUTH_URL: https://sign-in-dev.hmpps.service.justice.gov.uk
