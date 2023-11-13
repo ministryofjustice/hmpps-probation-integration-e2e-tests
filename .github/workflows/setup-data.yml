@@ -12,6 +12,7 @@ on:
           - effective-proposal-framework
           - recommend-a-recall
           - refer-and-monitor-functional-tests
+          - hmpps-integration-api
 
 jobs:
   test:
