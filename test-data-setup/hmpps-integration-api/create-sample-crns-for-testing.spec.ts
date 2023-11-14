@@ -2,7 +2,6 @@ import { test } from '@playwright/test'
 import { login as loginDelius } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { createAndBookPrisoner } from '../../steps/api/dps/prison-api'
-import { data } from '../../test-data/test-data'
 import { deliusPerson } from "../../steps/delius/utils/person";
 
 
