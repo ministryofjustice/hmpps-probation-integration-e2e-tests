@@ -75,9 +75,5 @@ export const testEnvironmentData: TestData = {
             crn: 'X698315',
             nomsNumber: 'G5012UJ',
         },
-        hmppsIntegrationApiTeamPrisoner1: {
-            crn: 'X699901',
-            nomsNumber: 'Z699901',
-        }
     },
 }
