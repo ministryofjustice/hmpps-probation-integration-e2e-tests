@@ -6,7 +6,7 @@ import { data } from '../../test-data/test-data'
 import { deliusPerson } from "../../steps/delius/utils/person";
 
 
-test('create a crn for Delius and DPS', async ({ page }) => {
+test('create a crn for Delius and DPS but not OASyS', async ({ page }) => {
 
     await loginDelius(page)
     const person = deliusPerson({sex: 'Male', dob: null, lastName: "Smith", firstName: "Bob"})
