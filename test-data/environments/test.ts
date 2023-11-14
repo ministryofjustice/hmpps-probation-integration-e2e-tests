@@ -56,10 +56,6 @@ export const testEnvironmentData: TestData = {
             name: 'The Crescent',
             provider: 'North East Region',
         },
-        hmppsIntegrationApiTeam: {
-            name: 'HMPPS',
-            provider: 'JusticeDigital',
-        },
         genericTeam: {
             name: 'OMU A',
             provider: 'NPS North East',
