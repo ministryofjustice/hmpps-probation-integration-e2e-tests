@@ -9,4 +9,5 @@ test('create a crn for Delius and DPS but not OASyS', async ({ page }) => {
     const person = deliusPerson()
     const crn: string = await createOffender(page, { person })
     await createAndBookPrisoner(page, crn, person)
+    console.log(crn, person)
 })
