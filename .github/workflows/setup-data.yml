@@ -20,3 +20,4 @@ jobs:
     with:
       directory: test-data-setup
       projects: '["${{ github.event.inputs.project }}"]'
+    secrets: inherit
