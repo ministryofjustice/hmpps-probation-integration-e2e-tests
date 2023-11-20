@@ -12,10 +12,11 @@ on:
           - effective-proposal-framework
           - recommend-a-recall
           - refer-and-monitor-functional-tests
-
+          - hmpps-integration-api
 jobs:
   test:
     uses: ./.github/workflows/test.yml
     with:
       directory: test-data-setup
       projects: '["${{ github.event.inputs.project }}"]'
+    secrets: inherit
