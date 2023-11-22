@@ -32,6 +32,9 @@ export const makeReferral = async (page: Page, crn: string) => {
     // Submit CRN
     await page.locator('input[name="service-user-crn"]').fill(crn)
     await page.locator('text=Continue').click()
+    await expect(page).toHaveURL(/referrals\/.*\/community-allocated-form/)
+    await page.locator('#community-allocated-2[value="no"]').click()
+    await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/\/prison-release-form/)
 
     // Enter prison release details
