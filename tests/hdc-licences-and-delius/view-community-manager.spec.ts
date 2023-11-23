@@ -26,7 +26,6 @@ test('View community manager in HDC', async ({ page }) => {
 
     // Then I can see the probation data
     await popup.locator('#prisonerComName a').click()
-    await page.pause()
     await expect(popup.locator(":text('Probation area') ~ div").first()).toContainText(data.teams.genericTeam.provider)
 })
 
