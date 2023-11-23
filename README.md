@@ -47,7 +47,7 @@ AUTH_URL=https://sign-in-dev.hmpps.service.justice.gov.uk
 CRED_USERNAME=<client_id>
 CRED_PASSWORD=<client_secret>
 
-PRISON_API=https://api-dev.prison.service.justice.gov.uk/
+PRISON_API=https://prison-api-dev.prison.service.justice.gov.uk/
 
 EPF_API=https://effective-proposal-framework-and-delius-dev.hmpps.service.justice.gov.uk/
 
