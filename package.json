@@ -14,7 +14,7 @@
   "scripts": {},
   "type": "module",
   "devDependencies": {
-    "@faker-js/faker": "^8.2.0",
+    "@faker-js/faker": "^8.3.1",
     "@kubernetes/client-node": "^0.20.0",
     "@playwright/test": "1.39.0",
     "@types/uuid": "^9.0.7",
