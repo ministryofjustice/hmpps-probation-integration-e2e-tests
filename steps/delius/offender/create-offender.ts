@@ -13,6 +13,9 @@ export async function createOffender(page: Page, args: { person?: Person; provid
     await page.fill('#addOffenderForm\\:Surname', person.lastName)
     await selectOption(page, '#addOffenderForm\\:Sex', person.sex)
     await fillDate(page, '#DateOfBirth', person.dob)
+    await selectOption(page, '#addOffenderForm\\:identifierType', 'PNC')
+    await page.fill('#addOffenderForm\\:identifierValue', person.pnc)
+    await page.locator('input', { hasText: 'Add/Update' }).click()
     await page.locator('input', { hasText: 'Save' }).click()
     if ((await page.locator('.prompt-warning').count()) > 0) {
         await page.locator('input', { hasText: 'Confirm' }).click()
