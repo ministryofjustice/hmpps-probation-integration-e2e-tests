@@ -11,7 +11,7 @@ export interface Address {
     zipCode: string
 }
 
-export const buildAddress = () => {
+export const buildAddress = (): Address => {
     return {
         buildingNumber: faker.location.buildingNumber(),
         street: faker.location.street(),
