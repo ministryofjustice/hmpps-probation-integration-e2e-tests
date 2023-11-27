@@ -12,11 +12,3 @@ test('create a crn for DPS and release them from Probation', async ({ page }) =>
     console.log(crn, person)
     await releasePrisoner(nomisId)
 })
-
-test('create a crn for DPS and unreleased from Delius', async ({ page }) => {
-    await loginDelius(page)
-    const person = deliusPerson()
-    const crn = await createOffender(page, { person })
-    await createAndBookPrisoner(page, crn, person)
-    console.log(crn, person)
-})
