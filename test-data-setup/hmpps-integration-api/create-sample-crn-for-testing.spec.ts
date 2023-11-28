@@ -9,12 +9,7 @@ test('create a crn for DPS and release them from Probation', async ({ page }) =>
     await loginDelius(page)
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
-
-    const address = buildAddress()
-    await createAddress(page, crn, address)
-
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     console.log(crn, person, nomisId)
-
     await releasePrisoner(nomisId)
 })
