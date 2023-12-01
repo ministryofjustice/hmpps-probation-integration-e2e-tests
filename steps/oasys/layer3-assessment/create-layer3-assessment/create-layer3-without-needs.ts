@@ -36,7 +36,7 @@ export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string
     // And I say OK for CRN Amendment
     await clickOKForCRNAmendment(page)
     // And I click on CMS Record
-    await clickCMSRecord(page)
+    await clickCMSRecord(page, 10000)
     // And I update the offender
     await clickUpdateOffenderButton(page)
     // And I start creating Layer 3 Assessment
