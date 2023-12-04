@@ -22,18 +22,19 @@ test('create a crn for DPS with an address and release them from Probation', asy
     await releasePrisoner(nomisId)
 })
 
-test('create a crn for DPS and Probation, with a layer 3 assessment, without needs', async ({ page }) => {
+test('create a crn for Probation, with a layer 3 assessment in the incomplete state', async ({ page }) => {
     //Generate an offender
     await loginDelius(page)
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
     const address = buildAddress()
-    await createCustodialEvent(page, {crn})
 
     //Print the ids into the test report log for ease of finding them.
     console.log(crn, person)
 
-    //Oasys - Risks, Scores and Needs data - will it work this way around after being released?
+    //Oasys - Risks, Scores and Needs data
+    await createCustodialEvent(page, {crn}) // required for OASys login to be able to create assessment
     await oasysLogin(page, UserType.Booking)
     await createLayer3AssessmentWithoutNeeds(page, crn)
+    await addLayer3AssessmentNeeds(page)
 })
