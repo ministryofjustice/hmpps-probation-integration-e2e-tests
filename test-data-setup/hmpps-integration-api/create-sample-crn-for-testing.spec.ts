@@ -9,6 +9,7 @@ import {
     createLayer3AssessmentWithoutNeeds
 } from "../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs";
 import {addLayer3AssessmentNeeds} from "../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs";
+import {createCustodialEvent} from "../../steps/delius/event/create-event";
 
 test('create a crn for DPS with an address and release them from Probation', async ({ page }) => {
     await loginDelius(page)
@@ -27,15 +28,12 @@ test('create a crn for DPS and Probation, with a layer 3 assessment, without nee
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
     const address = buildAddress()
-    const { nomisId } = await createAndBookPrisoner(page, crn, person)
+    await createCustodialEvent(page, {crn})
 
     //Print the ids into the test report log for ease of finding them.
-    console.log(crn, person, nomisId)
+    console.log(crn, person)
 
-    //Oasys - Risks, Scores and Needs data
+    //Oasys - Risks, Scores and Needs data - will it work this way around after being released?
     await oasysLogin(page, UserType.Booking)
     await createLayer3AssessmentWithoutNeeds(page, crn)
-
-    //Clean up the Probation Reception queue
-    await releasePrisoner(nomisId)
 })
