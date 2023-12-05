@@ -37,7 +37,7 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     await expect(await popup.locator('#name').inputValue()).toContain(person.lastName)
     await expect(popup.locator('#crn')).toHaveValue(crn)
     await popup.locator('textarea[name="address"]').fill(faker.location.streetAddress(true))
-    await popup.locator('input[name="pnc"]').fill(faker.string.alphanumeric({ length: 10, casing: 'upper' }))
+
     await popup.locator('text=Save and continue').click()
     // - Sentencing court details
     await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Sentencing court details/)
