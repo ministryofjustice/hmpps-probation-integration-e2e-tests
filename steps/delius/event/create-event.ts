@@ -37,8 +37,8 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     await fillDate(page, '#ReferralDate', _date)
     await fillDate(page, '#OffenceDate', _date)
     await fillDate(page, '#ConvictionDate', _date)
-    await selectOption(page, '#MainOffence', null, option => !option.startsWith('('))
-    createdEvent.court = await selectOption(page, '#Court[name="Court"]')
+    await selectOptionAndWait(page, '#MainOffence', null, option => !option.startsWith('('))
+    createdEvent.court = await selectOption(page, '#Court')
     await selectOptionAndWait(page, '#addEventForm\\:Area', allocation?.team.provider)
     await selectOptionAndWait(page, '#addEventForm\\:Team', allocation?.team.name)
     if (allocation?.staff?.name) {
