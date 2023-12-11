@@ -34,7 +34,7 @@ export const allocateCase = async (page: Page, crn: string, allocation: Allocati
     await page.locator('a', { hasText: 'Continue' }).click()
 
     // Explain the reason for allocation to this Practitioner
-    await expect(page).toHaveTitle(/.*Explain your decision | Manage a workforce.*/)
+    await refreshUntil(page, () => expect(page).toHaveTitle(/.*Explain your decision | Manage a workforce.*/))
     await page.fill(
         '#evidenceText',
         `${allocation.staff.firstName} ${allocation.staff.lastName} is allocated on case with ${crn} has the necessary specialized knowledge, skills, experience, and training to manage it.`
@@ -59,5 +59,6 @@ export const selectTeam = async (page: Page, team: Team) => {
         .selectOption({ label: team.localDeliveryUnit })
     await page.getByRole('combobox', { name: 'Team' }).selectOption({ label: team.name.replace(/^NPS - /, '') })
     await page.getByRole('button', { name: 'Save and view selection' }).click()
+    await refreshUntil(page, () => expect(page).toHaveTitle(/.*Unallocated cases.*/))
     await expect(page).toHaveTitle(/.*Unallocated cases.*/)
 }

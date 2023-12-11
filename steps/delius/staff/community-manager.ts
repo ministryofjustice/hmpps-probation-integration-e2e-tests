@@ -3,12 +3,17 @@ import { faker } from '@faker-js/faker'
 import { login as deliusLogin } from '../login'
 import { findOffenderByNomisId } from '../offender/find-offender'
 import { selectOption } from '../utils/inputs'
+import { doUntil } from '../utils/refresh'
 
 export async function randomiseCommunityManagerName(page: Page, nomsNumber: string) {
     const newValue = `ZZ${faker.string.alpha(6)}`
     await deliusLogin(page)
     await findOffenderByNomisId(page, nomsNumber)
-    await page.getByRole('link', { name: 'Community Supervisor' }).click()
+    await doUntil(
+        // wait for offendersummary call
+        () => page.getByRole('link', { name: 'Community Supervisor' }).click(),
+        () => expect(page.locator('#SearchForm\\:communityPractitioner')).not.toBeEmpty()
+    )
     await expect(page.locator('#communitySupervisorPanel')).toHaveClass(/in/)
     const provider = await page.locator('#SearchForm\\:provider').textContent()
     const surname = /[^,]+/.exec(await page.locator('#SearchForm\\:communityPractitioner').textContent())[0]
