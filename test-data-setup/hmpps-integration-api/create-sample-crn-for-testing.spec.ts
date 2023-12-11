@@ -27,7 +27,6 @@ test('create a crn for Probation, with a layer 3 assessment in the incomplete st
     await loginDelius(page)
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
-    const address = buildAddress()
 
     //Print the ids into the test report log for ease of finding them.
     console.log(crn, person)
