@@ -37,4 +37,5 @@ test('create a crn for Probation, with a layer 3 assessment in the incomplete st
     await oasysLogin(page, UserType.Booking)
     await createLayer3AssessmentWithoutNeeds(page, crn)
     await addLayer3AssessmentNeeds(page)
+    //Steps after this point to close an assessment must be manually completed.
 })
