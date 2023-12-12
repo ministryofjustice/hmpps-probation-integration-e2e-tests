@@ -22,7 +22,7 @@ dotenv.config() // read environment variables into process.env
 const nomisIds = []
 
 test('Create an approved premises application', async ({ page }) => {
-    // test.slow() // increase the timeout - Delius/OASys/AP Applications can take a few minutes
+    test.slow() // increase the timeout - Delius/OASys/AP Applications can take a few minutes
     // Given I login in to NDelius
     await hmppsLogin(page)
     await deliusLogin(page)
