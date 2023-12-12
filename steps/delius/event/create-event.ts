@@ -70,6 +70,9 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     await page.focus('#content')
     await page.locator('input', { hasText: 'Save' }).click()
     const pageTitle = await page.title()
+    if (pageTitle === 'Events') {
+        await page.locator('input', { hasText: 'Save' }).click()
+    }
     if (pageTitle === 'Error Page') {
         return await createEvent(page, { crn, allocation, event })
     }
