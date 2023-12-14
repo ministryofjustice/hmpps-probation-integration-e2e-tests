@@ -73,6 +73,7 @@ CONSIDER_A_RECALL_MRD_PASSWORD=<mrd_password>
 
 MANAGE_POM_CASES_URL=https://dev.moic.service.justice.gov.uk
 
+CVL_URL=https://create-and-vary-a-licence-test2.hmpps.service.justice.gov.uk
 ```
 
 ## Running Tests

@@ -90,6 +90,7 @@ jobs:
           CONSIDER_A_RECALL_URL: https://consider-a-recall-dev.hmpps.service.justice.gov.uk
           MANAGE_POM_CASES_URL: https://dev.moic.service.justice.gov.uk
           RESETTLEMENT_PASSPORT_AND_DELIUS_API: https://resettlement-passport-and-delius-dev.hmpps.service.justice.gov.uk
+          CVL_URL: https://create-and-vary-a-licence-test2.hmpps.service.justice.gov.uk
           # Credentials
           DELIUS_USERNAME: ${{ secrets.E2E_DELIUS_USERNAME }}
           DELIUS_PASSWORD: ${{ secrets.E2E_DELIUS_PASSWORD }}
