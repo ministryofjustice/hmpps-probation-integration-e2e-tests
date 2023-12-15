@@ -21,5 +21,8 @@ export async function createOffender(page: Page, args: { person?: Person; provid
         await page.locator('input', { hasText: 'Confirm' }).click()
     }
     await page.locator('main', { has: page.locator('h1', { hasText: 'Personal Details' }) })
-    return await page.locator('#SearchForm\\:crn').textContent()
+    const crn = await page.locator('#SearchForm\\:crn').textContent()
+    console.log('Person details:', person)
+    console.log('CRN:', crn)
+    return crn
 }

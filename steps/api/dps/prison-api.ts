@@ -22,6 +22,8 @@ export async function createAndBookPrisoner(page: Page, crn: string, person: Per
     // Link the Nomis entry to the Delius entry before booking to avoid OLE from tier changes
     await setNomisId(page, crn, offenderNo)
     const bookingId = await bookPrisoner(offenderNo)
+    console.log('NOMIS ID:', offenderNo)
+    console.log('Booking ID:', bookingId)
     return { nomisId: offenderNo, bookingId: bookingId }
 }
 
