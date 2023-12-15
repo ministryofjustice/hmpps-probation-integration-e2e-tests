@@ -71,5 +71,10 @@ export const testEnvironmentData: TestData = {
             crn: 'X698315',
             nomsNumber: 'G5012UJ',
         },
+        sentencedPrisonerWithReleaseDate: {
+            crn: 'X738925',
+            nomsNumber: 'A7928DZ',
+            bookingId: 1211185,
+        },
     },
 }
