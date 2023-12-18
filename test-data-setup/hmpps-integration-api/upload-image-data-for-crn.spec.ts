@@ -9,6 +9,7 @@ import {
 import {login as loginDelius} from "../../steps/delius/login";
 import {deliusPerson} from "../../steps/delius/utils/person";
 import {createOffender} from "../../steps/delius/offender/create-offender";
+import * as path from "path";
 
 test("Download and upload image for offender", async({ page }) => {
     //URL based on content from the following sources:
@@ -16,6 +17,7 @@ test("Download and upload image for offender", async({ page }) => {
 
     //File Retrieval
     const fileName = "personDoesNotExist.png"
+    const filePath = path.resolve(config.testDir, "/", fileName)
     const url = "https://thispersondoesnotexist.com/"
     const fileBuffer = await captureScreenshotAsBuffer(page, url, fileName)
 
@@ -26,7 +28,7 @@ test("Download and upload image for offender", async({ page }) => {
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     console.log(crn, nomisId)
     console.log(person)
-    const imageId = await uploadImageFromBuffer(nomisId, fileBuffer, fileName)
+    const imageId = await uploadImageFromBuffer(nomisId, fileBuffer, filePath)
     console.log(imageId)
     await releasePrisoner(nomisId)
 })
