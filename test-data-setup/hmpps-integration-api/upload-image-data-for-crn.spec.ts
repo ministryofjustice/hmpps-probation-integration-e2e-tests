@@ -17,7 +17,7 @@ test("Download and upload image for offender", async({ page }) => {
 
     //File Retrieval
     const fileName = "personDoesNotExist.png"
-    const filePath = path.resolve(config.testDir, "/", fileName)
+    const filePath = path.resolve(config.testDir, fileName)
     const url = "https://thispersondoesnotexist.com/"
     const fileBuffer = await captureScreenshotAsBuffer(page, url, fileName)
 

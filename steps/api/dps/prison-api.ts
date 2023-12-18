@@ -158,7 +158,7 @@ export async function captureScreenshotAsBuffer(page: Page, url: string, fileNam
             height: 959,
         },
         fullPage: false,
-        path: path.resolve(config.testDir, "/", fileName)
+        path: path.resolve(config.testDir, fileName)
     })
 }
 export const uploadImageFromBuffer =
