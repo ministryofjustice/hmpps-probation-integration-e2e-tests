@@ -5,6 +5,8 @@ import { EuropeLondonFormat } from '../../delius/utils/date-time'
 import { setNomisId } from '../../delius/offender/update-offender'
 import { retry, sanitiseError } from '../utils/api-utils'
 import { v4 as uuid } from 'uuid'
+import config from "../../../playwright.config";
+import * as path from "path";
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()
@@ -145,3 +147,45 @@ export const updateCustodyDates = retry(
         })
     })
 )
+
+export async function captureScreenshotAsBuffer(page: Page, url: string, fileName: string) {
+    await page.goto(url);
+    return await page.screenshot({
+        clip: {
+            x: 65,
+            y: 65,
+            width: 959,
+            height: 959,
+        },
+        fullPage: false,
+        path: path.resolve(config.testDir, "/", fileName)
+    })
+}
+export const uploadImageFromBuffer =
+//Adapted the solution from here: https://playwrightsolutions.com/making-a-post/
+    retry(
+        sanitiseError(async (offenderNo: string, fileBuffer: Buffer, fileName: string): Promise<any> => {
+
+            const token = await getToken()
+            const response = await (
+                await request.newContext({
+                    baseURL: process.env.PRISON_API,
+                    extraHTTPHeaders: {
+                        Accept: 'multipart/form-data',
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+            ).post(`/api/images/offenders/${offenderNo}`, {
+                multipart: {
+                    file: {
+                        name: fileName,
+                        mimeType: 'image/png',
+                        buffer: fileBuffer,
+                    },
+                    title: "Image of Offender"
+                }
+            })
+            const json = await response.json()
+            return json.imageId
+        }))
+
