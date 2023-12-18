@@ -177,7 +177,7 @@ export const uploadImageFromBuffer =
                 })
             ).post(`/api/images/offenders/${offenderNo}`, {
                 multipart: {
-                    file: {
+                    fileField: {
                         name: fileName,
                         mimeType: 'image/png',
                         buffer: fileBuffer,
