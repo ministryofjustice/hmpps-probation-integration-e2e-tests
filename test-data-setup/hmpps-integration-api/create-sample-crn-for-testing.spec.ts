@@ -9,14 +9,21 @@ import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-ass
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 
-test('create a crn for DPS with an address and release them from Probation', async ({ page }) => {
+test('create a crn for DPS and Delius with address and alert data', async ({ page }) => {
     await loginDelius(page)
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
+    console.log(crn, person)
+
+    //Probation Data
     const address = buildAddress()
     await createAddress(page, crn, address)
-    const { nomisId } = await createAndBookPrisoner(page, crn, person)
-    console.log(crn, person, nomisId)
+
+    //DPS data
+    const { nomisId, bookingId } = await createAndBookPrisoner(page, crn, person)
+    await createAnAlert(bookingId, {alertType: "X", alertCode: "XEL", comment: "has a large poster on cell wall" })
+
+    //Clear the Probation reception
     await releasePrisoner(nomisId)
 })
 
@@ -35,14 +42,4 @@ test('create a crn for Probation, with a layer 3 assessment in the incomplete st
     await createLayer3AssessmentWithoutNeeds(page, crn)
     await addLayer3AssessmentNeeds(page)
     //Steps after this point to close an assessment must be manually completed.
-})
-
-test('create a crn in Delius and DPS with an alert and release them from Probation', async ({ page }) => {
-    await loginDelius(page)
-    const person = deliusPerson()
-    const crn = await createOffender(page, { person })
-    const { nomisId, bookingId } = await createAndBookPrisoner(page, crn, person)
-    console.log(person)
-    await createAnAlert(bookingId, {alertType: "X", alertCode: "XEL", comment: "has a large poster on cell wall" })
-    await releasePrisoner(nomisId)
 })
