@@ -167,7 +167,7 @@ export const uploadImageFromBuffer =
         sanitiseError(async (offenderNo: string, fileBuffer: Buffer, fileName: string): Promise<any> => {
 
             const token = await getToken()
-            const response = await (
+            await (
                 await request.newContext({
                     baseURL: process.env.PRISON_API,
                     extraHTTPHeaders: {
@@ -185,7 +185,5 @@ export const uploadImageFromBuffer =
                     title: "Image of Offender"
                 }
             })
-            const json = await response.json()
-            return json.imageId
         }))
 

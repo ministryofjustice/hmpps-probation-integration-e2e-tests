@@ -28,8 +28,8 @@ test("Download and upload image for offender", async({ page }) => {
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     console.log(crn, nomisId)
     console.log(person)
-    const imageId = await uploadImageFromBuffer(nomisId, fileBuffer, filePath)
-    console.log(imageId)
+    await uploadImageFromBuffer(nomisId, fileBuffer, filePath)
+    console.log("Image uploaded with ID")
     await releasePrisoner(nomisId)
 })
 
