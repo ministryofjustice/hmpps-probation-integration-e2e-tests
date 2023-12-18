@@ -176,6 +176,7 @@ export const uploadImageFromBuffer =
                     },
                 })
             ).post(`/api/images/offenders/${offenderNo}`, {
+                failOnStatusCode: true,
                 multipart: {
                     fileField: {
                         name: fileName,
