@@ -1,7 +1,7 @@
 import { test } from '@playwright/test'
 import { login as loginDelius } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
-import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
+import {createAnAlert, createAndBookPrisoner, releasePrisoner} from '../../steps/api/dps/prison-api'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { buildAddress, createAddress } from '../../steps/delius/address/create-address'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
@@ -35,4 +35,14 @@ test('create a crn for Probation, with a layer 3 assessment in the incomplete st
     await createLayer3AssessmentWithoutNeeds(page, crn)
     await addLayer3AssessmentNeeds(page)
     //Steps after this point to close an assessment must be manually completed.
+})
+
+test('create a crn in Delius and DPS with an alert and release them from Probation', async ({ page }) => {
+    await loginDelius(page)
+    const person = deliusPerson()
+    const crn = await createOffender(page, { person })
+    const { nomisId, bookingId } = await createAndBookPrisoner(page, crn, person)
+    console.log(person)
+    await createAnAlert(bookingId, {alertType: "X", alertCode: "XEL", comment: "has a large poster on cell wall" })
+    await releasePrisoner(nomisId)
 })
