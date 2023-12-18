@@ -158,6 +158,7 @@ export async function captureScreenshotAsBuffer(page: Page, url: string, fileNam
             height: 959,
         },
         fullPage: false,
+        type: "png",
         path: path.resolve(config.testDir, fileName)
     })
 }
@@ -165,9 +166,8 @@ export const uploadImageFromBuffer =
 //Adapted the solution from here: https://playwrightsolutions.com/making-a-post/
     retry(
         sanitiseError(async (offenderNo: string, fileBuffer: Buffer, fileName: string): Promise<any> => {
-
             const token = await getToken()
-            await (
+            const response = await (
                 await request.newContext({
                     baseURL: process.env.PRISON_API,
                     extraHTTPHeaders: {
@@ -185,5 +185,7 @@ export const uploadImageFromBuffer =
                     title: "Image of Offender"
                 }
             })
+            console.log(response)
         }))
+
 
