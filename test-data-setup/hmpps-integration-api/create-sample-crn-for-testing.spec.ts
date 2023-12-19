@@ -1,7 +1,7 @@
 import { test } from '@playwright/test'
 import { login as loginDelius } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
-import {createAnAlert, createAndBookPrisoner, releasePrisoner} from '../../steps/api/dps/prison-api'
+import { createAnAlert, createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { buildAddress, createAddress } from '../../steps/delius/address/create-address'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
@@ -20,7 +20,7 @@ test('create a crn for DPS and Delius with address and alert data', async ({ pag
 
     //DPS data
     const { nomisId, bookingId } = await createAndBookPrisoner(page, crn, person)
-    await createAnAlert(bookingId, {alertType: "X", alertCode: "XEL", comment: "has a large poster on cell wall" })
+    await createAnAlert(bookingId, { alertType: 'X', alertCode: 'XEL', comment: 'has a large poster on cell wall' })
 
     //Clear the Probation reception
     await releasePrisoner(nomisId)

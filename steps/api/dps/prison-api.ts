@@ -1,11 +1,11 @@
 import { type Person } from '../../delius/utils/person'
 import { type APIRequestContext, Page, request } from '@playwright/test'
 import { getToken } from '../auth/get-token'
-import {EuropeLondonFormat, Yesterday} from '../../delius/utils/date-time'
+import { EuropeLondonFormat, Yesterday } from '../../delius/utils/date-time'
 import { setNomisId } from '../../delius/offender/update-offender'
 import { retry, sanitiseError } from '../utils/api-utils'
 import { v4 as uuid } from 'uuid'
-import {faker} from "@faker-js/faker";
+import { faker } from '@faker-js/faker'
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()
@@ -155,7 +155,7 @@ export interface Alert {
 }
 
 export const createAnAlert = retry(
-    sanitiseError( async (bookingId: number, {alertType, alertCode, comment, alertDate}: Alert)=> {
+    sanitiseError(async (bookingId: number, { alertType, alertCode, comment, alertDate }: Alert) => {
         await (
             await getContext()
         ).post(`/api/bookings/${bookingId}/alert`, {
@@ -164,7 +164,7 @@ export const createAnAlert = retry(
                 alertType: alertType,
                 alertCode: alertCode,
                 comment: comment,
-                alertDate: alertDate ?? faker.date.recent({ days: 1, refDate: Yesterday })
+                alertDate: alertDate ?? faker.date.recent({ days: 1, refDate: Yesterday }),
             },
         })
     })
