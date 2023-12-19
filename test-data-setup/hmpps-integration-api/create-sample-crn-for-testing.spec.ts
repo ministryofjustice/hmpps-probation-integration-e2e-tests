@@ -13,7 +13,6 @@ test('create a crn for DPS and Delius with address and alert data', async ({ pag
     await loginDelius(page)
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
-    console.log(crn, person)
 
     //Probation Data
     const address = buildAddress()
