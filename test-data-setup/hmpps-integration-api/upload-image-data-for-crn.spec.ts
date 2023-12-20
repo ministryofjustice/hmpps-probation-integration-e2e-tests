@@ -18,10 +18,10 @@ test("Create and upload a synthetic facial image for offender", async({ page }) 
 
     //File Retrieval
     const fileName = "personDoesNotExist.png"
-//    const filePath = path.resolve(config.testDir, fileName)
+    const filePath = path.resolve(config.testDir, fileName)
     const url = "https://thispersondoesnotexist.com/"
     await captureScreenshotAsBuffer(page, url, fileName)
-    const stream = fs.createReadStream(fileName);
+    const stream = fs.createReadStream(filePath);
 
     //Offender Creation and upload
     await loginDelius(page)
