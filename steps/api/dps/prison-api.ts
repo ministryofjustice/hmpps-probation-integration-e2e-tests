@@ -171,7 +171,7 @@ export const uploadImageFromBuffer =
                 await request.newContext({
                     baseURL: process.env.PRISON_API,
                     extraHTTPHeaders: {
-                        Accept: 'multipart/form-data',
+                        Accept: 'application/json',
                         Authorization: `Bearer ${token}`,
                     },
                 })
