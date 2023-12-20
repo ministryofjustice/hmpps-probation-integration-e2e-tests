@@ -10,6 +10,7 @@ import {login as loginDelius} from "../../steps/delius/login";
 import {deliusPerson} from "../../steps/delius/utils/person";
 import {createOffender} from "../../steps/delius/offender/create-offender";
 import * as path from "path";
+import fs from "fs";
 
 test("Create and upload a synthetic facial image for offender", async({ page }) => {
     //URL based on content from the following sources:
@@ -17,9 +18,10 @@ test("Create and upload a synthetic facial image for offender", async({ page }) 
 
     //File Retrieval
     const fileName = "personDoesNotExist.png"
-    const filePath = path.resolve(config.testDir, fileName)
+//    const filePath = path.resolve(config.testDir, fileName)
     const url = "https://thispersondoesnotexist.com/"
-    const fileBuffer = await captureScreenshotAsBuffer(page, url, fileName)
+    await captureScreenshotAsBuffer(page, url, fileName)
+    const stream = fs.createReadStream(fileName);
 
     //Offender Creation and upload
     await loginDelius(page)
@@ -27,7 +29,7 @@ test("Create and upload a synthetic facial image for offender", async({ page }) 
     const crn = await createOffender(page, { person })
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     console.log(person)
-    await uploadImageFromBuffer(nomisId, fileBuffer, filePath)
+    await uploadImageFromBuffer(nomisId, stream)
     console.log("Has the image uploaded?")
     await releasePrisoner(nomisId)
 })

@@ -8,6 +8,7 @@ import { v4 as uuid } from 'uuid'
 import config from "../../../playwright.config";
 import * as path from "path";
 import { faker } from '@faker-js/faker'
+import fs from 'fs'
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()
@@ -162,34 +163,26 @@ export async function captureScreenshotAsBuffer(page: Page, url: string, fileNam
         path: path.resolve(config.testDir, fileName)
     })
 }
-export const uploadImageFromBuffer =
+export const uploadImageFromBuffer = retry(
 //Adapted the solution from here: https://playwrightsolutions.com/making-a-post/
-    retry(
-        sanitiseError(async (offenderNo: string, fileBuffer: Buffer, fileName: string): Promise<any> => {
-            const token = await getToken()
-            const response = await (
-                await request.newContext({
-                    baseURL: process.env.PRISON_API,
-                    extraHTTPHeaders: {
-                        Accept: '*/*',
-                        ContentType: 'multipart/form-data',
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-            ).post(`/api/images/offenders/${offenderNo}`, {
-                failOnStatusCode: true,
-                multipart: {
-                    fileField: {
-                        name: fileName,
-                        mimeType: 'image/png',
-                        buffer: fileBuffer,
-                    },
-                    title: "Image of Offender"
-                }
-            })
-            console.log(response)
-        }))
-
+    sanitiseError(async (offenderNo: string, stream: fs.ReadStream): Promise<any> => {
+    const token = await getToken()
+    const response = await(
+        await request.newContext({
+            baseURL: process.env.PRISON_API,
+            extraHTTPHeaders: {
+                Accept: '*/*',
+                Authorization: `Bearer ${token}`,
+            },
+        })
+    ).post(`/api/images/offenders/${offenderNo}`, {
+        failOnStatusCode: true,
+        multipart: {
+            fileField: `${stream}`
+        }
+    })
+    console.log(response)
+}))
 
 export interface Alert {
     alertType?: string
