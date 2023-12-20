@@ -178,7 +178,7 @@ export const uploadImageFromBuffer = retry(
     ).post(`/api/images/offenders/${offenderNo}`, {
         failOnStatusCode: true,
         multipart: {
-            fileField: `${stream}`
+            fileField: stream
         }
     })
     console.log(response)
