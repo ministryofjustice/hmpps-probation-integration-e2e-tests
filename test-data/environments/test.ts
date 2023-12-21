@@ -80,7 +80,7 @@ export const testEnvironmentData: TestData = {
         hmppsSentencedPrisoner2Terms: {
             crn: 'X738180',
             nomsNumber: 'A7658DZ',
-            bookingId: 1210926
+            bookingId: 1210926,
         }
     },
 }
