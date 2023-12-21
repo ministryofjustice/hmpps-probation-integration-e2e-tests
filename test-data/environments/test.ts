@@ -76,5 +76,11 @@ export const testEnvironmentData: TestData = {
             nomsNumber: 'A7928DZ',
             bookingId: 1211185,
         },
+        //Persona https://dsdmoj.atlassian.net/wiki/spaces/HIA/pages/4610424895/Anna+Franey
+        hmppsSentencedPrisoner2Terms: {
+            crn: 'X738180',
+            nomsNumber: 'A7658DZ',
+            bookingId: 1210926
+        }
     },
 }
