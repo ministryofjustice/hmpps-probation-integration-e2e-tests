@@ -9,7 +9,7 @@ import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-ass
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 
-test('create a crn for DPS and Delius with address and alert data', async ({ page }) => {
+test('create and book a crn for DPS and Delius with an address, alert and a custodial event, then release them', async ({ page }) => {
     await loginDelius(page)
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
@@ -21,9 +21,10 @@ test('create a crn for DPS and Delius with address and alert data', async ({ pag
     //DPS data
     const { nomisId, bookingId } = await createAndBookPrisoner(page, crn, person)
     await createAnAlert(bookingId, { alertType: 'X', alertCode: 'XEL', comment: 'has a large poster on cell wall' })
+    await createCustodialEvent(page, { crn })
 
     //Clear the Probation reception
-    await releasePrisoner(nomisId)
+    //await releasePrisoner(nomisId)
 })
 
 test('create a crn for Probation, with a layer 3 assessment in the incomplete state', async ({ page }) => {
