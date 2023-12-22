@@ -24,7 +24,7 @@ test('create and book a crn for DPS and Delius with an address, alert and a cust
     await createCustodialEvent(page, { crn })
 
     //Clear the Probation reception
-    //await releasePrisoner(nomisId)
+    await releasePrisoner(nomisId)
 })
 
 test('create a crn for Probation, with a layer 3 assessment in the incomplete state', async ({ page }) => {
