@@ -173,6 +173,7 @@ export const uploadImageFromBuffer = retry(
             extraHTTPHeaders: {
                 Accept: '*/*',
                 Authorization: `Bearer ${token}`,
+                userAgent: 'ReactorNetty/1.1.8'
             },
         })
     ).post(`/api/images/offenders/${offenderNo}`, {
