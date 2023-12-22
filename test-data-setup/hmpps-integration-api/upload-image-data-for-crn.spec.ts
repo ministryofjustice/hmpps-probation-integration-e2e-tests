@@ -20,8 +20,8 @@ test("Create and upload a synthetic facial image for offender", async({ page }) 
     const fileName = "personDoesNotExist.png"
     const filePath = path.resolve(config.testDir, fileName)
     const url = "https://thispersondoesnotexist.com/"
-    await captureScreenshotAsBuffer(page, url, fileName)
-    const stream = fs.createReadStream(filePath);
+    const fileBuffer = await captureScreenshotAsBuffer(page, url, fileName)
+
 
     //Offender Creation and upload
     await loginDelius(page)
@@ -29,7 +29,7 @@ test("Create and upload a synthetic facial image for offender", async({ page }) 
     const crn = await createOffender(page, { person })
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     console.log(person)
-    await uploadImageFromBuffer(nomisId, stream)
+    await uploadImageFromBuffer(nomisId, filePath, fileBuffer)
     console.log("Has the image uploaded?")
     await releasePrisoner(nomisId)
 })

@@ -8,7 +8,6 @@ import { v4 as uuid } from 'uuid'
 import config from "../../../playwright.config";
 import * as path from "path";
 import { faker } from '@faker-js/faker'
-import fs from 'fs'
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()
@@ -165,7 +164,7 @@ export async function captureScreenshotAsBuffer(page: Page, url: string, fileNam
 }
 export const uploadImageFromBuffer = retry(
 //Adapted the solution from here: https://playwrightsolutions.com/making-a-post/
-    sanitiseError(async (offenderNo: string, stream: fs.ReadStream): Promise<any> => {
+    sanitiseError(async (offenderNo: string, fileBuffer: Buffer, fileName: string): Promise<any> => {
     const token = await getToken()
     const response = await(
         await request.newContext({
@@ -173,13 +172,19 @@ export const uploadImageFromBuffer = retry(
             extraHTTPHeaders: {
                 Accept: '*/*',
                 Authorization: `Bearer ${token}`,
-                userAgent: 'ReactorNetty/1.1.8'
+                ContentType: 'multipart/form-data',
+                userAgent: 'ReactorNetty/1.1.8',
             },
         })
     ).post(`/api/images/offenders/${offenderNo}`, {
         failOnStatusCode: true,
         multipart: {
-            fileField: stream
+            fileField: {
+                name: fileName,
+                mimeType: 'image/png',
+                buffer: fileBuffer,
+            },
+            title: "Image of Offender"
         }
     })
     console.log(response)
