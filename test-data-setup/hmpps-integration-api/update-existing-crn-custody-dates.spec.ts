@@ -7,7 +7,7 @@ import {format} from "date-fns";
 
 test('update the hmpps integration api offender custody dates', async ({ page }) => {
     await deliusLogin(page)
-    await findCustodyForEventByCRN(page, data.prisoners.sentencedPrisoner2Terms.crn, 1)
+    await findCustodyForEventByCRN(page, data.prisoners.hmppsPrisonerForCustodyUpdates.crn, 1)
     const id = await page.locator('label', { hasText: 'Sentence Expiry Date:' }).getAttribute('for')
     const currentDate = await page.locator(`[id="${id}"]`).innerText()
     const dateParts = currentDate.split('/')
@@ -17,7 +17,7 @@ test('update the hmpps integration api offender custody dates', async ({ page })
     date.setFullYear(Number(dateParts[2]))
     date.setUTCDate(date.getUTCDate() + 1)
 
-    await updateCustodyDates(data.prisoners.sentencedPrisoner2Terms.bookingId, {
+    await updateCustodyDates(data.prisoners.hmppsPrisonerForCustodyUpdates.bookingId, {
         sentenceExpiryDate: format(date, 'yyyy-MM-dd'),
         conditionalReleaseDate: format(date, 'yyyy-MM-dd'),
         conditionalReleaseOverrideDate: format(date, 'yyyy-MM-dd'),
