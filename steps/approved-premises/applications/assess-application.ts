@@ -25,7 +25,6 @@ export const assessApplication = async (page: Page, personName: string) => {
         .check()
     await page.getByRole('button', { name: 'Submit' }).click()
     await page.getByRole('link', { name: 'Provide any requirements to support placement' }).click()
-    //
     await page
         .getByRole('group', {
             name: 'Are there any additional actions required by the probation practitioner to make a placement viable?',
