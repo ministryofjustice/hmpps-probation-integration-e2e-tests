@@ -17,8 +17,12 @@ export const assessApplication = async (page: Page, personName: string) => {
     await page.locator('#locationOfPlacement').check()
     await page.locator('#moveOnPlan').check()
     await page.getByRole('button', { name: 'Submit' }).click()
-    await page.locator('#contingencyPlanSufficient-2').check()
-    await page.locator('#additionalComments').fill('Test Comments')
+    await page
+        .getByRole('group', {
+            name: "Do you agree with the applicant's reason for submission within 4 months of expected arrival?",
+        })
+        .getByLabel('Yes')
+        .check()
     await page.getByRole('button', { name: 'Submit' }).click()
     await page.getByRole('link', { name: 'Provide any requirements to support placement' }).click()
     await page
@@ -26,18 +30,6 @@ export const assessApplication = async (page: Page, personName: string) => {
             name: 'Are there any additional actions required by the probation practitioner to make a placement viable?',
         })
         .getByLabel('Yes')
-        .check()
-    await page
-        .getByRole('group', {
-            name: 'Are there any additional actions required by the probation practitioner to make a placement viable?',
-        })
-        .getByLabel('Yes')
-        .check()
-    await page
-        .getByRole('group', {
-            name: 'Are there any additional actions required by the probation practitioner to make a placement viable?',
-        })
-        .getByLabel('No')
         .check()
     await page
         .getByRole('group', { name: 'Are any additional curfews or sign ins recommended?' })
