@@ -10,9 +10,9 @@ export const clickOKForCRNAmendment = async (page: Page) => {
         await page.click('#B74270608344555907')
         await page.click('#B2799414815519187')
         await page.click('#B83726850038339573')
-        await expect(page.locator('#contextleft > h3')).toHaveText('CMS Search Results')
+        await expect(page.locator('#contextleft > h3')).toHaveText('Delius Search Results')
     } else if (header.trim() == crnAmendmentHeader) {
         await page.click('#B83726850038339573')
-        await expect(page.locator('#contextleft > h3')).toHaveText('CMS Search Results')
+        await expect(page.locator('#contextleft > h3')).toHaveText('Delius Search Results')
     }
 }
