@@ -60,7 +60,7 @@ export const clickSection2to13 = async (page: Page) => {
         )
         .fill('OPD Autotest')
     await page.getByRole('link', { name: '5 - Finance' }).click()
-    // await page.getByLabel('Severe impediment to budgeting (optional)').selectOption('5.6~1')
+    await page.getByLabel('Severe impediment to budgeting (optional)').selectOption('5.6~1')
     await page
         .getByLabel(
             'Identify financial management issues contributing to risks of offending and harm.  Please include any positive factors. - additional information spellcheck available'
@@ -142,8 +142,105 @@ export const clickSection2to13 = async (page: Page) => {
         )
         .selectOption('10.98~NO')
     await page.getByLabel('Issues of emotional wellbeing linked to offending behaviour').selectOption('10.99~NO')
-    await page.getByText('OASys is running in SIT - T2 OASys (Offender Assessment System) Logged in as Mal').click()
     await page.locator('#B6737316531953403').click()
+    await page.getByRole('link', { name: '11 - Thinking & Behaviour' }).click()
+    await page.getByLabel('Level of interpersonal skills').selectOption('11.1~1')
+    await page.getByLabel('Impulsivity').selectOption('11.2~2')
+    await page.getByLabel('Aggressive / controlling behaviour').selectOption('11.3~2')
+    await page.getByLabel('Temper control').selectOption('11.4~1')
+    await page.getByRole('cell', { name: 'Ability to recognise problems' }).nth(1).click()
+    await page.getByLabel('Ability to recognise problems').selectOption('11.5~2')
+    await page.getByLabel('Problem solving skills').selectOption('11.6~2')
+    await page.getByLabel('Awareness of consequences').selectOption('11.7~2')
+    await page.getByLabel("Understands other people's views").selectOption('11.9~1')
+    await page.getByLabel('Sexual Pre-Occupation').selectOption('11.11~1')
+    await page.getByLabel('Offence Related Sexual Interests').selectOption('11.12~1')
+    await page
+        .getByLabel(
+            'Identify thinking / behavioural issues contributing to risks of offending and harm.  Please include any positive factors. - additional information spellcheck available'
+        )
+        .click()
+    await page
+        .getByLabel(
+            'Identify thinking / behavioural issues contributing to risks of offending and harm.  Please include any positive factors. - additional information spellcheck available'
+        )
+        .fill('OPD Autotest')
+    await page
+        .getByLabel('Thinking and behaviour linked to risk of serious harm, risks to the individual and other risks')
+        .selectOption('11.98~YES')
+    await page.getByLabel('Thinking and behaviour linked to offending behaviour').selectOption('11.99~YES')
+    await page.locator('#B6737316531953403').click()
+    await page.getByLabel('Pro-criminal attitudes').selectOption('12.1~0')
+    await page.getByLabel('Attitude towards staff (optional)').selectOption('12.3~0')
+    await page.getByLabel('Attitude towards supervision / licence').selectOption('12.4~0')
+    await page.getByLabel('Attitude towards community / society').selectOption('12.5~0')
+    await page
+        .getByLabel('Does the offender understand their motivation for offending (optional)')
+        .selectOption('12.6~0')
+    await page.getByLabel('Motivation to address offending behaviour').selectOption('12.8~0')
+    await page.getByLabel('Hostile Orientation').selectOption('12.9~0')
+    await page
+        .getByLabel(
+            'Identify issues about attitudes contributing to risks of offending and harm.  Please include any positive factors. - additional information spellcheck available'
+        )
+        .fill('OPD Autotest')
+    await page
+        .getByLabel('Attitudes linked to risk of serious harm, risks to the individual and other risks')
+        .selectOption('12.98~NO')
+    await page.getByLabel('Attitudes linked to offending behaviour').selectOption('12.99~NO')
+    await page.locator('#B6737316531953403').click()
+
+    // await page.getByRole('link', { name: 'RoSH Screening' }).click()
+    // await page.locator('#leftmenuul').getByRole('list').getByRole('link', { name: 'Section 1' }).click()
+    // await page.getByLabel('Is the individual currently subject to a Civil or Ancillary Order?').selectOption('R1.4~NO')
+    // await page.locator('#B6737316531953403').click()
+
+    // await page.getByRole('link', { name: 'RoSH Full Analysis' }).click()
+    // await page.getByRole('link', { name: 'RoSH Summary' }).click()
+    await page.locator('#B2850410339145316').click()
+    await page.getByLabel('Are there any current concerns about escape and abscond').selectOption('FA51~YES')
+    await page.locator('#textarea_FA51_t').click()
+    await page.locator('#textarea_FA51_t').fill('OPD Autotest')
+    await page.getByLabel('Are there any previous concerns about escape and abscond').selectOption('FA53~YES')
+    await page
+        .getByLabel('Are there any current concerns about control and disruptive behaviour')
+        .selectOption('FA55~YES')
+    await page
+        .getByLabel('Are there any previous concerns about control and disruptive behaviour')
+        .selectOption('FA56~YES')
+    await page.locator('#textarea_FA58_t').click()
+    await page.locator('#textarea_FA58_t').fill('OPD Autotest')
+    await page.locator('#textarea_FA60_t').click()
+    await page.locator('#textarea_FA60_t').fill('OPD Autotest')
+    await page
+        .getByRole('cell', {
+            name: 'Describe circumstances, relevant issues and needs - additional information spellcheck available autotext available Spell Checker Available Autotext Available 4000 remaining',
+        })
+        .getByLabel(
+            'Describe circumstances, relevant issues and needs - additional information spellcheck available autotext available'
+        )
+        .click()
+    await page
+        .getByRole('cell', {
+            name: 'Describe circumstances, relevant issues and needs - additional information spellcheck available autotext available Spell Checker Available Autotext Available 4000 remaining',
+        })
+        .getByLabel(
+            'Describe circumstances, relevant issues and needs - additional information spellcheck available autotext available'
+        )
+        .fill('OPD Autotest')
+    await page.getByLabel('Are there any current concerns about breach of trust').selectOption('FA58~YES')
+    await page.getByLabel('Are there any previous concerns about breach of trust').selectOption('FA60~YES')
+    await page.getByLabel('Are there any previous concerns about breach of trust').selectOption('FA60~NO')
+    await page.locator('#B6737316531953403').click()
+    await page.locator('#B6737515905953403').click()
+    // await page.getByRole('link', { name: 'Section 5' }).click()
+    // await page.locator('#B6737316531953403').click()
+    // await page.locator('#B6737316531953403').click()
+    // await page.locator('#B6737316531953403').click()
+    // await page.locator('#B6737316531953403').click()
+    // await page.getByRole('link', { name: 'Self Assessment Form' }).click()
+    // await page.locator('#B6737316531953403').click()
+    // await page.locator('#B6737316531953403').click()
 }
 
 export const clickRoSHSummary = async (page: Page) => {
