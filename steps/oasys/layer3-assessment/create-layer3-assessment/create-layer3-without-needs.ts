@@ -12,6 +12,7 @@ import {
     clickRoshFullRisksToIndividual,
     clickRoSHScreeningSection1,
     clickRoSHSummary,
+    clickSection2to13,
     createLayer3Assessment,
 } from '../create-assessment'
 import { completeRoSHSection1MarkAllNo } from '../section-1'
@@ -41,6 +42,7 @@ export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string
     await clickUpdateOffenderButton(page)
     // And I start creating Layer 3 Assessment
     await createLayer3Assessment(page)
+    await clickSection2to13(page)
     // And I Click on "RoSH Screening" Section
     await clickRoSHScreeningSection1(page)
     // And I complete RoSH Screening Section 1 and Click Save & Next

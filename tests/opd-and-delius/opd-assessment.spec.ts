@@ -12,7 +12,6 @@ test('OPD assessment creates an event in Delius', async ({ page }) => {
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
     await createCustodialEvent(page, { crn })
-    await page.pause()
     await oasysLogin(page, UserType.Booking)
     await createLayer3AssessmentWithoutNeeds(page, crn)
     await addLayer3AssessmentNeeds(page)
