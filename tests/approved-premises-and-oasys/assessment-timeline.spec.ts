@@ -11,14 +11,14 @@ import {
     clickChooseSectionsOfOASysToImportLink,
     navigateToTaskListPage,
     verifyRoshScoresAreAsPerOasys,
-} from '../../steps/approved-premises/applications/task-list'
-import { selectNeedsAndSubmit } from '../../steps/approved-premises/applications/import-oasys-sections'
-import { verifyRoSHSummaryIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rosh'
+} from '../../steps/cas1-approved-premises/applications/task-list'
+import { selectNeedsAndSubmit } from '../../steps/cas1-approved-premises/applications/import-oasys-sections'
+import { verifyRoSHSummaryIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-rosh'
 import { data } from '../../test-data/test-data'
-import { verifyRMPInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-rmp'
-import { verifyOffenceAnalysisIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-offence-analysis'
-import { verifyRiskToSelfIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-risk-to-self'
-import { verifySupportingInfoIsAsPerOASys } from '../../steps/approved-premises/applications/edit-risk-information-supporting-info'
+import { verifyRMPInfoIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-rmp'
+import { verifyOffenceAnalysisIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-offence-analysis'
+import { verifyRiskToSelfIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-risk-to-self'
+import { verifySupportingInfoIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-supporting-info'
 import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 

@@ -17,7 +17,7 @@ const sexOf = (str: string): SexType => {
     }
 }
 
-export const deliusPerson = (person?: Person): Person => {
+export const deliusPerson = (person?: Partial<Person>): Person => {
     const sex = person?.sex ? sexOf(person.sex) : faker.person.sexType()
     const firstName = person?.firstName ? person.firstName : faker.person.firstName(sex)
     const lastName = person?.lastName ? person.lastName : faker.person.lastName(sex)

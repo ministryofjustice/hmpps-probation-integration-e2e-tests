@@ -12,10 +12,10 @@ import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-ass
 import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { contact } from '../../steps/delius/utils/contact'
 import { findOffenderByCRN } from '../../steps/delius/offender/find-offender'
-import { login as approvedPremisesLogin, navigateToApplications } from '../../steps/approved-premises/login'
-import { submitAPApplication } from '../../steps/approved-premises/applications/submit-application-full'
-import { reallocateApplication } from '../../steps/approved-premises/applications/reallocate'
-import { assessApplication } from '../../steps/approved-premises/applications/assess-application'
+import { login as approvedPremisesLogin, navigateToApplications } from '../../steps/cas1-approved-premises/login'
+import { submitAPApplication } from '../../steps/cas1-approved-premises/applications/submit-application-full'
+import { reallocateApplication } from '../../steps/cas1-approved-premises/applications/reallocate'
+import { assessApplication } from '../../steps/cas1-approved-premises/applications/assess-application'
 
 dotenv.config() // read environment variables into process.env
 
