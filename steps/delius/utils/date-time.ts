@@ -2,6 +2,7 @@ import { addMonths, addYears, addDays, subMonths, subDays } from 'date-fns'
 export const options = { day: 'numeric', month: 'long', year: 'numeric' } as Intl.DateTimeFormatOptions
 export const recallDateFormatter = date => date.toLocaleDateString('en-GB', options)
 export const DeliusDateFormatter = (date: Date) => date.toLocaleDateString('en-GB')
+export const OasysDateFormatter = (date: Date) => date.toLocaleString('en-GB').split(',')[0].replace(/\//g, '')
 export const DeliusTimeFormatter = (time: Date) =>
     `${time.getHours().toString().padStart(2, '0')}:${time.getMinutes().toString().padStart(2, '0')}`
 export const EuropeLondonFormat = (date: Date) =>

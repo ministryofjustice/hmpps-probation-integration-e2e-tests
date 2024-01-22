@@ -1,7 +1,10 @@
 import { type Page, expect } from '@playwright/test'
+import { faker } from '@faker-js/faker'
+import { OasysDateFormatter, Yesterday } from '../../delius/utils/date-time'
+import { fillDate, fillDateOasys } from '../../delius/utils/inputs'
 
 export const createLayer3Assessment = async (page: Page) => {
-    await page.locator('#P10_PURPOSE_ASSESSMENT_ELM').selectOption({ label: 'Review' })
+    await page.locator('#P10_PURPOSE_ASSESSMENT_ELM').selectOption({ label: 'Start custody' })
     await expect(page.locator('#P10_ASSESSMENT_TYPE_ELM')).toContainText('Full (Layer 3)')
     await page.click('#B3730320750239994')
     await expect(page.locator('#contextleft > h3')).toHaveText('Case ID - Offender Information (Layer 3)')
@@ -10,13 +13,56 @@ export const createLayer3Assessment = async (page: Page) => {
 export const clickRoSHScreeningSection1 = async (page: Page) => {
     await page.locator('a', { hasText: 'RoSH Screening' }).click()
     await page.locator('a[href *= "ROSHA1"]', { hasText: 'Section 1' }).click()
+    await page.getByLabel('Is the individual currently subject to a Civil or Ancillary Order?').selectOption('R1.4~NO')
     await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Screening (Layer 3)')
     await expect(page.locator('#R2846717162014845 > h6')).toHaveText(
         'R1 Information from other sections of OASys and risk of serious harm to others - screening'
     )
 }
-export const clickSection2to13 = async (page: Page) => {
+
+export const clickSection1 = async (
+    page: Page,
+    firstOffenceDate: Date = faker.date.recent({ days: 1, refDate: Yesterday })
+) => {
+    await page.getByRole('link', { name: 'Section 1' }).click()
+    await page.getByRole('link', { name: 'Offending Information' }).click()
+    await page.getByLabel('Count').fill('1')
+    await page.getByRole('link', { name: 'Predictors' }).click()
+    await page.getByLabel('Total number of sanctions for all offences').fill('11')
+    await page.getByLabel('How many of the total number of sanctions involved violent offences?').fill('4')
+    console.log('te date ', OasysDateFormatter(firstOffenceDate))
+    await fillDateOasys(page, '#itm_1_29', firstOffenceDate)
+    await page
+        .getByRole('cell', { name: 'Have they ever committed a sexual or sexually motivated offence?' })
+        .nth(1)
+        .click()
+    await page
+        .getByLabel('Does the current offence involve actual/attempted contact against a victim who was a stranger?')
+        .selectOption('1.42~YES')
+    const _date = faker.date.recent({ days: 1, refDate: Yesterday })
+    await fillDateOasys(page, '#itm_1_33', _date)
     await page.pause()
+    await page
+        .getByLabel('Number of previous/current sanctions involving contact adult sexual/sexually motivated offences')
+        .fill('1')
+    await page
+        .getByLabel('Number of previous/current sanctions involving contact child sexual/sexually motivated offences')
+        .fill('0')
+    await page
+        .getByLabel(
+            'Number of previous/current sanctions involving indecent child image sexual/sexually motivated offences'
+        )
+        .fill('0')
+    await page
+        .getByLabel(
+            'Number of previous/current sanctions involving other non-contact sexual/sexually motivated offences'
+        )
+        .fill('0')
+    await fillDateOasys(page, '#itm_1_38', _date)
+    await page.locator('#B6737316531953403').click()
+}
+
+export const clickSection2to13 = async (page: Page) => {
     await page.getByRole('link', { name: 'Section 2 to 13' }).click()
     await page.getByRole('link', { name: '2 - Offence Analysis' }).click()
     await page
@@ -89,6 +135,7 @@ export const clickSection2to13 = async (page: Page) => {
     await page.locator('#B6737316531953403').click()
     await page.getByLabel('Drugs ever misused (in custody or community)').selectOption('8.1~NO')
     await page.locator('#B6737316531953403').click()
+    await page.getByRole('link', { name: '9 - Alcohol Misuse' }).click()
     await page.getByLabel('Motivation to tackle alcohol misuse (if applicable)').selectOption('9.5~1')
     await page
         .getByLabel(
@@ -142,7 +189,6 @@ export const clickSection2to13 = async (page: Page) => {
         )
         .selectOption('10.98~NO')
     await page.getByLabel('Issues of emotional wellbeing linked to offending behaviour').selectOption('10.99~NO')
-    await page.locator('#B6737316531953403').click()
     await page.getByRole('link', { name: '11 - Thinking & Behaviour' }).click()
     await page.getByLabel('Level of interpersonal skills').selectOption('11.1~1')
     await page.getByLabel('Impulsivity').selectOption('11.2~2')
@@ -189,60 +235,15 @@ export const clickSection2to13 = async (page: Page) => {
         .selectOption('12.98~NO')
     await page.getByLabel('Attitudes linked to offending behaviour').selectOption('12.99~NO')
     await page.locator('#B6737316531953403').click()
-
-    // await page.getByRole('link', { name: 'RoSH Screening' }).click()
-    // await page.locator('#leftmenuul').getByRole('list').getByRole('link', { name: 'Section 1' }).click()
-    // await page.getByLabel('Is the individual currently subject to a Civil or Ancillary Order?').selectOption('R1.4~NO')
-    // await page.locator('#B6737316531953403').click()
-
-    // await page.getByRole('link', { name: 'RoSH Full Analysis' }).click()
-    // await page.getByRole('link', { name: 'RoSH Summary' }).click()
-    await page.locator('#B2850410339145316').click()
-    await page.getByLabel('Are there any current concerns about escape and abscond').selectOption('FA51~YES')
-    await page.locator('#textarea_FA51_t').click()
-    await page.locator('#textarea_FA51_t').fill('OPD Autotest')
-    await page.getByLabel('Are there any previous concerns about escape and abscond').selectOption('FA53~YES')
-    await page
-        .getByLabel('Are there any current concerns about control and disruptive behaviour')
-        .selectOption('FA55~YES')
-    await page
-        .getByLabel('Are there any previous concerns about control and disruptive behaviour')
-        .selectOption('FA56~YES')
-    await page.locator('#textarea_FA58_t').click()
-    await page.locator('#textarea_FA58_t').fill('OPD Autotest')
-    await page.locator('#textarea_FA60_t').click()
-    await page.locator('#textarea_FA60_t').fill('OPD Autotest')
-    await page
-        .getByRole('cell', {
-            name: 'Describe circumstances, relevant issues and needs - additional information spellcheck available autotext available Spell Checker Available Autotext Available 4000 remaining',
-        })
-        .getByLabel(
-            'Describe circumstances, relevant issues and needs - additional information spellcheck available autotext available'
-        )
-        .click()
-    await page
-        .getByRole('cell', {
-            name: 'Describe circumstances, relevant issues and needs - additional information spellcheck available autotext available Spell Checker Available Autotext Available 4000 remaining',
-        })
-        .getByLabel(
-            'Describe circumstances, relevant issues and needs - additional information spellcheck available autotext available'
-        )
-        .fill('OPD Autotest')
-    await page.getByLabel('Are there any current concerns about breach of trust').selectOption('FA58~YES')
-    await page.getByLabel('Are there any previous concerns about breach of trust').selectOption('FA60~YES')
-    await page.getByLabel('Are there any previous concerns about breach of trust').selectOption('FA60~NO')
-    await page.locator('#B6737316531953403').click()
-    await page.locator('#B6737515905953403').click()
-    // await page.getByRole('link', { name: 'Section 5' }).click()
-    // await page.locator('#B6737316531953403').click()
-    // await page.locator('#B6737316531953403').click()
-    // await page.locator('#B6737316531953403').click()
-    // await page.locator('#B6737316531953403').click()
-    // await page.getByRole('link', { name: 'Self Assessment Form' }).click()
-    // await page.locator('#B6737316531953403').click()
-    // await page.locator('#B6737316531953403').click()
 }
 
+export const selfAssessmentForm = async (page: Page) => {
+    await page.locator('a', { hasText: 'Self Assessment Form' }).click()
+    await page
+        .getByLabel('Please provide a clear rationale for not fully completing the Self Assessment Questionnaire')
+        .fill('OPD Autotest')
+    await page.locator('#B6737316531953403').click()
+}
 export const clickRoSHSummary = async (page: Page) => {
     await page.locator('a', { hasText: 'RoSH Summary' }).click()
     await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Summary (Layer 3)')

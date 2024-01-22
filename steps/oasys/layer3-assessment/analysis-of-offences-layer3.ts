@@ -5,6 +5,38 @@ export const completeOffenceAnalysis = async (page: Page) => {
         '#textarea_2_1',
         "OASys Question - '2.1 Brief offence(s) details (indicate what exactly happened, when, where and how)' - Answer Input - 'HRosh to Partners, medium to male peers & children'"
     )
+    await page
+        .getByRole('row', { name: 'Carrying or using a weapon' })
+        .getByLabel('Carrying or using a weapon')
+        .selectOption('2.2_V2_WEAPON~YES')
+    await page.getByRole('textbox', { name: 'Specify which weapon' }).fill('Club')
+
+    await page
+        .getByRole('row', { name: 'Any violence or threat of violence / coercion' })
+        .getByLabel('Any violence or threat of violence / coercion')
+        .selectOption('2.2_V2_ANYVIOL~YES')
+    await page
+        .getByRole('row', { name: 'Excessive use of violence / sadistic violence' })
+        .getByLabel('Excessive use of violence / sadistic violence')
+        .selectOption('2.2_V2_EXCESSIVE~YES')
+    await page.getByRole('row', { name: 'Arson' }).getByLabel('Arson').selectOption('2.2_V2_ARSON~NO')
+    await page
+        .getByRole('row', { name: 'Physical damage to property' })
+        .getByLabel('Physical damage to property')
+        .selectOption('2.2_V2_PHYSICALDAM~NO')
+    await page
+        .getByRole('row', { name: 'Sexual element' })
+        .getByLabel('Sexual element')
+        .selectOption('2.2_V2_SEXUAL~YES')
+    await page
+        .getByRole('row', { name: 'Domestic abuse' })
+        .getByLabel('Domestic abuse')
+        .selectOption('2.2_V2_DOM_ABUSE~NO')
+    await page
+        .getByLabel(
+            'How much responsibility does s/he acknowledge for the offence(s). Does s/he blame others, minimise the extent of his / her offending? - additional information spellcheck available'
+        )
+        .fill('Auto test')
     await page.locator("[value='Enter Victim Details']").click()
     await expect(page.locator('#R6262620100578238 > h2')).toHaveText('Victim’s Relationship to Perpetrator')
     await page.getByLabel('Approx. Age').selectOption({ label: '26-49' })
@@ -25,6 +57,13 @@ export const completeOffenceAnalysis = async (page: Page) => {
         '#textarea_2_5',
         "OASys Question - '2.5 Impact on the victim (Note any particular consequences)'  - Answer Input - 'Test Impact - Very detrimental impact and sleeplessness'"
     )
+    await page
+        .getByLabel(
+            'Does the offender recognise the impact and consequences of offending on victim, community / wider society?'
+        )
+        .selectOption('2.6~NO')
+    await page.getByLabel('Were there other offenders involved?').selectOption('2.7~NO')
+    await page.getByLabel('Peer group influences (eg offender easily led, gang member)').selectOption('2.7.2~NO')
     await page.fill(
         '#textarea_2_8',
         "OASys Question - '2.8 Why did it happen - evidence of motivation and triggers'  - Answer Input - 'Test Motivation and Trigger - Alcohol & Drugs'"
@@ -37,6 +76,12 @@ export const completeOffenceAnalysis = async (page: Page) => {
         '#textarea_2_98',
         "OASys Question - 'Identify offence analysis issues contributing to risks of offending and harm. Please include any positive factors.'  - Answer Input - 'Test Contributions'"
     )
+    await page
+        .getByLabel('Are the current offence(s) an escalation in seriousness from previous offending?')
+        .selectOption('2.13~YES')
+    await page
+        .getByLabel('Are current offence(s) part of an established pattern of similar offending')
+        .selectOption('2.14~NO')
     await page.keyboard.down('End')
     await page.click('input[value="Save"]')
     await page.click('input[value="Next"]')
