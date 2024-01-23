@@ -30,8 +30,8 @@ export const clickSection1 = async (
     await page.getByRole('link', { name: 'Predictors' }).click()
     await page.getByLabel('Total number of sanctions for all offences').fill('11')
     await page.getByLabel('How many of the total number of sanctions involved violent offences?').fill('4')
-    console.log('te date ', OasysDateFormatter(firstOffenceDate))
-    await fillDateOasys(page, '#itm_1_29', firstOffenceDate)
+    console.log('the date ', OasysDateFormatter(firstOffenceDate))
+    await fillDateOasys(page, '#itm_1_8_2', firstOffenceDate)
     await page
         .getByRole('cell', { name: 'Have they ever committed a sexual or sexually motivated offence?' })
         .nth(1)
@@ -40,8 +40,8 @@ export const clickSection1 = async (
         .getByLabel('Does the current offence involve actual/attempted contact against a victim who was a stranger?')
         .selectOption('1.42~YES')
     const _date = faker.date.recent({ days: 1, refDate: Yesterday })
+    await fillDateOasys(page, '#itm_1_29', _date)
     await fillDateOasys(page, '#itm_1_33', _date)
-    await page.pause()
     await page
         .getByLabel('Number of previous/current sanctions involving contact adult sexual/sexually motivated offences')
         .fill('1')

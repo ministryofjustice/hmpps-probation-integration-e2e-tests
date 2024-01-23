@@ -7,6 +7,8 @@ import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-ass
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { faker } from '@faker-js/faker'
+import * as dotenv from 'dotenv'
+dotenv.config() // read environment variables into process.env
 
 test('OPD assessment creates an event in Delius', async ({ page }) => {
     await loginDelius(page)
