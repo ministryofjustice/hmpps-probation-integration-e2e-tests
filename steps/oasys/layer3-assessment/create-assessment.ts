@@ -31,6 +31,7 @@ export const clickSection1 = async (
     await page.getByLabel('Total number of sanctions for all offences').fill('11')
     await page.getByLabel('How many of the total number of sanctions involved violent offences?').fill('4')
     console.log('the date ', OasysDateFormatter(firstOffenceDate))
+    await page.getByLabel('Date of first sanction').click()
     await fillDateOasys(page, '#itm_1_8_2', firstOffenceDate)
     await page
         .getByRole('cell', { name: 'Have they ever committed a sexual or sexually motivated offence?' })
@@ -40,7 +41,9 @@ export const clickSection1 = async (
         .getByLabel('Does the current offence involve actual/attempted contact against a victim who was a stranger?')
         .selectOption('1.42~YES')
     const _date = faker.date.recent({ days: 1, refDate: Yesterday })
+    await page.getByLabel('Date of current conviction').click()
     await fillDateOasys(page, '#itm_1_29', _date)
+    await page.getByLabel('Date of most recent sanction involving a sexual/sexually motivated offence').click()
     await fillDateOasys(page, '#itm_1_33', _date)
     await page
         .getByLabel('Number of previous/current sanctions involving contact adult sexual/sexually motivated offences')
@@ -58,6 +61,9 @@ export const clickSection1 = async (
             'Number of previous/current sanctions involving other non-contact sexual/sexually motivated offences'
         )
         .fill('0')
+    await page
+        .getByLabel('Date of commencement of community sentence or earliest possible release from custody')
+        .click()
     await fillDateOasys(page, '#itm_1_38', _date)
     await page.locator('#B6737316531953403').click()
 }
