@@ -1,4 +1,4 @@
-import { test } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { login as loginDelius } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
@@ -8,6 +8,7 @@ import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/cr
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { faker } from '@faker-js/faker'
 import * as dotenv from 'dotenv'
+import { navigateToNSIDetailsFromPersonalDetails } from '../../steps/delius/contact/find-contacts'
 dotenv.config() // read environment variables into process.env
 
 test('OPD assessment creates an event in Delius', async ({ page }) => {
@@ -19,4 +20,25 @@ test('OPD assessment creates an event in Delius', async ({ page }) => {
     await oasysLogin(page, UserType.Booking)
     await createLayer3AssessmentWithoutNeeds(page, crn, person)
     await addLayer3AssessmentNeeds(page)
+    await loginDelius(page)
+    await navigateToNSIDetailsFromPersonalDetails(page, 'X743495')
+    await expect(page.locator('div:right-of(:text("Non Statutory Intervention:"))').first()).toContainText(
+        'OPD Community Pathway'
+    )
+    await expect(page.locator('div:right-of(:text("Status"))').first()).toContainText('Pending Consultation')
+    await expect(page.locator('div:right-of(:text("Notes"))').first()).toContainText('OPD Result: Screened In')
+    await expect(page.locator('div:right-of(:text("Notes"))').first()).toContainText(
+        'Comment added by OPD and Delius Service'
+    )
+    await page.locator('[value="Contact List for this NSI"]').click()
+    await expect(page).toHaveTitle(/Contact List for NSIs/)
+    await page.locator('#ContactListForm\\:contactTable\\:tbody_element').getByRole('link', { name: 'view' }).click()
+    await expect(page.locator('#content > h1')).toHaveText('Contact Details')
+    await expect(page.locator('div:right-of(:text("Contact Type"))').first()).toContainText(
+        'OPD Status - Pending Consultation'
+    )
+    await expect(page.locator('div:right-of(:text("Notes"))').first()).toContainText('OPD Result: Screened In')
+    await expect(page.locator('div:right-of(:text("Relates To"))').first()).toContainText(
+        'OPD Community Pathway (OPD Community Pathway)'
+    )
 })

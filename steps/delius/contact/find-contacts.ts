@@ -77,6 +77,16 @@ export const navigateToNSIDetails = async (page: Page, crn: string, includeTermi
     await expect(page.locator('#content > h1')).toHaveText('Non Statutory Intervention Details')
 }
 
+export const navigateToNSIDetailsFromPersonalDetails = async (page: Page, crn: string) => {
+    await findOffenderByCRN(page, crn)
+    await page.click('#linkNavigation2OffenderIndex')
+    await expect(page).toHaveTitle(/Personal Details/)
+    await page.click('#linkNavigation3OffenderNsi')
+    await expect(page).toHaveTitle(/Non Statutory Intervention List/)
+    await page.locator('#nsiListForm\\:nsiTable\\:tbody_element').getByRole('link', { name: 'view' }).click()
+    await expect(page.locator('#content > h1')).toHaveText('Non Statutory Intervention Details')
+}
+
 export const rescheduleSupplierAssessmentAppointment = async (
     page: Page,
     referralRef: string,
