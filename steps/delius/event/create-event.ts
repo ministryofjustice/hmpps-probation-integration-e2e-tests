@@ -17,6 +17,9 @@ export interface CreateEvent {
         outcome?: string
         length?: string
         reportType?: string
+        mainOffence?: string
+        subOffence?: string
+        plea?: string
     }
     date?: Date
 }
@@ -37,7 +40,10 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     await fillDate(page, '#ReferralDate', _date)
     await fillDate(page, '#OffenceDate', _date)
     await fillDate(page, '#ConvictionDate', _date)
-    await selectOptionAndWait(page, '#MainOffence', null, option => !option.startsWith('('))
+    await selectOptionAndWait(page, '#MainOffence', event.mainOffence, option => !option.startsWith('('))
+    if (event.subOffence) {
+        await selectOption(page, '#addEventForm\\:SubOffence', event.subOffence)
+    }
     createdEvent.court = await selectOption(page, '#Court')
     await selectOptionAndWait(page, '#addEventForm\\:Area', allocation?.team.provider)
     await selectOptionAndWait(page, '#addEventForm\\:Team', allocation?.team.name)
@@ -45,7 +51,7 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
         await selectOption(page, '#addEventForm\\:Staff', allocation?.staff?.name)
     }
     await selectOption(page, '#AppearanceType', event.appearanceType)
-    await selectOption(page, '#Plea')
+    await selectOption(page, '#Plea', event.plea)
     await selectOptionAndWait(page, '#addEventForm\\:Outcome', event.outcome)
     createdEvent.outcome = event.outcome
     if (requiresAdditionalOutcomeDetails.includes(event.outcome)) {

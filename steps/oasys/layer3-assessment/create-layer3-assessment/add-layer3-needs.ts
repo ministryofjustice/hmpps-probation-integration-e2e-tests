@@ -3,6 +3,7 @@ import { clickAccommodation, clickEducationTrainingEmpl, clickRelationships } fr
 import { completeAccommodationSection } from '../accommodation-section'
 import { completeETESection } from '../ete-section'
 import { completeRelationshipsSection } from '../relationships-section'
+import { signAndlock } from '../sign-and-lock'
 
 export const addLayer3AssessmentNeeds = async (page: Page) => {
     // And I click on "Accommodation' under Section 2 to 4
@@ -17,4 +18,6 @@ export const addLayer3AssessmentNeeds = async (page: Page) => {
     await clickRelationships(page)
     // And I complete "Relationships" Section
     await completeRelationshipsSection(page)
+    // And I sign and lock
+    await signAndlock(page)
 }

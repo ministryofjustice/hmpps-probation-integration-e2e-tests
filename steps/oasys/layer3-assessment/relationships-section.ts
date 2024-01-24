@@ -9,9 +9,6 @@ export const completeRelationshipsSection = async (page: Page) => {
     await page.getByLabel('Is there evidence of current or previous domestic abuse?').selectOption({ label: 'No' })
     await page.locator('#itm_6_9').selectOption({ label: 'No' })
     await page
-        .getByLabel('Open the Sexual Offending Questions (please see the help-text)')
-        .selectOption({ label: 'Yes' })
-    await page
         .getByLabel('Emotional Congruence with Children/Feeling Closer to Children than Adults')
         .selectOption({ label: '2-Significant problems' })
     await page.fill(
