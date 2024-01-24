@@ -14,7 +14,7 @@ dotenv.config() // read environment variables into process.env
 test('OPD assessment creates an event in Delius', async ({ page }) => {
     await loginDelius(page)
     const dob = faker.date.birthdate({ min: 20, max: 30, mode: 'age' })
-    const person = deliusPerson({ sex: 'Male', dob: dob, lastName: null, firstName: null })
+    const person = deliusPerson({ sex: 'Male', dob: dob })
     const crn = await createOffender(page, { person })
     await createEvent(page, {
         crn,
