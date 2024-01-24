@@ -4,6 +4,7 @@ import { Person } from '../../delius/utils/person'
 
 export const clickSection2To4 = async (page: Page, person: Person): Promise<void> => {
     await doUntilLinkIsVisible(page, 'RoSH Screening')
+    await page.locator('a', { hasText: 'RoSH Screening' }).click()
     await page.locator('a', { hasText: 'Section 2 to 4' }).click()
     await page
         .getByLabel(
