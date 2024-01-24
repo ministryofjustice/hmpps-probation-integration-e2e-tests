@@ -9,7 +9,6 @@ import { clickCMSRecord } from '../cms-search-results'
 import {
     clickOffenceAnalysis,
     clickRiskManagementPlan,
-    clickRoshFullRisksToIndividual,
     clickRoSHScreeningSection1,
     clickRoSHSummary,
     clickSection1,
@@ -23,7 +22,6 @@ import { completeRoSHSection5FullAnalysisYes } from '../section-5'
 import { completeRoSHSection10RoSHSummary } from '../section-10'
 import { completeRiskManagementPlan } from '../risk-management-plan'
 import { completeOffenceAnalysis } from '../analysis-of-offences-layer3'
-import { completeRoSHFullSec8RisksToIndvdl } from '../rosh-full-analysis-section8'
 import { Person } from '../../../delius/utils/person'
 import { completeRoSHSection9RoSHSummary } from './section-9'
 import { completeReviewSentencePlan } from './review-sentenceplan'

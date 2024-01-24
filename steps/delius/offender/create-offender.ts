@@ -2,7 +2,6 @@ import { type Page } from '@playwright/test'
 import { findOffenderByName } from './find-offender'
 import { deliusPerson, type Person } from '../utils/person'
 import { fillDate, selectOption } from '../utils/inputs'
-import { faker } from '@faker-js/faker'
 
 export async function createOffender(page: Page, args: { person?: Person; providerName?: string }): Promise<string> {
     const person = deliusPerson(args.person)

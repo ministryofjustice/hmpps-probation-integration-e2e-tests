@@ -1,7 +1,7 @@
 import { type Page, expect } from '@playwright/test'
 import { faker } from '@faker-js/faker'
 import { OasysDateFormatter, Yesterday } from '../../delius/utils/date-time'
-import { fillDate, fillDateOasys } from '../../delius/utils/inputs'
+import { fillDateOasys } from '../../delius/utils/inputs'
 
 export const createLayer3Assessment = async (page: Page) => {
     await page.locator('#P10_PURPOSE_ASSESSMENT_ELM').selectOption({ label: 'Start custody' })

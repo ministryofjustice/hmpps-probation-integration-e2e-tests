@@ -1,4 +1,4 @@
-import { type Page, expect } from '@playwright/test'
+import { type Page } from '@playwright/test'
 import { doUntil } from '../../delius/utils/refresh'
 import { Person } from '../../delius/utils/person'
 
@@ -21,11 +21,9 @@ export const clickSection2To4 = async (page: Page, person: Person): Promise<void
     await page.getByLabel('Control issues / disruptive behaviour').selectOption('R4.2~YES')
     await page.getByLabel('Concerns in respect of breach of trust').selectOption('R4.3~YES')
     await page.getByLabel('Risks to other prisoners').selectOption('R4.4~NO')
-    // await page.keyboard.down('End')
-    // await page.click('input[value="Save"]')
-    // await page.click('input[value="Next"]')
-    await page.locator('#B6737316531953403').click()
-    // await expect(page.locator('#R2846717162014845 h6')).toHaveText('R5 Other information - screening')
+    await page.keyboard.down('End')
+    await page.click('input[value="Save"]')
+    await page.click('input[value="Next"]')
 }
 
 export const doUntilLinkIsVisible = async (page: Page, linkText: string, options?): Promise<void> => {
