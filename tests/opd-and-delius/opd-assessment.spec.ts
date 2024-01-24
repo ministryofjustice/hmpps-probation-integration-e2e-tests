@@ -5,7 +5,7 @@ import { deliusPerson } from '../../steps/delius/utils/person'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
-import { createCustodialEvent } from '../../steps/delius/event/create-event'
+import { createEvent } from '../../steps/delius/event/create-event'
 import { faker } from '@faker-js/faker'
 import * as dotenv from 'dotenv'
 import { navigateToNSIDetailsFromPersonalDetails } from '../../steps/delius/contact/find-contacts'
@@ -16,7 +16,17 @@ test('OPD assessment creates an event in Delius', async ({ page }) => {
     const dob = faker.date.birthdate({ min: 20, max: 30, mode: 'age' })
     const person = deliusPerson({ sex: 'Male', dob: dob, lastName: null, firstName: null })
     const crn = await createOffender(page, { person })
-    await createCustodialEvent(page, { crn })
+    await createEvent(page, {
+        crn,
+        event: {
+            outcome: 'CJA - Std Determinate Custody',
+            length: '120',
+            mainOffence: 'Rape - 01900',
+            subOffence: 'Rape of a female aged 16 or over - 01908',
+            plea: 'Guilty',
+            appearanceType: 'Sentence',
+        },
+    })
     await oasysLogin(page, UserType.Booking)
     await createLayer3AssessmentWithoutNeeds(page, crn, person)
     await addLayer3AssessmentNeeds(page)
