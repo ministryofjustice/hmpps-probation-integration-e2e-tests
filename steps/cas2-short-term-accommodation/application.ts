@@ -132,6 +132,9 @@ async function addHealthNeeds(page: Page) {
     await expect(page).toHaveTitle(/Mental health needs/)
     for (const checkbox of await page.getByRole('radio', { name: 'No', exact: true }).elementHandles())
         await checkbox.check()
+    await page
+        .getByLabel('Describe the issues they have with taking their medication')
+        .fill('Describe the issues they have with taking their medication')
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(/Communication and language needs/)
     for (const checkbox of await page.getByRole('radio', { name: 'No', exact: true }).elementHandles())
