@@ -31,7 +31,7 @@ test('OPD assessment creates an event in Delius', async ({ page }) => {
     await createLayer3AssessmentWithoutNeeds(page, crn, person)
     await addLayer3AssessmentNeeds(page)
     await loginDelius(page)
-    await navigateToNSIDetailsFromPersonalDetails(page, 'X743495')
+    await navigateToNSIDetailsFromPersonalDetails(page, crn)
     await expect(page.locator('div:right-of(:text("Non Statutory Intervention:"))').first()).toContainText(
         'OPD Community Pathway'
     )
