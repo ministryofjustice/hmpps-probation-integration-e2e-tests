@@ -71,9 +71,9 @@ export const createLayer3CompleteAssessment = async (page: Page, crn: string, pe
     // And I complete "Review Sentence Plan" Questions
     await completeReviewSentencePlan(page)
     // And I click on "Section 2 to 13" & "2 - Offence Analysis"
-    await completeOffenceAnalysisYes(page)
+    await clickOffenceAnalysis(page)
     // And I complete Offence Analysis Plan Questions
-    await completeOffenceAnalysis(page)
+    await completeOffenceAnalysisYes(page)
 }
 export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string) => {
     // And I select "Warwickshire" from Choose Provider Establishment

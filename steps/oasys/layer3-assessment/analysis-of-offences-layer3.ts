@@ -113,6 +113,10 @@ export const completeOffenceAnalysis = async (page: Page) => {
         "OASys Question - '2.5 Impact on the victim (Note any particular consequences)'  - Answer Input - 'Test Impact - Very detrimental impact and sleeplessness'"
     )
     await page.fill(
+        '#textarea_2_8',
+        "OASys Question - '2.8 Why did it happen - evidence of motivation and triggers'  - Answer Input - 'Test Motivation and Trigger - Alcohol & Drugs'"
+    )
+    await page.fill(
         '#textarea_2_12',
         "OASys Question - '2.12 Pattern of offending (consider details of previous convictions)'  - Answer Input - 'Test Pattern -  violence with some property offending'"
     )

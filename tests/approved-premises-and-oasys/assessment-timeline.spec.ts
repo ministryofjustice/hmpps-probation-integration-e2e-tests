@@ -20,7 +20,10 @@ import { verifyOffenceAnalysisIsAsPerOASys } from '../../steps/cas1-approved-pre
 import { verifyRiskToSelfIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-risk-to-self'
 import { verifySupportingInfoIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-supporting-info'
 import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
-import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
+import {
+    addLayer3AssessmentNeeds,
+    addLayer3AssessmentNeedsReview,
+} from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 
 const nomisIds = []
 
@@ -41,7 +44,7 @@ test('View OASys assessments in Approved Premises service', async ({ page }) => 
     // And I create a Layer 3 Assessment with Needs in OASys
     await oasysLogin(page, UserType.Timeline)
     await createLayer3AssessmentWithoutNeeds(page, crn)
-    await addLayer3AssessmentNeeds(page)
+    await addLayer3AssessmentNeedsReview(page)
 
     // When I login in to Approved Premises and navigate to Applications Task-list page
     await navigateToTaskListPage(page, crn)
