@@ -9,7 +9,6 @@ import { createEvent } from '../../steps/delius/event/create-event'
 import { faker } from '@faker-js/faker'
 import * as dotenv from 'dotenv'
 import { navigateToNSIDetailsFromPersonalDetails } from '../../steps/delius/contact/find-contacts'
-import { setProviderEstablishment as selectRegion } from '../../steps/oasys/set-provider-establishment'
 import { clickSearch } from '../../steps/oasys/task-manager'
 dotenv.config() // read environment variables into process.env
 
@@ -29,10 +28,7 @@ test('OPD assessment creates an event in Delius', async ({ page }) => {
             appearanceType: 'Sentence',
         },
     })
-    await oasysLogin(page, UserType.Booking)
-    // And I select "Warwickshire" from Choose Provider Establishment
-    await selectRegion(page)
-    // And I click on the Search button from the top menu
+    await oasysLogin(page, UserType.Assessment)
     await clickSearch(page)
     await createLayer3CompleteAssessment(page, crn, person)
     await addLayer3AssessmentNeeds(page)
