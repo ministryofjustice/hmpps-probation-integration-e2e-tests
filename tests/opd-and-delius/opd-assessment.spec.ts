@@ -9,7 +9,6 @@ import { createEvent } from '../../steps/delius/event/create-event'
 import { faker } from '@faker-js/faker'
 import * as dotenv from 'dotenv'
 import { navigateToNSIDetailsFromPersonalDetails } from '../../steps/delius/contact/find-contacts'
-import { setProviderEstablishment as selectRegion } from '../../steps/oasys/set-provider-establishment'
 import { clickSearch } from '../../steps/oasys/task-manager'
 dotenv.config() // read environment variables into process.env
 
