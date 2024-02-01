@@ -25,7 +25,6 @@ export async function submitApplication(page: Page, nomisId: string) {
 async function startApplication(page: Page) {
     await page.getByRole('link', { name: 'Start a new referral' }).click()
     await page.getByRole('button', { name: 'Start now' }).click()
-    await page.getByRole('link', { name: 'Start a new application' }).click()
     await expect(page).toHaveTitle(/Enter the person's prison number/)
 }
 
