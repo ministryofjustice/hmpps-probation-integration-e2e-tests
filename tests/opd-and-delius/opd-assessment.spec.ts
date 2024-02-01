@@ -29,9 +29,9 @@ test('OPD assessment creates an event in Delius', async ({ page }) => {
             appearanceType: 'Sentence',
         },
     })
-    await oasysLogin(page, UserType.Booking)
+    await oasysLogin(page, UserType.Assessment)
     // And I select "Warwickshire" from Choose Provider Establishment
-    await selectRegion(page)
+    // await selectRegion(page)
     // And I click on the Search button from the top menu
     await clickSearch(page)
     await createLayer3CompleteAssessment(page, crn, person)
