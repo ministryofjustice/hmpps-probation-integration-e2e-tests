@@ -8,9 +8,9 @@ export const completeRelationshipsSection = async (page: Page) => {
     await page.getByLabel('Previous experience of close relationships').selectOption({ label: '1-Some problems' })
     await page.getByLabel('Is there evidence of current or previous domestic abuse?').selectOption({ label: 'No' })
     await page.locator('#itm_6_9').selectOption({ label: 'No' })
-    await page
+    /*await page
         .getByLabel('Emotional Congruence with Children/Feeling Closer to Children than Adults')
-        .selectOption({ label: '2-Significant problems' })
+        .selectOption({ label: '2-Significant problems' })*/
     await page.fill(
         '#textarea_6_97',
         "OASys Question - 'Identify relationship issues contributing to risks of offending and harm. Please include any positive factors. Child details are now recorded in the screening' - Answer Input - 'Identify relationship issues contributing to risks of offending and harm'"

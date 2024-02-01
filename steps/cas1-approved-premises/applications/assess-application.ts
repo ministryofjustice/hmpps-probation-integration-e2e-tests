@@ -19,10 +19,11 @@ export const assessApplication = async (page: Page, personName: string) => {
     await page.getByRole('button', { name: 'Submit' }).click()
     await page
         .getByRole('group', {
-            name: "Do you agree with the applicant's reason for submission within 4 months of expected arrival?",
+            name: "Do you agree with the applicant's reason for submission outside of National Standards timescales?",
         })
         .getByLabel('Yes')
         .check()
+    await page.getByLabel('Provide details to support the decision').fill('QA Autotest')
     await page.getByRole('button', { name: 'Submit' }).click()
     await page
         .getByRole('group', {

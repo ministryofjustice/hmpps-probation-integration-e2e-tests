@@ -10,6 +10,13 @@ export const createLayer3Assessment = async (page: Page) => {
     await expect(page.locator('#contextleft > h3')).toHaveText('Case ID - Offender Information (Layer 3)')
 }
 
+export const createLayer3AssessmentReview = async (page: Page) => {
+    await page.locator('#P10_PURPOSE_ASSESSMENT_ELM').selectOption({ label: 'Review' })
+    await expect(page.locator('#P10_ASSESSMENT_TYPE_ELM')).toContainText('Full (Layer 3)')
+    await page.click('#B3730320750239994')
+    await expect(page.locator('#contextleft > h3')).toHaveText('Case ID - Offender Information (Layer 3)')
+}
+
 export const clickRoSHScreeningSection1 = async (page: Page) => {
     await page.locator('a', { hasText: 'RoSH Screening' }).click()
     await page.locator('a[href *= "ROSHA1"]', { hasText: 'Section 1' }).click()
