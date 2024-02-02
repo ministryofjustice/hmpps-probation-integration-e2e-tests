@@ -2,6 +2,7 @@ import { type Page, expect } from '@playwright/test'
 import { faker } from '@faker-js/faker'
 import { OasysDateFormatter, Yesterday } from '../../delius/utils/date-time'
 import { fillDateOasys } from '../../delius/utils/inputs'
+import { doUntil } from '../../delius/utils/refresh'
 
 export const createLayer3Assessment = async (page: Page) => {
     await page.locator('#P10_PURPOSE_ASSESSMENT_ELM').selectOption({ label: 'Start custody' })
@@ -282,18 +283,25 @@ export const clickRoshFullRisksToIndividual = async (page: Page) => {
 
 export const clickAccommodation = async (page: Page) => {
     await page.locator('a', { hasText: 'Section 2 to 13' }).click()
-    await page.locator('a', { hasText: '3 - Accommodation' }).click()
-    await expect(page.locator('#contextleft > h3')).toHaveText('3 - Accommodation (Layer 3)')
+    await doUntil(
+        () => page.locator('a', { hasText: '3 - Accommodation' }).click(),
+        () => expect(page.locator('#contextleft > h3')).toHaveText('3 - Accommodation (Layer 3)')
+    )
 }
 
 export const clickEducationTrainingEmpl = async (page: Page) => {
     await page.locator('a', { hasText: 'Section 2 to 13' }).click()
-    await page.locator('a', { hasText: '4 - ETE' }).click()
-    await expect(page.locator('#contextleft > h3')).toHaveText('4 - Education, Training and Employability (Layer 3)')
+    await doUntil(
+        () => page.locator('a', { hasText: '4 - ETE' }).click(),
+        () =>
+            expect(page.locator('#contextleft > h3')).toHaveText('4 - Education, Training and Employability (Layer 3)')
+    )
 }
 
 export const clickRelationships = async (page: Page) => {
     await page.locator('a', { hasText: 'Section 2 to 13' }).click()
-    await page.locator('a', { hasText: '6 - Relationships' }).click()
-    await expect(page.locator('#contextleft > h3')).toHaveText('6 - Relationships (Layer 3)')
+    await doUntil(
+        () => page.locator('a', { hasText: '6 - Relationships' }).click(),
+        () => expect(page.locator('#contextleft > h3')).toHaveText('6 - Relationships (Layer 3)')
+    )
 }
