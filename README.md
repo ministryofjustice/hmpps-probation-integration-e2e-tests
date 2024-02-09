@@ -79,8 +79,7 @@ MANAGE_POM_CASES_URL=https://dev.moic.service.justice.gov.uk
 CVL_URL=https://create-and-vary-a-licence-test2.hmpps.service.justice.gov.uk
 
 TIER_UI_URL=https://tier-dev.hmpps.service.justice.gov.uk
-TIER_UI_USERNAME=<tier_ui_username>
-TIER_UI_PASSWORD=<tier_ui_password>
+
 ```
 
 ## Running Tests
