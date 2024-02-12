@@ -1,4 +1,5 @@
 import { type Page, expect } from '@playwright/test'
+import { refreshUntil } from '../delius/utils/refresh'
 
 export const offenderSearchWithCRN = async (page: Page, crn: string) => {
     await page.getByLabel('Delius Case Reference Number').fill(crn)
@@ -6,5 +7,5 @@ export const offenderSearchWithCRN = async (page: Page, crn: string) => {
     await page.getByLabel('Search Delius?').selectOption('Yes')
     await page.locator('#B6587749879592406', { hasText: 'Search' }).click()
     await page.click('[headers="C011_R8087527433342967"]')
-    await expect(page.locator('#contextleft > h3')).toHaveText('Delius Offender Details')
+    await refreshUntil(page, () => expect(page.locator('#contextleft > h3')).toHaveText('Delius Offender Details'))
 }
