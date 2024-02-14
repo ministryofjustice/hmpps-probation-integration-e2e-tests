@@ -14,7 +14,6 @@ async function getContext(): Promise<APIRequestContext> {
 
 export async function getCaseDetails(crn: string): Promise<CaseDetails> {
     const response = await (await getContext()).get(`/case/${crn}/supervisions`)
-
     expect(response.ok()).toBeTruthy()
     return response.json()
 }
