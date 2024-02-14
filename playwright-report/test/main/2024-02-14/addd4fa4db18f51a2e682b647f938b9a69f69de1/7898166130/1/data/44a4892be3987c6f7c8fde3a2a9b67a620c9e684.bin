@@ -1,0 +1,1 @@
+DEPRECATION WARNING: swagger_root= is deprecated and will be removed from rswag-api 3.0 (use openapi_root= instead) (called from block in <main> at /app/config/initializers/rswag-api.rb:2)
