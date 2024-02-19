@@ -10,7 +10,7 @@ export async function findEventByCRN(page: Page, crn: string, eventNumber: numbe
     } else {
         // Search for event
         await findOffenderByCRN(page, crn)
-        await page.click('#linkNavigation2EventList')
+        await page.click('#navigation-include\\:linkNavigation2EventList')
         await expect(page).toHaveTitle(/Events/)
         await page.locator('tr', { hasText: eventNumber.toString() }).locator('a', { hasText: 'View' }).click()
     }
