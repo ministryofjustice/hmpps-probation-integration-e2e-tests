@@ -28,6 +28,15 @@ export async function createAndBookPrisoner(page: Page, crn: string, person: Per
     return { nomisId: offenderNo, bookingId: bookingId }
 }
 
+// export async function createAndBookPrisoner(page: Page, crn: string, person: Person) {
+//     const offenderNo = await createPrisoner(person)
+//     // Link the Nomis entry to the Delius entry before booking to avoid OLE from tier changes
+//     await setNomisId(page, crn, offenderNo)
+//     // const bookingId = await bookPrisoner(offenderNo)
+//     console.log('NOMIS ID:', offenderNo)
+//     console.log('Booking ID:', 1)
+//     return { nomisId: offenderNo, bookingId: 1 }
+// }
 export const createPrisoner = retry(
     sanitiseError(async (person: Person) => {
         const response = await (
