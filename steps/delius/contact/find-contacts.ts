@@ -7,7 +7,7 @@ import { referralProgress } from '../../referandmonitor/referral'
 export async function findContactsByCRN(page: Page, crn: string) {
     await findOffenderByCRN(page, crn)
     await doUntil(
-        () => page.click('#linkNavigation1ContactList'),
+        () => page.click('#navigation-include\\:linkNavigation1ContactList'),
         () => expect(page).toHaveTitle(/Contact List/)
     )
 }

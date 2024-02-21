@@ -76,7 +76,6 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
         await fillTime(page, '#AppearanceTime\\:timePicker', _date)
         await selectOption(page, '#NextCourt\\:selectOneMenu')
     }
-
     // focus on something outside of input to activate onblur
     await page.focus('#content')
     await page.locator('input', { hasText: 'Save' }).click()

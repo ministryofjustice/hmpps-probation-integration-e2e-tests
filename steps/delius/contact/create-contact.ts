@@ -10,27 +10,27 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
     await page.locator('input.btn', { hasText: 'Add Contact' }).first().click()
     await expect(page).toHaveTitle('Add Contact Details')
     if (options.date) {
-        await fillDate(page, '#addContactForm\\:StartDate', options.date as Date)
+        await fillDate(page, '#StartDate\\:datePicker', options.date as Date)
     }
 
-    await selectOptionAndWait(page, '#addContactForm\\:RelatedTo', options.relatesTo)
-    await selectOptionAndWait(page, '#addContactForm\\:ContactCategory', options.category)
-    await selectOptionAndWait(page, '#addContactForm\\:ContactType', options.type)
-    await selectOptionAndWait(page, '#addContactForm\\:TransferToTrust', options.allocation?.team?.provider)
-    await selectOptionAndWait(page, '#addContactForm\\:TransferToTeam', options.allocation?.team?.name)
+    await selectOptionAndWait(page, '#RelatedTo\\:selectOneMenu', options.relatesTo)
+    await selectOptionAndWait(page, '#ContactCategory\\:selectOneMenu', options.category)
+    await selectOptionAndWait(page, '#ContactType\\:selectOneMenu', options.type)
+    await selectOptionAndWait(page, '#TransferToTrust\\:selectOneMenu', options.allocation?.team?.provider)
+    await selectOptionAndWait(page, '#TransferToTeam\\:selectOneMenu', options.allocation?.team?.name)
 
     if (options.allocation?.team?.location) {
-        await selectOptionAndWait(page, '#addContactForm\\:Location', options.allocation?.team?.location)
+        await selectOptionAndWait(page, '#Location\\:selectOneMenu', options.allocation?.team?.location)
     }
     if (options.startTime) {
-        await fillTime(page, '#addContactForm\\:StartTime', options.startTime)
+        await fillTime(page, '#StartTime\\:selectOneMenu', options.startTime)
     }
     if (options.endTime) {
-        await fillTime(page, '#addContactForm\\:EndTime', options.endTime)
+        await fillTime(page, '#EndTime\\:selectOneMenu', options.endTime)
     }
-    await selectOptionAndWait(page, '#addContactForm\\:TransferToOfficer', options.allocation?.staff?.name)
+    await selectOptionAndWait(page, '#TransferToOfficer\\:selectOneMenu', options.allocation?.staff?.name)
     await doUntil(
-        () => page.locator('#addContactForm\\:saveButton').click(),
+        () => page.locator('#saveButton\\:selectOneMenu').click(),
         async () => {
             try {
                 await expect(page).toHaveTitle(/Contact List/)
