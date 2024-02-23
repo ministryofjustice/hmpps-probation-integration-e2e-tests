@@ -4,13 +4,13 @@ import { selectOption } from '../utils/inputs'
 
 export async function setNomisId(page: Page, crn: string, nomisId: string) {
     await findOffenderByCRN(page, crn)
-    await page.click('#linkNavigation2OffenderIndex')
+    await page.click('#navigation-include\\:linkNavigation2OffenderIndex')
     await expect(page).toHaveTitle(/Personal Details/)
 
     await page.locator('input', { hasText: 'Update' }).click()
     await expect(page).toHaveTitle(/Update Personal Details/)
-    await selectOption(page, '#updateOffenderForm\\:identifierType', 'NOMS')
-    await page.fill('#updateOffenderForm\\:identifierValue', nomisId)
+    await selectOption(page, '#identifierType\\:selectOneMenu', 'NOMS')
+    await page.fill('#identifierValue\\:inputText', nomisId)
     await page.locator('input', { hasText: 'Add/Update' }).click()
     await page.locator('input', { hasText: 'Save' }).click()
 
