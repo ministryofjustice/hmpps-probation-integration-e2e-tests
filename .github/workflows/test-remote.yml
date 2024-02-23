@@ -32,7 +32,7 @@ jobs:
       passed-projects: ${{ steps.run.outputs.passed-projects }}
       report-url: ${{ steps.run.outputs.report-url }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run tests
         id: run
         run: |

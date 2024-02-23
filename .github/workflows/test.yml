@@ -39,7 +39,7 @@ jobs:
       passed-projects: ${{ steps.json.outputs.passed-projects }}
       report-url: ${{ steps.html.outputs.report-url }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get tests to run - all tests
         if: inputs.projects == '' || inputs.projects == 'All'

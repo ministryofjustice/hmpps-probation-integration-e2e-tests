@@ -7,7 +7,7 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - uses: actions/setup-node@v2
     - name: Download example test script
       run: wget https://raw.githubusercontent.com/microsoft/create-playwright/main/assets/example.spec.ts
