@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test'
 import { findContactsByCRN } from './find-contacts'
-import { fillDate, fillTime, selectOptionAndWait } from '../utils/inputs'
+import { fillDate, fillTime, selectOption, selectOptionAndWait } from '../utils/inputs'
 import { Contact, data, Team } from '../../../test-data/test-data'
 import { doUntil } from '../utils/refresh'
 import { Tomorrow } from '../utils/date-time'
@@ -20,17 +20,17 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
     await selectOptionAndWait(page, '#TransferToTeam\\:selectOneMenu', options.allocation?.team?.name)
 
     if (options.allocation?.team?.location) {
-        await selectOptionAndWait(page, '#Location\\:selectOneMenu', options.allocation?.team?.location)
+        await selectOption(page, '#Location\\:selectOneMenu', options.allocation?.team?.location)
     }
     if (options.startTime) {
-        await fillTime(page, '#StartTime\\:selectOneMenu', options.startTime)
+        await fillTime(page, '#StartTime\\:timePicker', options.startTime)
     }
     if (options.endTime) {
-        await fillTime(page, '#EndTime\\:selectOneMenu', options.endTime)
+        await fillTime(page, '#EndTime\\:timePicker', options.endTime)
     }
-    await selectOptionAndWait(page, '#TransferToOfficer\\:selectOneMenu', options.allocation?.staff?.name)
+    await selectOption(page, '#TransferToOfficer\\:selectOneMenu', options.allocation?.staff?.name)
     await doUntil(
-        () => page.locator('#saveButton\\:selectOneMenu').click(),
+        () => page.locator('#saveButton').click(),
         async () => {
             try {
                 await expect(page).toHaveTitle(/Contact List/)
@@ -39,10 +39,6 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
             }
         }
     )
-
-    if ((await page.title()) !== 'Contact List') {
-        await page.locator('[value="Confirm"]').click()
-    }
 
     await expect(page).toHaveTitle(/Contact List/)
 }

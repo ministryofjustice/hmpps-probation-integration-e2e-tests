@@ -6,7 +6,7 @@ import { refreshUntil } from '../utils/refresh'
 export async function findEventByCRN(page: Page, crn: string, eventNumber: number) {
     if (await isInEventContext(page, crn, eventNumber)) {
         // Already in event context, go to event details
-        await page.click('#linkNavigation3KeyData')
+        await page.click('#navigation-include\\:linkNavigation3KeyData')
     } else {
         // Search for event
         await findOffenderByCRN(page, crn)

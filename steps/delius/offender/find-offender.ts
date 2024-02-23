@@ -19,9 +19,9 @@ export async function findOffenderByCRN(page: Page, crn: string) {
         // Search for offender
         await page.locator('a', { hasText: 'National search' }).click()
         await expect(page).toHaveTitle(/National Search/)
-        await page.fill('#SearchForm\\:CRN', crn)
+        await page.fill('#crn\\:inputText', crn)
         await selectOption(page, '#otherIdentifier', '[Not Selected]')
-        await page.click('#SearchForm\\:searchButton')
+        await page.click('#searchButton')
         await page.locator('tr', { hasText: crn }).locator('a', { hasText: 'View' }).click()
     }
     await expect(page).toHaveTitle(/Case Summary/)
@@ -56,8 +56,8 @@ export async function verifyAllocation(page: Page, args: { allocation: Allocatio
         `${args.allocation.staff.lastName}, ${args.allocation.staff.firstName}`
     )
     await page.locator('a', { hasText: 'Community Supervisor' }).click()
-    await expect(page.locator('#SearchForm\\:provider')).toHaveText(args.allocation.team.provider)
-    await expect(page.locator('#SearchForm\\:supervisorCommunityTeam')).toHaveText(args.allocation.team.name)
+    await expect(page.locator('#provider\\:outputText')).toHaveText(args.allocation.team.provider)
+    await expect(page.locator('#supervisorCommunityTeam\\:outputText')).toHaveText(args.allocation.team.name)
 }
 
 export async function isInOffenderContext(page: Page, crn: string): Promise<boolean> {

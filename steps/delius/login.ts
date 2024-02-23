@@ -1,7 +1,7 @@
 import { expect, type Page } from '@playwright/test'
 
 export const login = async (page: Page) => {
-    await page.goto('https://ndelius.test.probation.service.justice.gov.uk')
+    await page.goto(process.env.DELIUS_URL)
     const deliusTitle = 'National Delius Home Page'
     const title = await page.locator('title').textContent()
 
