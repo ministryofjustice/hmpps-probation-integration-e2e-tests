@@ -31,8 +31,8 @@ export async function findOffenderByNomisId(page: Page, nomisId: string): Promis
     await page.locator('a', { hasText: 'National search' }).click()
     await expect(page).toHaveTitle(/National Search/)
     await selectOption(page, '#otherIdentifier', 'NOMS Number')
-    await page.fill('#SearchForm\\:NOMSNumber', nomisId)
-    await page.click('#SearchForm\\:searchButton')
+    await page.fill('#notSelected', nomisId)
+    await page.click('#searchButton')
 
     await page.locator('tr', { hasText: '' }).locator('a', { hasText: 'View' }).click()
     await expect(page).toHaveTitle(/Case Summary/)

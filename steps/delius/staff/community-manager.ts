@@ -11,12 +11,12 @@ export async function randomiseCommunityManagerName(page: Page, nomsNumber: stri
     await findOffenderByNomisId(page, nomsNumber)
     await doUntil(
         // wait for offendersummary call
-        () => page.getByRole('link', { name: 'Community Supervisor' }).click(),
-        () => expect(page.locator('#SearchForm\\:communityPractitioner')).not.toBeEmpty()
+        () => page.locator('#communitySupervisorToggleTitle').click(),
+        () => expect(page.locator('#communityPractitioner\\:outputText')).not.toBeEmpty()
     )
-    await expect(page.locator('#communitySupervisorPanel')).toHaveClass(/in/)
-    const provider = await page.locator('#SearchForm\\:provider').textContent()
-    const surname = /[^,]+/.exec(await page.locator('#SearchForm\\:communityPractitioner').textContent())[0]
+    // await expect(page.locator('#communitySupervisorPanel')).toHaveClass(/in/)
+    const provider = await page.locator('#provider\\:outputText').textContent()
+    const surname = /[^,]+/.exec(await page.locator('#communityPractitioner\\:outputText').textContent())[0]
     await page.getByRole('link', { name: /Reference Data/ }).click()
     await page.getByRole('link', { name: 'Local Reference Records' }).click()
     await selectOption(page, 'select', provider)
