@@ -31,16 +31,8 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
     await selectOption(page, '#TransferToOfficer\\:selectOneMenu', options.allocation?.staff?.name)
     await doUntil(
         () => page.locator('#saveButton').click(),
-        async () => {
-            try {
-                await expect(page).toHaveTitle(/Contact List/)
-            } catch (error) {
-                await page.locator('[class$="prompt-warning"]').first()
-            }
-        }
+        () => expect(page).toHaveTitle(/Contact List/)
     )
-
-    await expect(page).toHaveTitle(/Contact List/)
 }
 
 export const createInitialAppointment = async (page: Page, crn: string, eventNumber: string, team: Team = null) =>

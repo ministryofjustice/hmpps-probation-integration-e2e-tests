@@ -22,7 +22,7 @@ export const createRelease = async (
     } else {
         await page.getByLabel(/Release Type/).selectOption('Adult Licence')
     }
-    await selectOption(page, '#addRelease\\:Institution')
+    await selectOption(page, '#institution\\:selectOneMenu')
     if (temporary) {
         await page.getByLabel(/Release on Licence Length/).fill('1')
         await page.getByLabel(/Release on Licence End Date/).fill(DeliusDateFormatter(new Date()))
