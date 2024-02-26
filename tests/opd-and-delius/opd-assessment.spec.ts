@@ -34,14 +34,12 @@ test('OPD assessment creates an event in Delius', async ({ page }) => {
     await addLayer3AssessmentNeeds(page)
     await loginDelius(page)
     await navigateToNSIDetailsFromPersonalDetails(page, crn)
-    await expect(page.locator('div:right-of(:text("Non Statutory Intervention:"))').first()).toContainText(
+    await expect(page.locator('span:right-of(:text("Non Statutory Intervention:"))').first()).toContainText(
         'OPD Community Pathway'
     )
-    await expect(page.locator('div:right-of(:text("Status"))').first()).toContainText('Pending Consultation')
-    await expect(page.locator('div:right-of(:text("Notes"))').first()).toContainText('OPD Result: Screened In')
-    await expect(page.locator('div:right-of(:text("Notes"))').first()).toContainText(
-        'Comment added by OPD and Delius Service'
-    )
+    await expect(page.locator('span:right-of(:text("Status"))').first()).toContainText('Pending Consultation')
+    await expect(page.locator('#Notes\\:notesField')).toContainText('OPD Result: Screened In')
+    await expect(page.locator('#Notes\\:notesField')).toContainText('Comment added by OPD and Delius Service')
     await page.locator('[value="Contact List for this NSI"]').click()
     await expect(page).toHaveTitle(/Contact List for NSIs/)
     await page.locator('#ContactListForm\\:contactTable\\:tbody_element').getByRole('link', { name: 'view' }).click()
