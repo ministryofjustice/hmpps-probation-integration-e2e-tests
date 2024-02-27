@@ -64,8 +64,6 @@ export const assessApplication = async (page: Page, personName: string) => {
     await page.getByLabel('Is single notRelevant').check()
     await page.getByLabel('Is step free designated notRelevant').check()
     await page.getByLabel('Is catered notRelevant').check()
-    await page.getByRole('cell', { name: 'Is ground floor notRelevant' }).click()
-    await page.getByLabel('Is ground floor notRelevant').check()
     await page.getByLabel('Has en suite notRelevant').check()
     await page.getByLabel('Is suited for sex offenders notRelevant').check()
     await page.getByLabel('Is arson designated notRelevant').check()
