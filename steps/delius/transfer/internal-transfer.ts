@@ -19,9 +19,9 @@ export async function internalTransfer(
     await page.locator('input', { hasText: 'Transfers' }).click()
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
 
-    await selectOption(page, '#offenderTransferRequestListForm\\:Trust', allocation?.team?.provider)
-    await selectOption(page, '#offenderTransferRequestListForm\\:Team', allocation?.team?.name)
-    await selectOption(page, '#offenderTransferRequestListForm\\:Staff', allocation?.staff?.name)
+    await selectOption(page, '#Trust\\:selectOneMenu', allocation?.team?.provider)
+    await selectOption(page, '#Team\\:selectOneMenu', allocation?.team?.name)
+    await selectOption(page, '#Staff\\:selectOneMenu', allocation?.staff?.name)
 
     const options = await page
         .locator('#offenderTransferRequestListForm\\:offenderTransferRequestTable')
