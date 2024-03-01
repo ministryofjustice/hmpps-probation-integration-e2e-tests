@@ -12,5 +12,5 @@ export async function findNSIByCRN(page: Page, crn: string, eventNumber: number,
     await expect(page).toHaveTitle(/Non Statutory Intervention List/)
     await page.locator('main[role="main"]').locator('a', { hasText: 'view' }).click()
     await expect(page).toHaveTitle(/Non Statutory Intervention Details/)
-    await expect(page.locator("span:right-of(:text('NSI Provider:'))", { hasText: NSIText })).not.toHaveCount(0);
+    await expect(page.locator("span:right-of(:text('NSI Provider:'))", { hasText: NSIText })).not.toHaveCount(0)
 }

@@ -22,9 +22,7 @@ export async function internalTransfer(
     await selectOption(page, '#Team\\:selectOneMenu', allocation?.team?.name)
     await selectOption(page, '#Staff\\:selectOneMenu', allocation?.staff?.name)
 
-    const options = await page
-        .locator('#searchResults')
-        .locator('select')
+    const options = await page.locator('#searchResults').locator('select')
 
     const count = await options.count()
     for (let i = 0; i < count; i++) {

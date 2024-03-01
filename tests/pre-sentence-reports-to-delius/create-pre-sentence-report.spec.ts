@@ -98,7 +98,7 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Report completed/)
     await popup.close()
 
-    await page.locator('.btn', { hasText: 'Close'}).click()
+    await page.locator('.btn', { hasText: 'Close' }).click()
     await page.click('#navigation-include\\:linkNavigationDocumentDrawer')
 
     // Then the document appears in the Delius document list
