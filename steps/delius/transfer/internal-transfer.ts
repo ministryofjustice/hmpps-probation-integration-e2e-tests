@@ -18,6 +18,10 @@ export async function internalTransfer(
     await findOffenderByCRN(page, crn)
     await page.locator('input', { hasText: 'Transfers' }).click()
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
+<<<<<<< HEAD
+=======
+
+>>>>>>> a2be3bb4e3c3f576d4fd8b85604e981e735caceb
     await selectOption(page, '#Trust\\:selectOneMenu', allocation?.team?.provider)
     await selectOption(page, '#Team\\:selectOneMenu', allocation?.team?.name)
     await selectOption(page, '#Staff\\:selectOneMenu', allocation?.staff?.name)
