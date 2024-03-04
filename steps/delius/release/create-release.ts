@@ -24,7 +24,7 @@ export const createRelease = async (
     }
 
     if (temporary) {
-        await expect( page.locator('#rotlLength\\:inputText')).toHaveCount(1)
+        await expect(page.locator('#rotlLength\\:inputText')).toHaveCount(1)
         await page.getByLabel(/Release on Licence Length/).fill('1')
         await page.getByLabel(/Release on Licence End Date/).fill(DeliusDateFormatter(new Date()))
     }
