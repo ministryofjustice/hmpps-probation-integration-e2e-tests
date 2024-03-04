@@ -34,6 +34,7 @@ export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.
                 defendants: [
                     {
                         id: v4(),
+                        pncId: person.pnc,
                         prosecutionCaseId: caseId,
                         personDefendant: {
                             personDetails: {

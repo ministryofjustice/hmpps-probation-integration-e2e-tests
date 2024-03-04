@@ -6,6 +6,7 @@ test('Match Delius case with Court Case Hearing', async () => {
     // Given a person with hearing in the Court Case Service
     const person = deliusPerson()
     await addCourtHearing(person)
+    console.log('Added court hearing for', person)
 
     // When I create the person's record in Delius
     // ...
