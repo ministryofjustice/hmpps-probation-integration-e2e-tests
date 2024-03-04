@@ -12,6 +12,7 @@ export async function setNomisId(page: Page, crn: string, nomisId: string) {
     await selectOption(page, '#identifierType\\:selectOneMenu', 'NOMS')
     await page.fill('#identifierValue\\:inputText', nomisId)
     await page.locator('input', { hasText: 'Add/Update' }).click()
+    await page.locator('input', { hasText: 'Add/Update' }).click()
     await page.locator('input', { hasText: 'Save' }).click()
 
     try {
