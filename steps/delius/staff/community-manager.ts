@@ -14,7 +14,6 @@ export async function randomiseCommunityManagerName(page: Page, nomsNumber: stri
         () => page.locator('#communitySupervisorToggleTitle').click(),
         () => expect(page.locator('#communityPractitioner\\:outputText')).not.toBeEmpty()
     )
-    // await expect(page.locator('#communitySupervisorPanel')).toHaveClass(/in/)
     const provider = await page.locator('#provider\\:outputText').textContent()
     const surname = /[^,]+/.exec(await page.locator('#communityPractitioner\\:outputText').textContent())[0]
     await page.getByRole('link', { name: /Reference Data/ }).click()
