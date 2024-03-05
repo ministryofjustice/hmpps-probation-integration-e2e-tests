@@ -19,19 +19,11 @@ export const assessApplication = async (page: Page, personName: string) => {
     await page.getByRole('button', { name: 'Submit' }).click()
     await page
         .getByRole('group', {
-            name: "Do you agree with the applicant's reason for submission outside of National Standards timescales?",
+            name: "Is the contingency plan sufficient to manage behaviour or a failure to return out of hours?",
         })
-        .getByLabel('Yes')
+        .getByLabel('No')
         .check()
-    await page.getByLabel('Provide details to support the decision').fill('QA Autotest')
-    await page.getByRole('button', { name: 'Submit' }).click()
-    await page
-        .getByRole('group', {
-            name: 'Is the contingency plan sufficient to manage behaviour or a failure to return out of hours?',
-        })
-        .getByLabel('Yes')
-        .check()
-    await page.getByLabel('Additional comments').fill('QA Autotest')
+    await page.getByLabel('Additional comments').fill('Test contingency plan comments')
     await page.getByRole('button', { name: 'Submit' }).click()
     await page.getByRole('link', { name: 'Provide any requirements to support placement' }).click()
     await page
