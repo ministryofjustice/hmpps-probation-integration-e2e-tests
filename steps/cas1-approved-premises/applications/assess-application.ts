@@ -19,7 +19,7 @@ export const assessApplication = async (page: Page, personName: string) => {
     await page.getByRole('button', { name: 'Submit' }).click()
     await page
         .getByRole('group', {
-            name: "Is the contingency plan sufficient to manage behaviour or a failure to return out of hours?",
+            name: 'Is the contingency plan sufficient to manage behaviour or a failure to return out of hours?',
         })
         .getByLabel('No')
         .check()
