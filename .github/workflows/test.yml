@@ -39,7 +39,7 @@ jobs:
       passed-projects: ${{ steps.json.outputs.passed-projects }}
       report-url: ${{ steps.html.outputs.report-url }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get tests to run - all tests
         if: inputs.projects == '' || inputs.projects == 'All'
@@ -58,7 +58,7 @@ jobs:
         env:
           REF: ${{ github.ref_name }}
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           cache: npm
 
@@ -133,7 +133,7 @@ jobs:
 
       - name: Publish JUnit report
         if: always()
-        uses: mikepenz/action-junit-report@0a8a5ba57593d67b2e45de2c543b438412382b7b # v4.0.1
+        uses: mikepenz/action-junit-report@5f47764eec0e1c1f19f40c8e60a5ba47e47015c5 # v4.1.0
         id: junit
         with:
           check_name: End-to-end test results
@@ -141,7 +141,7 @@ jobs:
 
       - name: Publish HTML report
         if: always()
-        uses: JamesIves/github-pages-deploy-action@22a6ee251d6f13c6ab1ecb200d974f1a6feb1b8d # v4
+        uses: JamesIves/github-pages-deploy-action@65b5dfd4f5bcd3a7403bbc2959c144256167464e # v4
         with:
           folder: playwright-report
           target-folder: ${{ env.report-dir }}
@@ -154,7 +154,7 @@ jobs:
           echo 'report-url=https://ministryofjustice.github.io/hmpps-probation-integration-e2e-tests/${{ env.report-dir }}' | tee -a "$GITHUB_OUTPUT"
 
       - name: Send message to Slack
-        uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
+        uses: slackapi/slack-github-action@6c661ce58804a1a20f6dc5fbee7f0381b469e001 # v1.25.0
         if: ${{ failure() && github.event_name == 'schedule' }}
         with:
           channel-id: probation-integration-notifications
