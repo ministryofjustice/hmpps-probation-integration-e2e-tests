@@ -141,7 +141,7 @@ jobs:
 
       - name: Publish HTML report
         if: always()
-        uses: JamesIves/github-pages-deploy-action@22a6ee251d6f13c6ab1ecb200d974f1a6feb1b8d # v4
+        uses: JamesIves/github-pages-deploy-action@65b5dfd4f5bcd3a7403bbc2959c144256167464e # v4
         with:
           folder: playwright-report
           target-folder: ${{ env.report-dir }}
