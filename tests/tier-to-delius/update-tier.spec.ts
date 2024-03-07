@@ -4,6 +4,7 @@ import { login as tierLogin } from '../../steps/tier-ui/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import * as dotenv from 'dotenv'
+import { refreshUntil } from '../../steps/delius/utils/refresh'
 import { createRegistration } from '../../steps/delius/registration/create-registration'
 import { searchTierByCRN } from '../../steps/tier-ui/search_tier'
 
@@ -17,6 +18,11 @@ test('Create person and check tier is updated', async ({ page }) => {
 
     // When I create the registration
     await createRegistration(page, crn, 'High RoSH')
+
+    // Then the tier is updated
+    await page.locator('a', { hasText: 'Management Tier' }).click()
+    await refreshUntil(page, () => expect(page.locator('table')).toContainText('B_0'))
+    await expect(page.locator('#offender-overview').first()).toContainText('Tier:B_0')
     await tierLogin(page)
     await searchTierByCRN(page, crn, person)
     expect(page.locator("[data-qa='crn']")).toHaveText(crn)

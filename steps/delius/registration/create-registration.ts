@@ -10,10 +10,10 @@ export async function createRegistration(page: Page, crn: string, registrationTy
     await expect(page).toHaveTitle('Register Summary')
     await page.locator('input', { hasText: 'Add Registration' }).click()
     await expect(page).toHaveTitle('Add Registration')
-    await selectOptionAndWait(page, '#Trust\\:selectOneMenu')
-    await selectOptionAndWait(page, '#RegisterType\\:selectOneMenu', registrationType)
-    await selectOptionAndWait(page, '#Team\\:selectOneMenu')
-    await selectOption(page, '#Staff\\:selectOneMenu')
+    await selectOptionAndWait(page, '#addRegistrationForm\\:Trust')
+    await selectOptionAndWait(page, '#addRegistrationForm\\:RegisterType', registrationType)
+    await selectOptionAndWait(page, '#addRegistrationForm\\:Team')
+    await selectOption(page, '#addRegistrationForm\\:Staff')
     const saveBtn = page.locator('input', { hasText: 'Save' })
     await doUntil(
         () => saveBtn.click(),
