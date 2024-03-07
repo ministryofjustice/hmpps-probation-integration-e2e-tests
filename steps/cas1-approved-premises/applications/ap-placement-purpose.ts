@@ -1,8 +1,6 @@
 import { type Page, expect } from '@playwright/test'
 
 export const selectAPPlacementPurpose = async (page: Page) => {
-    await page.getByLabel('The risk level has recently escalated').check()
-    await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
     await page.getByLabel('Public protection').check()
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
     await expect(page.locator('#main-content h1')).toHaveText('Apply for an Approved Premises (AP) placement')

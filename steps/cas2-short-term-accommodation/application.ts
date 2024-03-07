@@ -210,7 +210,7 @@ async function addOffences(page: Page) {
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(/Task list/)
     await page.getByRole('link', { name: 'Add offending history' }).click()
-    await page.getByLabel('No').check()
+    await page.getByLabel('No, they do not have any previous unspent convictions').check()
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(/Task list/)
 }

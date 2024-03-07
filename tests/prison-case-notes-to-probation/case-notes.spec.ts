@@ -39,7 +39,7 @@ test('Create a new case note', async ({ page }) => {
 
     // Then the case note appears as a contact in delius
     await deliusLogin(page)
-    await verifyContacts(page, crn, [contact(event.outcome, 'NOMIS Case Note - Transfer')])
+    await verifyContacts(page, crn, [contact(event.outcome, 'Initial Case Allocation Decision')])
 })
 
 test.afterAll(async () => {

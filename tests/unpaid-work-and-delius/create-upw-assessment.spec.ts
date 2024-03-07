@@ -19,6 +19,8 @@ import { getPdfText } from '../../steps/delius/utils/pdf-utils'
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {
+    // skipped temporarily until Delius completes the development
+    test.skip()
     // Given I create new Offender in nDelius
     await deliusLogin(page)
     const person = deliusPerson()
