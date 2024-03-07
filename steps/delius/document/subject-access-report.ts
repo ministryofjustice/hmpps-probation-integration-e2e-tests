@@ -5,7 +5,7 @@ import StreamZip from 'node-stream-zip'
 
 export async function createSubjectAccessReport(page: Page, crn, downloadLocation: string) {
     await findOffenderByCRN(page, crn)
-    await page.locator('#navigation-include\\:linkNavigation2SubjectAccessReportList').click()
+    await page.locator('#linkNavigation2SubjectAccessReportList').click()
     await page.locator('input', { hasText: 'New SAR' }).click()
     await page.locator('input', { hasText: 'Save' }).click()
     const sarProgressTable = page.locator('#sarListForm\\:subjectAccessReportTable')

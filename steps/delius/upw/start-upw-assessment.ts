@@ -5,7 +5,7 @@ export async function startUPWAssessmentFromDelius(page: Page): Promise<Page> {
     await page.getByRole('button', { name: 'Update' }).click()
     await page.getByRole('link', { name: 'Event List' }).click()
     await page.getByRole('link', { name: 'view', exact: true }).click()
-    await page.locator('a', { hasText: 'Unpaid Work' }).click()
+    await page.locator('#linkNavigation3UnpaidWork').click()
     await expect(page.locator('#content > h1')).toHaveText('View UPW Details')
     const [popup] = await Promise.all([
         page.waitForEvent('popup'),
