@@ -43,6 +43,8 @@ test('Create an approved premises application', async ({ page }) => {
     // And I create a Layer 3 Assessment without Needs
     await createLayer3AssessmentWithoutNeeds(page, crn)
 
+    // const crn = 'X753076'
+
     // When I login to Approved Premises
     await approvedPremisesLogin(page)
     // And I submit an application
@@ -52,6 +54,9 @@ test('Create an approved premises application', async ({ page }) => {
     // And I approve the application
     await reallocateApplication(page, `${person.firstName} ${person.lastName}`)
     await assessApplication(page, `${person.firstName} ${person.lastName}`)
+
+    // await reallocateApplication(page, `Bernadette Mosciski`)
+    // await assessApplication(page, `Bernadette Mosciski`)
 
     // And login to nDelius
     await deliusLogin(page)
