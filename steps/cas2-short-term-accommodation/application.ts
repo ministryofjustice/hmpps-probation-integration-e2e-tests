@@ -1,6 +1,6 @@
 import { expect, Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
-import { getDate, getMonth, getYear } from 'date-fns'
+import { getDate, getYear } from 'date-fns'
 
 export async function submitApplication(page: Page, nomisId: string) {
     await startApplication(page)
