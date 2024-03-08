@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test'
-import {faker} from "@faker-js/faker";
+import { faker } from '@faker-js/faker'
 
 export const confirmYourDetails = async (page: Page) => {
     await page.locator('[value="phoneNumber"]').check()

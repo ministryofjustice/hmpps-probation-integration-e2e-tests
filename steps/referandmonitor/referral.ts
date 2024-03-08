@@ -115,7 +115,9 @@ export const makeReferral = async (page: Page, crn: string) => {
 
     // Reason for referral
     await expect(page).toHaveURL(/referrals\/.*\/reason-for-referral/)
-    await page.locator('#reason-for-referral').fill('Test reason for referral and further information for the service provider')
+    await page
+        .locator('#reason-for-referral')
+        .fill('Test reason for referral and further information for the service provider')
 
     // Click text=Save and continue
     await page.locator('text=Save and continue').click()

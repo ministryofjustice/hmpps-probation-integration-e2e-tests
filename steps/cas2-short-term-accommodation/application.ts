@@ -43,28 +43,24 @@ async function confirmEligibilityAndConsent(page: Page) {
     await page.getByLabel(/Yes/).check()
     await fillPastDate(page, 'When did they give consent?')
     await page.getByRole('button', { name: 'Save and continue' }).click()
-    await expect(page).toHaveTitle("The person's Home Detention Curfew (HDC) licence dates - Short-Term Accommodation (CAS-2)")
-    await fillPastDate(page, 'HDC eligibility date');
-    await fillPastDate(page, 'conditional release date');
-    await page.getByRole('button', { name: 'Save and continue' }).click();
-    await expect(page).toHaveTitle(/Task list/);
+    await expect(page).toHaveTitle(
+        "The person's Home Detention Curfew (HDC) licence dates - Short-Term Accommodation (CAS-2)"
+    )
+    await fillPastDate(page, 'HDC eligibility date')
+    await fillPastDate(page, 'conditional release date')
+    await page.getByRole('button', { name: 'Save and continue' }).click()
+    await expect(page).toHaveTitle(/Task list/)
 }
 
 async function fillPastDate(page: Page, label: string) {
-    await page
-        .getByRole('group', { name: label })
-        .getByLabel('Day')
-        .fill(getDate(new Date()).toString());
+    await page.getByRole('group', { name: label }).getByLabel('Day').fill(getDate(new Date()).toString())
 
     await page
         .getByRole('group', { name: label })
         .getByLabel('Month')
-        .fill((new Date().getMonth() - 1).toString()); // Subtract 1 to go back two months
+        .fill((new Date().getMonth() - 1).toString()) // Subtract 1 to go back two months
 
-    await page
-        .getByRole('group', { name: label })
-        .getByLabel('Year')
-        .fill(getYear(new Date()).toString());
+    await page.getByRole('group', { name: label }).getByLabel('Year').fill(getYear(new Date()).toString())
 }
 
 async function addReferrerDetails(page: Page) {
