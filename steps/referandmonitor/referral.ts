@@ -112,7 +112,12 @@ export const makeReferral = async (page: Page, crn: string) => {
     await page.locator('input[name="completion-deadline-month"]').fill((futureDate.getMonth() + 1).toString())
     await page.locator('input[name="completion-deadline-year"]').fill(futureDate.getFullYear().toString())
     await page.locator('text=Save and continue').click()
-    await expect(page).toHaveURL(/referrals\/.*\/further-information/)
+
+    // Reason for referral
+    await expect(page).toHaveURL(/referrals\/.*\/reason-for-referral/)
+    await page
+        .locator('#reason-for-referral')
+        .fill('Test reason for referral and further information for the service provider')
 
     // Click text=Save and continue
     await page.locator('text=Save and continue').click()

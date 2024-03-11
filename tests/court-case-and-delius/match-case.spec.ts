@@ -9,9 +9,9 @@ import {parseISO} from "date-fns";
 
 test('Match Delius case with Court Case Hearing', async ({page}) => {
     // Given a person with hearing in the Court Case Service
-    // const person = deliusPerson()
-    // await addCourtHearing(person)
-    // console.log(JSON.stringify(person))
+    const person = deliusPerson()
+    await addCourtHearing(person)
+    console.log('Added court hearing for', person)
 
     // const person = {"firstName":"Fernando","lastName":"Donnelly","sex":"Male","dob":parseISO("1994-11-20T15:08:33.356Z"),"pnc":"1994/0587756V"} as Person
     const person = {"firstName":"Margie","lastName":"Buckridge","sex":"Female","dob":parseISO("1977-07-05T02:42:47.259Z"),"pnc": null}
