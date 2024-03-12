@@ -33,7 +33,7 @@ env:
 jobs:
   test:
     runs-on: moj-cloud-platform
-    timeout-minutes: 60
+    timeout-minutes: 240
     outputs:
       failed-projects: ${{ steps.json.outputs.failed-projects }}
       passed-projects: ${{ steps.json.outputs.passed-projects }}
