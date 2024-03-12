@@ -55,7 +55,7 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     await selectOptionAndWait(page, '#addEventForm\\:Outcome', event.outcome)
     createdEvent.outcome = event.outcome
     if (requiresAdditionalOutcomeDetails.includes(event.outcome)) {
-        await selectOptionAndWait(page, '#OutcomeArea', allocation?.team.provider)
+        await selectOption(page, '#OutcomeArea', allocation?.team.provider)
         await selectOptionAndWait(page, '#addEventForm\\:OutcomeTeam', allocation?.team.name)
     }
     if (event.length) {
