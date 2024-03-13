@@ -104,6 +104,7 @@ jobs:
           CAS2_SHORT_TERM_ACCOMMODATION_URL: https://community-accommodation-tier-2-dev.hmpps.service.justice.gov.uk
           CAS3_TRANSITIONAL_ACCOMMODATION_URL: https://transitional-accommodation-dev.hmpps.service.justice.gov.uk
           TIER_UI_URL: https://tier-dev.hmpps.service.justice.gov.uk
+          PREPARE_A_CASE_FOR_SENTENCE_URL: https://prepare-a-case-dev.apps.live-1.cloud-platform.service.justice.gov.uk
           # Credentials
           DELIUS_USERNAME: ${{ secrets.E2E_DELIUS_USERNAME }}
           DELIUS_PASSWORD: ${{ secrets.E2E_DELIUS_PASSWORD }}
