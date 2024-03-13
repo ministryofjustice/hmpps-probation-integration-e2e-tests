@@ -3,25 +3,26 @@ import { login as loginDelius } from '../../steps/delius/login'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
-import { createAndBookPrisoner, createAndBookPrisonerWithoutDeliusLink } from '../../steps/api/dps/prison-api'
+import {
+    createAndBookPrisoner,
+    createAndBookPrisonerWithoutDeliusLink,
+    releasePrisoner,
+} from '../../steps/api/dps/prison-api'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { addCourtHearing } from '../../steps/court-case/add-court-hearing'
-
-test.beforeEach(async ({ page }) => {
-    await loginDelius(page)
-})
 
 test('Create a case in multiple systems', async ({ page }) => {
     const person = deliusPerson()
 
     if (process.env.CREATE_DELIUS_RECORD === 'true') {
         await loginDelius(page)
-        const crn: string = await createOffender(page, { person })
-        await createCustodialEvent(page, { crn })
+        const crn = await createOffender(page, { person })
         if (process.env.CREATE_NOMIS_RECORD === 'true') {
-            await createAndBookPrisoner(page, crn, person)
+            await createCustodialEvent(page, { crn })
+            const { nomisId } = await createAndBookPrisoner(page, crn, person)
+            await releasePrisoner(nomisId)
         }
         if (process.env.CREATE_OASYS_ASSESSMENT === 'true') {
             await oasysLogin(page, UserType.Booking)
@@ -30,7 +31,8 @@ test('Create a case in multiple systems', async ({ page }) => {
         }
     } else {
         if (process.env.CREATE_NOMIS_RECORD === 'true') {
-            await createAndBookPrisonerWithoutDeliusLink(page, person)
+            const { nomisId } = await createAndBookPrisonerWithoutDeliusLink(page, person)
+            await releasePrisoner(nomisId)
         }
         if (process.env.CREATE_OASYS_ASSESSMENT === 'true') {
             console.error('Cannot create OASys assessment without Delius record')
