@@ -1,4 +1,5 @@
 import {expect, Page} from '@playwright/test'
+
 export async function addCourtToUser(page: Page, court: string) {
     await page.getByRole('button', { name: /Accept analytics cookies/ }).click()
     await page.focus('#pac-select-court');
