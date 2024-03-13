@@ -80,6 +80,7 @@ CVL_URL=https://create-and-vary-a-licence-test2.hmpps.service.justice.gov.uk
 
 TIER_UI_URL=https://tier-dev.hmpps.service.justice.gov.uk
 
+PREPARE_A_CASE_FOR_SENTENCE_URL=https://prepare-a-case-dev.apps.live-1.cloud-platform.service.justice.gov.uk
 ```
 
 ## Running Tests
