@@ -1,33 +1,8 @@
 import { type Page, expect } from '@playwright/test'
 
 export const login = async (page: Page, userType: UserType) => {
-
-    // const t2Link = await page.$('a:has-text("T2 OASys")');
-    // if (t2Link && await t2Link.isVisible()) {
-    //     await t2Link.click();
-    // }
-
-    // const links = await page.$$('a');
-    // for (const link of links) {
-    //     const linkText = await link.textContent();
-    //     if (linkText.includes('T2 OASys')) {
-    //         await link.click();
-    //         break;
-    //     }
-    // }
-
     const { username, password } = oasysUserConfig(userType)
     await page.goto(process.env.OASYS_URL)
-    // await page.goto('https://ords.t2.oasys.service.justice.gov.uk/eor/f?p=100:101')
-    // const links = await page.$$('a');
-    // for (const link of links) {
-    //     const linkText = await link.textContent();
-    //     if (linkText.includes('T2 OASys')) {
-    //         await link.click();
-    //         break;
-    //     }
-    // }
-
     await expect(page.locator('#loginbodyheader > h2')).toHaveText('Login')
     await page.fill('#P101_USERNAME', username)
     await page.fill('#P101_PASSWORD', password)
