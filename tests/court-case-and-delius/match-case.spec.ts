@@ -9,7 +9,6 @@ import {
     getCRNByNameFromCaseList
 } from "../../steps/court-case/prepare-case-for-sentence/application.js";
 
-
 test('Match Delius case with Court Case Hearing', async ({page}) => {
     // Given a person with hearing in the Court Case Service
     const person = deliusPerson()
