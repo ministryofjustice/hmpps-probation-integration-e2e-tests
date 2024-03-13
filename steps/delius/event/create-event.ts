@@ -45,18 +45,18 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
         await selectOption(page, '#addEventForm\\:SubOffence', event.subOffence)
     }
     createdEvent.court = await selectOption(page, '#Court')
-    await selectOptionAndWait(page, '#addEventForm\\:Area', allocation?.team.provider)
-    await selectOptionAndWait(page, '#addEventForm\\:Team', allocation?.team.name)
+    await selectOptionAndWait(page, '#addEventForm\\:Area', allocation?.team?.provider)
+    await selectOptionAndWait(page, '#addEventForm\\:Team', allocation?.team?.name)
     if (allocation?.staff?.name) {
         await selectOption(page, '#addEventForm\\:Staff', allocation?.staff?.name)
     }
     await selectOption(page, '#AppearanceType', event.appearanceType)
-    await selectOption(page, '#Plea', event.plea)
+    await selectOptionAndWait(page, '#Plea', event.plea)
     await selectOptionAndWait(page, '#addEventForm\\:Outcome', event.outcome)
     createdEvent.outcome = event.outcome
     if (requiresAdditionalOutcomeDetails.includes(event.outcome)) {
-        await selectOptionAndWait(page, '#OutcomeArea', allocation?.team.provider)
-        await selectOptionAndWait(page, '#addEventForm\\:OutcomeTeam', allocation?.team.name)
+        await selectOptionAndWait(page, '#OutcomeArea', allocation?.team?.provider)
+        await selectOptionAndWait(page, '#addEventForm\\:OutcomeTeam', allocation?.team?.name)
     }
     if (event.length) {
         await page.fill('#addEventForm\\:Length', event.length)
