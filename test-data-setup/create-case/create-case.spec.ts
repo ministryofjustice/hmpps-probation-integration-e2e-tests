@@ -5,9 +5,7 @@ import { createOffender } from '../../steps/delius/offender/create-offender'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { createAndBookPrisoner, createAndBookPrisonerWithoutDeliusLink } from '../../steps/api/dps/prison-api'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
-import {
-    createLayer3AssessmentWithoutNeeds,
-} from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
+import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { addCourtHearing } from '../../steps/court-case/add-court-hearing'
 
@@ -20,7 +18,7 @@ test('Create a case in multiple systems', async ({ page }) => {
 
     if (process.env.CREATE_DELIUS_RECORD === 'true') {
         await loginDelius(page)
-        const crn: string = await createOffender(page, { person})
+        const crn: string = await createOffender(page, { person })
         await createCustodialEvent(page, { crn })
         if (process.env.CREATE_NOMIS_RECORD === 'true') {
             await createAndBookPrisoner(page, crn, person)
