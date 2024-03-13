@@ -3,20 +3,57 @@ name: '* Setup test data'
 on:
   workflow_dispatch:
     inputs:
+      create_delius:
+        description: Create a Delius record?
+        type: boolean
+        default: true
+        required: true
+      create_nomis:
+        description: Create a NOMIS record?
+        type: boolean
+        default: true
+        required: true
+      create_assessment:
+        description: Create an OASys assessment?
+        type: boolean
+        default: false
+        required: true
+      create_hearing:
+        description: Create a court hearing?
+        type: boolean
+        default: false
+        required: true
       project:
-        description: Project
+        description: Or, create data for a specific project
         type: choice
         required: true
         options:
+          - none
           - approved-premises-data-creator
           - effective-proposal-framework
           - recommend-a-recall
           - refer-and-monitor-functional-tests
           - hmpps-integration-api
 jobs:
-  test:
+  create-generic-data:
     uses: ./.github/workflows/test.yml
+    if: inputs.project == 'none'
     with:
       directory: test-data-setup
-      projects: '["${{ github.event.inputs.project }}"]'
+      projects: '["create-case"]'
+      env: |
+        {
+          "CREATE_DELIUS_RECORD": "${{ inputs.create_delius }}",
+          "CREATE_NOMIS_RECORD": "${{ inputs.create_nomis }}",
+          "CREATE_OASYS_ASSESSMENT": "${{ inputs.create_assessment }}",
+          "CREATE_COURT_HEARING": "${{ inputs.create_hearing }}"
+        }
+    secrets: inherit
+
+  create-for-project:
+    uses: ./.github/workflows/test.yml
+    if: inputs.project != 'none'
+    with:
+      directory: test-data-setup
+      projects: '["${{ inputs.project }}"]'
     secrets: inherit

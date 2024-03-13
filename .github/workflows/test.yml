@@ -26,6 +26,10 @@ on:
         description: Directory containing test files
         type: string
         default: tests
+      env:
+        description: Extra environment variables to pass-through to the tests
+        type: string
+        default: ''
 
 env:
   auto_pass_projects: '["manage-offences-and-delius","redrive-dead-letter-queues","feature-flags"]'
@@ -57,6 +61,12 @@ jobs:
         run: echo "report-dir=playwright-report/test/$REF/$(date '+%Y-%m-%d')/${{ github.sha }}/${{ github.run_id }}/${{ github.run_attempt }}" | tee -a "$GITHUB_ENV"
         env:
           REF: ${{ github.ref_name }}
+
+      - name: Parse environment variables
+        if: inputs.env != ''
+        run: echo "$ENV_VARS" | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' | tee -a "$GITHUB_ENV"
+        env:
+          ENV_VARS: ${{ inputs.env }}
 
       - uses: actions/setup-node@v4
         with:
