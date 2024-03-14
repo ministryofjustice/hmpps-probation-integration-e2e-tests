@@ -10,7 +10,6 @@ import { faker } from '@faker-js/faker'
 import * as dotenv from 'dotenv'
 import { navigateToNSIDetailsFromPersonalDetails } from '../../steps/delius/contact/find-contacts'
 import { clickSearch } from '../../steps/oasys/task-manager'
-import { setProviderEstablishment } from '../../steps/oasys/set-provider-establishment.js'
 dotenv.config() // read environment variables into process.env
 
 test('OPD assessment creates an event in Delius', async ({ page }) => {
@@ -31,12 +30,6 @@ test('OPD assessment creates an event in Delius', async ({ page }) => {
         },
     })
     await oasysLogin(page, UserType.Assessment)
-    // // Check if the current page is the provider/establishment page
-    // const isProviderPage = await page.locator('#loginbodyheader > h2').first().innerText() === 'Provider/Establishment'
-    // // Only run setProviderEstablishment if the page is the provider/establishment page
-    // if (isProviderPage) {
-    //     await setProviderEstablishment(page)
-    // }
     await clickSearch(page)
     await createLayer3CompleteAssessment(page, crn, person)
     await addLayer3AssessmentNeeds(page)
