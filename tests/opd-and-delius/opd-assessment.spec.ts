@@ -14,6 +14,7 @@ import { setProviderEstablishment } from '../../steps/oasys/set-provider-establi
 dotenv.config() // read environment variables into process.env
 
 test('OPD assessment creates an event in Delius', async ({ page }) => {
+    test.slow() // increase the timeout - Delius/OASys/Delius Applications can take a few minutes
     await loginDelius(page)
     const dob = faker.date.birthdate({ min: 20, max: 30, mode: 'age' })
     const person = deliusPerson({ sex: 'Male', dob: dob })
@@ -30,7 +31,12 @@ test('OPD assessment creates an event in Delius', async ({ page }) => {
         },
     })
     await oasysLogin(page, UserType.Assessment)
-    await setProviderEstablishment(page)
+    // Check if the current page is the provider/establishment page
+    const isProviderPage = await page.locator('#loginbodyheader > h2').first().innerText() === 'Provider/Establishment'
+    // Only run setProviderEstablishment if the page is the provider/establishment page
+    if (isProviderPage) {
+        await setProviderEstablishment(page)
+    }
     await clickSearch(page)
     await createLayer3CompleteAssessment(page, crn, person)
     await addLayer3AssessmentNeeds(page)
