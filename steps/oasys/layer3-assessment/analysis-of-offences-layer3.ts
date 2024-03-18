@@ -9,14 +9,12 @@ export const completeOffenceAnalysisYes = async (page: Page) => {
         .locator('[for="itm_2_2_V2_WEAPON"]', {hasText: 'Carrying or using a weapon'})
         .selectOption('2.2_V2_WEAPON~YES')
     await page.getByRole('textbox', { name: 'Specify which weapon' }).fill('Club')
-
     await page
         .locator('[for="itm_2_2_V2_ANYVIOL"]', {hasText: 'Any violence or threat of violence / coercion'})
         .selectOption('2.2_V2_ANYVIOL~YES')
     await page
         .locator('[for="itm_2_2_V2_EXCESSIVE"]', {hasText: 'Excessive use of violence / sadistic violence'})
         .selectOption('2.2_V2_EXCESSIVE~YES')
-
     await page
         .locator('[for="itm_2_2_V2_ARSON"]', {hasText: 'Arson'})
         .selectOption('2.2_V2_ARSON~NO')
@@ -84,6 +82,7 @@ export const completeOffenceAnalysisYes = async (page: Page) => {
     await page.click('input[value="Next"]')
     await expect(page.locator('#contextleft > h3')).toHaveText('3 - Accommodation (Layer 3)')
 }
+
 export const completeOffenceAnalysis = async (page: Page) => {
     await page.fill(
         '#textarea_2_1',
