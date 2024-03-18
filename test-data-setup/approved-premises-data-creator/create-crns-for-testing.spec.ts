@@ -17,7 +17,6 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('Create a crn with a single event', async ({ page }) => {
-    test.slow()
     await loginDelius(page)
     const person = deliusPerson({ sex: 'Male', dob: null, lastName: null, firstName: null })
     const crn: string = await createOffender(page, {
