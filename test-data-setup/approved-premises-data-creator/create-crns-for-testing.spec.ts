@@ -6,9 +6,7 @@ import { data } from '../../test-data/test-data'
 import { createCommunityEvent, createCustodialEvent } from '../../steps/delius/event/create-event'
 import { createAndBookPrisoner } from '../../steps/api/dps/prison-api'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
-import {
-    createLayer3CompleteAssessment
-} from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
+import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { createRestrictions } from '../../steps/delius/restriction/create-restrictions'
 

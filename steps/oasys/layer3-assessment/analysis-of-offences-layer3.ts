@@ -6,26 +6,22 @@ export const completeOffenceAnalysisYes = async (page: Page) => {
         "OASys Question - '2.1 Brief offence(s) details (indicate what exactly happened, when, where and how)' - Answer Input - 'HRosh to Partners, medium to male peers & children'"
     )
     await page
-        .locator('[for="itm_2_2_V2_WEAPON"]', {hasText: 'Carrying or using a weapon'})
+        .locator('[for="itm_2_2_V2_WEAPON"]', { hasText: 'Carrying or using a weapon' })
         .selectOption('2.2_V2_WEAPON~YES')
     await page.getByRole('textbox', { name: 'Specify which weapon' }).fill('Club')
     await page
-        .locator('[for="itm_2_2_V2_ANYVIOL"]', {hasText: 'Any violence or threat of violence / coercion'})
+        .locator('[for="itm_2_2_V2_ANYVIOL"]', { hasText: 'Any violence or threat of violence / coercion' })
         .selectOption('2.2_V2_ANYVIOL~YES')
     await page
-        .locator('[for="itm_2_2_V2_EXCESSIVE"]', {hasText: 'Excessive use of violence / sadistic violence'})
+        .locator('[for="itm_2_2_V2_EXCESSIVE"]', { hasText: 'Excessive use of violence / sadistic violence' })
         .selectOption('2.2_V2_EXCESSIVE~YES')
+    await page.locator('[for="itm_2_2_V2_ARSON"]', { hasText: 'Arson' }).selectOption('2.2_V2_ARSON~NO')
     await page
-        .locator('[for="itm_2_2_V2_ARSON"]', {hasText: 'Arson'})
-        .selectOption('2.2_V2_ARSON~NO')
-    await page
-        .locator('[for="itm_2_2_V2_PHYSICALDAM"]', {hasText: 'Physical damage to property'})
+        .locator('[for="itm_2_2_V2_PHYSICALDAM"]', { hasText: 'Physical damage to property' })
         .selectOption('2.2_V2_PHYSICALDAM~NO')
+    await page.locator('[for="itm_2_2_V2_SEXUAL"]', { hasText: 'Sexual element' }).selectOption('2.2_V2_SEXUAL~YES')
     await page
-        .locator('[for="itm_2_2_V2_SEXUAL"]', {hasText: 'Sexual element'})
-        .selectOption('2.2_V2_SEXUAL~YES')
-    await page
-        .locator('[for="itm_2_2_V2_DOM_ABUSE"]', {hasText: 'Domestic abuse'})
+        .locator('[for="itm_2_2_V2_DOM_ABUSE"]', { hasText: 'Domestic abuse' })
         .selectOption('2.2_V2_DOM_ABUSE~NO')
     await page
         .getByLabel(

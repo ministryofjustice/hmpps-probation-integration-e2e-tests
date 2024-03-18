@@ -41,12 +41,8 @@ export const clickSection1 = async (
     console.log('the date ', OasysDateFormatter(firstOffenceDate))
     await page.getByLabel('Date of first sanction').click()
     await fillDateOasys(page, '#itm_1_8_2', firstOffenceDate)
-    await page
-        .getByLabel('Have they ever committed a sexual or sexually motivated offence?')
-        .selectOption('Yes')
-    await page
-        .getByLabel('Does the current offence have a sexual motivation?')
-        .selectOption('1.41~YES')
+    await page.getByLabel('Have they ever committed a sexual or sexually motivated offence?').selectOption('Yes')
+    await page.getByLabel('Does the current offence have a sexual motivation?').selectOption('1.41~YES')
     await page
         .getByLabel('Does the current offence involve actual/attempted contact against a victim who was a stranger?')
         .selectOption('1.42~YES')
