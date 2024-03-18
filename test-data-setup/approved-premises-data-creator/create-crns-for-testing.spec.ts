@@ -6,7 +6,9 @@ import { data } from '../../test-data/test-data'
 import { createCommunityEvent, createCustodialEvent } from '../../steps/delius/event/create-event'
 import { createAndBookPrisoner } from '../../steps/api/dps/prison-api'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
-import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
+import {
+    createLayer3CompleteAssessment
+} from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { createRestrictions } from '../../steps/delius/restriction/create-restrictions'
 
@@ -15,6 +17,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('Create a crn with a single event', async ({ page }) => {
+    test.slow()
     await loginDelius(page)
     const person = deliusPerson({ sex: 'Male', dob: null, lastName: null, firstName: null })
     const crn: string = await createOffender(page, {
@@ -26,7 +29,7 @@ test('Create a crn with a single event', async ({ page }) => {
     await createAndBookPrisoner(page, crn, person)
 
     await oasysLogin(page, UserType.Booking)
-    await createLayer3AssessmentWithoutNeeds(page, crn)
+    await createLayer3CompleteAssessment(page, crn, person)
     await addLayer3AssessmentNeeds(page)
 })
 
@@ -40,7 +43,7 @@ test('Create a crn without noms data', async ({ page }) => {
     await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
 
     await oasysLogin(page, UserType.Booking)
-    await createLayer3AssessmentWithoutNeeds(page, crn)
+    await createLayer3CompleteAssessment(page, crn, person)
     await addLayer3AssessmentNeeds(page)
 })
 
@@ -77,9 +80,9 @@ test('Create a crn with multiple events', async ({ page }) => {
     await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
 
     await createAndBookPrisoner(page, crn, person)
-
     await oasysLogin(page, UserType.Booking)
-    await createLayer3AssessmentWithoutNeeds(page, crn)
+    await createLayer3CompleteAssessment(page, crn, person)
+
 })
 
 test('Create Restriction for Users', async ({ page }) => {
@@ -94,7 +97,7 @@ test('Create Restriction for Users', async ({ page }) => {
     await createAndBookPrisoner(page, crn, person)
 
     await oasysLogin(page, UserType.Booking)
-    await createLayer3AssessmentWithoutNeeds(page, crn)
+    await createLayer3CompleteAssessment(page, crn, person)
     await addLayer3AssessmentNeeds(page)
 
     // Must set restriction last as test user will no longer have access

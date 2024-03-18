@@ -31,6 +31,10 @@ import { addYears } from 'date-fns'
 import { completeRoSHFullSec8RisksToIndvdl } from '../rosh-full-analysis-section8'
 
 export const createLayer3CompleteAssessment = async (page: Page, crn: string, person: Person) => {
+    // And I select "Warwickshire" from Choose Provider Establishment
+    await selectRegion(page)
+    // And I click on the Search button from the top menu
+    await clickSearch(page)
     // And I enter the crn number and search
     await crnSearch(page, crn)
     // And I click on Create Offender button

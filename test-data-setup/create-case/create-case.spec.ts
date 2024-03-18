@@ -9,7 +9,9 @@ import {
     releasePrisoner,
 } from '../../steps/api/dps/prison-api'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
-import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
+import {
+    createLayer3CompleteAssessment
+} from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { addCourtHearing } from '../../steps/court-case/add-court-hearing'
 
@@ -26,7 +28,7 @@ test('Create a case in multiple systems', async ({ page }) => {
         }
         if (process.env.CREATE_OASYS_ASSESSMENT === 'true') {
             await oasysLogin(page, UserType.Booking)
-            await createLayer3AssessmentWithoutNeeds(page, crn)
+            await createLayer3CompleteAssessment(page, crn, person)
             await addLayer3AssessmentNeeds(page)
         }
     } else {
