@@ -52,8 +52,20 @@ jobs:
 
   create-for-project:
     uses: ./.github/workflows/test.yml
-    if: inputs.project != 'none'
+    if: inputs.project != 'none' && inputs.project == 'approved-premises-data-creator'
+    with:
+      directory: test-data-setup
+      projects: '["${{ inputs.project }}"]'
+      args: "--workers 1"
+    secrets: inherit
+
+  create-for-other-projects:
+    uses: ./.github/workflows/test.yml
+    if: inputs.project != 'none' && inputs.project != 'approved-premises-data-creator'
     with:
       directory: test-data-setup
       projects: '["${{ inputs.project }}"]'
     secrets: inherit
+
+
+
