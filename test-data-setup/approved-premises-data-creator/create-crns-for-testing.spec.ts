@@ -80,9 +80,9 @@ test('Create a crn with multiple events', async ({ page }) => {
     await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
 
     await createAndBookPrisoner(page, crn, person)
+
     await oasysLogin(page, UserType.Booking)
     await createLayer3CompleteAssessment(page, crn, person)
-
 })
 
 test('Create Restriction for Users', async ({ page }) => {
