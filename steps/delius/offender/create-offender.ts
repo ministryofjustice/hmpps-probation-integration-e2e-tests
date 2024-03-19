@@ -17,7 +17,7 @@ export async function createOffender(page: Page, args: { person?: Person; provid
     await page.fill('#identifierValue\\:inputText', person.pnc)
     await page.locator('input', { hasText: 'Add/Update' }).click()
     await page.locator('input', { hasText: 'Save' }).click()
-    if ((await page.locator('.prompt-warning').count()) > 0) {
+    if (await page.locator('.prompt-warning').isVisible()) {
         await page.locator('input', { hasText: 'Confirm' }).click()
     }
     await page.locator('main', { has: page.locator('h1', { hasText: 'Personal Details' }) })

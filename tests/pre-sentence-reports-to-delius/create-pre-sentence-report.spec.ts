@@ -8,6 +8,8 @@ import { data } from '../../test-data/test-data'
 import { faker } from '@faker-js/faker'
 import { findCourtReport } from '../../steps/delius/court-report/find-court-report'
 import { createDocumentFromTemplate } from '../../steps/delius/document/create-document'
+import { createSubjectAccessReport, getFileFromZip } from '../../steps/delius/document/subject-access-report'
+import { getPdfText } from '../../steps/delius/utils/pdf-utils'
 
 test('Create a short format pre-sentence report', async ({ page }) => {
     // Given a person with an event that has been adjourned for pre-sentence report,
@@ -98,9 +100,12 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Report completed/)
     await popup.close()
 
-    await page.locator('.btn', { hasText: 'Close' }).click()
-    await page.click('#navigation-include\\:linkNavigationDocumentDrawer')
-
     // Then the document appears in the Delius document list
-    await expect(page.locator('#documentDrawerTable td').nth(2)).toContainText('Pre-Sentence Report - Fast')
+    await expect(page.locator('#documentListForm\\:documentTable a.last')).toContainText('open in pre-sentence service')
+
+    // And the PDF appears in non-DRAFT form in the subject access report zip file
+    await createSubjectAccessReport(page, crn, `downloads/${crn}-sar.zip`)
+    const file = await getFileFromZip(`downloads/${crn}-sar.zip`, /.+\.pdf/)
+    const pdfText = await getPdfText(file)
+    await expect(pdfText).not.toContain('DRAFT')
 })
