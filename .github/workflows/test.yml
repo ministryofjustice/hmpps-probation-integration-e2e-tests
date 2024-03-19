@@ -17,8 +17,8 @@ on:
         default: tests
       workers:
         description: The maximum number of concurrent worker processes that run in parallel.
-        type: number
-        default: 16
+        type: string
+        default: "16"
   # Re-use in other workflows
   workflow_call:
     inputs:
