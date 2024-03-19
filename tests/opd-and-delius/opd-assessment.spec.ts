@@ -13,6 +13,7 @@ import { clickSearch } from '../../steps/oasys/task-manager'
 dotenv.config() // read environment variables into process.env
 
 test('OPD assessment creates an event in Delius', async ({ page }) => {
+    test.slow() // increase the timeout - Delius/OASys/Delius Applications can take a few minutes
     await loginDelius(page)
     const dob = faker.date.birthdate({ min: 20, max: 30, mode: 'age' })
     const person = deliusPerson({ sex: 'Male', dob: dob })

@@ -28,6 +28,14 @@ export async function createAndBookPrisoner(page: Page, crn: string, person: Per
     return { nomisId: offenderNo, bookingId: bookingId }
 }
 
+export async function createAndBookPrisonerWithoutDeliusLink(page: Page, person: Person) {
+    const offenderNo = await createPrisoner(person)
+    const bookingId = await bookPrisoner(offenderNo)
+    console.log('NOMIS ID:', offenderNo)
+    console.log('Booking ID:', bookingId)
+    return { nomisId: offenderNo, bookingId: bookingId }
+}
+
 export const createPrisoner = retry(
     sanitiseError(async (person: Person) => {
         const response = await (

@@ -20,7 +20,11 @@ export const waitForJS = (page: Page, timeout = 0) => {
     return page.evaluate(timeToWait, timeout)
 }
 
-export const waitForAjax = async (page: Page) => {
-    await page.waitForResponse(page.url())
+export const waitForAjax = async (page: Page): Promise<void> => {
+    try {
+        await page.waitForResponse(page.url(), { timeout: 5000 })
+    } catch (e) {
+        console.warn('Timed out waiting for ajax, maybe there was no ajax request triggered for this field?', e)
+    }
     await waitForJS(page)
 }

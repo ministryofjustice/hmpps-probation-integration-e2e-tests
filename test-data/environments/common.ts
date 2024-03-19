@@ -55,4 +55,5 @@ export const commonData: TestData = {
         },
     },
     teams: {},
+    prisoners: {},
 }
