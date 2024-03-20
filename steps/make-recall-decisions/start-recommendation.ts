@@ -11,7 +11,7 @@ export const recommendAPersonForRecall = async (page: Page): Promise<string> => 
     await expect(page.locator('#main-content h1')).toContainText('Consider a recall')
 
     // What has made you think about recalling the Person
-    await page.getByRole('link', { name: /What has made you think about recalling [\w'-]+\s[\w'-]+\?/ }).click()
+    await page.getByRole('link', { name: /What has made you consider recalling [\w'-]+\s[\w'-]+\?/ }).click()
     await page.locator('#triggerLeadingToRecall').fill('Test reason - Binge Drinking is the reason for recalling')
     await page.getByRole('button', { name: 'Continue' }).click()
 

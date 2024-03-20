@@ -1,7 +1,7 @@
 import { type Page } from '@playwright/test'
 import { data, Team } from '../../../test-data/test-data'
 import { findEventByCRN } from '../event/find-events'
-import { selectOption } from '../utils/inputs'
+import {selectOption, selectOptionAndWait} from '../utils/inputs'
 
 export async function createRequirementForEvent(
     page: Page,
@@ -25,8 +25,8 @@ export async function createRequirementForEvent(
     await page.click('#linkNavigation3SentenceComponentREQ')
     await page.locator('main', { has: page.locator('h1', { hasText: 'Requirement Types' }) })
     await page.locator('input', { hasText: 'Add' }).click()
-    await selectOption(page, '#RequirementMainCategory', requirement.category)
-    await selectOption(page, '#RequirementSubCategory', requirement.subCategory)
+    await selectOptionAndWait(page, '#RequirementMainCategory', requirement?.category);
+    await selectOptionAndWait(page, '#RequirementSubCategory', requirement?.subCategory);
     await selectOption(page, '#Area', team?.provider)
     await selectOption(page, '#AddSentenceComponentsForm\\:requirement\\:Team', team?.name)
     if (requirement.length) {
