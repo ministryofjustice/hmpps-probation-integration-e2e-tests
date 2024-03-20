@@ -107,8 +107,6 @@ test('Allocate previously-managed person', async ({ page }) => {
     await workforceLogin(page)
     await allocateCase(page, crn, practitioner)
 
-    // const crn = 'X756420'
-
     // Then the allocation and associated contacts appear in Delius
     await verifyAllocation(page, { crn, allocation: practitioner })
     await verifyContacts(page, crn, [
