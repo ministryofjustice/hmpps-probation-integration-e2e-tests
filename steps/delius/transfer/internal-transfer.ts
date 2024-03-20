@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test'
-import {selectOption, selectOptionAndWait} from '../utils/inputs'
+import { selectOption, selectOptionAndWait } from '../utils/inputs'
 import { findOffenderByCRN } from '../offender/find-offender'
 import { Allocation, Optional } from '../../../test-data/test-data'
 
