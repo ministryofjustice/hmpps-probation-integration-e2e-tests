@@ -9,8 +9,7 @@ import { createEvent } from '../../steps/delius/event/create-event'
 import { faker } from '@faker-js/faker'
 import * as dotenv from 'dotenv'
 import { navigateToNSIDetailsFromPersonalDetails } from '../../steps/delius/contact/find-contacts'
-import { clickSearch } from '../../steps/oasys/task-manager'
-import {setProviderEstablishment} from "../../steps/oasys/set-provider-establishment.js";
+
 dotenv.config() // read environment variables into process.env
 
 test('OPD assessment creates an event in Delius', async ({ page }) => {
