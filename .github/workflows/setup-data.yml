@@ -41,6 +41,7 @@ jobs:
     with:
       directory: test-data-setup
       projects: '["create-case"]'
+      workers: 1
       env: |
         {
           "CREATE_DELIUS_RECORD": "${{ inputs.create_delius }}",
@@ -56,4 +57,5 @@ jobs:
     with:
       directory: test-data-setup
       projects: '["${{ inputs.project }}"]'
+      workers: 1
     secrets: inherit
