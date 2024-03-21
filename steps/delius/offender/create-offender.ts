@@ -1,7 +1,8 @@
-import { type Page } from '@playwright/test'
+import { expect, type Page } from '@playwright/test'
 import { findOffenderByName } from './find-offender'
 import { deliusPerson, type Person } from '../utils/person'
 import { fillDate, selectOption } from '../utils/inputs'
+import { doUntil } from '../utils/refresh'
 
 export async function createOffender(page: Page, args: { person?: Person; providerName?: string }): Promise<string> {
     const person = deliusPerson(args.person)
@@ -16,11 +17,18 @@ export async function createOffender(page: Page, args: { person?: Person; provid
     await selectOption(page, '#identifierType\\:selectOneMenu', 'PNC')
     await page.fill('#identifierValue\\:inputText', person.pnc)
     await page.locator('input', { hasText: 'Add/Update' }).click()
-    await page.locator('input', { hasText: 'Save' }).click()
-    if ((await page.locator('.prompt-warning').count()) > 0) {
+    await doUntil(
+        () => page.locator('input', { hasText: 'Save' }).click(),
+        () =>
+            expect(
+                page.locator('h1', { hasText: 'Personal Details' }).or(page.locator('.prompt-warning'))
+            ).toBeVisible()
+    )
+
+    if (await page.locator('.prompt-warning').isVisible()) {
         await page.locator('input', { hasText: 'Confirm' }).click()
     }
-    await page.locator('main', { has: page.locator('h1', { hasText: 'Personal Details' }) })
+
     const crn = await page.locator('#crn\\:outputText').textContent()
     console.log('Person details:', person)
     console.log('CRN:', crn)

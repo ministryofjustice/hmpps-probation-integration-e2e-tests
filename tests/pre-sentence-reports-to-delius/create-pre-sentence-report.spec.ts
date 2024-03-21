@@ -98,9 +98,13 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Report completed/)
     await popup.close()
 
-    await page.locator('.btn', { hasText: 'Close' }).click()
-    await page.click('#navigation-include\\:linkNavigationDocumentDrawer')
-
     // Then the document appears in the Delius document list
-    await expect(page.locator('#documentDrawerTable td').nth(2)).toContainText('Pre-Sentence Report - Fast')
+    await expect(page.locator('#documentTable\\:0\\:openExternalButton')).toContainText('open in pre-sentence service')
+
+    // TODO re-enable this once the SAR page is available in the new Delius UI
+    // And the PDF appears in non-DRAFT form in the subject access report zip file
+    // await createSubjectAccessReport(page, crn, `downloads/${crn}-sar.zip`)
+    // const file = await getFileFromZip(`downloads/${crn}-sar.zip`, /.+\.pdf/)
+    // const pdfText = await getPdfText(file)
+    // expect(pdfText).not.toContain('DRAFT')
 })

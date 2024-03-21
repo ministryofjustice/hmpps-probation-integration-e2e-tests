@@ -68,9 +68,7 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     }
     if (event.reportType) {
         await selectOption(page, '#Report\\:selectOneMenu', event.reportType)
-
         await selectOption(page, '#Remand\\:selectOneMenu')
-
         await selectOption(page, '#OutcomeArea\\:selectOneMenu')
     }
     if (autoAddCourtReport.includes(event.outcome)) {
