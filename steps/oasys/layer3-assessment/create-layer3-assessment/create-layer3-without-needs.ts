@@ -31,8 +31,24 @@ import { addYears } from 'date-fns'
 import { completeRoSHFullSec8RisksToIndvdl } from '../rosh-full-analysis-section8'
 
 export const createLayer3CompleteAssessment = async (page: Page, crn: string, person: Person) => {
-    // And I select "Warwickshire" from Choose Provider Establishment
-    await selectRegion(page)
+    let providerEstablishmentPageExists = false
+
+    try {
+        // Check if the 'Provider/Establishment' page exists within a timeout of 5000 milliseconds (5 seconds)
+        await page.waitForSelector('#loginbodyheader > h2', { timeout: 5000 })
+        providerEstablishmentPageExists =
+            (await page.locator('#loginbodyheader > h2').innerText()) === 'Provider/Establishment'
+    } catch (error) {
+        // If the element is not found within the timeout, set providerEstablishmentPageExists to false
+        console.error('Provider/Establishment page element not found within timeout.')
+        providerEstablishmentPageExists = false
+    }
+
+    // If the 'Provider/Establishment' page exists, select "Warwickshire" from Choose Provider Establishment
+    if (providerEstablishmentPageExists) {
+        await selectRegion(page)
+    }
+
     // And I click on the Search button from the top menu
     await clickSearch(page)
     // And I enter the crn number and search

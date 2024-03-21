@@ -1,7 +1,6 @@
 import { type Page, expect } from '@playwright/test'
 
 export const verifyOffenceAnalysisIsAsPerOASys = async (page: Page) => {
-    await page.locator('a', { hasText: 'Offence details' }).click()
     await expect(page.getByLabel('Offence analysis')).toContainText(
         "OASys Question - '2.1 Brief offence(s) details (indicate what exactly happened, when, where and how)' - Answer Input - 'HRosh to Partners, medium to male peers & children'"
     )
@@ -23,4 +22,5 @@ export const verifyOffenceAnalysisIsAsPerOASys = async (page: Page) => {
     await expect(page.getByLabel('Issues contributing to risks')).toContainText(
         "OASys Question - 'Identify offence analysis issues contributing to risks of offending and harm. Please include any positive factors.'  - Answer Input - 'Test Contributions'"
     )
+    await page.locator('.govuk-button', { hasText: /Save and continue/ }).click()
 }
