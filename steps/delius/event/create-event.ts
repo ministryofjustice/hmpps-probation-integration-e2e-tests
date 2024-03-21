@@ -50,18 +50,18 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
         await selectOption(page, '#SubOffence\\:selectOneMenu', event.subOffence)
     }
     createdEvent.court = await selectOption(page, '#Court\\:selectOneMenu')
-    await selectOptionAndWait(page, '#Area\\:selectOneMenu', allocation?.team.provider)
-    await selectOptionAndWait(page, '#Team\\:selectOneMenu', allocation?.team.name)
+    await selectOptionAndWait(page, '#Area\\:selectOneMenu', allocation?.team?.provider)
+    await selectOptionAndWait(page, '#Team\\:selectOneMenu', allocation?.team?.name)
     if (allocation?.staff?.name) {
         await selectOption(page, '#Staff\\:selectOneMenu', allocation?.staff?.name)
     }
     await selectOption(page, '#AppearanceType\\:selectOneMenu', event.appearanceType)
-    await selectOption(page, '#Plea\\:selectOneMenu', event.plea)
+    await selectOptionAndWait(page, '#Plea\\:selectOneMenu', event.plea)
     await selectOptionAndWait(page, '#Outcome\\:selectOneMenu', event.outcome)
     createdEvent.outcome = event.outcome
     if (requiresAdditionalOutcomeDetails.includes(event.outcome)) {
-        await selectOptionAndWait(page, '#OutcomeArea\\:selectOneMenu', allocation?.team.provider)
-        await selectOptionAndWait(page, '#OutcomeTeam\\:selectOneMenu', allocation?.team.name)
+        await selectOptionAndWait(page, '#OutcomeArea\\:selectOneMenu', allocation?.team?.provider)
+        await selectOptionAndWait(page, '#OutcomeTeam\\:selectOneMenu', allocation?.team?.name)
     }
     if (event.length) {
         await page.fill('#Length', event.length)

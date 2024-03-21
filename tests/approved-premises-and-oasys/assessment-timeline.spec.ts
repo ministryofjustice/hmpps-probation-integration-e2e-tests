@@ -57,10 +57,10 @@ test('View OASys assessments in Approved Premises service', async ({ page }) => 
 
     // Then I verify that "RoSH Summary", "Risk Management Plan", "Offence Analysis", "Risk to Self" information &  "Supporting Information"  is as per the OASys
     await verifyRoSHSummaryIsAsPerOASys(page)
-    await verifyRMPInfoIsAsPerOASys(page)
     await verifyOffenceAnalysisIsAsPerOASys(page)
-    await verifyRiskToSelfIsAsPerOASys(page)
     await verifySupportingInfoIsAsPerOASys(page)
+    await verifyRMPInfoIsAsPerOASys(page)
+    await verifyRiskToSelfIsAsPerOASys(page)
 })
 
 test.afterAll(async () => {
