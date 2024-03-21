@@ -1,7 +1,6 @@
 import { type Page, expect } from '@playwright/test'
 
 export const verifyRMPInfoIsAsPerOASys = async (page: Page) => {
-    await page.locator('a', { hasText: 'Risk management plan' }).click()
     await expect(page.getByLabel('Further considerations')).toContainText(
         "OASys Question - 'Further Considerations about Current Situation' - Answer Input - 'Currently in Custody at HMP Hewell - Mangement of Case under MAPPA Level 3'"
     )
@@ -23,4 +22,5 @@ export const verifyRMPInfoIsAsPerOASys = async (page: Page) => {
     await expect(page.getByLabel('Supervision')).toContainText(
         "OASys Question - 'Supervision' - Answer Input - 'Probation Officer, Education training and employment Officer, Prison Offender Supervisor'"
     )
+    await page.locator('.govuk-button', { hasText: /Save and continue/ }).click()
 }
