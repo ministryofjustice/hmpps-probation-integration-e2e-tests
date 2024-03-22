@@ -31,3 +31,30 @@ export async function setNomisId(page: Page, crn: string, nomisId: string) {
 
     await expect(page.locator('#NOMS\\:outputText')).toContainText(nomisId)
 }
+
+export async function removeNomisId(page: Page, crn: string) {
+    await findOffenderByCRN(page, crn)
+    await page.click('#navigation-include\\:linkNavigation2OffenderIndex')
+    await expect(page).toHaveTitle(/Personal Details/)
+
+    // Check if the NOMIS id is already removed
+    if ((await page.locator('#NOMS\\:outputText').textContent()) === '') return
+
+    await page.getByRole('button', { name: 'Update' }).click()
+    await expect(page).toHaveTitle(/Update Personal Details/)
+
+    await page.getByRole('row', { name: 'NOMS Number' }).getByRole('link', { name: 'Delete' }).click()
+    await expect(page.getByRole('row', { name: 'NOMS Number' })).not.toBeAttached()
+
+    await page.getByRole('button', { name: 'Save' }).click()
+
+    try {
+        await expect(page).toHaveTitle(/Personal Details/)
+    } catch (e) {
+        // Sometimes clicking Save can fail with this error, if it does then try again
+        const ole = await page.locator('span.text-danger', { hasText: /Entity could not be updated/ }).isVisible()
+        if (ole) await removeNomisId(page, crn)
+    }
+
+    await expect(page.locator('#NOMS\\:outputText')).toBeEmpty()
+}
