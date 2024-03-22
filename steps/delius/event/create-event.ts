@@ -33,45 +33,49 @@ export class CreatedEvent {
 export async function createEvent(page: Page, { crn, allocation, event, date }: CreateEvent): Promise<CreatedEvent> {
     const createdEvent = new CreatedEvent()
     await findOffenderByCRN(page, crn)
-    await page.click('#linkNavigation2EventList')
+    await page.click('#navigation-include\\:linkNavigation2EventList')
     await expect(page).toHaveTitle(/Events/)
     await page.locator('input', { hasText: 'Add' }).click()
     const _date = date ?? faker.date.recent({ days: 1, refDate: Yesterday })
-    await fillDate(page, '#ReferralDate', _date)
-    await fillDate(page, '#OffenceDate', _date)
-    await fillDate(page, '#ConvictionDate', _date)
-    await selectOptionAndWait(page, '#MainOffence', event.mainOffence, option => !option.startsWith('('))
+    await fillDate(page, '#ReferralDate\\:datePicker', _date)
+    await fillDate(page, '#OffenceDate\\:datePicker', _date)
+    await fillDate(page, '#ConvictionDate\\:datePicker', _date)
+    await selectOptionAndWait(
+        page,
+        '#MainOffence\\:selectOneMenu',
+        event.mainOffence,
+        option => !option.startsWith('(')
+    )
     if (event.subOffence) {
-        await selectOption(page, '#addEventForm\\:SubOffence', event.subOffence)
+        await selectOption(page, '#SubOffence\\:selectOneMenu', event.subOffence)
     }
-    createdEvent.court = await selectOption(page, '#Court')
-    await selectOptionAndWait(page, '#addEventForm\\:Area', allocation?.team?.provider)
-    await selectOptionAndWait(page, '#addEventForm\\:Team', allocation?.team?.name)
+    createdEvent.court = await selectOption(page, '#Court\\:selectOneMenu')
+    await selectOptionAndWait(page, '#Area\\:selectOneMenu', allocation?.team?.provider)
+    await selectOptionAndWait(page, '#Team\\:selectOneMenu', allocation?.team?.name)
     if (allocation?.staff?.name) {
-        await selectOption(page, '#addEventForm\\:Staff', allocation?.staff?.name)
+        await selectOption(page, '#Staff\\:selectOneMenu', allocation?.staff?.name)
     }
-    await selectOption(page, '#AppearanceType', event.appearanceType)
-    await selectOptionAndWait(page, '#Plea', event.plea)
-    await selectOptionAndWait(page, '#addEventForm\\:Outcome', event.outcome)
+    await selectOption(page, '#AppearanceType\\:selectOneMenu', event.appearanceType)
+    await selectOptionAndWait(page, '#Plea\\:selectOneMenu', event.plea)
+    await selectOptionAndWait(page, '#Outcome\\:selectOneMenu', event.outcome)
     createdEvent.outcome = event.outcome
     if (requiresAdditionalOutcomeDetails.includes(event.outcome)) {
-        await selectOptionAndWait(page, '#OutcomeArea', allocation?.team?.provider)
-        await selectOptionAndWait(page, '#addEventForm\\:OutcomeTeam', allocation?.team?.name)
+        await selectOptionAndWait(page, '#OutcomeArea\\:selectOneMenu', allocation?.team?.provider)
+        await selectOptionAndWait(page, '#OutcomeTeam\\:selectOneMenu', allocation?.team?.name)
     }
     if (event.length) {
-        await page.fill('#addEventForm\\:Length', event.length)
+        await page.fill('#Length', event.length)
     }
     if (event.reportType) {
-        await selectOption(page, '#addEventForm\\:Report', event.reportType)
-        await selectOption(page, '#addEventForm\\:Remand')
-        await selectOption(page, '#OutcomeArea')
+        await selectOption(page, '#Report\\:selectOneMenu', event.reportType)
+        await selectOption(page, '#Remand\\:selectOneMenu')
+        await selectOption(page, '#OutcomeArea\\:selectOneMenu')
     }
     if (autoAddCourtReport.includes(event.outcome)) {
-        await fillDate(page, '#addEventForm\\:NextAppearanceDate', _date)
-        await fillTime(page, '#AppearanceTime', _date)
-        await selectOption(page, '#NextCourt')
+        await fillDate(page, '#NextAppearanceDate\\:datePicker', _date)
+        await fillTime(page, '#AppearanceTime\\:timePicker', _date)
+        await selectOption(page, '#NextCourt\\:selectOneMenu')
     }
-
     // focus on something outside of input to activate onblur
     await page.focus('#content')
     await page.locator('input', { hasText: 'Save' }).click()

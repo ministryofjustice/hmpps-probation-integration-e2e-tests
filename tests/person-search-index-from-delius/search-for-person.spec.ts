@@ -83,12 +83,12 @@ test('Create and search for contacts', async ({ page }) => {
         () => expect(page.locator('tbody > tr')).toHaveCount(5)
     )
 
-    await page.fill('#ContactFreeTextSearchForm\\:searchContents', 'CV')
+    await page.fill('#searchContents\\:notesField', 'CV')
     await page.click('#textSearchButton')
 
     await expect(page.locator('tbody > tr').first()).toContainText('CV Created')
 
-    await page.fill('#ContactFreeTextSearchForm\\:searchContents', 'Clerical Officer')
+    await page.fill('#searchContents\\:notesField', 'Clerical Officer')
     await page.click('#textSearchButton')
 
     await expect(page.locator('tbody > tr')).toHaveCount(2)

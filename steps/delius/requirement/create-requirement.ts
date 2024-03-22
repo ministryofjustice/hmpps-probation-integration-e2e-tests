@@ -22,15 +22,15 @@ export async function createRequirementForEvent(
     }
 ) {
     await findEventByCRN(page, crn, eventNumber)
-    await page.click('#linkNavigation3SentenceComponentREQ')
+    await page.click('#navigation-include\\:linkNavigation3SentenceComponentREQ')
     await page.locator('main', { has: page.locator('h1', { hasText: 'Requirement Types' }) })
     await page.locator('input', { hasText: 'Add' }).click()
-    await selectOptionAndWait(page, '#RequirementMainCategory', requirement?.category)
-    await selectOptionAndWait(page, '#RequirementSubCategory', requirement?.subCategory)
-    await selectOption(page, '#Area', team?.provider)
-    await selectOption(page, '#AddSentenceComponentsForm\\:requirement\\:Team', team?.name)
+    await selectOptionAndWait(page, '#requirementMainCategory\\:selectOneMenu', requirement?.category)
+    await selectOptionAndWait(page, '#requirementSubCategory\\:selectOneMenu', requirement?.subCategory)
+    await selectOption(page, '#area\\:selectOneMenu', team?.provider)
+    await selectOption(page, '#team\\:selectOneMenu', team?.name)
     if (requirement.length) {
-        await page.fill('#Length', requirement.length)
+        await page.fill('#length\\:prependedInputText', requirement.length)
     }
     await page.locator('input', { hasText: 'Add' }).click()
     await page.locator('input', { hasText: 'Save' }).click()

@@ -7,7 +7,7 @@ import { referralProgress } from '../../referandmonitor/referral'
 export async function findContactsByCRN(page: Page, crn: string) {
     await findOffenderByCRN(page, crn)
     await doUntil(
-        () => page.click('#linkNavigation1ContactList'),
+        () => page.click('#navigation-include\\:linkNavigation1ContactList'),
         () => expect(page).toHaveTitle(/Contact List/)
     )
 }
@@ -79,11 +79,11 @@ export const navigateToNSIDetails = async (page: Page, crn: string, includeTermi
 
 export const navigateToNSIDetailsFromPersonalDetails = async (page: Page, crn: string) => {
     await findOffenderByCRN(page, crn)
-    await page.click('#linkNavigation2OffenderIndex')
+    await page.click('#navigation-include\\:linkNavigation2OffenderIndex')
     await expect(page).toHaveTitle(/Personal Details/)
-    await page.click('#linkNavigation3OffenderNsi')
+    await page.click('#navigation-include\\:linkNavigation3OffenderNsi')
     await expect(page).toHaveTitle(/Non Statutory Intervention List/)
-    await page.locator('#nsiListForm\\:nsiTable\\:tbody_element').getByRole('link', { name: 'view' }).click()
+    await page.locator('#nsilistWrapper #nsiTable tbody').getByRole('link', { name: 'view' }).click()
     await expect(page.locator('#content > h1')).toHaveText('Non Statutory Intervention Details')
 }
 

@@ -22,11 +22,13 @@ export const createRelease = async (
     } else {
         await page.getByLabel(/Release Type/).selectOption('Adult Licence')
     }
-    await selectOption(page, '#addRelease\\:Institution')
+
     if (temporary) {
+        await expect(page.locator('#rotlLength\\:inputText')).toHaveCount(1)
         await page.getByLabel(/Release on Licence Length/).fill('1')
         await page.getByLabel(/Release on Licence End Date/).fill(DeliusDateFormatter(new Date()))
     }
+    await selectOption(page, '#institution\\:selectOneMenu')
     await doUntil(
         () => page.getByRole('button', { name: 'Save' }).click(),
         () => expect(page).toHaveTitle(/Add Release/)
