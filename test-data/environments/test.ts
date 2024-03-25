@@ -67,6 +67,11 @@ export const testEnvironmentData: TestData = {
             nomsNumber: 'A0260DZ',
             bookingId: 1203957,
         },
+        sentencedPrisonerForMatching: {
+            crn: 'X757129',
+            nomsNumber: 'A1036EA',
+            bookingId: 1214269,
+        },
         allocatedPrisoner: {
             crn: 'X698315',
             nomsNumber: 'G5012UJ',

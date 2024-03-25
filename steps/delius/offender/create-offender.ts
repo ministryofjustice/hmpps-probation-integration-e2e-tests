@@ -16,7 +16,8 @@ export async function createOffender(page: Page, args: { person?: Person; provid
     await selectOptionAndWait(page, '#identifierType\\:selectOneMenu', 'PNC')
     await page.fill('#identifierValue\\:inputText', person.pnc)
     await page.locator('input', { hasText: 'Add/Update' }).click()
-    await page.locator('input', { hasText: 'Add/Update' }).click()
+    await doUntil(
+        () => page.locator('input', { hasText: 'Add/Update' }).click()
     await doUntil(
         () => page.locator('input', { hasText: 'Save' }).click(),
         () =>

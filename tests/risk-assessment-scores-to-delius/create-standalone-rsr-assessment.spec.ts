@@ -17,6 +17,8 @@ import { findOffenderByCRN } from '../../steps/delius/offender/find-offender'
 import { verifyRsrScore } from '../../steps/delius/oasys-rsr-score/verify-rsr-score'
 
 test('Create a standalone RSR Assessment', async ({ page }) => {
+    // skipped temporarily until Delius completes the development
+    test.skip()
     // Given I create new Offender in nDelius
     await deliusLogin(page)
     const person = deliusPerson()
