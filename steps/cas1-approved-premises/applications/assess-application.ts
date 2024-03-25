@@ -17,6 +17,14 @@ export const assessApplication = async (page: Page, personName: string) => {
     await page.locator('#locationOfPlacement').check()
     await page.locator('#moveOnPlan').check()
     await page.getByRole('button', { name: 'Submit' }).click()
+    await expect(page.locator('.govuk-heading-l')).toHaveText('Application timeliness')
+    await page
+        .getByRole('group', {
+            name: 'Do you agree with the applicant\'s reason for submission outside of National Standards timescales?',
+        })
+        .getByLabel('Yes')
+        .check()
+    await page.getByRole('button', { name: 'Submit' }).click()
     await page
         .getByRole('group', {
             name: 'Is the contingency plan sufficient to manage behaviour or a failure to return out of hours?',
