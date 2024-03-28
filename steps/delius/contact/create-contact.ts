@@ -2,7 +2,7 @@ import { expect, type Page } from '@playwright/test'
 import { findContactsByCRN } from './find-contacts'
 import { fillDate, fillTime, selectOption, selectOptionAndWait } from '../utils/inputs'
 import { Contact, data, Team } from '../../../test-data/test-data'
-import { doUntil } from '../utils/refresh'
+import {doUntil} from '../utils/refresh'
 import { Tomorrow } from '../utils/date-time'
 
 export const createContact = async (page: Page, crn: string, options: Contact) => {
@@ -29,8 +29,9 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
         await fillTime(page, '#EndTime\\:timePicker', options.endTime)
     }
     await selectOption(page, '#TransferToOfficer\\:selectOneMenu', options.allocation?.staff?.name)
+
     await doUntil(
-        () => page.locator('#saveButton').click(),
+        () => page.locator('input[type="submit"].btn-primary').click(),
         () => expect(page).toHaveTitle(/Contact List/)
     )
 }

@@ -79,19 +79,27 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     // focus on something outside of input to activate onblur
     await page.focus('#content')
     await page.locator('input', { hasText: 'Save' }).click()
+
     const pageTitle = await page.title()
+
     if (pageTitle === 'Events') {
         await page.locator('input', { hasText: 'Save' }).click()
-    }
-    if (pageTitle === 'Error Page') {
-        return await createEvent(page, { crn, allocation, event })
-    }
-    if (autoAddComponent.includes(event.outcome)) {
-        await expect(page).toHaveTitle(/Add Components/)
-    } else if (autoAddCourtReport.includes(event.outcome)) {
-        await expect(page).toHaveTitle(/Add Court Report/)
     } else {
-        await expect(page).toHaveTitle(/Event Details/)
+        console.log("Page Title of the PAGE IS: " + pageTitle)
+    }
+
+    try {
+        if (autoAddComponent.includes(event.outcome)) {
+            await expect(page).toHaveTitle(/Add Components/)
+        } else if (autoAddCourtReport.includes(event.outcome)) {
+            await expect(page).toHaveTitle(/Add Court Report/)
+        } else {
+            await expect(page).toHaveTitle(/Event Details/)
+        }
+    } catch (e) {
+        if (await page.title() === 'Error Page') {
+            return await createEvent(page, { crn, allocation, event })
+        }
     }
     return createdEvent
 }
