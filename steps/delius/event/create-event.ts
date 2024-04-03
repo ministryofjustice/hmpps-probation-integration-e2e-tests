@@ -79,9 +79,7 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     // focus on something outside of input to activate onblur
     await page.focus('#content')
     await page.locator('input', { hasText: 'Save' }).click()
-
     const pageTitle = await page.title()
-
     if (pageTitle === 'Events') {
         await page.locator('input', { hasText: 'Save' }).click()
     } else {

@@ -6,6 +6,4 @@ export const confirmPlacementStartdate = async (page: Page) => {
     await expect(page.locator('#main-content h1')).toHaveText(
         'Short notice application'
     )
-
-
 }
