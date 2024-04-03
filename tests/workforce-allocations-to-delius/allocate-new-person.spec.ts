@@ -74,7 +74,7 @@ test('Allocate currently-managed person', async ({ page }) => {
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.allocationsTestTeam } })
     await createInitialAppointment(page, crn, '2', data.teams.allocationsTestTeam)
 
-    // When I allocate the person to a practitioner in Manage A Workforce
+    // // When I allocate the person to a practitioner in Manage A Workforce
     await workforceLogin(page)
     await allocateCase(page, crn, practitioner)
     await verifyAllocation(page, { crn, allocation: practitioner })
