@@ -41,7 +41,6 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
             async () => expect(page).toHaveTitle(/Contact List/)
         );
     } catch (error) {
-
         console.error('Error occurred while waiting for page title:', error);
         // Handle fallback in case of an error
         if (await page.title() === 'Error Page') {
