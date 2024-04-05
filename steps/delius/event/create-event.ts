@@ -83,7 +83,7 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     if (pageTitle === 'Events') {
         await page.locator('input', { hasText: 'Save' }).click()
     } else {
-        console.log("Page Title of the PAGE IS: " + pageTitle)
+        console.log('Page Title of the PAGE IS: ' + pageTitle)
     }
 
     try {
@@ -95,7 +95,7 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
             await expect(page).toHaveTitle(/Event Details/)
         }
     } catch (e) {
-        if (await page.title() === 'Error Page') {
+        if ((await page.title()) === 'Error Page') {
             return await createEvent(page, { crn, allocation, event })
         }
     }

@@ -45,7 +45,9 @@ export const clickSection1 = async (
     await page.getByLabel('Date of current conviction').click()
     await fillDateOasys(page, '#itm_1_29', _date)
     await page
-        .getByLabel('Does the current offence involve actual/attempted direct contact against a victim who was a stranger?')
+        .getByLabel(
+            'Does the current offence involve actual/attempted direct contact against a victim who was a stranger?'
+        )
         .selectOption('1.44~YES')
     await page.getByLabel('Date of most recent sanction involving a sexual/sexually motivated offence').click()
     await fillDateOasys(page, '#itm_1_33', _date)
@@ -53,7 +55,9 @@ export const clickSection1 = async (
         .getByLabel('Number of previous/current sanctions involving contact adult sexual/sexually motivated offences')
         .fill('1')
     await page
-        .getByLabel('Number of previous/current sanctions involving direct contact child sexual/sexually motivated offences')
+        .getByLabel(
+            'Number of previous/current sanctions involving direct contact child sexual/sexually motivated offences'
+        )
         .fill('0')
     await page
         .getByLabel(

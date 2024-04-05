@@ -20,7 +20,7 @@ export const assessApplication = async (page: Page, personName: string) => {
     await expect(page.locator('.govuk-heading-l')).toHaveText('Application timeliness')
     await page
         .getByRole('group', {
-            name: 'Do you agree with the applicant\'s reason for submission outside of National Standards timescales?',
+            name: "Do you agree with the applicant's reason for submission outside of National Standards timescales?",
         })
         .getByLabel('Yes')
         .check()

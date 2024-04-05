@@ -1,7 +1,7 @@
 import { expect, type Page } from '@playwright/test'
 import { findOffenderByName } from './find-offender'
 import { deliusPerson, type Person } from '../utils/person'
-import {fillDate, selectOption, selectOptionAndWait} from '../utils/inputs'
+import { fillDate, selectOption, selectOptionAndWait } from '../utils/inputs'
 import { doUntil } from '../utils/refresh'
 
 export async function createOffender(page: Page, args: { person?: Person; providerName?: string }): Promise<string> {

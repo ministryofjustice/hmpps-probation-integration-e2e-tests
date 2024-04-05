@@ -1,4 +1,4 @@
-import {expect, type Page} from '@playwright/test'
+import { expect, type Page } from '@playwright/test'
 
 export const logout = async (page: Page) => {
     const title = await page.locator('title').textContent()

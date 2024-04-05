@@ -1,6 +1,6 @@
 import { expect, Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
-import {getDate, getYear, subMonths} from 'date-fns'
+import { getDate, getYear, subMonths } from 'date-fns'
 
 export async function submitApplication(page: Page, nomisId: string) {
     await startApplication(page)
@@ -53,14 +53,17 @@ async function confirmEligibilityAndConsent(page: Page) {
 }
 
 async function fillDateInput(page: Page, label: string, offsetMonths: number = 0) {
-    const currentDate = new Date();
-    const date = subMonths(currentDate, offsetMonths); // Subtract months based on offset
+    const currentDate = new Date()
+    const date = subMonths(currentDate, offsetMonths) // Subtract months based on offset
 
-    await page.getByRole('group', { name: label }).getByLabel('Day').fill(getDate(date).toString());
-    await page.getByRole('group', { name: label }).getByLabel('Month').fill((date.getMonth() + 3).toString()); // Add 3 to month because months are zero-based
-    await page.getByRole('group', { name: label }).getByLabel('Year').fill(getYear(date).toString());
+    await page.getByRole('group', { name: label }).getByLabel('Day').fill(getDate(date).toString())
+    await page
+        .getByRole('group', { name: label })
+        .getByLabel('Month')
+        .fill((date.getMonth() + 3).toString()) // Add 3 to month because months are zero-based
+    await page.getByRole('group', { name: label }).getByLabel('Year').fill(getYear(date).toString())
 
-    return date;
+    return date
 }
 
 async function addReferrerDetails(page: Page) {

@@ -2,9 +2,9 @@ import { expect, type Page } from '@playwright/test'
 import { findContactsByCRN } from './find-contacts'
 import { fillDate, fillTime, selectOption, selectOptionAndWait } from '../utils/inputs'
 import { Contact, data, Team } from '../../../test-data/test-data'
-import {doUntil} from '../utils/refresh'
+import { doUntil } from '../utils/refresh'
 import { Tomorrow } from '../utils/date-time'
-import { findOffenderByCRNNoContextCheck} from "../offender/find-offender.js";
+import { findOffenderByCRNNoContextCheck } from '../offender/find-offender.js'
 
 export const createContact = async (page: Page, crn: string, options: Contact) => {
     await findContactsByCRN(page, crn)
@@ -35,21 +35,21 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
         // Attempt to create contact
         await doUntil(
             async () => {
-                await page.locator('input[type="submit"].btn-primary').click();
+                await page.locator('input[type="submit"].btn-primary').click()
             },
             // Check if the page title matches "Contact List"
             async () => expect(page).toHaveTitle(/Contact List/)
-        );
+        )
     } catch (error) {
-        console.error('Error occurred while waiting for page title:', error);
+        console.error('Error occurred while waiting for page title:', error)
         // Handle fallback in case of an error
-        if (await page.title() === 'Error Page') {
-            await findOffenderByCRNNoContextCheck(page, crn);
-            return await createContact(page, crn, options);
+        if ((await page.title()) === 'Error Page') {
+            await findOffenderByCRNNoContextCheck(page, crn)
+            return await createContact(page, crn, options)
         }
 
         if (!(await page.title()).includes('Contact List')) {
-            await page.locator('#navigation-include\\:linkNavigation1ContactList').click();
+            await page.locator('#navigation-include\\:linkNavigation1ContactList').click()
         }
     }
 }

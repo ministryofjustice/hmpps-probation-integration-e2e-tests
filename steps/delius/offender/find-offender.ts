@@ -28,14 +28,14 @@ export async function findOffenderByCRN(page: Page, crn: string) {
 }
 
 export async function findOffenderByCRNNoContextCheck(page: Page, crn: string) {
-        // Search for offender
-        await page.locator('#navigation-include\\:linkNavigation1Search', { hasText: 'National search' }).click()
-        await expect(page).toHaveTitle(/National Search/)
-        await page.fill('#crn\\:inputText', crn)
-        await selectOption(page, '#otherIdentifier', '[Not Selected]')
-        await page.click('#searchButton')
-        await page.locator('tr', { hasText: crn }).locator('a', { hasText: 'View' }).click()
-        await expect(page).toHaveTitle(/Case Summary/)
+    // Search for offender
+    await page.locator('#navigation-include\\:linkNavigation1Search', { hasText: 'National search' }).click()
+    await expect(page).toHaveTitle(/National Search/)
+    await page.fill('#crn\\:inputText', crn)
+    await selectOption(page, '#otherIdentifier', '[Not Selected]')
+    await page.click('#searchButton')
+    await page.locator('tr', { hasText: crn }).locator('a', { hasText: 'View' }).click()
+    await expect(page).toHaveTitle(/Case Summary/)
 }
 
 export async function findOffenderByNomisId(page: Page, nomisId: string): Promise<string> {

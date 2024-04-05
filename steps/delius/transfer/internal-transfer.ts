@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test'
-import {selectOption, selectOptionAndWait} from '../utils/inputs'
+import { selectOption, selectOptionAndWait } from '../utils/inputs'
 import { findOffenderByCRN } from '../offender/find-offender'
 import { Allocation, Optional } from '../../../test-data/test-data'
 
@@ -22,9 +22,7 @@ export async function internalTransfer(
     await selectOptionAndWait(page, '#Team\\:selectOneMenu', allocation?.team?.name)
     await selectOption(page, '#Staff\\:selectOneMenu', allocation?.staff?.name)
 
-    const options = await page
-        .locator('#offenderTransferRequestTable')
-        .locator('select')
+    const options = await page.locator('#offenderTransferRequestTable').locator('select')
 
     const count = await options.count()
     for (let i = 0; i < count; i++) {
