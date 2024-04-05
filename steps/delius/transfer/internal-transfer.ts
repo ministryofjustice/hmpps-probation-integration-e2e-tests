@@ -18,17 +18,11 @@ export async function internalTransfer(
     await findOffenderByCRN(page, crn)
     await page.locator('input', { hasText: 'Transfers' }).click()
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
-    await selectOption(page, '#Trust\\:selectOneMenu', allocation?.team?.provider)
-    await selectOption(page, '#Team\\:selectOneMenu', allocation?.team?.name)
+    await selectOptionAndWait(page, '#Trust\\:selectOneMenu', allocation?.team?.provider)
+    await selectOptionAndWait(page, '#Team\\:selectOneMenu', allocation?.team?.name)
     await selectOption(page, '#Staff\\:selectOneMenu', allocation?.staff?.name)
 
-    await selectOption(page, '#offenderTransferRequestListForm\\:Trust', allocation?.team?.provider)
-    await selectOption(page, '#offenderTransferRequestListForm\\:Team', allocation?.team?.name)
-    await selectOptionAndWait(page, '#offenderTransferRequestListForm\\:Staff', allocation?.staff?.name)
-
-    const options = await page
-        .locator('#offenderTransferRequestListForm\\:offenderTransferRequestTable')
-        .locator('select')
+    const options = await page.locator('#offenderTransferRequestTable').locator('select')
 
     const count = await options.count()
     for (let i = 0; i < count; i++) {

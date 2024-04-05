@@ -26,7 +26,7 @@ export async function createRequirementForEvent(
     await page.locator('main', { has: page.locator('h1', { hasText: 'Requirement Types' }) })
     await page.locator('input', { hasText: 'Add' }).click()
     await selectOptionAndWait(page, '#requirementMainCategory\\:selectOneMenu', requirement?.category)
-    await selectOptionAndWait(page, '#requirementSubCategory\\:selectOneMenu', requirement?.subCategory)
+    await selectOption(page, '#requirementSubCategory\\:selectOneMenu', requirement?.subCategory)
     await selectOption(page, '#area\\:selectOneMenu', team?.provider)
     await selectOption(page, '#team\\:selectOneMenu', team?.name)
     if (requirement.length) {

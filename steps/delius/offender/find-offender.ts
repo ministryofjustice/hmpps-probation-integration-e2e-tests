@@ -27,13 +27,23 @@ export async function findOffenderByCRN(page: Page, crn: string) {
     await expect(page).toHaveTitle(/Case Summary/)
 }
 
+export async function findOffenderByCRNNoContextCheck(page: Page, crn: string) {
+    // Search for offender
+    await page.locator('#navigation-include\\:linkNavigation1Search', { hasText: 'National search' }).click()
+    await expect(page).toHaveTitle(/National Search/)
+    await page.fill('#crn\\:inputText', crn)
+    await selectOption(page, '#otherIdentifier', '[Not Selected]')
+    await page.click('#searchButton')
+    await page.locator('tr', { hasText: crn }).locator('a', { hasText: 'View' }).click()
+    await expect(page).toHaveTitle(/Case Summary/)
+}
+
 export async function findOffenderByNomisId(page: Page, nomisId: string): Promise<string> {
     await page.locator('a', { hasText: 'National search' }).click()
     await expect(page).toHaveTitle(/National Search/)
     await selectOption(page, '#otherIdentifier', 'NOMS Number')
     await page.fill('#notSelected', nomisId)
     await page.click('#searchButton')
-
     await page.locator('tr', { hasText: '' }).locator('a', { hasText: 'View' }).click()
     await expect(page).toHaveTitle(/Case Summary/)
     return await page.locator('//*[contains(@title, "Case Reference Number")]').first().textContent()

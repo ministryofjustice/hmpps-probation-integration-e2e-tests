@@ -31,6 +31,7 @@ import { attachReqrdDocuments } from './attach-required-documents'
 import { checkYourAnswers } from './check-your-answers'
 import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status'
 import { confirmYourDetails } from './confirm-your-details'
+import { shortNoticeApplication } from './short-notice-application.js'
 
 export const submitAPApplication = async (page: Page, crn: string) => {
     // And I enter the CRN & Submit
@@ -53,9 +54,11 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     await selectSituationOption(page)
     // And I select that I know release date
     await selectReleaseDateKnownStatus(page)
-    // And I confirm placement start date is same as release date
+    // And I confirm short notice application status
     await confirmPlacementStartdate(page)
     // And I select "Public protection" as the purpose of the Approved Premises (AP) placement
+    await shortNoticeApplication(page)
+    // And I confirm placement start date is same as release date
     await selectAPPlacementPurpose(page)
     // And I click on Type Of AP Required Link
     await clickTypeOfAPRequiredLink(page)
