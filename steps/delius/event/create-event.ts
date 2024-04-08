@@ -82,8 +82,6 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     const pageTitle = await page.title()
     if (pageTitle === 'Events') {
         await page.locator('input', { hasText: 'Save' }).click()
-    } else {
-        console.log('Page Title of the PAGE IS: ' + pageTitle)
     }
 
     try {
