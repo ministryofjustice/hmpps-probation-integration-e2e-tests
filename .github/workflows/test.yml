@@ -91,10 +91,10 @@ jobs:
         env:
           TZ: Europe/London
           ENV: test
-          TEST_DIR: ${{ inputs.directory }}
+          TEST_DIR: ${{ inputs.directory || "tests" }}
+          WORKERS: ${{ inputs.workers || "16" }}
           PLAYWRIGHT_JUNIT_OUTPUT_NAME: junit.xml
           PLAYWRIGHT_JSON_OUTPUT_NAME: results.json
-          WORKERS: ${{ inputs.workers }}
           # URLs
           DELIUS_URL: https://ndelius.test.probation.service.justice.gov.uk
           WORKFORCE_URL: https://workforce-management-dev.hmpps.service.justice.gov.uk
