@@ -34,7 +34,6 @@ test('View Community manager details', async ({ page }) => {
     await switchCaseload(page, 'SWI')
     await page.getByRole('link', { name: 'Get someone ready to work' }).first().click()
     await page.locator('[class="govuk-link card__link"]', { hasText: 'Get someone ready to work'}).click()
-
     await page.getByLabel(`Profile link for ${person.lastName}, ${person.firstName}`).click()
     await page.getByRole('link', { name: 'Contacts' }).click()
     await expect(page.locator('main')).toContainText(data.staff.genericStaff.firstName)
