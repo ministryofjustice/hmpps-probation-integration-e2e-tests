@@ -55,9 +55,7 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
         () => expect(page.locator('table')).toContainText('CP/UPW Assessment')
     )
 
-    await expect(page.locator('#documentDrawerTable > tbody > tr')).toContainText(
-        format(new Date(), 'dd/MM/yyyy')
-    )
+    await expect(page.locator('#documentDrawerTable > tbody > tr')).toContainText(format(new Date(), 'dd/MM/yyyy'))
     await expect(page.getByRole('link', { name: 'view document' })).toBeEnabled()
 
     // And I verify the content in the PDF (CRN)
