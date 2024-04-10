@@ -17,8 +17,6 @@ const nomisIds = []
 const bookingIds = []
 
 test('View Community manager details', async ({ page }) => {
-    // skipped temporarily until application is using the integration
-    test.skip()
     // Given a prisoner with a release date within the next 12 weeks
     await deliusLogin(page)
     const person = deliusPerson()
@@ -34,7 +32,9 @@ test('View Community manager details', async ({ page }) => {
     // Then the Community Manager details appear in the Get Someone Ready To Work service
     await dpsLogin(page)
     await switchCaseload(page, 'SWI')
-    await page.getByRole('link', { name: 'Get someone ready to work' }).click()
+    await page.getByRole('link', { name: 'Get someone ready to work' }).first().click()
+    await page.locator('[class="govuk-link card__link"]', { hasText: 'Get someone ready to work'}).click()
+
     await page.getByLabel(`Profile link for ${person.lastName}, ${person.firstName}`).click()
     await page.getByRole('link', { name: 'Contacts' }).click()
     await expect(page.locator('main')).toContainText(data.staff.genericStaff.firstName)

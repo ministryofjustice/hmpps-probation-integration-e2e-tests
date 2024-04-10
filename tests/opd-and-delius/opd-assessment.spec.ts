@@ -13,6 +13,7 @@ import { navigateToNSIDetailsFromPersonalDetails } from '../../steps/delius/cont
 dotenv.config() // read environment variables into process.env
 
 test('OPD assessment creates an event in Delius', async ({ page }) => {
+    test.slow()
     await loginDelius(page)
     const dob = faker.date.birthdate({ min: 20, max: 30, mode: 'age' })
     const person = deliusPerson({ sex: 'Male', dob: dob })
