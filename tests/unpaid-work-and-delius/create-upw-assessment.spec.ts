@@ -19,8 +19,7 @@ import { getPdfText } from '../../steps/delius/utils/pdf-utils'
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {
-    // skipped temporarily until Delius completes the development
-    test.skip()
+    test.slow()
     // Given I create new Offender in nDelius
     await deliusLogin(page)
     const person = deliusPerson()
@@ -56,9 +55,7 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
         () => expect(page.locator('table')).toContainText('CP/UPW Assessment')
     )
 
-    await expect(page.locator('#documentListForm\\:documentDrawerTable\\:tbody_element')).toContainText(
-        format(new Date(), 'dd/MM/yyyy')
-    )
+    await expect(page.locator('#documentDrawerTable > tbody > tr')).toContainText(format(new Date(), 'dd/MM/yyyy'))
     await expect(page.getByRole('link', { name: 'view document' })).toBeEnabled()
 
     // And I verify the content in the PDF (CRN)
