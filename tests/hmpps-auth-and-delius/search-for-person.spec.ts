@@ -11,5 +11,5 @@ test('Sign in and check user details', async ({ page }) => {
     await page.click('#submit')
     await expect(page).toHaveTitle(/HMPPS Digital Services - Home/)
     await page.locator('[data-test="manage-account-link"]').click()
-    await expect(page.locator('[data-qa="email"]')).toContainText('probation-integration-team@digital.justice.gov.uk')
+    await expect(page.locator('[data-qa="email"]')).toContainText('automatedtestuser')
 })
