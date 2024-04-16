@@ -68,6 +68,9 @@ OASYS_PASSWORD_RSR=<oasys_t2_rsr_password>
 OASYS_USERNAME_ASSESSMENT=<oasys_t2_assessment_username>
 OASYS_PASSWORD_ASSESSMENT=<oasys_t2_assessment_password>
 
+OASYS_USERNAME_OPD=<oasys_t2_opd_username>
+OASYS_PASSWORD_OPD=<oasys_t2_opd_password>
+
 APPROVEDPREMISES_URL=https://approved-premises-dev.hmpps.service.justice.gov.uk/
 
 CONSIDER_A_RECALL_URL=https://consider-a-recall-dev.hmpps.service.justice.gov.uk

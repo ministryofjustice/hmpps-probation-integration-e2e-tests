@@ -15,6 +15,7 @@ export enum UserType {
     Timeline,
     RSR,
     Assessment,
+    OPD,
 }
 
 const oasysUserConfig = (userType: UserType) => {
@@ -25,6 +26,8 @@ const oasysUserConfig = (userType: UserType) => {
             return { username: process.env.OASYS_USERNAME_TIMELINE, password: process.env.OASYS_PASSWORD_TIMELINE }
         case UserType.RSR:
             return { username: process.env.OASYS_USERNAME_RSR, password: process.env.OASYS_PASSWORD_RSR }
+        case UserType.OPD:
+            return { username: process.env.OASYS_USERNAME_OPD, password: process.env.OASYS_PASSWORD_OPD }
         case UserType.Assessment:
             return { username: process.env.OASYS_USERNAME_ASSESSMENT, password: process.env.OASYS_PASSWORD_ASSESSMENT }
     }

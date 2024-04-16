@@ -12,7 +12,7 @@ import { selectAPPlacementPurpose } from './ap-placement-purpose'
 import { selectTypeOfAPRequired } from './select-type-ap-required'
 import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status'
 import { confirmYourDetails } from './confirm-your-details'
-import { shortNoticeApplication } from './short-notice-application.js'
+import { applicationOutsideNSTimescales } from './application-outside-national-standards'
 
 export const clickTypeOfAPRequiredLink = async (page: Page) => {
     await page.locator('a', { hasText: 'Type of AP required' }).click()
@@ -118,8 +118,8 @@ export const navigateToTaskListPage = async (page: Page, crn: string) => {
     // And I confirm placement start date is same as release date
     await confirmPlacementStartdate(page)
 
-    // And I confirm Short notice application status
-    await shortNoticeApplication(page)
+    // And I select the reason for application being submitted outside of National Standards timescales
+    await applicationOutsideNSTimescales(page)
 
     // And I select "Public protection" as the purpose of the Approved Premises (AP) placement
     await selectAPPlacementPurpose(page)

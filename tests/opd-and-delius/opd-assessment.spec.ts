@@ -29,7 +29,7 @@ test('OPD assessment creates an event in Delius', async ({ page }) => {
             appearanceType: 'Sentence',
         },
     })
-    await oasysLogin(page, UserType.Assessment)
+    await oasysLogin(page, UserType.OPD)
     await createLayer3CompleteAssessment(page, crn, person)
     await addLayer3AssessmentNeeds(page)
     await loginDelius(page)
