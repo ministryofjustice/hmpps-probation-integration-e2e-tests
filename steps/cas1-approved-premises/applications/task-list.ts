@@ -12,7 +12,7 @@ import { selectAPPlacementPurpose } from './ap-placement-purpose'
 import { selectTypeOfAPRequired } from './select-type-ap-required'
 import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status'
 import { confirmYourDetails } from './confirm-your-details'
-import {applicationOutsideNSTimescales} from "./application-outside-national-standards";
+import { applicationOutsideNSTimescales } from './application-outside-national-standards'
 
 export const clickTypeOfAPRequiredLink = async (page: Page) => {
     await page.locator('a', { hasText: 'Type of AP required' }).click()

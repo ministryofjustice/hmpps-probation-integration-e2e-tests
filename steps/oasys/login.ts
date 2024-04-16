@@ -15,7 +15,7 @@ export enum UserType {
     Timeline,
     RSR,
     Assessment,
-    OPD
+    OPD,
 }
 
 const oasysUserConfig = (userType: UserType) => {

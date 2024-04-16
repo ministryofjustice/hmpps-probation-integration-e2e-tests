@@ -3,7 +3,7 @@ import { findOffenderByCRN } from '../offender/find-offender'
 import { doUntil } from '../utils/refresh'
 import { Contact } from '../../../test-data/test-data'
 import { referralProgress } from '../../referandmonitor/referral'
-import {findEventByCRN} from "../event/find-events.js";
+import { findEventByCRN } from '../event/find-events.js'
 
 export async function findContactsByCRN(page: Page, crn: string) {
     await findOffenderByCRN(page, crn)
@@ -199,7 +199,7 @@ export const fillAndSaveIfTextBoxIsAvailable = async (
     }
 }
 
-export const navigateToDeliusOASysAssessments = async (page: Page, crn: string, eventNumber = 1,) => {
+export const navigateToDeliusOASysAssessments = async (page: Page, crn: string, eventNumber = 1) => {
     await findOffenderByCRN(page, crn)
     await findEventByCRN(page, crn, eventNumber)
     await page.click('#navigation-include\\:linkNavigation3OasysAssessments')
