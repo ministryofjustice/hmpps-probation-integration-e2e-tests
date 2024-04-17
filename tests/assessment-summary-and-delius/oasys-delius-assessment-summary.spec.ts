@@ -8,12 +8,9 @@ import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/cr
 import { createEvent } from '../../steps/delius/event/create-event.js'
 import { faker } from '@faker-js/faker'
 import * as dotenv from 'dotenv'
-import {
-     navigateToDeliusOASysAssessments
-} from '../../steps/delius/contact/find-contacts.js'
-import { refreshUntil } from "../../steps/delius/utils/refresh.js";
-import { format } from "date-fns";
-
+import { navigateToDeliusOASysAssessments } from '../../steps/delius/contact/find-contacts.js'
+import { refreshUntil } from '../../steps/delius/utils/refresh.js'
+import { format } from 'date-fns'
 
 dotenv.config() // read environment variables into process.env
 
@@ -44,7 +41,11 @@ test('Create an OASys assessment and verify the Delius Assessment Summary', asyn
     await navigateToDeliusOASysAssessments(page, crn)
 
     // Then Assessment summary is available in Delius
-    await refreshUntil(page, () => expect(page.locator("#assessmentsTable > tbody > tr")).toContainText(format(new Date(), 'dd/MM/yyyy')), {
-        timeout: 180_000,
-    })
+    await refreshUntil(
+        page,
+        () => expect(page.locator('#assessmentsTable > tbody > tr')).toContainText(format(new Date(), 'dd/MM/yyyy')),
+        {
+            timeout: 180_000,
+        }
+    )
 })
