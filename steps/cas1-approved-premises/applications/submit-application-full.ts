@@ -56,6 +56,8 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     await selectReleaseDateKnownStatus(page)
     // And I confirm short notice application status
     await confirmPlacementStartdate(page)
+    // And I select the reason for application being submitted outside of National Standards timescales
+    await applicationOutsideNSTimescales(page)
     // And I select "Public protection" as the purpose of the Approved Premises (AP) placement
     await selectAPPlacementPurpose(page)
     // And I click on Type Of AP Required Link
