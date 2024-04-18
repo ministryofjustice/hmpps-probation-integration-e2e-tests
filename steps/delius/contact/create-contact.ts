@@ -38,7 +38,8 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
                 await page.locator('input[type="submit"].btn-primary').click()
             },
             // Check if the page title matches "Contact List"
-            async () => expect(page).toHaveTitle(/Contact List/)
+            async () => expect(page).toHaveTitle(/Contact List/),
+            { timeout: 60_000, intervals: [500, 1000, 5000] }
         )
     } catch (error) {
         console.error('Error occurred while waiting for page title:', error)

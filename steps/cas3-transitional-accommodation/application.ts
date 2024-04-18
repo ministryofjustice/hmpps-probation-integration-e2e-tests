@@ -5,6 +5,7 @@ import { getDate, getMonth, getYear, addMonths, addDays } from 'date-fns'
 export async function submitCAS3Referral(page: Page, crn: string) {
     await startApplication(page)
     await searchForPerson(page, crn)
+    await addOffenceAndBehaviourSummary(page)
     await addSentenceInformation(page)
     await enterContactDetails(page)
     await confirmEligibility(page)
@@ -41,6 +42,31 @@ async function searchForPerson(page: Page, crn: string) {
     await expect(page).toHaveTitle(
         'Make a referral for Transitional Accommodation (CAS3) - Transitional Accommodation (CAS3)'
     )
+}
+
+async function addOffenceAndBehaviourSummary(page: Page) {
+    await page.getByRole('link', { name: 'Add offence and behaviour summary' }).click()
+    await expect(page).toHaveTitle(
+        "Has the person ever been convicted of a sexual offence? - Transitional Accommodation (CAS3)"
+    )
+    await page.getByRole('radio', { name: 'No', exact: true }).check()
+    await page.getByRole('button', { name: 'Save and continue' }).click()
+    await expect(page).toHaveTitle(
+        "Are there concerns about the person's sexual behaviour? - Transitional Accommodation (CAS3)"
+    )
+    await page.getByRole('radio', { name: 'No', exact: true }).check()
+    await page.getByRole('button', { name: 'Save and continue' }).click()
+    await expect(page).toHaveTitle(
+        "Has the person ever been convicted of arson? - Transitional Accommodation (CAS3)"
+    )
+    await page.getByRole('radio', { name: 'No', exact: true }).check()
+    await page.getByRole('button', { name: 'Save and continue' }).click()
+    await expect(page).toHaveTitle(
+        "Are there concerns about the person's arson behaviour? - Transitional Accommodation (CAS3)"
+    )
+    await page.getByRole('radio', { name: 'No', exact: true }).check()
+    await page.getByRole('button', { name: 'Save and continue' }).click()
+    await expect(page.locator('#offence-and-behaviour-summary-status')).toHaveText('Completed')
 }
 
 async function addSentenceInformation(page: Page) {

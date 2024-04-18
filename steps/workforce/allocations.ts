@@ -3,6 +3,7 @@ import { refreshUntil } from '../delius/utils/refresh'
 import { WorkforceDateFormat } from './utils'
 import { Allocation, Team } from '../../test-data/test-data'
 import { Tomorrow } from '../delius/utils/date-time'
+import {format} from "date-fns";
 
 export const viewAllocation = async (page: Page, crn: string) => {
     const matchingRow = page.locator('tr', { hasText: crn })
@@ -45,8 +46,15 @@ export const allocateCase = async (page: Page, crn: string, allocation: Allocati
     // Review and submit allocation
     await expect(page).toHaveTitle(/.*Review allocation instructions.*/)
     await page.fill('#instructions', `Allocation for ${crn} completed by hmpps-end-to-end-tests`)
-    await page.locator('button', { hasText: 'Allocate Case' }).click()
-    await page.locator('div.govuk-panel--confirmation >> h1.govuk-panel__title', { hasText: 'Allocation complete' })
+    await page.locator('button', { hasText: 'Allocate case' }).click()
+
+    await refreshUntil(
+        page,
+        () => expect(page.locator('div.govuk-panel--confirmation > h1.govuk-panel__title')).toContainText('Allocation complete'),
+        {
+            timeout: 180_000,
+        }
+    )
     await refreshUntil(page, () => expect(page).toHaveTitle(/.*Case allocated | Manage a workforce.*/))
 }
 

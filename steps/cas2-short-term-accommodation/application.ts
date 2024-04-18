@@ -217,7 +217,7 @@ async function riskToOthers(page: Page) {
 async function addOffences(page: Page) {
     await page.getByRole('link', { name: 'Add current offences' }).click()
     await page.getByLabel('Offence title').fill('Stalking')
-    await page.getByLabel('Offence category').selectOption('stalkingOrHarassment')
+    await page.getByLabel('Offence type').selectOption('stalkingOrHarassment')
     await page.getByLabel('Day').fill('1')
     await page.getByLabel('Month').fill('1')
     await page.getByLabel('Year').fill('2024')

@@ -5,7 +5,7 @@ export const clickSaveAndContinue = async (page: Page) => {
     try {
         await expect(page.locator('#main-content h1')).toHaveText('This application is not eligible')
     } catch (error) {
-        await page.getByLabel('Very high risk').check()
+        await page.locator('[name="offenceId"]').check()
         await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
     }
 }
