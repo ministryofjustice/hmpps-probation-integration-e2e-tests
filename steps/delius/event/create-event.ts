@@ -48,11 +48,9 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
         event.mainOffence,
         option => !option.startsWith('(')
     )
-
     if (event.subOffence) {
         await selectOption(page, '#SubOffence\\:selectOneMenu', event.subOffence)
     }
-
     createdEvent.court = await selectOption(page, '#Court\\:selectOneMenu')
     await selectOptionAndWait(page, '#Area\\:selectOneMenu', allocation?.team?.provider)
     await selectOptionAndWait(page, '#Team\\:selectOneMenu', allocation?.team?.name)

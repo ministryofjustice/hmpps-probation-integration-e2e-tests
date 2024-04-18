@@ -3,7 +3,6 @@ import { refreshUntil } from '../delius/utils/refresh'
 import { WorkforceDateFormat } from './utils'
 import { Allocation, Team } from '../../test-data/test-data'
 import { Tomorrow } from '../delius/utils/date-time'
-import {format} from "date-fns";
 
 export const viewAllocation = async (page: Page, crn: string) => {
     const matchingRow = page.locator('tr', { hasText: crn })
