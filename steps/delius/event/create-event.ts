@@ -4,6 +4,7 @@ import { findOffenderByCRN } from '../offender/find-offender'
 import { fillDate, fillTime, selectOption, selectOptionAndWait } from '../utils/inputs'
 import { Yesterday } from '../utils/date-time'
 import { Allocation, data, Optional } from '../../../test-data/test-data'
+import { waitForJS } from '../utils/refresh.js'
 
 const autoAddComponent = ['ORA Community Order']
 const autoAddCourtReport = ['Adjourned - Pre-Sentence Report']
@@ -40,6 +41,7 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     await fillDate(page, '#ReferralDate\\:datePicker', _date)
     await fillDate(page, '#OffenceDate\\:datePicker', _date)
     await fillDate(page, '#ConvictionDate\\:datePicker', _date)
+    await waitForJS(page, 1000)
     await selectOptionAndWait(
         page,
         '#MainOffence\\:selectOneMenu',
