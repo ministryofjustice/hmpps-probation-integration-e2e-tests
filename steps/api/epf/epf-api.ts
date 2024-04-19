@@ -23,6 +23,7 @@ export interface Response {
     name: Name
     dateOfBirth: Date
     gender: string
+    courtAppearance: CourtAppearance
     sentence: Sentence
     responsibleProvider: ResponsibleProvider
     age: number
@@ -37,6 +38,11 @@ export interface Name {
 export interface ResponsibleProvider {
     code: string
     name: string
+}
+
+export interface CourtAppearance {
+    date: Date
+    court: SentencingCourt
 }
 
 export interface Sentence {
