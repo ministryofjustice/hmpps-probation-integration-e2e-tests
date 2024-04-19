@@ -47,7 +47,7 @@ async function searchForPerson(page: Page, crn: string) {
 async function addOffenceAndBehaviourSummary(page: Page) {
     await page.getByRole('link', { name: 'Add offence and behaviour summary' }).click()
     await expect(page).toHaveTitle(
-        "Has the person ever been convicted of a sexual offence? - Transitional Accommodation (CAS3)"
+        'Has the person ever been convicted of a sexual offence? - Transitional Accommodation (CAS3)'
     )
     await page.getByRole('radio', { name: 'No', exact: true }).check()
     await page.getByRole('button', { name: 'Save and continue' }).click()
@@ -56,9 +56,7 @@ async function addOffenceAndBehaviourSummary(page: Page) {
     )
     await page.getByRole('radio', { name: 'No', exact: true }).check()
     await page.getByRole('button', { name: 'Save and continue' }).click()
-    await expect(page).toHaveTitle(
-        "Has the person ever been convicted of arson? - Transitional Accommodation (CAS3)"
-    )
+    await expect(page).toHaveTitle('Has the person ever been convicted of arson? - Transitional Accommodation (CAS3)')
     await page.getByRole('radio', { name: 'No', exact: true }).check()
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(

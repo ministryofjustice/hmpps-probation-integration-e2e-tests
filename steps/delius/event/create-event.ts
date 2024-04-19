@@ -4,7 +4,7 @@ import { findOffenderByCRN } from '../offender/find-offender'
 import { fillDate, fillTime, selectOption, selectOptionAndWait } from '../utils/inputs'
 import { Yesterday } from '../utils/date-time'
 import { Allocation, data, Optional } from '../../../test-data/test-data'
-import {waitForJS} from "../utils/refresh.js";
+import { waitForJS } from '../utils/refresh.js'
 
 const autoAddComponent = ['ORA Community Order']
 const autoAddCourtReport = ['Adjourned - Pre-Sentence Report']

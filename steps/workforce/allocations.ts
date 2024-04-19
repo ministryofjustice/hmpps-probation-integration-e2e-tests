@@ -48,7 +48,10 @@ export const allocateCase = async (page: Page, crn: string, allocation: Allocati
     await page.locator('button', { hasText: 'Allocate case' }).click()
     await refreshUntil(
         page,
-        () => expect(page.locator('div.govuk-panel--confirmation > h1.govuk-panel__title')).toContainText('Allocation complete'),
+        () =>
+            expect(page.locator('div.govuk-panel--confirmation > h1.govuk-panel__title')).toContainText(
+                'Allocation complete'
+            ),
         {
             timeout: 180_000,
         }
