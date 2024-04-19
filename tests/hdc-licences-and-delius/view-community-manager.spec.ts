@@ -9,7 +9,7 @@ import { data } from '../../test-data/test-data'
 const nomisIds = []
 
 test('View community manager in HDC', async ({ page }) => {
-    // Given a case in Delius and NOMI
+    // Given a case in Delius and NOMIS
     await deliusLogin(page)
     const person = deliusPerson()
     const crn: string = await createOffender(page, { person, providerName: data.teams.genericTeam.provider })
