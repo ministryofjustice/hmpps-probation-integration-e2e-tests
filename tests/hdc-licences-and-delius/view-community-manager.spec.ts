@@ -9,7 +9,7 @@ import { data } from '../../test-data/test-data'
 const nomisIds = []
 
 test('View community manager in HDC', async ({ page }) => {
-    // Given a case in Delius and NOMIS
+    // Given a case in Delius and NOMI
     await deliusLogin(page)
     const person = deliusPerson()
     const crn: string = await createOffender(page, { person, providerName: data.teams.genericTeam.provider })
@@ -21,12 +21,15 @@ test('View community manager in HDC', async ({ page }) => {
     await page.getByRole('link', { name: 'Search all offenders' }).click()
     await page.getByLabel(/Enter prisoner name or ID/).fill(nomisId)
     await page.getByRole('button', { name: 'Search' }).click()
-    await page.getByRole('link', { name: 'Update HDC licence' }).click()
-    const popup = await page.waitForEvent('popup')
+    const [newPage] = await Promise.all([
+         page.waitForEvent('popup'),
+         page.getByRole('link', { name: 'Update HDC licence' }).click()
+    ])
+    await newPage.waitForLoadState()
 
     // Then I can see the probation data
-    await popup.locator('#prisonerComName a').click()
-    await expect(popup.locator(":text('Probation area') ~ div").first()).toContainText(data.teams.genericTeam.provider)
+    await newPage.locator('#prisonerComName a').click()
+    await expect(newPage.locator(":text('Probation area') ~ div").first()).toContainText(data.teams.genericTeam.provider)
 })
 
 test.afterAll(async () => {
