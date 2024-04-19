@@ -25,6 +25,6 @@ test('test epf context api endpoint', async ({ page }) => {
     expect(json.name.middleName).toBe('')
     expect(json.dateOfBirth).toBe(person.dob.toISOString().split('T')[0])
     expect(json.gender).toBe(person.sex)
-    expect(json.sentence.sentencingCourt.name).toBe(event.court)
+    expect(json.courtAppearance.court.name).toBe(event.court)
     expect(json.responsibleProvider.name).toBe(data.teams.referAndMonitorTestTeam.provider)
 })
