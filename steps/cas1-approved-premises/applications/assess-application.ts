@@ -78,5 +78,5 @@ export const assessApplication = async (page: Page, personName: string) => {
     await page.getByRole('link', { name: 'Check assessment answers' }).click()
     await page.getByRole('button', { name: 'Continue' }).click()
     await page.getByLabel('I confirm the information provided is complete, accurate and up to date.').check()
-    await page.getByRole('button', { name: 'Submit application' }).click()
+    await page.getByRole('button', { name: 'Submit assessment' }).click()
 }
