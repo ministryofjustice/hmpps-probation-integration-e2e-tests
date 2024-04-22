@@ -22,14 +22,16 @@ test('View community manager in HDC', async ({ page }) => {
     await page.getByLabel(/Enter prisoner name or ID/).fill(nomisId)
     await page.getByRole('button', { name: 'Search' }).click()
     const [newPage] = await Promise.all([
-         page.waitForEvent('popup'),
-         page.getByRole('link', { name: 'Update HDC licence' }).click()
+        page.waitForEvent('popup'),
+        page.getByRole('link', { name: 'Update HDC licence' }).click(),
     ])
     await newPage.waitForLoadState()
 
     // Then I can see the probation data
     await newPage.locator('#prisonerComName a').click()
-    await expect(newPage.locator(":text('Probation area') ~ div").first()).toContainText(data.teams.genericTeam.provider)
+    await expect(newPage.locator(":text('Probation area') ~ div").first()).toContainText(
+        data.teams.genericTeam.provider
+    )
 })
 
 test.afterAll(async () => {
