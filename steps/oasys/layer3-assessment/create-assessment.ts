@@ -285,7 +285,8 @@ export const clickAccommodation = async (page: Page) => {
     await page.locator('a', { hasText: 'Section 2 to 13' }).click()
     await doUntil(
         () => page.locator('a', { hasText: '3 - Accommodation' }).click(),
-        () => expect(page.locator('#contextleft > h3')).toHaveText('3 - Accommodation (Layer 3)')
+        () => expect(page.locator('#contextleft > h3')).toHaveText('3 - Accommodation (Layer 3)'),
+        { timeout: 60_000, intervals: [500, 1000, 5000] }
     )
 }
 
@@ -294,7 +295,8 @@ export const clickEducationTrainingEmpl = async (page: Page) => {
     await doUntil(
         () => page.locator('a', { hasText: '4 - ETE' }).click(),
         () =>
-            expect(page.locator('#contextleft > h3')).toHaveText('4 - Education, Training and Employability (Layer 3)')
+            expect(page.locator('#contextleft > h3')).toHaveText('4 - Education, Training and Employability (Layer 3)'),
+        { timeout: 60_000, intervals: [500, 1000, 5000] }
     )
 }
 
@@ -302,6 +304,7 @@ export const clickRelationships = async (page: Page) => {
     await page.locator('a', { hasText: 'Section 2 to 13' }).click()
     await doUntil(
         () => page.locator('a', { hasText: '6 - Relationships' }).click(),
-        () => expect(page.locator('#contextleft > h3')).toHaveText('6 - Relationships (Layer 3)')
+        () => expect(page.locator('#contextleft > h3')).toHaveText('6 - Relationships (Layer 3)'),
+        { timeout: 60_000, intervals: [500, 1000, 5000] }
     )
 }
