@@ -3,8 +3,11 @@ import { doUntil } from '../../delius/utils/refresh'
 import { Person } from '../../delius/utils/person'
 
 export const clickSection2To4 = async (page: Page, person: Person): Promise<void> => {
-    await doUntilLinkIsVisible(page, 'RoSH Screening')
-    await page.locator('a', { hasText: 'RoSH Screening' }).click()
+    await doUntil(
+        () => page.locator('a', { hasText: 'RoSH Screening' }).click(),
+        () => expect(page.locator('[href*="LAYER3_1_MENU,ROSHA2"]')).toHaveText('Section 2 to 4'),
+        { timeout: 60_000, intervals: [500, 1000, 5000] }
+    )
     await page.locator('a', { hasText: 'Section 2 to 4' }).click()
     await page
         .getByLabel(
