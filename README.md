@@ -23,8 +23,10 @@ npm install
 npx playwright install --with-deps
 ```
 
-> [Node](https://nodejs.org/en/) 16.x or higher is required.
-Install the latest version with `brew install npm`, or a specific version with `brew install node@16`.
+If the last command keeps timing out use `/scripts/playwright-browser-install` as an alternative.
+
+> [Node](https://nodejs.org/en/) 20.x or higher is required.
+Install the latest version with `brew install npm`, or a specific version with `brew install node@20`.
 
 ### Configuration
 
@@ -136,6 +138,21 @@ Enable the ESLint "fix on save" setting in IntelliJ to fix any formatting issues
 See [Fix problems automatically on save](https://www.jetbrains.com/help/idea/eslint.html#ws_eslint_configure_run_eslint_on_save)
 
 A GitHub Action will fix any missed formatting issues for you when creating a pull request.
+
+## Cucumber
+
+A means to run feature files has been implemented and can run using -
+
+`NODE_OPTIONS="--loader ts-node/esm" npx cucumber-js`
+
+Run a project specific feature set using -
+
+`NODE_OPTIONS="--loader ts-node/esm" npx cucumber-js -- features/prepare-case-for-sentence/*.feature`
+
+The implementation is ra first pass and you may find you need to improve some aspects. At the time of writing CucumberJS
+needs ESM loading for TS which has some drawbacks, and there may be a better way. Making it load a step file 
+specific to a feature file has proved troublesome, something which cypress-cucumber-js author resolved by writing
+a custom file loader. 
 
 ## Test Data
 

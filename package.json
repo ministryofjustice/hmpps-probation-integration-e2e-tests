@@ -14,6 +14,7 @@
   "scripts": {},
   "type": "module",
   "devDependencies": {
+    "@cucumber/cucumber": "^10.5.1",
     "@faker-js/faker": "^8.4.1",
     "@kubernetes/client-node": "^0.20.0",
     "@playwright/test": "1.43.0",
@@ -27,6 +28,7 @@
     "node-stream-zip": "^1.15.0",
     "pdf2json": "^3.0.5",
     "prettier": "3.2.5",
+    "ts-node": "^10.9.2",
     "uuid": "^9.0.1"
   }
 }

@@ -1,6 +1,6 @@
 import { format } from 'date-fns'
 import { v4 } from 'uuid'
-import { Person } from '../delius/utils/person'
+import { Person } from '../../../steps/delius/utils/person'
 import { faker } from '@faker-js/faker'
 
 export const SHEFFIELD_COURT = {

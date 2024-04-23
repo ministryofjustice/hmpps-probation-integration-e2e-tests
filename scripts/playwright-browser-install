@@ -1,0 +1,18 @@
+#!/bin/sh
+
+## if you get timeouts using npx playwright install try this
+
+set -e
+
+INFO="$(npx playwright install chromium --with-deps --dry-run)"
+LOCN="$(echo "$INFO" | grep 'Install location' | sed 's/^[^:]*: *//')"
+SRC="$(echo "$INFO" | grep 'Download url' | sed 's/^[^:]*: *//')"
+
+echo "Downloading from $SRC to $LOCN"
+
+mkdir -p "$LOCN"
+
+rm "$LOCN/temp-chrome.zip" 2>/dev/null || true
+curl "$SRC" > "$LOCN/temp-chrome.zip"
+unzip "$LOCN/temp-chrome.zip" -d "$LOCN"
+rm "$LOCN/temp-chrome.zip"

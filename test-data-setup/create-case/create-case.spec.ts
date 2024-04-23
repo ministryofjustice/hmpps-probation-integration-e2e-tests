@@ -11,7 +11,7 @@ import {
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
-import { addCourtHearing } from '../../steps/court-case/add-court-hearing'
+import addCourtHearing from '../court-case-service/add-court-hearing'
 
 test('Create a case in multiple systems', async ({ page }) => {
     const person = deliusPerson()

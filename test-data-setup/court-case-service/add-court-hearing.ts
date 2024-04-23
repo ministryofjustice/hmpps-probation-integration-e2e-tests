@@ -1,9 +1,9 @@
-import { runPod } from '../k8s/k8s-utils'
-import { hearingData, SHEFFIELD_COURT } from './hearing-data'
-import { Person } from '../delius/utils/person'
+import { runPod } from '../../steps/k8s/k8s-utils'
+import { hearingData, SHEFFIELD_COURT } from './data/hearing-data'
+import { Person } from '../../steps/delius/utils/person'
 
-export async function addCourtHearing(person: Person, courtCode: string = SHEFFIELD_COURT.code) {
-    await runPod(
+export default (person: Person, courtCode: string = SHEFFIELD_COURT.code) =>
+    runPod(
         'court-probation-dev',
         'probation-integration-e2e-tests',
         'court-case-service',
@@ -20,4 +20,3 @@ export async function addCourtHearing(person: Person, courtCode: string = SHEFFI
             },
         ]
     )
-}
