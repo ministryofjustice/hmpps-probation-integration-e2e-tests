@@ -13,7 +13,7 @@ test('Search for a person in Manage a Supervision', async ({ page }) => {
     const person = deliusPerson()
     const crn = await createOffender(page, { person })
 
-    // When I login to Manage A Workforce
+    // When I login to Manage a Supervision
     await manageASupervisionLogin(page)
 
     // And I search for the CRN
