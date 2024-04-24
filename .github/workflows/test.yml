@@ -115,7 +115,7 @@ jobs:
           TIER_UI_URL: https://tier-dev.hmpps.service.justice.gov.uk
           PREPARE_A_CASE_FOR_SENTENCE_URL: https://prepare-a-case-dev.apps.live-1.cloud-platform.service.justice.gov.uk
           PRISON_IDENTIFIER_AND_DELIUS_URL: https://prison-identifier-and-delius-dev.hmpps.service.justice.gov.uk
-          MANAGE_A_SUPERVISION_URL=https: https://manage-a-supervision-dev.hmpps.service.justice.gov.uk
+          MANAGE_A_SUPERVISION_URL: https://manage-a-supervision-dev.hmpps.service.justice.gov.uk
           # Credentials
           DELIUS_USERNAME: ${{ secrets.E2E_DELIUS_USERNAME }}
           DELIUS_PASSWORD: ${{ secrets.E2E_DELIUS_PASSWORD }}
