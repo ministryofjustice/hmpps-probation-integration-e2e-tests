@@ -1,4 +1,4 @@
-import {test} from '@playwright/test'
+import { test } from '@playwright/test'
 import * as dotenv from 'dotenv'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { login as cas2Login } from '../../steps/cas2-short-term-accommodation/login'

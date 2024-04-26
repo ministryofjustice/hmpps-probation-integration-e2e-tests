@@ -18,7 +18,7 @@ async function getContext(): Promise<APIRequestContext> {
     })
 }
 
-export async function createAndBookPrisoner(page: Page, crn: string, person: Person, prisonId: string = "SWI") {
+export async function createAndBookPrisoner(page: Page, crn: string, person: Person, prisonId: string = 'SWI') {
     const offenderNo = await createPrisoner(person)
     // Link the Nomis entry to the Delius entry before booking to avoid OLE from tier changes
     await setNomisId(page, crn, offenderNo)

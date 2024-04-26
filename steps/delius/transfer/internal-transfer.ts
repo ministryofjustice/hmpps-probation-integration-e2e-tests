@@ -32,5 +32,5 @@ export async function internalTransfer(
     await page.locator('input', { hasText: 'Transfer' }).click()
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
 
-    return selectedStaff;
+    return selectedStaff
 }

@@ -15,5 +15,5 @@ export const referToSOC = async (page: Page, crn: string) => {
 
 export function formatStaffNameForSOC(name: string): string {
     // Rearrange the format of the staff name returned from Delius using regular expression
-    return name.replace(/^(.*?),\s*(.*?)\s*\(.*\)$/, "$2 $1");
+    return name.replace(/^(.*?),\s*(.*?)\s*\(.*\)$/, '$2 $1')
 }

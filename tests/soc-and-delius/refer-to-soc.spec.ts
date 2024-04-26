@@ -1,15 +1,15 @@
 import { expect, test } from '@playwright/test'
 import { login as deliusLogin } from '../../steps/delius/login'
 import { login as socLogin } from '../../steps/soc/login'
-import {formatStaffNameForSOC, referToSOC} from '../../steps/soc/refer-to-soc'
+import { formatStaffNameForSOC, referToSOC } from '../../steps/soc/refer-to-soc'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { DeliusDateFormatter } from '../../steps/delius/utils/date-time'
 import * as dotenv from 'dotenv'
-import {createCustodialEvent} from "../../steps/delius/event/create-event.js";
-import {createAndBookPrisoner, releasePrisoner} from "../../steps/api/dps/prison-api.js";
-import {internalTransfer} from "../../steps/delius/transfer/internal-transfer.js";
-import {Allocation, data} from "../../test-data/test-data.js";
+import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
+import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
+import { internalTransfer } from '../../steps/delius/transfer/internal-transfer.js'
+import { Allocation, data } from '../../test-data/test-data.js'
 
 dotenv.config()
 const nomisIds = []
@@ -23,9 +23,9 @@ test('Add a community nominal to SOC', async ({ page }) => {
     const crn = await createOffender(page, { providerName: anotherPractitioner.team.provider })
     await createCustodialEvent(page, { crn })
     let selectedStaff = await internalTransfer(page, { crn, allocation: { team: data.teams.allocationsTestTeam } })
-    selectedStaff = formatStaffNameForSOC(selectedStaff);
-    const prisonId = "MDI";
-    const { nomisId } = await createAndBookPrisoner(page, crn, person, prisonId);
+    selectedStaff = formatStaffNameForSOC(selectedStaff)
+    const prisonId = 'MDI'
+    const { nomisId } = await createAndBookPrisoner(page, crn, person, prisonId)
     nomisIds.push(nomisId)
 
     // When I add them as a nominal to SOC
