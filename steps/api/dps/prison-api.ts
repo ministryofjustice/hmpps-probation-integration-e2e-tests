@@ -18,11 +18,11 @@ async function getContext(): Promise<APIRequestContext> {
     })
 }
 
-export async function createAndBookPrisoner(page: Page, crn: string, person: Person) {
+export async function createAndBookPrisoner(page: Page, crn: string, person: Person, prisonId: string = "SWI") {
     const offenderNo = await createPrisoner(person)
     // Link the Nomis entry to the Delius entry before booking to avoid OLE from tier changes
     await setNomisId(page, crn, offenderNo)
-    const bookingId = await bookPrisoner(offenderNo)
+    const bookingId = await bookPrisoner(offenderNo, prisonId)
     console.log('NOMIS ID:', offenderNo)
     console.log('Booking ID:', bookingId)
     return { nomisId: offenderNo, bookingId: bookingId }
