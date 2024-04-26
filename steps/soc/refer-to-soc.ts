@@ -12,3 +12,8 @@ export const referToSOC = async (page: Page, crn: string) => {
     // Check referral was successful
     await expect(page.getByRole('heading', { name: 'Referral successful' })).toBeVisible()
 }
+
+export function formatStaffNameForSOC(name: string): string {
+    // Rearrange the format of the staff name returned from Delius using regular expression
+    return name.replace(/^(.*?),\s*(.*?)\s*\(.*\)$/, '$2 $1')
+}

@@ -20,7 +20,7 @@ export async function internalTransfer(
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
     await selectOptionAndWait(page, '#Trust\\:selectOneMenu', allocation?.team?.provider)
     await selectOptionAndWait(page, '#Team\\:selectOneMenu', allocation?.team?.name)
-    await selectOption(page, '#Staff\\:selectOneMenu', allocation?.staff?.name)
+    const selectedStaff = await selectOption(page, '#Staff\\:selectOneMenu', allocation?.staff?.name)
 
     const options = await page.locator('#offenderTransferRequestTable').locator('select')
 
@@ -31,4 +31,6 @@ export async function internalTransfer(
 
     await page.locator('input', { hasText: 'Transfer' }).click()
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
+
+    return selectedStaff
 }
