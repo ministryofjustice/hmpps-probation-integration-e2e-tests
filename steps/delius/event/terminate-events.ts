@@ -13,8 +13,6 @@ export async function terminateEvent(page: Page, crn: string, eventNumber: strin
     await fillDate(page, '#Terminated\\:datePicker', faker.date.recent())
     await selectOption(page, '#TermReason\\:selectOneMenu', reason)
     await page.locator('input', { hasText: 'Terminate' }).click()
-    if ((await page.locator('.prompt-warning').count()) > 0) {
-        await page.locator('input', { hasText: 'Confirm' }).click()
-    }
+    await page.locator('input', { hasText: 'Confirm' }).click()
     await expect(page).toHaveTitle(/Events/)
 }

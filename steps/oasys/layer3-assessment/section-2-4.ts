@@ -1,14 +1,7 @@
 import { expect, type Page } from '@playwright/test'
-import { doUntil } from '../../delius/utils/refresh'
 import { Person } from '../../delius/utils/person'
 
 export const clickSection2To4 = async (page: Page, person: Person): Promise<void> => {
-    await doUntil(
-        () => page.locator('a', { hasText: 'RoSH Screening' }).click(),
-        () => expect(page.locator('[href*="LAYER3_1_MENU,ROSHA2"]')).toHaveText('Section 2 to 4'),
-        { timeout: 60_000, intervals: [500, 1000, 5000] }
-    )
-    await page.locator('a', { hasText: 'Section 2 to 4' }).click()
     await page
         .getByLabel(
             `Could ${person.firstName}'s behaviour and circumstances have a negative impact on a child's wellbeing?`
@@ -30,7 +23,6 @@ export const clickSection2To4 = async (page: Page, person: Person): Promise<void
 }
 
 export const clickSection2To4NextButton = async (page: Page): Promise<void> => {
-    await doUntilLinkIsVisible(page, 'RoSH Screening')
     await page.getByLabel('Risk of suicide').click()
     await page.getByLabel('Risk of suicide').selectOption({ label: 'Yes' })
     await page.getByLabel('Risk of self-harm').selectOption({ label: 'Yes' })
@@ -40,22 +32,4 @@ export const clickSection2To4NextButton = async (page: Page): Promise<void> => {
     await page.click('input[value="Save"]')
     await page.click('input[value="Next"]')
     await expect(page.locator('#R2846717162014845 h6')).toHaveText('R5 Other information - screening')
-}
-
-export const doUntilLinkIsVisible = async (page: Page, linkText: string, options?): Promise<void> => {
-    await doUntil(
-        async () => {
-            await page.reload()
-        },
-        async () => {
-            const link = await page.waitForSelector(`a:has-text("${linkText}")`)
-            const isVisible = await link.isVisible()
-            if (isVisible) {
-                return Promise.resolve()
-            } else {
-                throw new Error('Link is not visible')
-            }
-        },
-        options
-    )
 }
