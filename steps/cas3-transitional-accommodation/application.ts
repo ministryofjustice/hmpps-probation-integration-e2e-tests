@@ -59,9 +59,7 @@ async function addOffenceAndBehaviourSummary(page: Page) {
     await expect(page).toHaveTitle('Has the person ever been convicted of arson? - Transitional Accommodation (CAS3)')
     await page.getByRole('radio', { name: 'No', exact: true }).check()
     await page.getByRole('button', { name: 'Save and continue' }).click()
-    await expect(page).toHaveTitle(
-        "Are there concerns about arson for the person? - Transitional Accommodation (CAS3)"
-    )
+    await expect(page).toHaveTitle('Are there concerns about arson for the person? - Transitional Accommodation (CAS3)')
     await page.getByRole('radio', { name: 'No', exact: true }).check()
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page.locator('#offence-and-behaviour-summary-status')).toHaveText('Completed')

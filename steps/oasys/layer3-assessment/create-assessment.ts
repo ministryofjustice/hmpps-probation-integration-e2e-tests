@@ -271,7 +271,7 @@ export const clickRiskManagementPlan = async (page: Page) => {
 export const clickOffenceAnalysis = async (page: Page) => {
     const offenceAnalysisLink = page.locator('a', { hasText: '2 - Offence Analysis' })
 
-    if (!(await offenceAnalysisLink.isVisible())){
+    if (!(await offenceAnalysisLink.isVisible())) {
         await page.locator('a', { hasText: 'Section 2 to 13' }).click()
     }
     await page.locator('a', { hasText: '2 - Offence Analysis' }).click()
