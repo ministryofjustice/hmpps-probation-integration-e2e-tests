@@ -8,12 +8,10 @@ export async function terminateEvent(page: Page, crn: string, eventNumber: strin
     await page.click('#navigation-include\\:linkNavigation2EventList')
     await expect(page).toHaveTitle(/Events/)
     await page.locator('tr', { hasText: eventNumber }).locator('a', { hasText: 'terminate' }).click()
-
     await expect(page).toHaveTitle(/Terminate Event/)
     await fillDate(page, '#Terminated\\:datePicker', faker.date.recent())
     await selectOption(page, '#TermReason\\:selectOneMenu', reason)
     await page.locator('input', { hasText: 'Terminate' }).click()
     await page.locator('input', { hasText: 'Confirm' }).click()
-
     await expect(page).toHaveTitle(/Events/)
 }

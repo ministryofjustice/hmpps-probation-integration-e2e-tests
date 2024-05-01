@@ -40,8 +40,4 @@ export async function createOffender(page: Page, args: { person?: Person; provid
             return await createOffender( page, args)
         }
     }
-
-
-
-
 }
