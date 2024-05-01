@@ -33,8 +33,7 @@ export async function createOffender(page: Page, args: { person?: Person; provid
     const crn = await page.locator('#crn\\:outputText').textContent()
     console.log('Person details:', person)
     console.log('CRN:', crn)
-
-        return crn
+    return crn
     } catch (e) {
         if ((await page.title()) === 'Error Page') {
             return await createOffender( page, args)

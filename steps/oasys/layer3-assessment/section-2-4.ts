@@ -1,5 +1,4 @@
 import { expect, type Page } from '@playwright/test'
-import { doUntil } from '../../delius/utils/refresh'
 import { Person } from '../../delius/utils/person'
 
 export const clickSection2To4 = async (page: Page, person: Person): Promise<void> => {
