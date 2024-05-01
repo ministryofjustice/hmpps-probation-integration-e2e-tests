@@ -23,15 +23,14 @@ export const addLayer3AssessmentNeeds = async (page: Page) => {
 }
 export const addLayer3AssessmentNeedsReview = async (page: Page) => {
     // And I click on "Accommodation' under Section 2 to 4
+    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
     await clickAccommodation(page)
     // And I complete "Accommodation" Section
     await completeAccommodationSectionYes(page)
-    // And I click on 'ETE'(4 - Education, Training and Employability) under Section 2 to 4
-    await clickEducationTrainingEmpl(page)
+    // And I proceed to 'ETE'(4 - Education, Training and Employability) under Section 2 to 4
     // And I complete "Education, Training and Employability" Section
     await completeETESectionProblems(page)
-    // And I click on "Relationships" under Section 2 to 4
-    await clickRelationships(page)
+    // And I proceed to "Relationships" under Section 2 to 4
     // And I complete "Relationships" Section
     await completeRelationshipsSection(page)
 }

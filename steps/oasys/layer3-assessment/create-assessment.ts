@@ -269,7 +269,11 @@ export const clickRiskManagementPlan = async (page: Page) => {
 }
 
 export const clickOffenceAnalysis = async (page: Page) => {
-    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
+    const offenceAnalysisLink = page.locator('a', { hasText: '2 - Offence Analysis' })
+
+    if (!(await offenceAnalysisLink.isVisible())){
+        await page.locator('a', { hasText: 'Section 2 to 13' }).click()
+    }
     await page.locator('a', { hasText: '2 - Offence Analysis' }).click()
     await expect(page.locator('#contextleft > h3')).toHaveText('2 - Analysis of Offences (Layer 3)')
 }
@@ -282,7 +286,6 @@ export const clickRoshFullRisksToIndividual = async (page: Page) => {
 }
 
 export const clickAccommodation = async (page: Page) => {
-    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
     await doUntil(
         () => page.locator('a', { hasText: '3 - Accommodation' }).click(),
         () => expect(page.locator('#contextleft > h3')).toHaveText('3 - Accommodation (Layer 3)'),
@@ -291,7 +294,6 @@ export const clickAccommodation = async (page: Page) => {
 }
 
 export const clickEducationTrainingEmpl = async (page: Page) => {
-    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
     await doUntil(
         () => page.locator('a', { hasText: '4 - ETE' }).click(),
         () =>
@@ -301,7 +303,6 @@ export const clickEducationTrainingEmpl = async (page: Page) => {
 }
 
 export const clickRelationships = async (page: Page) => {
-    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
     await doUntil(
         () => page.locator('a', { hasText: '6 - Relationships' }).click(),
         () => expect(page.locator('#contextleft > h3')).toHaveText('6 - Relationships (Layer 3)'),

@@ -19,7 +19,9 @@ import { verifyRMPInfoIsAsPerOASys } from '../../steps/cas1-approved-premises/ap
 import { verifyOffenceAnalysisIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-offence-analysis'
 import { verifyRiskToSelfIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-risk-to-self'
 import { verifySupportingInfoIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-supporting-info'
-import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
+import {
+    createLayer3AssessmentWithoutNeeds
+} from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeedsReview } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 
 const nomisIds = []
@@ -38,7 +40,7 @@ test('View OASys assessments in Approved Premises service', async ({ page }) => 
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
 
-    // And I create a Layer 3 Assessment with Needs in OASys
+    // // And I create a Layer 3 Assessment with Needs in OASys
     await oasysLogin(page, UserType.Timeline)
     await createLayer3AssessmentWithoutNeeds(page, crn)
     await addLayer3AssessmentNeedsReview(page)

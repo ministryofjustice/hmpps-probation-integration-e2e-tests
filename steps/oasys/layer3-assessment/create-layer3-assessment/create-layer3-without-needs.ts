@@ -131,6 +131,7 @@ export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string
     // And I complete "Risk Management Plan" Questions
     await completeRiskManagementPlan(page)
     // And I click on "Section 2 to 13" & "2 - Offence Analysis"
+    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
     await clickOffenceAnalysis(page)
     // And I complete Offence Analysis Plan Questions
     await completeOffenceAnalysis(page)

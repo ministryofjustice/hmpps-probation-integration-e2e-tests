@@ -32,6 +32,8 @@ export const completeETESection = async (page: Page) => {
     await page.click('input[value="Save"]')
     await page.click('input[value="Next"]')
     await expect(page.locator('#contextleft > h3')).toHaveText('5 - Financial Management and Income (Layer 3)')
+    await page.click('input[value="Save"]')
+    await page.click('input[value="Next"]')
 }
 export const completeETESectionProblems = async (page: Page) => {
     await page
@@ -67,4 +69,5 @@ export const completeETESectionProblems = async (page: Page) => {
     await page.click('input[value="Save"]')
     await page.click('input[value="Next"]')
     await expect(page.locator('#contextleft > h3')).toHaveText('5 - Financial Management and Income (Layer 3)')
+    await page.click('input[value="Next"]')
 }

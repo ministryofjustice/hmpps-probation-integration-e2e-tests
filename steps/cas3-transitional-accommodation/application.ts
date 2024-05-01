@@ -60,7 +60,7 @@ async function addOffenceAndBehaviourSummary(page: Page) {
     await page.getByRole('radio', { name: 'No', exact: true }).check()
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(
-        "Are there concerns about the person's arson behaviour? - Transitional Accommodation (CAS3)"
+        "Are there concerns about arson for the person? - Transitional Accommodation (CAS3)"
     )
     await page.getByRole('radio', { name: 'No', exact: true }).check()
     await page.getByRole('button', { name: 'Save and continue' }).click()
