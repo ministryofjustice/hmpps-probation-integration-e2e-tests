@@ -15,6 +15,7 @@ dotenv.config() // read environment variables into process.env
 const nomisIds = []
 
 test('Submit a CAS2 short-term accommodation application', async ({ page }) => {
+    test.slow()
     await deliusLogin(page)
     const person = deliusPerson({ sex: 'Male' })
     const crn = await createOffender(page, { person })

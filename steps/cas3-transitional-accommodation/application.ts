@@ -340,7 +340,7 @@ async function outlineMoveOnPlan(page: Page) {
 async function enterAccommodationReferralDetails(page: Page) {
     await page.getByRole('link', { name: 'Enter accommodation referral details' }).click()
     await expect(page).toHaveTitle(
-        'Has the Duty to Refer (DTR) / National Offender Pathway (NOP) been submitted? - Transitional Accommodation (CAS3)'
+        'Has the Duty to refer (England) or Application for Assistance (Wales) been submitted? - Transitional Accommodation (CAS3)'
     )
     await page.getByRole('radio', { name: 'No', exact: true }).check()
     await page.getByRole('button', { name: 'Save and continue' }).click()
