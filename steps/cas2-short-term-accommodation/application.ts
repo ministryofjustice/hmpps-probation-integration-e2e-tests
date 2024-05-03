@@ -208,7 +208,6 @@ async function riskToOthers(page: Page) {
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await page.getByLabel('No').check()
     await page.getByRole('button', { name: 'Save and continue' }).click()
-    await page.getByRole('button', { name: 'Save and continue' }).click()
     await page.getByText('No', { exact: true }).click()
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(/Task list/)
