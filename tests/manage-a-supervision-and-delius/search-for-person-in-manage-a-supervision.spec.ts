@@ -17,8 +17,6 @@ test('Search for a person in Manage a Supervision', async ({ page }) => {
     await manageASupervisionLogin(page)
 
     // And I search for the CRN
-    await page.getByRole('button', { name: 'Start now' }).click()
-    await expect(page).toHaveTitle('Your cases')
     await page.getByRole('link', { name: 'Search' }).click()
     await page.getByLabel('Find a person on probation').fill(crn)
     await page.getByRole('button', { name: 'Search' }).click()
