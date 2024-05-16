@@ -1,4 +1,4 @@
-import { type APIRequestContext, Page, request } from '@playwright/test'
+import { type APIRequestContext, request } from '@playwright/test'
 import { getToken } from '../auth/get-token'
 import { retry, sanitiseError } from '../utils/api-utils'
 

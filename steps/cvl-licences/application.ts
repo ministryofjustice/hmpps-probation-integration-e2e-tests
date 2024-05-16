@@ -1,8 +1,8 @@
-import { expect, Page } from '@playwright/test'
+import {expect, Page} from '@playwright/test'
 import { faker } from '@faker-js/faker'
 import {login as cvlLogin, loginAsPrisonOfficer} from "./login.js";
 
-export const createLicence = async (page: any, crn: string, nomsNumber: string) => {
+export const createLicence = async (page: Page, crn: string, nomsNumber: string) => {
     await cvlLogin(page)
     await page.getByRole('link', { name: 'Create and edit a licence before a release date' }).click()
     await expect(page).toHaveTitle('Create and vary a licence - Create a licence - Caseload')
@@ -35,7 +35,7 @@ export const createLicence = async (page: any, crn: string, nomsNumber: string) 
     await page.getByRole('link', { name: /Sign out/ }).click()
 };
 
-export const approveLicence = async (page: any, crn: string, nomsNumber: string) => {
+export const approveLicence = async (page: Page, crn: string, nomsNumber: string) => {
     await loginAsPrisonOfficer(page)
     await page.getByRole('link', { name: 'Approve a licence' }).click()
     await expect(page).toHaveTitle('Create and vary a licence - approval cases')

@@ -40,7 +40,7 @@ test('View case in Create and Vary a Licence', async ({page}) => {
         {timeout: 120_000});
 });
 
-const resetLicenceCase = async (page: Page) => {
+const resetLicenceCase = async () => {
     //Recall the prisoner and discard all the existing licences
     try {
         await recallPrisoner(data.prisoners.sentencedPrisonerWithReleaseDate.nomsNumber)
