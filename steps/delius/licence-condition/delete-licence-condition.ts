@@ -12,8 +12,6 @@ export const deleteLicenceConditions = async (page: Page, crn: string, eventNumb
     // Iterate over each delete link and click on it
     for (const deleteLink of deleteLinks) {
         await deleteLink.click();
-        // Add a short delay to allow the page to process the deletion
-        await page.waitForTimeout(1000);
         await expect(page.locator('#content > h1')).toHaveText('Delete Licence Condition')
         await page.getByRole('button', { name: 'Confirm' }).click();
         await expect(page.locator('h1')).toHaveText('Licence Conditions');
