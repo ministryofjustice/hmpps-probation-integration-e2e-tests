@@ -18,8 +18,8 @@ export const createLicenceCondition = async (page: Page, crn: string, eventNumbe
 }
 
 export const navigateToLicenceConditions = async (page: Page, crn: string, eventNumber = 1): Promise<void> => {
-    await findEventByCRN(page, crn, eventNumber);
-    await page.getByRole('link', {name: 'Licence conditions'}).click()
+    await findEventByCRN(page, crn, eventNumber)
+    await page.getByRole('link', { name: 'Licence conditions' }).click()
 }
 
-export const deliusLicenceCondition = 'table tr:first-child td:nth-child(2)';
+export const deliusLicenceCondition = 'table tr:first-child td:nth-child(2)'

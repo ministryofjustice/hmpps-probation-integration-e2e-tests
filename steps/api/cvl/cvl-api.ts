@@ -21,14 +21,14 @@ export const getLicenceIds = retry(
             failOnStatusCode: true,
         })
         const json = await response.json()
-        return json.filter(l => l.statusCode !== "INACTIVE").map(l => l.id)
+        return json.filter(l => l.statusCode !== 'INACTIVE').map(l => l.id)
     })
 )
 
-export const discardAllLicences = async function (crn: string){
-   const licenceIds = await getLicenceIds(crn)
+export const discardAllLicences = async function (crn: string) {
+    const licenceIds = await getLicenceIds(crn)
     for (const id of licenceIds) {
-        await discardLicence(id);
+        await discardLicence(id)
     }
 }
 
