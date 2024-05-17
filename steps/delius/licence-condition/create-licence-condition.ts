@@ -16,3 +16,10 @@ export const createLicenceCondition = async (page: Page, crn: string, eventNumbe
     await expect(page.locator('h1')).toHaveText('Licence Conditions')
     return await page.locator('table tr:first-child td:nth-child(2)').textContent()
 }
+
+export const navigateToLicenceConditions = async (page: Page, crn: string, eventNumber = 1): Promise<void> => {
+    await findEventByCRN(page, crn, eventNumber)
+    await page.getByRole('link', { name: 'Licence conditions' }).click()
+}
+
+export const deliusLicenceCondition = 'table tr:first-child td:nth-child(2)'
