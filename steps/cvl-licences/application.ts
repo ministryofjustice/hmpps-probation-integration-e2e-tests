@@ -21,7 +21,7 @@ export const createLicence = async (page: Page, crn: string, nomsNumber: string)
     await page.getByLabel(/Postcode/).fill(faker.location.zipCode())
     await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveTitle('Create and vary a licence - Create a licence - What is the contact phone number for the initial appointment?')
-    await page.getByLabel('UK telephone number').fill('01632 960901');
+    await page.getByLabel('UK telephone number').fill(cvlFormattedPhoneNumber());
     await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveTitle('Create and vary a licence - Create a licence - When is the initial appointment?')
     await page.getByLabel(/Immediately after release/).check()
@@ -47,3 +47,11 @@ export const approveLicence = async (page: Page, crn: string, nomsNumber: string
     await page.locator('[data-qa$="user-name"]').click()
     await page.getByRole('link', { name: /Sign out/ }).click()
 };
+
+const cvlFormattedPhoneNumber = (): string => {
+    const areaCode = '01' + Math.floor(Math.random() * 1000).toString().padStart(2, '0'); // Generate a random 3-digit number as the last 3 digits of the area code
+    const cityNumber = Math.floor(Math.random() * 1000000).toString().padStart(6, '0'); // Generate a random 6-digit city number
+    return `${areaCode} ${cityNumber}`;
+};
+
+

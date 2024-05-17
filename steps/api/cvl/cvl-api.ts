@@ -34,7 +34,7 @@ export const discardAllLicences = async function (crn: string){
 
 export const discardLicence = retry(
     sanitiseError(async (licenceId: string) => {
-        const response = await (
+        await (
             await getContext()
         ).post(`/licence/id/${licenceId}/override/status`, {
             failOnStatusCode: true,

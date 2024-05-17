@@ -1,4 +1,4 @@
-import {expect, type Page, test} from '@playwright/test'
+import {expect, test} from '@playwright/test'
 import * as dotenv from 'dotenv'
 import {data} from '../../test-data/test-data'
 import {login as deliusLogin} from "../../steps/delius/login.js";
@@ -19,7 +19,7 @@ test('View case in Create and Vary a Licence', async ({page}) => {
 
     // Check if the CRN is in the right state (no active licence to release, and the offender is still in prison).
     // Recall the prisoner to put the CRN in the right state and discard all existing licences.
-    await resetLicenceCase(page);
+    await resetLicenceCase();
 
     // Delete the existing licence conditions in Delius.
     await deliusLogin(page);
