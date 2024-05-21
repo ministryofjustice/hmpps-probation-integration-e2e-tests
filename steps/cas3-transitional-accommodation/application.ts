@@ -271,7 +271,7 @@ async function confirmPlacementLocation(page: Page) {
 }
 
 async function addDisabilityCulturalAndSpecificNeeds(page: Page) {
-    await page.getByRole('link', { name: 'Add disability, cultural and specific needs' }).click()
+    await page.getByRole('link', { name: 'Add health, disability and cultural needs' }).click()
     await expect(page).toHaveTitle(
         'Does the person have any of the following needs? - Transitional Accommodation (CAS3)'
     )

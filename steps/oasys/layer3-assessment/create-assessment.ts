@@ -61,7 +61,12 @@ export const clickSection1 = async (
         .fill('0')
     await page
         .getByLabel(
-            'Number of previous/current sanctions involving indecent child image sexual/sexually motivated offences or indirect child contact'
+            'Number of previous/current sanctions involving direct contact child sexual/sexually motivated offences'
+        )
+        .fill('0')
+    await page
+        .getByLabel(
+            'Number of previous/current sanctions involving indecent child image or indirect child contact sexual/sexually motivated offences'
         )
         .fill('0')
     await page
