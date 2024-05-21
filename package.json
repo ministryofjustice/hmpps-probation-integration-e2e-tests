@@ -16,7 +16,7 @@
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
     "@kubernetes/client-node": "^0.21.0",
-    "@playwright/test": "1.43.1",
+    "@playwright/test": "1.44.0",
     "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^7.10.0",
     "@typescript-eslint/parser": "^7.10.0",
