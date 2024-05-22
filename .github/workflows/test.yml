@@ -99,6 +99,7 @@ jobs:
           DELIUS_URL: https://ndelius.test.probation.service.justice.gov.uk
           WORKFORCE_URL: https://workforce-management-dev.hmpps.service.justice.gov.uk
           DPS_URL: https://digital-dev.prison.service.justice.gov.uk
+          PRISONER_PROFILE_URL: https://prisoner-dev.digital.prison.service.justice.gov.uk
           AUTH_URL: https://sign-in-dev.hmpps.service.justice.gov.uk
           PRISON_API: https://prison-api-dev.prison.service.justice.gov.uk
           EPF_API: https://effective-proposal-framework-and-delius-dev.hmpps.service.justice.gov.uk

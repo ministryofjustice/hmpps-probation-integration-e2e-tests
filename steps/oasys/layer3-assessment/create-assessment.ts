@@ -213,7 +213,6 @@ export const clickSection2to13 = async (page: Page) => {
     await page.getByLabel('Impulsivity').selectOption('11.2~2')
     await page.getByLabel('Aggressive / controlling behaviour').selectOption('11.3~2')
     await page.getByLabel('Temper control').selectOption('11.4~1')
-    await page.getByRole('cell', { name: 'Ability to recognise problems' }).nth(1).click()
     await page.getByLabel('Ability to recognise problems').selectOption('11.5~2')
     await page.getByLabel('Problem solving skills').selectOption('11.6~2')
     await page.getByLabel('Awareness of consequences').selectOption('11.7~2')
