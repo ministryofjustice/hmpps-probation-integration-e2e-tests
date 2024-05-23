@@ -43,6 +43,8 @@ DPS_URL=https://digital-dev.prison.service.justice.gov.uk
 DPS_USERNAME=<dps_username>
 DPS_PASSWORD=<dps_password>
 
+PRISONER_PROFILE_URL=https://prisoner-dev.digital.prison.service.justice.gov.uk
+
 AUTH_URL=https://sign-in-dev.hmpps.service.justice.gov.uk
 CRED_USERNAME=<client_id>
 CRED_PASSWORD=<client_secret>
