@@ -14,6 +14,7 @@ import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/cr
 import { addCourtHearing } from '../../steps/court-case/add-court-hearing'
 
 test('Create a case in multiple systems', async ({ page }) => {
+    test.slow()
     const person = deliusPerson()
 
     if (process.env.CREATE_DELIUS_RECORD === 'true') {

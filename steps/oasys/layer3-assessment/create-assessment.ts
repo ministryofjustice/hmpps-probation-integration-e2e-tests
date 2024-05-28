@@ -44,21 +44,13 @@ export const clickSection1 = async (
     const _date = faker.date.recent({ days: 1, refDate: Yesterday })
     await page.getByLabel('Date of current conviction').click()
     await fillDateOasys(page, '#itm_1_29', _date)
-    await page
-        .getByLabel(
-            'Does the current offence involve actual/attempted direct contact against a victim who was a stranger?'
-        )
-        .selectOption('1.44~YES')
+    await page.getByLabel('Have they ever committed a sexual or sexually motivated offence?').selectOption('1.30~YES')
+    await page.getByLabel('Does the current offence have a sexual motivation?').selectOption('1.41~YES')
     await page.getByLabel('Date of most recent sanction involving a sexual/sexually motivated offence').click()
     await fillDateOasys(page, '#itm_1_33', _date)
     await page
         .getByLabel('Number of previous/current sanctions involving contact adult sexual/sexually motivated offences')
         .fill('1')
-    await page
-        .getByLabel(
-            'Number of previous/current sanctions involving direct contact child sexual/sexually motivated offences'
-        )
-        .fill('0')
     await page
         .getByLabel(
             'Number of previous/current sanctions involving direct contact child sexual/sexually motivated offences'
