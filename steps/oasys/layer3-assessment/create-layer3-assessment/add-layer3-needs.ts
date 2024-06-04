@@ -5,7 +5,7 @@ import { completeETESection, completeETESectionProblems } from '../ete-section'
 import { completeRelationshipsSection } from '../relationships-section'
 import { signAndlock } from '../sign-and-lock'
 
-export const addLayer3AssessmentNeeds = async (page: Page) => {
+export const addLayer3AssessmentNeeds = async (page: Page, role?: string) => {
     // And I click on "Accommodation' under Section 2 to 4
     await clickAccommodation(page)
     // And I complete "Accommodation" Section
@@ -19,7 +19,7 @@ export const addLayer3AssessmentNeeds = async (page: Page) => {
     // And I complete "Relationships" Section
     await completeRelationshipsSection(page)
     // And I sign and lock
-    await signAndlock(page)
+    await signAndlock(page, role)
 }
 export const addLayer3AssessmentNeedsReview = async (page: Page) => {
     // And I click on "Accommodation' under Section 2 to 4

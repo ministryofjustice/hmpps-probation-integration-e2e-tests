@@ -16,6 +16,7 @@ export enum UserType {
     RSR,
     Assessment,
     OPD,
+    ApprovedPSORole,
 }
 
 const oasysUserConfig = (userType: UserType) => {
@@ -30,5 +31,10 @@ const oasysUserConfig = (userType: UserType) => {
             return { username: process.env.OASYS_USERNAME_OPD, password: process.env.OASYS_PASSWORD_OPD }
         case UserType.Assessment:
             return { username: process.env.OASYS_USERNAME_ASSESSMENT, password: process.env.OASYS_PASSWORD_ASSESSMENT }
+        case UserType.ApprovedPSORole:
+            return {
+                username: process.env.OASYS_USERNAME_APPROVEDPSOROLE,
+                password: process.env.OASYS_PASSWORD_APPROVEDPSOROLE,
+            }
     }
 }
