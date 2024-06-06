@@ -49,6 +49,10 @@ export const recommendAPersonForRecall = async (page: Page): Promise<string> => 
     await page.getByRole('button', { name: 'Continue' }).click()
     await page.getByRole('button', { name: 'Continue' }).click()
 
+    // Record the consideration in NDelius
+    await expect(page.locator('#main-content h1')).toContainText('Record the consideration in NDelius')
+    await page.getByRole('button', { name: /Send to NDelius/ }).click()
+
     // Share this case link with the manager
     await expect(page.locator('#main-content h1')).toContainText('Share this case with your manager')
     const caseLinkToShareWithManager = await page.locator('pre[data-qa="case-link"]').textContent()

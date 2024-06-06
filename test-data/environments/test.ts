@@ -39,6 +39,11 @@ export const testEnvironmentData: TestData = {
             firstName: 'AutomatedTestUser',
             lastName: 'AutomatedTestUser',
         },
+        automatedTestUser: {
+            name: 'AutomatedTestUser, AutomatedTestUser (NPS - PO)',
+            firstName: 'AutomatedTestUser',
+            lastName: 'AutomatedTestUser',
+        },
     },
     teams: {
         allocationsTestTeam: {
