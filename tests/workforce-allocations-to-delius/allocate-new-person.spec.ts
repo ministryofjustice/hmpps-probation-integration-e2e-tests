@@ -21,6 +21,9 @@ test.beforeEach(async ({ page }) => {
 const practitioner: Allocation = { staff: data.staff.allocationsTester1, team: data.teams.allocationsTestTeam }
 // and another staff member in the same team, for currently/previously allocated cases:
 const anotherPractitioner: Allocation = { staff: data.staff.allocationsTester2, team: data.teams.allocationsTestTeam }
+// and define the staff (SPO) who will perform the allocations
+const spo: Allocation = { team: practitioner.team, staff: data.staff.automatedTestUser }
+
 // get all the crns
 const crns: string[] = []
 
@@ -57,7 +60,7 @@ test('Allocate new person', async ({ page }) => {
         contact('Person', 'Responsible Officer Change', practitioner),
         contact('1 - Curfew (Police Checks Only) (Curfew) (6 Weeks)', 'Sentence Component Transfer', practitioner),
         contact('1 - ORA Community Order', 'Order Supervisor Transfer', practitioner),
-        contact('1 - ORA Community Order', 'Case Allocation Decision Evidence', practitioner),
+        contact('1 - ORA Community Order', 'Case Allocation Decision Evidence', spo),
     ])
     await successful(crn)
 })
@@ -84,7 +87,7 @@ test('Allocate currently-managed person', async ({ page }) => {
         contact('Person', 'Community Practitioner Transfer', practitioner),
         contact('Person', 'Responsible Officer Change', practitioner),
         contact('2 - ORA Community Order', 'Order Supervisor Transfer', practitioner),
-        contact('2 - ORA Community Order', 'Case Allocation Decision Evidence', practitioner),
+        contact('1 - ORA Community Order', 'Case Allocation Decision Evidence', spo),
     ])
     await successful(crn)
 })

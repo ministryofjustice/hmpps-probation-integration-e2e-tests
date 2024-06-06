@@ -1,7 +1,6 @@
 import { test } from '@playwright/test'
 import * as dotenv from 'dotenv'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
-import { login as cas2Login } from '../../steps/cas2-short-term-accommodation/login'
 import { login as deliusLogin } from '../../steps/delius/login'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { createOffender } from '../../steps/delius/offender/create-offender'
@@ -9,6 +8,9 @@ import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { submitApplication } from '../../steps/cas2-short-term-accommodation/application'
 import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { contact } from '../../steps/delius/utils/contact'
+
+import { login as dpsLogin } from '../../steps/dps/login.js'
+import { switchCaseload } from '../../steps/dps/caseload.js'
 
 dotenv.config() // read environment variables into process.env
 
@@ -23,7 +25,9 @@ test('Submit a CAS2 short-term accommodation application', async ({ page }) => {
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
 
-    await cas2Login(page)
+    await dpsLogin(page)
+    await switchCaseload(page, 'SWI')
+    await page.goto(process.env.CAS2_SHORT_TERM_ACCOMMODATION_URL)
     await submitApplication(page, nomisId)
 
     await deliusLogin(page)
