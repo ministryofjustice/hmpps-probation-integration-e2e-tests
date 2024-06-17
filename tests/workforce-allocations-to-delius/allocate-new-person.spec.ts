@@ -87,7 +87,7 @@ test('Allocate currently-managed person', async ({ page }) => {
         contact('Person', 'Community Practitioner Transfer', practitioner),
         contact('Person', 'Responsible Officer Change', practitioner),
         contact('2 - ORA Community Order', 'Order Supervisor Transfer', practitioner),
-        contact('1 - ORA Community Order', 'Case Allocation Decision Evidence', spo),
+        contact('2 - ORA Community Order', 'Case Allocation Decision Evidence', spo),
     ])
     await successful(crn)
 })
