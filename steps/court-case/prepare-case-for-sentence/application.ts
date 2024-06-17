@@ -1,4 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test'
+import { format, parse } from 'date-fns'
+import { enGB } from 'date-fns/locale.js'
 
 export async function addCourtToUser(page: Page, court: string) {
     await page.getByRole('button', { name: /Accept analytics cookies/ }).click()
@@ -27,27 +29,11 @@ export async function searchAndClickDefendantAndGetHeader(
 }
 
 export async function formatDateToPrepareCase(dateString: string): Promise<string> {
-    // Split the date string into day, month, and year
-    const parts = dateString.split('/')
-    if (parts.length !== 3) {
-        throw new Error('Invalid date format. Expected DD/MM/YYYY.')
-    }
+    // Parse the date string in the format 'DD/MM/YYYY'
+    const parsedDate = parse(dateString, 'dd/MM/yyyy', new Date())
 
-    const day = parseInt(parts[0], 10)
-    const month = parseInt(parts[1], 10) - 1 // Months are zero-indexed in JavaScript Date
-    const year = parseInt(parts[2], 10)
-
-    // Construct a new Date object
-    const dateObject = new Date(year, month, day)
-
-    // Format the date as required
-    const formattedDate = dateObject.toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-    })
-
-    return formattedDate
+    // Format the parsed date to 'D MMM YYYY'
+    return format(parsedDate, 'd MMM yyyy', { locale: enGB })
 }
 
 export async function extractRegistrationDetails(page: Page) {
