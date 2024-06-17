@@ -1,6 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test'
 import { format, parse } from 'date-fns'
-import { enGB } from 'date-fns/locale.js'
 
 export async function addCourtToUser(page: Page, court: string) {
     await page.getByRole('button', { name: /Accept analytics cookies/ }).click()
@@ -33,7 +32,7 @@ export async function formatDateToPrepareCase(dateString: string): Promise<strin
     const parsedDate = parse(dateString, 'dd/MM/yyyy', new Date())
 
     // Format the parsed date to 'D MMM YYYY'
-    return format(parsedDate, 'd MMM yyyy', { locale: enGB })
+    return format(parsedDate, 'd MMM yyyy')
 }
 
 export async function extractRegistrationDetails(page: Page) {
