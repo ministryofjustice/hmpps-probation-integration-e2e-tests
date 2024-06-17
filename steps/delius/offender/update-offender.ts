@@ -25,7 +25,11 @@ export async function setNomisId(page: Page, crn: string, nomisId: string) {
         await expect(page).toHaveTitle(/Personal Details/)
     } catch (e) {
         // Sometimes clicking Save can fail with this error, if it does then try again
-        const ole = await page.locator('span.text-danger', { hasText: /This record has been updated by another user since it was loaded/ }).isVisible()
+        const ole = await page
+            .locator('span.text-danger', {
+                hasText: /This record has been updated by another user since it was loaded/,
+            })
+            .isVisible()
         if (ole) await setNomisId(page, crn, nomisId)
     }
 
