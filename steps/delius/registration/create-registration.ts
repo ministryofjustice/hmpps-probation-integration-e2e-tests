@@ -8,7 +8,7 @@ export async function createRegistration(
     crn: string,
     registrationType: string,
     registeringOfficerProvider?: string
-) {
+): Promise<{ deliusRegtype: string; deliusRegDate: string; deliusRegNextReviewDate: string }> {
     await findOffenderByCRN(page, crn)
     await page.locator('a', { hasText: 'Personal Details' }).click()
     await page.locator('a', { hasText: 'Registration Summary' }).click()
@@ -34,4 +34,19 @@ export async function createRegistration(
         () => saveBtn.click(),
         () => expect(page.locator('tbody tr')).toContainText(registrationType)
     )
+
+    // Find the table row (tr) elements within the table body (tbody)
+    const tableRows = await page.$$('#registrationTable tbody tr')
+
+    // Extract text from the first row
+    const [deliusRegtype, deliusRegDate, deliusRegNextReviewDate] = await Promise.all(
+        [
+            tableRows[0].$('td:nth-child(3)'), // Selecting the Type column (3rd td)
+            tableRows[0].$('td:nth-child(4)'), // Selecting the Date column (4th td)
+            tableRows[0].$('td:nth-child(5)'), // Selecting the Next Review column (5th td)
+        ].map(async cell => {
+            return cell ? await (await cell).innerText() : '' // Extract inner text of the cell if it exists, otherwise return an empty string
+        })
+    )
+    return { deliusRegtype, deliusRegDate, deliusRegNextReviewDate }
 }
