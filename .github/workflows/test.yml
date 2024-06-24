@@ -161,7 +161,7 @@ jobs:
 
       - name: Publish JUnit report
         if: always()
-        uses: mikepenz/action-junit-report@eb1a2b2dbd4c45341235503b2c3edfa46d2ec3de # v4.3.0
+        uses: mikepenz/action-junit-report@db71d41eb79864e25ab0337e395c352e84523afe # v4.3.1
         id: junit
         with:
           check_name: End-to-end test results
