@@ -68,7 +68,7 @@ export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.
                                     'on 01/08/2009 at  the County public house, unlawfully and maliciously wounded, John Smith',
                                 listingNumber: 3,
                                 offenceDefinitionId: '1136fd5e-d9d3-4df6-a6a6-a79c8530379f',
-                                offenceCode: 'CJO3523',
+                                offenceCode: 'OF61131',
                                 plea: {
                                     pleaValue: 'not guilty',
                                 },
