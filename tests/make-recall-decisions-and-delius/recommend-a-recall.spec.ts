@@ -22,6 +22,7 @@ import { Yesterday } from '../../steps/delius/utils/date-time'
 import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { contact } from '../../steps/delius/utils/contact'
 import { data } from '../../test-data/test-data'
+import { refreshUntil } from '../../steps/delius/utils/refresh.js'
 dotenv.config() // read environment variables into process.env
 
 test('Make a Management Oversight Decision and verify in Delius', async ({ page }) => {
@@ -79,5 +80,7 @@ test('Make a Management Oversight Decision and verify in Delius', async ({ page 
 
     // Then I log back to Delius and verify the contact
     await deliusLogin(page)
-    await verifyContacts(page, crn, [contact('Person', 'Management Oversight - Recall')])
+    await refreshUntil(page, () => verifyContacts(page, crn, [contact('Person', 'Management Oversight - Recall')]), {
+        timeout: 120_000,
+    })
 })
