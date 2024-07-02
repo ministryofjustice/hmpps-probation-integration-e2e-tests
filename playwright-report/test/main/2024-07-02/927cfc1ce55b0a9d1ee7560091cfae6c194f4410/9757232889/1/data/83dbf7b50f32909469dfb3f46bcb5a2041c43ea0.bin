@@ -1,0 +1,1 @@
+/usr/local/bundle/gems/bootsnap-1.18.3/lib/bootsnap/load_path_cache/core_ext/kernel_require.rb:30: warning: /usr/local/lib/ruby/3.3.0/mutex_m.rb was loaded from the standard library, but will no longer be part of the default gems since Ruby 3.4.0. Add mutex_m to your Gemfile or gemspec. Also contact author of activesupport-6.1.7.8 to add mutex_m into its gemspec.
