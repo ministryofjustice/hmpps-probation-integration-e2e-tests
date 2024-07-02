@@ -2,7 +2,7 @@ import { type Page, expect } from '@playwright/test'
 
 export const verifyOffenceAnalysisIsAsPerOASys = async (page: Page) => {
     await expect(page.getByLabel('Offence analysis')).toContainText(
-        "OASys Question - '2.1 Brief offence(s) details (indicate what exactly happened, when, where and how)' - Answer Input - 'HRosh to Partners, medium to male peers & children'"
+        "OASys Question - '2.1 Brief offence(s) details (indicate what exactly happened, when, where and how)' - Answer Input - 'High Rosh risk to Partners, Medium Rosh risk to male peers & children'"
     )
     await expect(page.getByLabel('Victim - perpetrator relationship')).toContainText(
         "OASys Question - 'Victim - perpetrator relationship' - Answer Input - 'Spouse/Partner - Live in"

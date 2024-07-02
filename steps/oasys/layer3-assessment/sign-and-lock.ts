@@ -5,22 +5,22 @@ export const signAndlock = async (page: Page, role?: string) => {
     await page.locator('#B1720617953204991').click()
     await page.getByRole('button', { name: 'Sign & Lock' }).click()
     await page.getByRole('button', { name: 'Mark 1 to 9 as Missing' }).click()
+
+    // Click 'Continue with Signing' if role is not 'ApprovedPSORole'
     if (role !== 'ApprovedPSORole') {
-        await page.locator('[value="Continue with Signing"]').click()
-    }
-    const continueWithSigningBtn = page.locator('[value="Continue with Signing"]')
-
-    // Click 'Continue with Signing' if it is visible
-    if (await continueWithSigningBtn.isVisible()) {
-        await continueWithSigningBtn.click()
+        const continueButton = await page.locator('[value="Continue with Signing"]')
+        if (await continueButton.isVisible()) {
+            await continueButton.click()
+        }
     }
 
+    // Click 'Confirm Sign & Lock'
     await page.getByRole('button', { name: 'Confirm Sign & Lock' }).click()
 
-    // If role is not 'ApprovedPSORole', verify the header is 'Task Manager'
+    // Verify the header is 'Task Manager' if role is not 'ApprovedPSORole'
     if (role !== 'ApprovedPSORole') {
         const taskManagerHeader = page.locator('#searchtop > h2')
-        await taskManagerHeader.isVisible({ timeout: 15000 })
+        await taskManagerHeader.waitFor({ timeout: 15000, state: 'visible' })
         await expect(taskManagerHeader).toHaveText('Task Manager')
     }
 }
