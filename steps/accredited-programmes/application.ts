@@ -1,28 +1,5 @@
 import { expect, Page } from '@playwright/test'
-import { faker } from '@faker-js/faker'
-import { getDate, getYear, subMonths } from 'date-fns'
 import { format } from 'date-fns'
-// export async function submitApplication(page: Page, nomisId: string) {
-//     await findProgrammeAndMakeReferral(page, nomisId)
-//
-//     await startApplication(page)
-//     await searchForPerson(page, nomisId)
-//     await confirmEligibilityAndConsent(page)
-//     await addReferrerDetails(page)
-//     await checkInformation(page)
-//     await addPersonalInformation(page)
-//     await addAddressInformation(page)
-//     await addEqualityInformation(page)
-//     await addPreferredAreas(page)
-//     await confirmFunding(page)
-//     await addHealthNeeds(page)
-//     await riskToSelf(page)
-//     await riskToOthers(page)
-//     await addOffences(page)
-//     await hdcDetails(page)
-//     await checkAnswers(page)
-//     await expect(page.getByRole('heading', { name: 'Application complete' })).toBeVisible()
-// }
 
 export async function findProgrammeAndMakeReferral(page: Page, nomisId: string) {
     await page.getByRole('link', { name: 'Find a programme and make a referral' }).click()
@@ -30,56 +7,43 @@ export async function findProgrammeAndMakeReferral(page: Page, nomisId: string) 
     await page.getByRole('link', { name: 'Becoming New Me Plus: sexual offence' }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Becoming New Me Plus: sexual offence/)
     await page.getByRole('link', { name: 'Whatton (HMP)' }).click()
-    // await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Becoming New Me Plus: sexual offence, Whatton (HMP)/)
     await expect(page).toHaveTitle(
         /HMPPS Accredited Programmes - Becoming New Me Plus: sexual offence, Whatton \(HMP\)/
     )
-
     await page.getByRole('button', { name: /Make a referral/ }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Make a referral/)
-
     await page.getByRole('button', { name: 'Start now' }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Enter the person's identifier/)
-
     await page.getByLabel("Enter the prison number. We'll import their details into your application.").fill(nomisId)
-    // await page.locator('#prisonNumber').fill(nomisId)
     await page.getByRole('button', { name: /Continue/ }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Confirm personal details/)
-
     await page.getByRole('button', { name: /Continue/ }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Make a referral/)
-
     await page.getByRole('link', { name: 'Review Accredited Programme history' }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Accredited Programme history/)
     await page.getByRole('button', { name: /Return to tasklist/ }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Make a referral/)
     await expect(page.locator('[data-testid="programme-history-tag"]')).toContainText('Completed')
-
     await page.getByRole('link', { name: 'Confirm the OASys information' }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Confirm the OASys information/)
     await page.getByRole('checkbox', { name: /I confirm that the OASys information is up to date./ }).click()
     await page.getByRole('button', { name: /Continue/ }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Make a referral/)
     await expect(page.locator('[data-testid="confirm-oasys-tag"]')).toContainText('Completed')
-
     await page.getByRole('link', { name: 'Add additional information' }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Add additional information/)
     await page.getByLabel('Provide additional information').fill('Test additional information')
     await page.getByRole('button', { name: /Continue/ }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Make a referral/)
     await expect(page.locator('[data-testid="additional-information-tag"]')).toContainText('Completed')
-
     await page.getByRole('link', { name: 'Check answers and submit' }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Check your answers/)
     await page.getByLabel('I confirm the information I have provided is complete, accurate and up to date.').check()
     await page.getByRole('button', { name: /Submit referral/ }).click()
-
     await expect(page.locator('h1')).toContainText('Referral complete')
     await page.getByRole('button', { name: /Go to my referrals/ }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - My referrals/)
 }
-export const oasysImportDateText = '[data-testid="imported-from-text"]'
-export const apFormattedTodayDate = format(new Date(), 'd MMMM yyyy')
 
 export async function clickOnOffenderLink(page: Page, linkName: string, fullName: string) {
     // Click on 'Date referred' link first
@@ -122,3 +86,6 @@ export async function assertRoSHRiskTable(page: Page, assertions: RoSHRiskAssert
         await page.waitForSelector(`${selector}:not(.rosh-table__cell--unknown):has-text("${expectedValue}")`)
     }
 }
+
+export const oasysImportDateText = '[data-testid="imported-from-text"]'
+export const apFormattedTodayDate = format(new Date(), 'd MMMM yyyy')
