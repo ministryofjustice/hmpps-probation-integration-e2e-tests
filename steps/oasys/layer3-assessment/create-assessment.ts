@@ -143,37 +143,75 @@ export const clickSection2to13 = async (page: Page) => {
             'Community integration (Attachments to individual(s) or community groups.  Participation in organised activities not linked to offending, including prison, eg sports clubs, faith communities, etc) (Absence of any links = 2)'
         )
         .selectOption('7.1~1')
+    await page.getByLabel('Regular activities encourage offending').selectOption('7.2~1')
     await page.getByLabel('Recklessness and risk-taking behaviour').selectOption('7.5~2')
     await page
         .getByLabel(
             'Identify lifestyle issues contributing to risks of offending and harm.  Please include any positive factors. - additional information spellcheck available'
         )
-        .fill('OPD Autotest')
+        .fill(
+            'NEGATIVE - Substance Abuse: The individual has a history of substance abuse, particularly alcohol, which has been a significant factor in past offences.'
+        )
     await page
         .getByLabel('Lifestyle and associates linked to risk of serious harm, risks to the individual and other risks')
         .selectOption('7.98~YES')
     await page.getByLabel('Lifestyle and associates linked to offending behaviour').selectOption('7.99~YES')
-    await page.locator('#B6737316531953403').click()
-    await page.getByLabel('Drugs ever misused (in custody or community)').selectOption('8.1~NO')
-    await page.locator('#B6737316531953403').click()
-    await page.getByRole('link', { name: '9 - Alcohol Misuse' }).click()
-    await page.getByLabel('Motivation to tackle alcohol misuse (if applicable)').selectOption('9.5~1')
+    // await page.locator('#B6737316531953403').click()
+    await page.click('input[value="Save"]')
+    await page.click('input[value="Next"]')
+    await expect(page.locator('#contextleft > h3')).toHaveText('8 - Drug Misuse (Layer 3)')
+    // await page.getByLabel('Drugs ever misused (in custody or community)').selectOption('8.1~NO')
+    await page.getByLabel('Drugs ever misused (in custody or community)').selectOption('8.1~YES')
+    // await page.locator('#B6737316531953403').click()
+
+    // await page.getByRole('link', { name: '9 - Alcohol Misuse' }).click()
+    // await page.getByLabel('A Heroin').selectOption('8.2.1.1~120')
+
+    await page.locator('#itm_8_2_1_1').selectOption('8.2.1.1~120')
+
+    await page.locator('#itm_8_2_1_3_YES').check()
+    await page.getByLabel('Motivation to tackle drug misuse').selectOption('8.8~1')
+    await page.getByLabel('Drug use and obtaining drugs a major activity / occupation').selectOption('8.9~1')
+    await page
+        .getByLabel(
+            'Identify drug misuse issues contributing to risks of offending and harm. Please include any positive factors.'
+        )
+        .fill(
+            'NEGATIVE - Drug misuse is a significant factor contributing to risks of offending and harm. POSITIVE - Ongoing rehabilitation efforts and familial support.'
+        )
+    await page.getByLabel('Drug misuse issues linked to offending behaviour').selectOption('8.99~NO')
+    await page.click('input[value="Save"]')
+    await page.click('input[value="Next"]')
+    await expect(page.locator('#contextleft > h3')).toHaveText('9 - Alcohol Misuse (Layer 3)')
+    await page.getByLabel('Is current use a problem').selectOption('9.1~1')
+    await page
+        .getByLabel('If a problem describe level and frequency of alcohol consumption at present time')
+        .fill('Frequency of alcohol consumption at present time drinking every day')
+    await page.getByLabel('Binge drinking or excessive use of alcohol in last 6 months').selectOption('9.2~0')
+    await page.getByLabel('Frequency and level of alcohol misuse in the past').selectOption('9.3~0')
+
     await page
         .getByLabel(
             'Identify alcohol misuse issues contributing to risks of offending and harm.  Please include any positive factors. - additional information spellcheck available'
         )
-        .fill('OPD Autotest')
+        .fill(
+            'POSTIVE - alcohol misuse is a prominent contributor to risks of offending and harm. POSITIVE - Active participation in recovery initiatives'
+        )
     await page
         .getByLabel('Alcohol misuse issues linked to risk of serious harm, risks to the individual and other risks')
         .selectOption('9.98~NO')
     await page.getByLabel('Alcohol misuse issues linked to offending behaviour').selectOption('9.99~YES')
-    await page.locator('#B6737316531953403').click()
+    // await page.locator('#B6737316531953403').click()
+    await page.click('input[value="Save"]')
+    await page.click('input[value="Next"]')
+    await expect(page.locator('#contextleft > h3')).toHaveText('10 - Emotional Well-being (Layer 3)')
+
     await page.getByLabel('Difficulties coping').selectOption('10.1~1')
-    await page.getByLabel('Current psychological problems / depression').selectOption('10.2~0')
+    await page.getByLabel('Current psychological problems / depression').selectOption('10.2~2')
     await page.getByLabel('Social isolation').selectOption('10.3~0')
     await page.getByLabel("Offender's attitude to themselves").selectOption('10.4~0')
     await page.getByLabel('Self-harm, attempted suicide, suicidal thoughts or feelings').selectOption('10.5~NO')
-    await page.getByLabel('Current psychiatric problems').selectOption('10.6~0')
+    await page.getByLabel('Current psychiatric problems').selectOption('10.6~2')
     await page
         .getByLabel('Evidence of childhood behavioural problems', { exact: true })
         .selectOption('10.7_V2_CHILDHOOD~NO')
@@ -210,7 +248,12 @@ export const clickSection2to13 = async (page: Page) => {
         )
         .selectOption('10.98~NO')
     await page.getByLabel('Issues of emotional wellbeing linked to offending behaviour').selectOption('10.99~NO')
-    await page.getByRole('link', { name: '11 - Thinking & Behaviour' }).click()
+
+    await page.click('input[value="Save"]')
+    await page.click('input[value="Next"]')
+    await expect(page.locator('#contextleft > h3')).toHaveText('11 - Thinking and Behaviour (Layer 3)')
+
+    // await page.getByRole('link', { name: '11 - Thinking & Behaviour' }).click()
     await page.getByLabel('Level of interpersonal skills').selectOption('11.1~1')
     await page.getByLabel('Impulsivity').selectOption('11.2~2')
     await page.getByLabel('Aggressive / controlling behaviour').selectOption('11.3~2')
@@ -218,7 +261,11 @@ export const clickSection2to13 = async (page: Page) => {
     await page.getByLabel('Ability to recognise problems').selectOption('11.5~2')
     await page.getByLabel('Problem solving skills').selectOption('11.6~2')
     await page.getByLabel('Awareness of consequences').selectOption('11.7~2')
+    await page.getByLabel('Achieves goals (optional)').selectOption('11.8~1')
+
     await page.getByLabel("Understands other people's views").selectOption('11.9~1')
+    await page.getByLabel('Concrete / abstract thinking (optional)').selectOption('11.10~1-Someproblems')
+
     await page.getByLabel('Sexual Pre-Occupation').selectOption('11.11~1')
     await page.getByLabel('Offence Related Sexual Interests').selectOption('11.12~1')
     await page
@@ -235,7 +282,12 @@ export const clickSection2to13 = async (page: Page) => {
         .getByLabel('Thinking and behaviour linked to risk of serious harm, risks to the individual and other risks')
         .selectOption('11.98~YES')
     await page.getByLabel('Thinking and behaviour linked to offending behaviour').selectOption('11.99~YES')
-    await page.locator('#B6737316531953403').click()
+    // await page.locator('#B6737316531953403').click()
+
+    await page.click('input[value="Save"]')
+    await page.click('input[value="Next"]')
+    await expect(page.locator('#contextleft > h3')).toHaveText('12 - Attitudes (Layer 3)')
+
     await page.getByLabel('Pro-criminal attitudes').selectOption('12.1~0')
     await page.getByLabel('Attitude towards staff (optional)').selectOption('12.3~0')
     await page.getByLabel('Attitude towards supervision / licence').selectOption('12.4~0')
@@ -254,7 +306,15 @@ export const clickSection2to13 = async (page: Page) => {
         .getByLabel('Attitudes linked to risk of serious harm, risks to the individual and other risks')
         .selectOption('12.98~NO')
     await page.getByLabel('Attitudes linked to offending behaviour').selectOption('12.99~NO')
-    await page.locator('#B6737316531953403').click()
+    await page.click('input[value="Save"]')
+    await page.click('input[value="Next"]')
+    await expect(page.locator('#contextleft > h3')).toHaveText('13 - Health and Other Considerations (Layer 3)')
+    await page
+        .getByLabel('General Health - Any physical or mental health conditions? (optional)')
+        .selectOption('13.1~YES')
+    await page.locator('#textarea_13_1_t').fill('Physical ailments such as fatigue and tiredness')
+    await page.click('input[value="Save"]')
+    await page.click('input[value="Next"]')
 }
 
 export const selfAssessmentForm = async (page: Page) => {
@@ -266,7 +326,9 @@ export const selfAssessmentForm = async (page: Page) => {
 }
 export const clickRoSHSummary = async (page: Page) => {
     await page.locator('a', { hasText: 'RoSH Summary' }).click()
-    await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Summary (Layer 3)')
+    // await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Summary (Layer 3)')
+    await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Full Analysis (Layer 3)')
+    // "Risk of Serious Harm Full Analysis (Layer 3)"
 }
 
 export const clickRiskManagementPlan = async (page: Page) => {

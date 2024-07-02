@@ -10,7 +10,7 @@ export const verifySupportingInfoIsAsPerOASys = async (page: Page) => {
         "OASys Question - 'Identify education, training and employability issues contributing to risks of offending and harm. Please include any positive factors.' - Answer Input - 'Test education, training and employability issues'"
     )
     await expect(page.getByLabel('Relationship issues contributing to risks of offending and harm')).toContainText(
-        "OASys Question - 'Identify relationship issues contributing to risks of offending and harm. Please include any positive factors. Child details are now recorded in the screening' - Answer Input - 'Identify relationship issues contributing to risks of offending and harm'"
+        "OASys Question - 'Identify relationship issues contributing to risks of offending and harm. Please include any positive factors. Child details are now recorded in the screening' - Answer Input - 'Test relationship issues contributing to risks of offending and harm'"
     )
     await page.locator('.govuk-button', { hasText: /Save and continue/ }).click()
 }

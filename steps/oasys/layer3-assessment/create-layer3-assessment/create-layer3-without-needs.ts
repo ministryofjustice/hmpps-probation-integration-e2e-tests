@@ -21,6 +21,7 @@ import {
 import { completeRoSHSection1MarkAllNo } from '../section-1'
 import { clickSection2To4, clickSection2To4NextButton } from '../section-2-4'
 import { completeRoSHSection5FullAnalysis, completeRoSHSection5FullAnalysisYes } from '../section-5'
+import { completeRoSHSection6FullAnalysis } from '../section-6'
 import { completeRoSHSection10RoSHSummary } from '../section-10'
 import { completeRiskManagementPlan } from '../risk-management-plan'
 import { completeOffenceAnalysis, completeOffenceAnalysisYes } from '../analysis-of-offences-layer3'
@@ -30,7 +31,7 @@ import { completeReviewSentencePlan } from './review-sentenceplan'
 import { addYears } from 'date-fns'
 import { completeRoSHFullSec8RisksToIndvdl } from '../rosh-full-analysis-section8'
 
-export const createLayer3CompleteAssessment = async (page: Page, crn: string, person: Person) => {
+export const createLayer3CompleteAssessment = async (page: Page, crn: string, person: Person, nomisId?: string) => {
     let providerEstablishmentPageExists = false
 
     try {
@@ -55,8 +56,14 @@ export const createLayer3CompleteAssessment = async (page: Page, crn: string, pe
     await crnSearch(page, crn)
     // And I click on Create Offender button
     await clickCreateOffenderButton(page)
+    if (nomisId !== undefined) {
+        // Check if nomisId is provided
+        await page.locator('#P10_CMS_PRIS_NUMBER').fill(nomisId)
+        await page.locator('#B2777914628851790', { hasText: 'Save' }).click()
+    }
     // And I click on Create Assessment Button
     await clickCreateAssessmentButton(page)
+
     // And I say OK for CRN Amendment
     await clickOKForCRNAmendment(page)
     // And I click on CMS Record
@@ -77,7 +84,12 @@ export const createLayer3CompleteAssessment = async (page: Page, crn: string, pe
     // And I Click on "RoSH Screening" - Section 2 to 4 & and Click Next without selecting/entering anything
     await clickSection2To4(page, person)
     // And I complete "RoSH Screening" Section 5 and Click Save & Next
+    // await completeRoSHSection5FullAnalysis(page)
     await completeRoSHSection5FullAnalysis(page)
+
+    // And I complete "RoSH Screening" Section 6 and Click Save & Next
+    await completeRoSHSection6FullAnalysis(page)
+
     // And I Click on "RoSH Summary" Section
     await clickRoSHSummary(page)
     // And I complete "RoSH Summary - R9" Questions

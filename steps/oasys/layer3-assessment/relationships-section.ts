@@ -13,7 +13,7 @@ export const completeRelationshipsSection = async (page: Page) => {
         .selectOption({ label: '2-Significant problems' })*/
     await page.fill(
         '#textarea_6_97',
-        "OASys Question - 'Identify relationship issues contributing to risks of offending and harm. Please include any positive factors. Child details are now recorded in the screening' - Answer Input - 'Identify relationship issues contributing to risks of offending and harm'"
+        "OASys Question - 'Identify relationship issues contributing to risks of offending and harm. Please include any positive factors. Child details are now recorded in the screening' - Answer Input - 'Test relationship issues contributing to risks of offending and harm'"
     )
     await page
         .getByLabel('Relationship issues linked to risk of serious harm, risks to the individual and other risks')
