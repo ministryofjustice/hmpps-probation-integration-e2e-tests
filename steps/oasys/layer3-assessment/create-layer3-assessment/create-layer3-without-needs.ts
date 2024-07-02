@@ -30,7 +30,7 @@ import { completeReviewSentencePlan } from './review-sentenceplan'
 import { addYears } from 'date-fns'
 import { completeRoSHFullSec8RisksToIndvdl } from '../rosh-full-analysis-section8'
 
-export const createLayer3CompleteAssessment = async (page: Page, crn: string, person: Person) => {
+export const createLayer3CompleteAssessment = async (page: Page, crn: string, person: Person, nomisId?: string) => {
     let providerEstablishmentPageExists = false
 
     try {
@@ -55,6 +55,11 @@ export const createLayer3CompleteAssessment = async (page: Page, crn: string, pe
     await crnSearch(page, crn)
     // And I click on Create Offender button
     await clickCreateOffenderButton(page)
+    if (nomisId !== undefined) {
+        // Check if nomisId is provided
+        await page.locator('#P10_CMS_PRIS_NUMBER').fill(nomisId)
+        await page.locator('#B2777914628851790', { hasText: 'Save' }).click()
+    }
     // And I click on Create Assessment Button
     await clickCreateAssessmentButton(page)
     // And I say OK for CRN Amendment

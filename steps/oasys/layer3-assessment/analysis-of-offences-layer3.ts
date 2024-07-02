@@ -3,7 +3,7 @@ import { type Page, expect } from '@playwright/test'
 export const completeOffenceAnalysisYes = async (page: Page) => {
     await page.fill(
         '#textarea_2_1',
-        "OASys Question - '2.1 Brief offence(s) details (indicate what exactly happened, when, where and how)' - Answer Input - 'HRosh to Partners, medium to male peers & children'"
+        "OASys Question - '2.1 Brief offence(s) details (indicate what exactly happened, when, where and how)' - Answer Input - 'High Rosh risk to Partners, Medium Rosh risk to male peers & children'"
     )
     await page
         .locator('[for="itm_2_2_V2_WEAPON"]', { hasText: 'Carrying or using a weapon' })
@@ -82,7 +82,7 @@ export const completeOffenceAnalysisYes = async (page: Page) => {
 export const completeOffenceAnalysis = async (page: Page) => {
     await page.fill(
         '#textarea_2_1',
-        "OASys Question - '2.1 Brief offence(s) details (indicate what exactly happened, when, where and how)' - Answer Input - 'HRosh to Partners, medium to male peers & children'"
+        "OASys Question - '2.1 Brief offence(s) details (indicate what exactly happened, when, where and how)' - Answer Input - 'High Rosh risk to Partners, Medium Rosh risk to male peers & children'"
     )
     await page.locator("[value='Enter Victim Details']").click()
     await expect(page.locator('#R6262620100578238 > h2')).toHaveText('Victim’s Relationship to Perpetrator')
