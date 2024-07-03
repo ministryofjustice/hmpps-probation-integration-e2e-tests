@@ -12,6 +12,7 @@ import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/cr
 import { login as accreditedProgrammesLogin } from '../../steps/accredited-programmes/login.js'
 import {
     assertRoSHRiskTable,
+    briefOffenceDetailsSummaryCard,
     clickOnOffenderLink,
     findProgrammeAndMakeReferral,
     oasysImportDateText,
@@ -56,7 +57,7 @@ test('View OASys assessments in Accredited Programmes service', async ({ page })
         riskToPrisoners: 'Not applicable',
     })
     await page.getByRole('link', { name: 'Section 2 - Offence analysis' }).click()
-    await expect(page.locator('[data-testid="brief-offence-details-summary-card"]')).toContainText(
+    await expect(page.locator(briefOffenceDetailsSummaryCard)).toContainText(
         'High Rosh risk to Partners, Medium Rosh risk to male peers & children'
     )
 })
