@@ -69,6 +69,7 @@ interface RoSHRiskAssertion {
     riskToStaff: string
     riskToPrisoners: string
 }
+
 export async function assertRoSHRiskTable(page: Page, assertions: RoSHRiskAssertion) {
     const selectors = {
         riskToChildren: 'tbody.govuk-table__body tr.govuk-table__row:nth-child(1) td.govuk-table__cell',
@@ -89,3 +90,4 @@ export async function assertRoSHRiskTable(page: Page, assertions: RoSHRiskAssert
 
 export const oasysImportDateText = '[data-testid="imported-from-text"]'
 export const apFormattedTodayDate = format(new Date(), 'd MMMM yyyy')
+export const briefOffenceDetailsSummaryCard = '[data-testid="brief-offence-details-summary-card"]'
