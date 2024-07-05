@@ -113,6 +113,7 @@ jobs:
           RESETTLEMENT_PASSPORT_AND_DELIUS_API: https://resettlement-passport-and-delius-dev.hmpps.service.justice.gov.uk
           CVL_URL: https://create-and-vary-a-licence-test2.hmpps.service.justice.gov.uk
           CVL_API: https://create-and-vary-a-licence-api-test2.hmpps.service.justice.gov.uk
+          ARNS_API: https://assess-risks-and-needs-dev.hmpps.service.justice.gov.uk
           CAS2_SHORT_TERM_ACCOMMODATION_URL: https://community-accommodation-tier-2-dev.hmpps.service.justice.gov.uk
           CAS3_TRANSITIONAL_ACCOMMODATION_URL: https://transitional-accommodation-dev.hmpps.service.justice.gov.uk
           TIER_UI_URL: https://tier-dev.hmpps.service.justice.gov.uk
