@@ -6,13 +6,11 @@ export const signAndlock = async (page: Page, role?: string) => {
     await page.getByRole('button', { name: 'Sign & Lock' }).click()
     await page.getByRole('button', { name: 'Mark 1 to 9 as Missing' }).click()
 
-    // Click 'Continue with Signing' if role is not 'ApprovedPSORole'
-    // if (role !== 'ApprovedPSORole') {
+    // Click on 'Continue with Signing' if it is visible
     const continueButton = await page.locator('[value="Continue with Signing"]')
     if (await continueButton.isVisible()) {
         await continueButton.click()
     }
-    // }
 
     // Click 'Confirm Sign & Lock'
     await page.getByRole('button', { name: 'Confirm Sign & Lock' }).click()
