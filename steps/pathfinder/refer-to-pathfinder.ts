@@ -19,5 +19,5 @@ export const referToPathfinder = async (page: Page, crn: string) => {
 
 export const pathfinderDateFormatter = (date: Date | string): string => {
     const parsedDate = typeof date === 'string' ? new Date(date) : date
-    return format(parsedDate, 'dd MMM yyyy')
+    return format(parsedDate, 'd MMM yyyy')
 }
