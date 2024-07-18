@@ -53,6 +53,8 @@ test('Allocate new person', async ({ page }) => {
     await workforceLogin(page)
     await allocateCase(page, crn, practitioner)
 
+    // const crn = 'X787332'
+
     // Then the allocation and associated contacts appear in Delius
     await verifyAllocation(page, { crn, allocation: practitioner })
     await verifyContacts(page, crn, [
@@ -60,7 +62,7 @@ test('Allocate new person', async ({ page }) => {
         contact('Person', 'Responsible Officer Change', practitioner),
         contact('1 - Curfew (Police Checks Only) (Curfew) (6 Weeks)', 'Sentence Component Transfer', practitioner),
         contact('1 - ORA Community Order', 'Order Supervisor Transfer', practitioner),
-        contact('1 - ORA Community Order', 'Case Allocation Decision Evidence', spo),
+        contact('1 - ORA Community Order', 'Case Allocation: SPO Oversight', spo),
     ])
     await successful(crn)
 })
@@ -87,7 +89,7 @@ test('Allocate currently-managed person', async ({ page }) => {
         contact('Person', 'Community Practitioner Transfer', practitioner),
         contact('Person', 'Responsible Officer Change', practitioner),
         contact('2 - ORA Community Order', 'Order Supervisor Transfer', practitioner),
-        contact('2 - ORA Community Order', 'Case Allocation Decision Evidence', spo),
+        contact('2 - ORA Community Order', 'Case Allocation: SPO Oversight', spo),
     ])
     await successful(crn)
 })
