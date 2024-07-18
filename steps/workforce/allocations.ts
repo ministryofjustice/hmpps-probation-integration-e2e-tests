@@ -19,7 +19,7 @@ export const allocateCase = async (page: Page, crn: string, allocation: Allocati
     await selectTeam(page, allocation.team)
     await viewAllocation(page, crn)
     // Navigate to allocation page
-    await page.locator('a', { hasText: 'Continue' }).click()
+    await page.locator('a', { hasText: /Continue/ }).click()
     await expect(page).toHaveTitle(/.*Choose practitioner.*/)
 
     // Allocate to team/staff
