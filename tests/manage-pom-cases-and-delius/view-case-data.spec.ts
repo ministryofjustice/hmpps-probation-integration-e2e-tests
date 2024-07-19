@@ -14,7 +14,7 @@ test('View Delius case data', async ({ page }) => {
 
     // When the probation import job runs
     const namespace = 'offender-management-staging'
-    const deploymentName = 'allocation-manager'
+    const deploymentName = 'offender-management'
     const podName = await getPodName(namespace, deploymentName)
     await execCommand(namespace, podName, deploymentName, ['sh', '-c', 'rake community_api:import'])
 
