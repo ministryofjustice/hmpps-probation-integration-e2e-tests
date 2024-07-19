@@ -48,6 +48,8 @@ export const createPrisoner = retry(
                 dateOfBirth: person.dob,
                 gender: person.sex.charAt(0),
                 pncNumber: person.pnc,
+                ethnicity: person.ethnicity,
+                croNumber: person.croNumber,
             },
         })
         const json = await response.json()
