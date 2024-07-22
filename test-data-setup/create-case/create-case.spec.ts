@@ -1,7 +1,7 @@
 import { test } from '@playwright/test'
 import { login as loginDelius } from '../../steps/delius/login'
 import { deliusPerson } from '../../steps/delius/utils/person'
-import { createOffender } from '../../steps/delius/offender/create-offender'
+import { createOffender } from '../../steps/delius/offendetr/create-offender'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import {
     createAndBookPrisoner,
