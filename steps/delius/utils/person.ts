@@ -49,7 +49,7 @@ export function createPnc(date: Date): string {
 
 export function createCroNumber(): string {
     const chars = 'ZABCDEFGHJKLMNPQRTUVWXY'
-    const year = faker.number.int({ min: 39, max: 95 })
+    const year = faker.number.int({ min: 39, max: 95 }).toString()
     const randomNumber = faker.number.int({ min: 0, max: 9999999 })
     const padded = randomNumber.toString().padStart(7, '0')
     const character = chars.charAt(+(year.substring(2) + padded) % 23)
