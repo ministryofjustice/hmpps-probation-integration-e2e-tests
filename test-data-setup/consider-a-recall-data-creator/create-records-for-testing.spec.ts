@@ -21,6 +21,7 @@ test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
     const person = deliusPerson()
     const crn: string = await createOffender(page, {
         person
+        providerName: data.teams.genericTeam.provider
     })
 
     // And I create an Address
@@ -36,6 +37,7 @@ test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
     }
     await createContact(page, crn, contactDetails)
 
+    //await createCustodialEvent(page, { crn, allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff } })
     await createCustodialEvent(page, { crn, allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff } })
 
     // And I create a Release
