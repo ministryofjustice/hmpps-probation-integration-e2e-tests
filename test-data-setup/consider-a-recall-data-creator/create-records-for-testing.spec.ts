@@ -17,13 +17,20 @@ import { Yesterday } from '../../steps/delius/utils/date-time'
 
 test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
     test.slow()
-    await loginDelius(page)
     const person = deliusPerson()
-    const crn: string = await createOffender(page, {
-        person,
-        providerName: data.teams.genericTeam.provider,
-    })
 
+    await loginDelius(page)
+    const crn = await createOffender(page, { person })
+
+    await createCustodialEvent(page, { crn })
+    const { nomisId } = await createAndBookPrisoner(page, crn, person)
+    await releasePrisoner(nomisId)
+
+    await oasysLogin(page, UserType.Booking)
+    await createLayer3CompleteAssessment(page, crn, person)
+    await addLayer3AssessmentNeeds(page)
+
+    await loginDelius(page)
     // And I create an Address
     const address = buildAddress()
     await createAddress(page, crn, address)
@@ -37,20 +44,10 @@ test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
     }
     await createContact(page, crn, contactDetails)
 
-    //await createCustodialEvent(page, { crn, allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff } })
-    await createCustodialEvent(page, { crn, allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff } })
-
     // And I create a Release
     await createRelease(page, crn)
 
     // And I create a Licence Condition
     const licenceCondition = await createLicenceCondition(page, crn)
-
-    //Add the person to NOMIS
-    await createAndBookPrisoner(page, crn, person)
-
-    //Create an assessment for them
-    await oasysLogin(page, UserType.Booking)
-    await createLayer3AssessmentWithoutNeeds(page, crn)
 
 })
