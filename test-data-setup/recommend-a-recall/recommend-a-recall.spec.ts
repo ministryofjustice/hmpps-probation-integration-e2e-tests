@@ -12,6 +12,12 @@ import {
     verifyRecallOffenderDetails,
     verifyRecallOffendersAddress,
 } from '../../steps/make-recall-decisions/start-recommendation'
+import {
+    createAndBookPrisoner,
+    createAndBookPrisonerWithoutDeliusLink,
+    releasePrisoner,
+} from '../../steps/api/dps/prison-api'
+import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import * as dotenv from 'dotenv'
 import { buildAddress, createAddress } from '../../steps/delius/address/create-address'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
@@ -24,13 +30,22 @@ import { contact } from '../../steps/delius/utils/contact'
 import { data } from '../../test-data/test-data'
 dotenv.config() // read environment variables into process.env
 
-test('Make a Management Oversight Decision and verify in Delius', async ({ page }) => {
+test('Create a prisoner in NOMIS, and an assessment, release them and make a Management Oversight Decision and verify in Delius', async ({ page }) => {
     test.slow()
     // Given a new person in Delius
     await deliusLogin(page)
     const person = deliusPerson()
     const name = person.firstName + ' ' + person.lastName
+
+    const { nomisId } = await createAndBookPrisoner(page, crn, person)
+    await releasePrisoner(nomisId)
+
     const crn = await createOffender(page, { person, providerName: data.teams.genericTeam.provider })
+
+    // And I login to OASys T2
+    await oasysLogin(page, UserType.Booking)
+    // And I create a Layer 3 Assessment without Needs
+    await createLayer3AssessmentWithoutNeeds(page, crn)
 
     // And I create an Address
     const address = buildAddress()
