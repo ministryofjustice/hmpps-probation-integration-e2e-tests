@@ -9,6 +9,10 @@ import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { createRestrictions } from '../../steps/delius/restriction/create-restrictions'
+import { createLicenceCondition } from '../../steps/delius/licence-condition/create-licence-condition'
+import { createRelease } from '../../steps/delius/release/create-release'
+import { createContact } from '../../steps/delius/contact/create-contact'
+import { buildAddress, createAddress } from '../../steps/delius/address/create-address'
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
