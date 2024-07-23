@@ -15,16 +15,12 @@ import { createContact } from '../../steps/delius/contact/create-contact'
 import { buildAddress, createAddress } from '../../steps/delius/address/create-address'
 import { Yesterday } from '../../steps/delius/utils/date-time'
 
-test.beforeEach(async ({ page }) => {
-    await loginDelius(page)
-})
-
 test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
+    test.slow()
     await loginDelius(page)
     const person = deliusPerson()
     const crn: string = await createOffender(page, {
-        person,
-        providerName: data.teams.genericTeam.provider,
+        person
     })
 
     // And I create an Address
@@ -48,9 +44,11 @@ test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
     // And I create a Licence Condition
     const licenceCondition = await createLicenceCondition(page, crn)
 
+    //Add the person to NOMIS
     await createAndBookPrisoner(page, crn, person)
 
+    //Create an assessment for them
     await oasysLogin(page, UserType.Booking)
-    await createLayer3CompleteAssessment(page, crn, person)
-    await addLayer3AssessmentNeeds(page)
+    await createLayer3AssessmentWithoutNeeds(page, crn)
+
 })
