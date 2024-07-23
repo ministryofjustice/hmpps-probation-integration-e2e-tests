@@ -37,10 +37,12 @@ test('Create a prisoner in NOMIS, and an assessment, release them and make a Man
     const person = deliusPerson()
     const name = person.firstName + ' ' + person.lastName
 
-    const { nomisId } = await createAndBookPrisoner(page, crn, person)
-    await releasePrisoner(nomisId)
 
     const crn = await createOffender(page, { person, providerName: data.teams.genericTeam.provider })
+
+    // Book the offender into nomis
+    const { nomisId } = await createAndBookPrisoner(page, crn, person)
+    await releasePrisoner(nomisId)
 
     // And I login to OASys T2
     await oasysLogin(page, UserType.Booking)
