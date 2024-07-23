@@ -30,6 +30,7 @@ on:
         options:
           - none
           - approved-premises-data-creator
+          - consider-a-recall-data-creator
           - effective-proposal-framework
           - recommend-a-recall
           - refer-and-monitor-functional-tests

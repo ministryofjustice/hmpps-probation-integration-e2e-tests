@@ -16,12 +16,32 @@ test.beforeEach(async ({ page }) => {
 
 test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
     await loginDelius(page)
-    const person = deliusPerson({ sex: 'Male', dob: null, lastName: null, firstName: null })
+    const person = deliusPerson()
     const crn: string = await createOffender(page, {
         person,
-        providerName: data.teams.approvedPremisesTestTeam.provider,
+        providerName: data.teams.genericTeam.provider,
     })
-    await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
+
+    // And I create an Address
+    const address = buildAddress()
+    await createAddress(page, crn, address)
+
+    // And I create a Contact
+    const contactDetails = {
+        category: 'Community Management',
+        type: 'Other Contact',
+        relatesTo: `Person - ${person.firstName} ${person.lastName}`,
+        date: Yesterday,
+    }
+    await createContact(page, crn, contactDetails)
+
+    await createCustodialEvent(page, { crn, allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff } })
+
+    // And I create a Release
+    await createRelease(page, crn)
+
+    // And I create a Licence Condition
+    const licenceCondition = await createLicenceCondition(page, crn)
 
     await createAndBookPrisoner(page, crn, person)
 
