@@ -20,8 +20,8 @@ test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
     await loginDelius(page)
     const person = deliusPerson()
     const crn: string = await createOffender(page, {
-        person
-        providerName: data.teams.genericTeam.provider
+        person,
+        providerName: data.teams.genericTeam.provider,
     })
 
     // And I create an Address
