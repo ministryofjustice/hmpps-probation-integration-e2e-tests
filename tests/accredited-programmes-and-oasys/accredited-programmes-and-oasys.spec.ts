@@ -15,7 +15,7 @@ import {
     briefOffenceDetailsSummaryCard,
     clickOnOffenderLink,
     findProgrammeAndMakeReferral,
-    oasysImportDateText,
+    verifyAssessmentDateTextToBe,
 } from '../../steps/accredited-programmes/application.js'
 
 import { apFormattedTodayDate as todaysDate } from '../../steps/accredited-programmes/application.js'
@@ -47,7 +47,7 @@ test('View OASys assessments in Accredited Programmes service', async ({ page })
     await clickOnOffenderLink(page, 'Date referred', `${person.firstName} ${person.lastName}`)
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Referral to Becoming New Me Plus: sexual offence/)
     await page.getByRole('link', { name: 'Risks and needs' }).click()
-    await expect(page.locator(oasysImportDateText)).toHaveText(`Imported from OASys on ${todaysDate}.`)
+    await verifyAssessmentDateTextToBe(page, `Assessment completed ${todaysDate}`)
     await page.getByRole('link', { name: 'Risks and alerts' }).click()
     await assertRoSHRiskTable(page, {
         riskToChildren: 'Very high',

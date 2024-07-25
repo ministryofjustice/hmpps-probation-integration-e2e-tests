@@ -25,7 +25,7 @@ export async function findProgrammeAndMakeReferral(page: Page, nomisId: string) 
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Make a referral/)
     await expect(page.locator('[data-testid="programme-history-tag"]')).toContainText('Completed')
     await page.getByRole('link', { name: 'Confirm the OASys information' }).click()
-    await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Confirm the OASys information/)
+    await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Check risks and needs information/)
     await page.getByRole('checkbox', { name: /I confirm that the OASys information is up to date./ }).click()
     await page.getByRole('button', { name: /Continue/ }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Make a referral/)
@@ -50,7 +50,7 @@ export async function clickOnOffenderLink(page: Page, linkName: string, fullName
     await page.getByRole('link', { name: linkName }).click()
 
     // Get the link with person's full name
-    const nameLink = await page.getByRole('link', { name: fullName })
+    const nameLink = page.getByRole('link', { name: fullName })
 
     // Check if the link is visible
     if (!(await nameLink.isVisible())) {
@@ -60,6 +60,20 @@ export async function clickOnOffenderLink(page: Page, linkName: string, fullName
 
     // Click on the link with person's full name
     await nameLink.click()
+}
+
+export async function verifyAssessmentDateTextToBe(page: Page, expectedText: string) {
+    // Selector for the assessment date
+    const locator = page.locator(oasysImportDateText).first()
+
+    // Fetch the text from the locator and normalize it
+    const actualText = await locator.evaluate(el => el.textContent?.trim().replace(/\s+/g, ' '))
+
+    // Log the actual text for debugging
+    console.log(`Actual text: "${actualText}"`)
+
+    // Verify that the normalized text matches the expected text
+    expect(actualText).toBe(expectedText)
 }
 
 interface RoSHRiskAssertion {
@@ -72,22 +86,28 @@ interface RoSHRiskAssertion {
 
 export async function assertRoSHRiskTable(page: Page, assertions: RoSHRiskAssertion) {
     const selectors = {
-        riskToChildren: 'tbody.govuk-table__body tr.govuk-table__row:nth-child(1) td.govuk-table__cell',
-        riskToPublic: 'tbody.govuk-table__body tr.govuk-table__row:nth-child(2) td.govuk-table__cell',
-        riskToKnownAdult: 'tbody.govuk-table__body tr.govuk-table__row:nth-child(3) td.govuk-table__cell',
-        riskToStaff: 'tbody.govuk-table__body tr.govuk-table__row:nth-child(4) td.govuk-table__cell',
-        riskToPrisoners: 'tbody.govuk-table__body tr.govuk-table__row:nth-child(5) td.govuk-table__cell',
+        riskToChildren: 'tr:has(td:text("Children")) td:nth-of-type(3)',
+        riskToPublic: 'tr:has(td:text("Public")) td:nth-of-type(3)',
+        riskToKnownAdult: 'tr:has(td:text("Known adult")) td:nth-of-type(3)',
+        riskToStaff: 'tr:has(td:text("Staff")) td:nth-of-type(3)',
+        riskToPrisoners: 'tr:has(td:text("Prisoners")) td:nth-of-type(3)',
     }
 
-    for (const key of Object.keys(assertions)) {
-        const expectedValue = assertions[key as keyof RoSHRiskAssertion]
+    for (const [key, expectedValue] of Object.entries(assertions)) {
         const selector = selectors[key as keyof typeof selectors]
 
-        // Wait for the selector to appear and check its inner text against expectedValue
-        await page.waitForSelector(`${selector}:not(.rosh-table__cell--unknown):has-text("${expectedValue}")`)
+        // Wait for the cell text to match the expected value
+        const cell = page.locator(selector)
+        await cell.waitFor()
+
+        const actualValue = await cell.textContent()
+
+        if (actualValue?.trim() !== expectedValue) {
+            throw new Error(`Expected "${expectedValue}" but found "${actualValue?.trim()}" for "${key}"`)
+        }
     }
 }
 
-export const oasysImportDateText = '[data-testid="imported-from-text"]'
+export const oasysImportDateText = '[data-testid="last-assessment-date-text"]'
 export const apFormattedTodayDate = format(new Date(), 'd MMMM yyyy')
 export const briefOffenceDetailsSummaryCard = '[data-testid="brief-offence-details-summary-card"]'
