@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test'
 import { format } from 'date-fns'
-
+////Search pathfinder
 export const referToPathfinder = async (page: Page, crn: string) => {
     // Search for CRN
     await page.getByRole('link', { name: 'Refer from the community' }).click()

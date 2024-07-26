@@ -109,10 +109,12 @@ async function addSentenceInformation(page: Page) {
 
 async function enterContactDetails(page: Page) {
     await page.getByRole('link', { name: 'Enter contact details' }).click()
-    await expect(page).toHaveTitle('Probation practitioner details - Transitional Accommodation (CAS3)')
-    await page.getByLabel('Name').fill('AutomatedTestUser AutomatedTestUser')
-    await page.getByLabel('Phone number').fill(faker.phone.number())
-    await page.getByLabel('Email').fill(faker.internet.email())
+    await expect(page).toHaveTitle('Confirm probation practitioner details - Transitional Accommodation (CAS3)')
+    await page.getByRole('link', { name: 'Enter a phone number' }).click()
+    await expect(page).toHaveTitle('What’s your phone number? - Transitional Accommodation (CAS3)')
+    await page.getByLabel('What’s your phone number?').fill(faker.phone.number())
+    await page.getByRole('button', { name: 'Save and continue' }).click()
+    await expect(page).toHaveTitle('Confirm probation practitioner details - Transitional Accommodation (CAS3)')
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(
         'Backup contact / senior probation officer details - Transitional Accommodation (CAS3)'
@@ -121,9 +123,7 @@ async function enterContactDetails(page: Page) {
     await page.getByLabel('Phone number').fill(faker.phone.number())
     await page.getByLabel('Email').fill(faker.internet.email())
     await page.getByRole('button', { name: 'Save and continue' }).click()
-    await expect(page).toHaveTitle("What is the person's PDU? - Transitional Accommodation (CAS3)")
-    await page.getByLabel('Provide the PDU').fill('Kent')
-    await page.getByRole('button', { name: 'Save and continue' }).click()
+
     await expect(page).toHaveTitle("What is the person's phone number? - Transitional Accommodation (CAS3)")
     await page
         .getByLabel('Please provide an up to date contact number for the person on probation.')
