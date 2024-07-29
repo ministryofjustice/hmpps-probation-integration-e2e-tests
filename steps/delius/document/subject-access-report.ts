@@ -8,7 +8,7 @@ export async function createSubjectAccessReport(page: Page, crn, downloadLocatio
     await page.locator('#navigation-include\\:linkNavigation2SubjectAccessReportList').click()
     await page.locator('input', { hasText: 'New SAR' }).click()
     await page.locator('input', { hasText: 'Save' }).click()
-    const sarProgressTable = page.locator('#sarListForm\\:subjectAccessReportTable')
+    const sarProgressTable = page.locator('#subjectAccessReportTable')
     await refreshUntil(page, () => expect(sarProgressTable).toContainText('Complete'))
     const [download] = await Promise.all([
         page.waitForEvent('download'),
