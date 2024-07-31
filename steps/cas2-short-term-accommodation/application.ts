@@ -1,6 +1,6 @@
 import { expect, Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
-import { getDate, getYear, subMonths } from 'date-fns'
+import { addMonths, getDate, getMonth, getYear, subMonths } from 'date-fns'
 
 export async function submitApplication(page: Page, nomisId: string) {
     await startApplication(page)
@@ -48,24 +48,42 @@ async function confirmEligibilityAndConsent(page: Page) {
     await expect(page).toHaveTitle(
         "The person's Home Detention Curfew (HDC) licence dates - Short-Term Accommodation (CAS-2)"
     )
-    await fillDateInput(page, 'HDC eligibility date', 2) // Set HDC eligibility date before the conditional release date
-    await fillDateInput(page, 'conditional release date')
+    // Fill HDC eligibility date 1 month in the future and ensure it is before the conditional release date
+    const hdcEligibilityDate = await fillDateInput(page, 'HDC eligibility date', 1)
+
+    // Fill conditional release date 2 months in the future from today
+    const conditionalReleaseDate = await fillDateInput(page, 'conditional release date', 2)
+
+    // Ensure the HDC eligibility date is before the conditional release date
+    if (hdcEligibilityDate >= conditionalReleaseDate) {
+        throw new Error('HDC eligibility date must be before the conditional release date.')
+    }
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(/Task list/)
 }
 
 async function fillDateInput(page: Page, label: string, offsetMonths: number = 0) {
+    // Calculate the target date
     const currentDate = new Date()
-    const date = subMonths(currentDate, offsetMonths) // Subtract months based on offset
+    const targetDate =
+        offsetMonths >= 0 ? addMonths(currentDate, offsetMonths) : subMonths(currentDate, Math.abs(offsetMonths))
 
-    await page.getByRole('group', { name: label }).getByLabel('Day').fill(getDate(date).toString())
+    // Ensure the day is valid for the target month
+    const validDate = new Date(
+        targetDate.getFullYear(),
+        targetDate.getMonth(),
+        Math.min(getDate(targetDate), new Date(targetDate.getFullYear(), targetDate.getMonth() + 1, 0).getDate())
+    )
+
+    // Fill the date input fields
+    await page.getByRole('group', { name: label }).getByLabel('Day').fill(getDate(validDate).toString())
     await page
         .getByRole('group', { name: label })
         .getByLabel('Month')
-        .fill((date.getMonth() + 3).toString()) // Add 3 to month because months are zero-based
-    await page.getByRole('group', { name: label }).getByLabel('Year').fill(getYear(date).toString())
+        .fill((getMonth(validDate) + 1).toString()) // Months are 1-based in input fields
+    await page.getByRole('group', { name: label }).getByLabel('Year').fill(getYear(validDate).toString())
 
-    return date
+    return validDate
 }
 
 async function addReferrerDetails(page: Page) {
