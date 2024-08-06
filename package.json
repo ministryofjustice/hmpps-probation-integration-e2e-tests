@@ -18,7 +18,7 @@
     "@kubernetes/client-node": "^0.21.0",
     "@playwright/test": "1.45.3",
     "@types/uuid": "^10.0.0",
-    "@typescript-eslint/eslint-plugin": "^7.17.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.1",
     "@typescript-eslint/parser": "^7.17.0",
     "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
