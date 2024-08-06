@@ -46,7 +46,7 @@ const resetLicenceCase = async () => {
     //Recall the prisoner and discard all the existing licences
     try {
         await recallPrisoner(data.prisoners.sentencedPrisonerWithReleaseDate.nomsNumber)
-    } catch (e) {
+    } catch {
         console.log('Recall Failed, Likely to be already in the prison')
     }
     await discardAllLicences(data.prisoners.sentencedPrisonerWithReleaseDate.crn)

@@ -9,7 +9,7 @@ export const setProviderEstablishment = async (page: Page) => {
         await page.locator('#P10_CT_AREA_EST').selectOption({ label: 'Warwickshire' })
         await page.click('#P10_CONTINUE_BT')
         await expect(page.locator('#searchtop > h2')).toHaveText('Task Manager')
-    } catch (error) {
+    } catch {
         // If the option is not visible within the timeout, do nothing
         console.error('Option is not visible within the timeout period.')
     }
