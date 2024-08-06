@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     groups:
       minor:
         update-types:
@@ -15,7 +15,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     groups:
       minor:
         update-types:
@@ -23,3 +23,8 @@ updates:
           - "patch"
         patterns:
           - "*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/.github/actions/run-tests"
+    schedule:
+      interval: "weekly"
