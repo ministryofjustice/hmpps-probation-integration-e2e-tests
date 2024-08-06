@@ -1,0 +1,68 @@
+name: End-to-end tests (remote)
+description: A re-usable workflow for running end-to-end tests remotely from other repositories.
+
+inputs:
+  projects:
+    description: A JSON array of projects to run tests for e.g. '["approved-premises-and-delius"]'
+    required: true
+  token:
+    description: A GitHub personal access token, with "actions:write" permissions to trigger a workflow run in the hmpps-probation-integration-e2e-tests repository
+    required: true
+outputs:
+  failed-projects:
+    description: A JSON array of projects that failed end-to-end testing
+    value: ${{ steps.run.outputs.failed-projects }}
+  passed-projects:
+    description: A JSON array of projects that passed end-to-end testing
+    value: ${{ steps.run.outputs.passed-projects }}
+  report-url:
+    description: The URL of the Playwright HTML report
+    value: ${{ steps.run.outputs.report-url }}
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+    - name: Run tests
+      id: run
+      shell: bash
+      run: |
+        # Start workflow run
+        gh workflow run test.yml --repo "$repo" -f "projects=$projects" && sleep 10 || exit 1
+        run_id=$(gh run list --workflow=test.yml --repo "$repo" -L1 --json databaseId --jq '.[0].databaseId')
+        echo "Workflow started, follow the logs here: https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests/actions/runs/$run_id"
+        
+        # Wait for it to complete
+        gh run watch "$run_id" --repo "$repo" --interval 60
+        
+        # Print any failure logs
+        gh run view "$run_id" --repo "$repo" --log-failed
+        
+        # Parse GitHub outputs from log
+        log=$(gh run view "$run_id" --repo "$repo" --log)
+        echo "$log" | sed -n '/ passed-projects=/s/.* //p' | tee -a "$GITHUB_OUTPUT"
+        echo "$log" | sed -n '/ failed-projects=/s/.* //p' | tee -a "$GITHUB_OUTPUT"
+        echo "$log" | sed -n '/ report-url=/s/.* //p' | tee -a "$GITHUB_OUTPUT"
+        
+        # Check status
+        conclusion=$(gh run view "$run_id" --repo "$repo" --json conclusion --jq '.conclusion')
+        echo "Workflow conclusion: $conclusion"
+        if [ "$conclusion" != "success" ]; then exit 1; fi
+      env:
+        repo: ministryofjustice/hmpps-probation-integration-e2e-tests
+        projects: ${{ inputs.projects }}
+        GITHUB_TOKEN: ${{ inputs.token }}
+
+    - name: Add test summary
+      if: always()
+      shell: bash
+      run: |
+        passed_count=$(echo "$passed_projects" | jq '. | length')
+        failed_count=$(echo "$failed_projects" | jq '. | length')
+        total_count=$(( passed_count + failed_count ))
+        echo -e "<table><tr><th><th>Tests</th><th>Passed ✅</th><th>Failed ❌</th></tr><tr><td>End-to-end test results</td><td>$total_count ran</td><td>$passed_count passed</td><td>$failed_count failed</td></tr></table>\n" | tee -a "$GITHUB_STEP_SUMMARY"
+        echo "[🎭 Playwright HTML Report]($report_url)" | tee -a "$GITHUB_STEP_SUMMARY"
+      env:
+        passed_projects: ${{ steps.run.outputs.passed-projects }}
+        failed_projects: ${{ steps.run.outputs.failed-projects }}
+        report_url: ${{ steps.run.outputs.report-url }}
