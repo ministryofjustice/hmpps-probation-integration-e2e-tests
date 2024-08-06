@@ -90,7 +90,7 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
         } else {
             await expect(page).toHaveTitle(/Event Details/)
         }
-    } catch (e) {
+    } catch {
         if ((await page.title()) === 'Error Page') {
             const errMsg = await page.locator('[class="text-danger "]').textContent()
             if (errMsg.includes('[SECERR003]')) {
