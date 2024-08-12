@@ -172,7 +172,7 @@ export const withdrawReferral = async (page: Page, referralRef: string) => {
 
     try {
         await referralLinkLocator.click()
-    } catch (error) {
+    } catch {
         await dateSentHeaderLocator.click()
         await referralLinkLocator.click()
     }

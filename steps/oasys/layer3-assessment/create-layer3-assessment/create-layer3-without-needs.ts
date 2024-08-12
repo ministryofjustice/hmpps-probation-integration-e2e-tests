@@ -38,7 +38,7 @@ export const createLayer3CompleteAssessment = async (page: Page, crn: string, pe
         await page.waitForSelector('#loginbodyheader > h2', { timeout: 5000 })
         providerEstablishmentPageExists =
             (await page.locator('#loginbodyheader > h2').innerText()) === 'Provider/Establishment'
-    } catch (error) {
+    } catch {
         // If the element is not found within the timeout, set providerEstablishmentPageExists to false
         console.error('Provider/Establishment page element not found within timeout.')
         providerEstablishmentPageExists = false
