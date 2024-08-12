@@ -168,7 +168,6 @@ export const updateSAAppointmentLocation = async (
     await referralProgress(page, referralRef)
     await page.locator('[href$="progress"]', { hasText: 'Progress' }).click()
     await page.getByRole('link', { name: 'View details or reschedule' }).click()
-
     await expect(page.locator('.govuk-heading-xl')).toContainText('View appointment details')
     await page.getByRole('link', { name: 'Change appointment details' }).click()
     await expect(page.locator('.govuk-heading-xl')).toContainText('Change appointment details')
