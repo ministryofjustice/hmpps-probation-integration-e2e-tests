@@ -4,6 +4,7 @@ import { addMinutes } from 'date-fns'
 import { get12Hour, getTimeOfDay } from '../delius/utils/date-time'
 import { refreshUntil } from '../delius/utils/refresh'
 import { fillAndSaveIfTextBoxIsAvailable } from '../delius/contact/find-contacts'
+import { faker } from '@faker-js/faker'
 
 export const createSupplierAssessmentAppointment = async (
     page: Page,
@@ -15,6 +16,7 @@ export const createSupplierAssessmentAppointment = async (
     await referralProgress(page, referralRef)
 
     // Navigate to the SA appointment form
+    await page.locator('[href$="progress"]', { hasText: 'Progress' }).click()
     await page.locator('a.govuk-link', { hasText: 'Schedule' }).click()
     await expect(page).toHaveURL(/service-provider\/referrals\/.*\/supplier-assessment\/schedule\/.*\/details/)
 

@@ -11,7 +11,7 @@ export const referralProgress = async (page: Page, referralRef: string) => {
 
     // Find the correct referral using the Referral Reference
     await page.locator('tr', { hasText: referralRef }).locator('a.govuk-link').click()
-    await expect(page).toHaveURL(/service-provider\/referrals\/.*\/progress/)
+    await expect(page).toHaveURL(/service-provider\/referrals\/.*\/details/)
 }
 
 export const makeReferral = async (page: Page, crn: string) => {
@@ -83,7 +83,7 @@ export const makeReferral = async (page: Page, crn: string) => {
     // Confirm the relevant sentence
     await page.locator('text=Confirm the relevant sentence for the Accommodation referral').click()
     await expect(page).toHaveURL(/referrals\/.*\/relevant-sentence/)
-    await page.locator('input[name="relevant-sentence-id"]').check()
+    await page.locator('input[name="relevant-sentence-id"]').first().check()
     await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/referrals\/.*\/service-category\/.*\/desired-outcomes/)
 
@@ -145,24 +145,24 @@ export const assignReferral = async (page: Page, referralRef: string) => {
     // Find the correct referral using the Referral Reference
     await page.locator('#case-search-text').fill(referralRef)
     await page.locator('.govuk-button').click()
-
     await page.locator('tr', { hasText: referralRef }).locator('a.govuk-link').click()
     await expect(page).toHaveURL(/referrals\/.*\/details/)
 
     // Add the caseworker email address
     await page.fill('#email', process.env.REFERANDMONITOR_SUPPLIER_USERNAME!)
 
-    await page.locator('text=Save and continue').click()
+    // await page.locator('text=Save and continue').click()
+    await page.getByRole('button', { name: /Save and continue/ }).click()
     await expect(page).toHaveURL(/service-provider\/referrals\/.*\/assignment\/.*\/check/)
 
-    await page.locator('text=Confirm assignment').click()
+    // await page.locator('text=Confirm assignment').click()
+    await page.getByRole('button', { name: /Confirm assignment/ }).click()
     await expect(page).toHaveURL(/service-provider\/referrals\/.*\/assignment\/confirmation/)
-
-    await page.locator('text=Return to dashboard').click()
+    await page.getByRole('link', { name: 'Return to dashboard' }).click()
     await expect(page).toHaveURL(/service-provider\/dashboard\/unassigned-cases/)
 }
 
-export const cancelReferral = async (page: Page, referralRef: string) => {
+export const withdrawReferral = async (page: Page, referralRef: string) => {
     // Navigate to list of available interventions
     await page.locator('a', { hasText: 'Open cases' }).click()
     await expect(page).toHaveURL(/probation-practitioner\/dashboard\/open-cases/)
@@ -181,11 +181,13 @@ export const cancelReferral = async (page: Page, referralRef: string) => {
     }
 
     await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/progress/)
-    await page.locator('a', { hasText: 'Cancel this referral' }).click()
-    await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/cancellation\/.*\/reason/)
-    await page.locator('label', { hasText: "Probation practitioner's professional judgement" }).click()
-    await page.locator('button.govuk-button').click()
-    await page.locator('p', { hasText: 'Are you sure you want to cancel this referral?' })
-    await page.locator('button.govuk-button').click()
-    await expect(page.locator('h1.govuk-panel__title')).toContainText('This referral has been cancelled')
+    await page.getByRole('button', { name: 'Withdraw referral' }).click()
+    await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/withdrawal\/.*\/reason/)
+    await page.getByLabel('Work, caring commitments, or').check()
+    await page.locator('#withdrawal-comments-WOR').fill('Work and caring commitments')
+    await page.getByRole('button', { name: 'Continue' }).click()
+    await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/withdrawal\/.*\/check-your-answers/)
+    await page.getByLabel('Yes').check()
+    await page.getByRole('button', { name: 'Confirm and send' }).click()
+    await expect(page.locator('h1.govuk-panel__title')).toContainText('Referral withdrawn')
 }

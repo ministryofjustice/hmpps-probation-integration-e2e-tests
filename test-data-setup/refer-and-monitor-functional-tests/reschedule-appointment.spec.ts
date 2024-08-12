@@ -24,7 +24,7 @@ import { DeliusDateFormatter } from '../../steps/delius/utils/date-time'
 import { createAndAssignReferral } from '../../tests/refer-and-monitor-and-delius/common'
 import { createContact } from '../../steps/delius/contact/create-contact'
 import { deliusPerson } from '../../steps/delius/utils/person'
-import { cancelReferral } from '../../steps/referandmonitor/referral'
+import { withdrawReferral } from '../../steps/referandmonitor/referral'
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
@@ -362,7 +362,7 @@ test('Perform supplier assessment appointment scheduling with conflicting appoin
     )
 })
 
-test('Verify Referral Cancellation by Probation Practitioner and its Reflection in Delius', async ({ page }) => {
+test('Verify Referral withdrawal by Probation Practitioner and its Reflection in Delius', async ({ page }) => {
     test.slow()
 
     // Create offender, community event, and requirement
@@ -377,10 +377,12 @@ test('Verify Referral Cancellation by Probation Practitioner and its Reflection 
     // Find the correct referral using the Referral Reference & Cancel the Referral
     await logoutRandM(page)
     await loginAsPractitioner(page)
-    await cancelReferral(page, referralRef)
+    await withdrawReferral(page, referralRef)
 
     // Verify the referral cancellation should reflect in Delius
     await loginDelius(page)
     await navigateToNSIDetails(page, crn, true)
-    await expect(page.locator('div:right-of(:text("Outcome:"))').first()).toContainText('CRS Referral Cancelled')
+    await expect(page.locator('#j_idt808\\:outputText')).toContainText(
+        'Did not start (Work, Caring Commitments, Long-term Sickness)'
+    )
 })
