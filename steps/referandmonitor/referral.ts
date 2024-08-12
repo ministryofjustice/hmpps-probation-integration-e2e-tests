@@ -150,12 +150,9 @@ export const assignReferral = async (page: Page, referralRef: string) => {
 
     // Add the caseworker email address
     await page.fill('#email', process.env.REFERANDMONITOR_SUPPLIER_USERNAME!)
-
-    // await page.locator('text=Save and continue').click()
     await page.getByRole('button', { name: /Save and continue/ }).click()
     await expect(page).toHaveURL(/service-provider\/referrals\/.*\/assignment\/.*\/check/)
 
-    // await page.locator('text=Confirm assignment').click()
     await page.getByRole('button', { name: /Confirm assignment/ }).click()
     await expect(page).toHaveURL(/service-provider\/referrals\/.*\/assignment\/confirmation/)
     await page.getByRole('link', { name: 'Return to dashboard' }).click()

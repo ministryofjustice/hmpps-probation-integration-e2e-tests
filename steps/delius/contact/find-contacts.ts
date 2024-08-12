@@ -77,7 +77,7 @@ export const navigateToNSIDetails = async (page: Page, crn: string, includeTermi
     await page.locator('#nsiTable > tbody').getByRole('link', { name: 'view' }).click()
     await expect(page.locator('#content > h1')).toHaveText('Non Statutory Intervention Details')
 }
-// #ShowTerminated\:selectOneMenu
+
 export const navigateToNSIDetailsFromPersonalDetails = async (page: Page, crn: string) => {
     await findOffenderByCRN(page, crn)
     await page.click('#navigation-include\\:linkNavigation2OffenderIndex')
@@ -137,7 +137,6 @@ export const rescheduleSupplierAssessmentAppointment = async (
 
             // Did anything concern you about the person
             await page.getByRole('checkbox', { name: 'No', exact: true }).check()
-
             await page.click('button.govuk-button')
         }
 
