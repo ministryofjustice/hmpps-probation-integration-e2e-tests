@@ -166,8 +166,6 @@ export const updateSAAppointmentLocation = async (
     NPSLocationToBeVerifiedInRAndM: string
 ) => {
     await referralProgress(page, referralRef)
-    // await page.getByRole('link', { name: 'View details or reschedule' }).click()
-
     await page.locator('[href$="progress"]', { hasText: 'Progress' }).click()
     await page.getByRole('link', { name: 'View details or reschedule' }).click()
 
