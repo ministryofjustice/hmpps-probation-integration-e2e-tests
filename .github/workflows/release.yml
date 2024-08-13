@@ -27,8 +27,8 @@ jobs:
       - name: Bump version
         run: |
           latest=$(npm view '@ministryofjustice/hmpps-probation-integration-e2e-tests' version)
-          jq '.version = $latest' --arg latest "$latest" package.json > package.json.tmp && mv package.json.tmp package.json
-          npm version minor
+          jq '.version = $latest' --arg latest "$latest" package.json > tmp && mv tmp package.json
+          npm version --no-git-tag-version minor
 
       - name: Install dependencies
         run: npm clean-install
