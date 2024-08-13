@@ -25,7 +25,6 @@ import { data } from '../../test-data/test-data'
 dotenv.config() // read environment variables into process.env
 
 test('Make a Management Oversight Decision and verify in Delius', async ({ page }) => {
-    test.slow()
     // Given a new person in Delius
     await deliusLogin(page)
     const person = deliusPerson()

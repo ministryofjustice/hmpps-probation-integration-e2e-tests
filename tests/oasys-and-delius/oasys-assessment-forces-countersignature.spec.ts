@@ -10,6 +10,7 @@ import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { createRegistration } from '../../steps/delius/registration/create-registration'
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
+import { slow } from '../../steps/common/common'
 
 dotenv.config() // read environment variables into process.env
 
@@ -18,7 +19,8 @@ const nomisIds = []
 test('Verify that OASys assessments with Delius registration forces countersignature on a Medium assessment', async ({
     page,
 }) => {
-    test.slow()
+    slow()
+
     // Log in to NDelius and create an offender with a custodial event
     await deliusLogin(page)
     const person = deliusPerson()

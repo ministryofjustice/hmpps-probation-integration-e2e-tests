@@ -18,7 +18,7 @@ on:
       workers:
         description: The maximum number of concurrent worker processes that run in parallel.
         type: string
-        default: "16"
+        default: "32"
   # Re-use in other workflows
   workflow_call:
     inputs:
@@ -37,7 +37,7 @@ on:
       workers:
         description: The maximum number of concurrent worker processes that run in parallel.
         type: number
-        default: 16
+        default: 32
 
 env:
   auto_pass_projects: '["manage-offences-and-delius","redrive-dead-letter-queues","feature-flags", "probation-search-and-delius"]'
@@ -92,7 +92,7 @@ jobs:
           TZ: Europe/London
           ENV: test
           TEST_DIR: ${{ inputs.directory || 'tests' }}
-          WORKERS: ${{ inputs.workers || '16' }}
+          WORKERS: ${{ inputs.workers || '32' }}
           PLAYWRIGHT_JUNIT_OUTPUT_NAME: junit.xml
           PLAYWRIGHT_JSON_OUTPUT_NAME: results.json
           # URLs

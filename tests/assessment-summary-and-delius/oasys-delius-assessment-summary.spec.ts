@@ -11,11 +11,13 @@ import * as dotenv from 'dotenv'
 import { navigateToDeliusOASysAssessments } from '../../steps/delius/contact/find-contacts'
 import { refreshUntil } from '../../steps/delius/utils/refresh'
 import { format } from 'date-fns'
+import { slow } from '../../steps/common/common'
 
 dotenv.config() // read environment variables into process.env
 
 test('Create an OASys assessment and verify the Delius Assessment Summary', async ({ page }) => {
-    test.slow()
+    slow()
+
     await loginDelius(page)
     const dob = faker.date.birthdate({ min: 20, max: 30, mode: 'age' })
     const person = deliusPerson({ sex: 'Male', dob: dob })
