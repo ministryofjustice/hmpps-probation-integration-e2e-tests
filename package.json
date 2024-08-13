@@ -1,5 +1,5 @@
 {
-  "name": "hmpps-probation-integration-e2e-tests",
+  "name": "@ministryofjustice/hmpps-probation-integration-e2e-tests",
   "description": "Playwright end to end tests for hmpps-probation-integration-services.",
   "version": "1.0.0",
   "license": "MIT",
@@ -11,7 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests.git"
   },
-  "scripts": {},
+  "scripts": {
+    "build": "tsc && cp -r package.json dist"
+  },
   "type": "module",
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",

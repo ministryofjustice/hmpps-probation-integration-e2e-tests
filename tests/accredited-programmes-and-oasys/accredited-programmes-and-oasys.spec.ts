@@ -9,16 +9,16 @@ import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
-import { login as accreditedProgrammesLogin } from '../../steps/accredited-programmes/login.js'
+import { login as accreditedProgrammesLogin } from '../../steps/accredited-programmes/login'
 import {
     assertRoSHRiskTable,
     briefOffenceDetailsSummaryCard,
     clickOnOffenderLink,
     findProgrammeAndMakeReferral,
     verifyAssessmentDateTextToBe,
-} from '../../steps/accredited-programmes/application.js'
+} from '../../steps/accredited-programmes/application'
 
-import { apFormattedTodayDate as todaysDate } from '../../steps/accredited-programmes/application.js'
+import { apFormattedTodayDate as todaysDate } from '../../steps/accredited-programmes/application'
 
 const nomisIds = []
 

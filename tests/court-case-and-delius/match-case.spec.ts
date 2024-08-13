@@ -1,19 +1,19 @@
 import { expect, test } from '@playwright/test'
 import { addCourtHearing } from '../../steps/court-case/add-court-hearing'
 import { deliusPerson } from '../../steps/delius/utils/person'
-import { login as deliusLogin } from '../../steps/delius/login.js'
-import { createOffender } from '../../steps/delius/offender/create-offender.js'
-import { prepareCaseForSentenceLogin } from '../../steps/court-case/prepare-case-for-sentence/login.js'
+import { login as deliusLogin } from '../../steps/delius/login'
+import { createOffender } from '../../steps/delius/offender/create-offender'
+import { prepareCaseForSentenceLogin } from '../../steps/court-case/prepare-case-for-sentence/login'
 import {
     addCourtToUser,
     extractProbationRecordDetails,
     extractRegistrationDetails,
     formatDateToPrepareCase,
     searchAndClickDefendantAndGetHeader,
-} from '../../steps/court-case/prepare-case-for-sentence/application.js'
-import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
-import { data } from '../../test-data/test-data.js'
-import { createRegistration } from '../../steps/delius/registration/create-registration.js'
+} from '../../steps/court-case/prepare-case-for-sentence/application'
+import { createCustodialEvent } from '../../steps/delius/event/create-event'
+import { data } from '../../test-data/test-data'
+import { createRegistration } from '../../steps/delius/registration/create-registration'
 
 test('Match Delius case with Court Case Hearing', async ({ page }) => {
     // Given a person with hearing in the Court Case Service

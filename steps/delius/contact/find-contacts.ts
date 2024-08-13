@@ -3,7 +3,7 @@ import { findOffenderByCRN } from '../offender/find-offender'
 import { doUntil } from '../utils/refresh'
 import { Contact } from '../../../test-data/test-data'
 import { referralProgress } from '../../referandmonitor/referral'
-import { findEventByCRN } from '../event/find-events.js'
+import { findEventByCRN } from '../event/find-events'
 
 export async function findContactsByCRN(page: Page, crn: string) {
     await findOffenderByCRN(page, crn)

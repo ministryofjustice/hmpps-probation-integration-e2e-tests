@@ -8,8 +8,8 @@ import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
-import { createRegistration } from '../../steps/delius/registration/create-registration.js'
-import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs.js'
+import { createRegistration } from '../../steps/delius/registration/create-registration'
+import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 
 dotenv.config() // read environment variables into process.env
 

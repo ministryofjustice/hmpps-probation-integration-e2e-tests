@@ -1,0 +1,42 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - package.json
+      - package-lock.json
+      - steps/**
+      - test-data/**
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # to checkout repo
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+          registry-url: https://registry.npmjs.org
+
+      - name: Bump version
+        run: |
+          latest=$(npm view '@ministryofjustice/hmpps-probation-integration-e2e-tests' version)
+          jq '.version = $latest' --arg latest "$latest" package.json > tmp && mv tmp package.json
+          npm version --no-git-tag-version minor
+
+      - name: Install dependencies
+        run: npm clean-install
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish
+        run: npm publish ./dist --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

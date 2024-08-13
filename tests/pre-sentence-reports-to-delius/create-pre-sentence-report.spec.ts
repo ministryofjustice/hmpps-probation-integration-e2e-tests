@@ -8,8 +8,8 @@ import { data } from '../../test-data/test-data'
 import { faker } from '@faker-js/faker'
 import { findCourtReport } from '../../steps/delius/court-report/find-court-report'
 import { createDocumentFromTemplate } from '../../steps/delius/document/create-document'
-import { createSubjectAccessReport, getFileFromZip } from '../../steps/delius/document/subject-access-report.js'
-import { getPdfText } from '../../steps/delius/utils/pdf-utils.js'
+import { createSubjectAccessReport, getFileFromZip } from '../../steps/delius/document/subject-access-report'
+import { getPdfText } from '../../steps/delius/utils/pdf-utils'
 
 test('Create a short format pre-sentence report', async ({ page }) => {
     // Given a person with an event that has been adjourned for pre-sentence report,

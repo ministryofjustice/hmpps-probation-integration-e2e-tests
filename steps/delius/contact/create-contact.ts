@@ -4,7 +4,7 @@ import { fillDate, fillTime, selectOption, selectOptionAndWait } from '../utils/
 import { Contact, data, Team } from '../../../test-data/test-data'
 import { doUntil } from '../utils/refresh'
 import { Tomorrow } from '../utils/date-time'
-import { findOffenderByCRNNoContextCheck } from '../offender/find-offender.js'
+import { findOffenderByCRNNoContextCheck } from '../offender/find-offender'
 
 export const createContact = async (page: Page, crn: string, options: Contact) => {
     await findContactsByCRN(page, crn)

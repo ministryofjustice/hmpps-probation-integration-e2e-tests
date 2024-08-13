@@ -4,8 +4,10 @@ export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
     await expect(page.locator('#itm_FA31')).toHaveCount(1)
     await expect(page.locator('#itm_FA32')).toHaveCount(1)
     await page.evaluate(() => {
+        // @ts-expect-error the following code is JS not TS
         document.querySelector('#itm_FA31').value = 'FA31~YES'
         document.querySelector('#itm_FA31').dispatchEvent(new Event('change'))
+        // @ts-expect-error the following code is JS not TS
         document.querySelector('#itm_FA32').value = 'FA32~YES'
         document.querySelector('#itm_FA32').dispatchEvent(new Event('change'))
     })

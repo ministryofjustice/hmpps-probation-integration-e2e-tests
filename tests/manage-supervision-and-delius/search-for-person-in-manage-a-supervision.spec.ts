@@ -3,7 +3,7 @@ import { login as deliusLogin } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import * as dotenv from 'dotenv'
-import { login as manageASupervisionLogin } from '../../steps/manage-a-supervision/login.js'
+import { login as manageASupervisionLogin } from '../../steps/manage-a-supervision/login'
 
 dotenv.config() // read environment variables into process.env
 
