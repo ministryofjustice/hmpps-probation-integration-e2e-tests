@@ -15,6 +15,7 @@ export const createSupplierAssessmentAppointment = async (
     await referralProgress(page, referralRef)
 
     // Navigate to the SA appointment form
+    await page.locator('[href$="progress"]', { hasText: 'Progress' }).click()
     await page.locator('a.govuk-link', { hasText: 'Schedule' }).click()
     await expect(page).toHaveURL(/service-provider\/referrals\/.*\/supplier-assessment\/schedule\/.*\/details/)
 

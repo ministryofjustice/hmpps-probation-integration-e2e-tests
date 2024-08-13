@@ -65,16 +65,16 @@ export const navigateToNSIContactDetails = async (page: Page, crn: string, inclu
 
 export const navigateToNSIDetails = async (page: Page, crn: string, includeTerminatedNSI = false) => {
     await findOffenderByCRN(page, crn)
-    await page.click('#linkNavigation2EventList')
+    await page.click('#navigation-include\\:linkNavigation2EventList')
     await expect(page).toHaveTitle(/Events/)
     await page.locator('[title="View event"]', { hasText: 'View' }).click()
     await expect(page).toHaveTitle(/Event Details/)
-    await page.click('#linkNavigation3EventNsi')
+    await page.click('#navigation-include\\:linkNavigation3EventNsi')
     await expect(page).toHaveTitle(/Non Statutory Intervention List/)
     if (includeTerminatedNSI) {
-        await page.locator('#nsiListForm\\:ShowTerminated').selectOption({ label: 'Yes' })
+        await page.locator('#ShowTerminated\\:selectOneMenu').selectOption({ label: 'Yes' })
     }
-    await page.locator('#nsiListForm\\:nsiTable\\:tbody_element').getByRole('link', { name: 'view' }).click()
+    await page.locator('#nsiTable > tbody').getByRole('link', { name: 'view' }).click()
     await expect(page.locator('#content > h1')).toHaveText('Non Statutory Intervention Details')
 }
 
@@ -95,6 +95,7 @@ export const rescheduleSupplierAssessmentAppointment = async (
     attended = true
 ) => {
     await referralProgress(page, referralRef)
+    await page.locator('[href$="progress"]', { hasText: 'Progress' }).click()
     await page.getByRole('link', { name: 'View details or reschedule' }).click()
     await expect(page.locator('.govuk-heading-xl')).toContainText('View appointment details')
     await page.getByRole('link', { name: 'Change appointment details' }).click()
@@ -109,13 +110,24 @@ export const rescheduleSupplierAssessmentAppointment = async (
     if (newAppointmentDate <= new Date()) {
         // add feedback
         await page.waitForURL(/service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/edit/)
-        await page.click(`input[value=${attended ? 'yes' : 'no'}]`)
+        if (!attended) {
+            // If not attended
+            await page.click(`input[value="no"]`)
+            await page.locator('#attendedNoRadio').click()
+        } else {
+            // If attended
+            await page.click(`input[value="yes"]`)
+        }
+
         await page.click('button.govuk-button')
 
         if (attended) {
             await page.waitForURL(
                 /service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/edit\/.*\/behaviour/
             )
+
+            // Was the person late?
+            await page.locator('#wasLateNoRadio').check()
 
             // What did you do in the session?
             await page.fill('#session-summary', 'A description of the behaviour')
@@ -124,15 +136,16 @@ export const rescheduleSupplierAssessmentAppointment = async (
             await page.fill('#session-response', 'A description of the behaviour')
 
             // Did anything concern you about the person
-            await page.locator('#notify-probation-practitioner-2').check()
+            await page.getByRole('checkbox', { name: 'No', exact: true }).check()
             await page.click('button.govuk-button')
         }
 
         await fillAndSaveIfTextBoxIsAvailable(
             page,
-            '#attendance-failure-information',
+            '#no-attendance-information',
             'Additional information of the person not attending the appointment',
-            'button.govuk-button'
+            'button.govuk-button',
+            '#noNotifyPPRadio'
         )
         await page.waitForURL(
             /service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/edit\/.*\/check-your-answers/
@@ -153,6 +166,7 @@ export const updateSAAppointmentLocation = async (
     NPSLocationToBeVerifiedInRAndM: string
 ) => {
     await referralProgress(page, referralRef)
+    await page.locator('[href$="progress"]', { hasText: 'Progress' }).click()
     await page.getByRole('link', { name: 'View details or reschedule' }).click()
     await expect(page.locator('.govuk-heading-xl')).toContainText('View appointment details')
     await page.getByRole('link', { name: 'Change appointment details' }).click()
@@ -182,7 +196,7 @@ export const verifySAApptmntLocationInDelius = async (
     await matchingContactRecord.locator('[title="Link to view the contact details."]').click()
 
     // Verify the Updated Appointment Location in Delius
-    const location = await page.locator('#searchContactForm\\:Location').textContent()
+    const location = await page.locator('#location\\:outputText').textContent()
     await expect(location).toBe(NPSOfficeLocationToBeVerified)
 }
 
@@ -190,11 +204,21 @@ export const fillAndSaveIfTextBoxIsAvailable = async (
     page: Page,
     textBoxLocator: string,
     textToBeEnteredInTextBox: string,
-    saveButtonLocator: string
+    saveButtonLocator: string,
+    radioButtonLocator?: string // Optional parameter
 ): Promise<void> => {
     const textBox = page.locator(textBoxLocator)
+
     if (await textBox.isVisible()) {
         await textBox.fill(textToBeEnteredInTextBox)
+
+        // If radioButtonLocator is provided, check if the radio button is visible and click it
+        if (radioButtonLocator) {
+            const radioButton = page.locator(radioButtonLocator)
+            if (await radioButton.isVisible()) {
+                await radioButton.click()
+            }
+        }
         await page.click(saveButtonLocator)
     }
 }
