@@ -9,8 +9,8 @@ import { submitApplication } from '../../steps/cas2-short-term-accommodation/app
 import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { contact } from '../../steps/delius/utils/contact'
 
-import { login as dpsLogin } from '../../steps/dps/login.js'
-import { switchCaseload } from '../../steps/dps/caseload.js'
+import { login as dpsLogin } from '../../steps/dps/login'
+import { switchCaseload } from '../../steps/dps/caseload'
 
 dotenv.config() // read environment variables into process.env
 

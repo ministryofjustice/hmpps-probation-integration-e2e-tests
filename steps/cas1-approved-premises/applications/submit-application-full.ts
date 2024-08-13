@@ -31,7 +31,7 @@ import { attachReqrdDocuments } from './attach-required-documents'
 import { checkYourAnswers } from './check-your-answers'
 import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status'
 import { confirmYourDetails } from './confirm-your-details'
-import { applicationOutsideNSTimescales } from './application-outside-national-standards.js'
+import { applicationOutsideNSTimescales } from './application-outside-national-standards'
 
 export const submitAPApplication = async (page: Page, crn: string) => {
     // And I enter the CRN & Submit

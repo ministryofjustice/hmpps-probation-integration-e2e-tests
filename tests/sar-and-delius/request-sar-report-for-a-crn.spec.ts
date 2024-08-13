@@ -7,7 +7,7 @@ import { deliusPerson } from '../../steps/delius/utils/person'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { login as sarLogin } from '../../steps/subject-access-request/login'
 import { requestSarReportForCrn } from '../../steps/subject-access-request/application'
-import { getPdfText } from '../../steps/delius/utils/pdf-utils.js'
+import { getPdfText } from '../../steps/delius/utils/pdf-utils'
 import * as fs from 'fs'
 
 const nomisIds: string[] = []

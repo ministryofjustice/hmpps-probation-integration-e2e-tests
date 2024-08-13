@@ -1,6 +1,6 @@
 import { expect, Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
-import { login as cvlLogin, loginAsPrisonOfficer } from './login.js'
+import { login as cvlLogin, loginAsPrisonOfficer } from './login'
 
 export const createLicence = async (page: Page, crn: string, nomsNumber: string) => {
     await cvlLogin(page)

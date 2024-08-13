@@ -1,16 +1,16 @@
 import { expect, test } from '@playwright/test'
 import * as dotenv from 'dotenv'
 import { data } from '../../test-data/test-data'
-import { login as deliusLogin } from '../../steps/delius/login.js'
-import { recallPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
-import { discardAllLicences } from '../../steps/api/cvl/cvl-api.js'
-import { deleteLicenceConditions } from '../../steps/delius/licence-condition/delete-licence-condition.js'
-import { refreshUntil } from '../../steps/delius/utils/refresh.js'
-import { approveLicence, createLicence } from '../../steps/cvl-licences/application.js'
+import { login as deliusLogin } from '../../steps/delius/login'
+import { recallPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
+import { discardAllLicences } from '../../steps/api/cvl/cvl-api'
+import { deleteLicenceConditions } from '../../steps/delius/licence-condition/delete-licence-condition'
+import { refreshUntil } from '../../steps/delius/utils/refresh'
+import { approveLicence, createLicence } from '../../steps/cvl-licences/application'
 import {
     deliusLicenceCondition,
     navigateToLicenceConditions,
-} from '../../steps/delius/licence-condition/create-licence-condition.js'
+} from '../../steps/delius/licence-condition/create-licence-condition'
 
 dotenv.config() // read environment variables into process.env
 

@@ -1,5 +1,5 @@
 import { expect, Page } from '@playwright/test'
-import { refreshUntil } from '../delius/utils/refresh.js'
+import { refreshUntil } from '../delius/utils/refresh'
 
 export async function requestSarReportForCrn(page: Page, crn: string) {
     // Request a new SAR report

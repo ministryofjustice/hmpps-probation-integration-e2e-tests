@@ -6,10 +6,10 @@ import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { DeliusDateFormatter } from '../../steps/delius/utils/date-time'
 import * as dotenv from 'dotenv'
-import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
-import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
-import { internalTransfer } from '../../steps/delius/transfer/internal-transfer.js'
-import { Allocation, data } from '../../test-data/test-data.js'
+import { createCustodialEvent } from '../../steps/delius/event/create-event'
+import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
+import { internalTransfer } from '../../steps/delius/transfer/internal-transfer'
+import { Allocation, data } from '../../test-data/test-data'
 
 dotenv.config()
 const nomisIds = []
