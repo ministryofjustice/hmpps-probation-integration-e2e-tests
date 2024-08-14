@@ -22,9 +22,11 @@ export const waitForJS = (page: Page, timeout = 0) => {
 
 export const waitForAjax = async (page: Page): Promise<void> => {
     try {
-        await expect(page.locator('.ajax-loading')).toBeAttached({ timeout: 1000 })
+        // wait up to 500ms for a request to start
+        await expect(page.locator('.ajax-loading')).toBeAttached({ timeout: 500 })
     } catch {
-        // no ajax fired - maybe the value didn't change
+        // no request fired - maybe the previous value didn't change, or this is not a dynamic field
     }
+    // wait for request to finish
     await expect(page.locator('.ajax-loading')).not.toBeAttached()
 }

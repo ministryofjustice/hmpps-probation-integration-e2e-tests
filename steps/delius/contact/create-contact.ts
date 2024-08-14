@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test'
 import { findContactsByCRN } from './find-contacts'
-import { fillDate, fillTime, selectOption, selectOptionAndWait } from '../utils/inputs'
+import { fillDate, fillTime, selectOption } from '../utils/inputs'
 import { Contact, data, Team } from '../../../test-data/test-data'
 import { doUntil } from '../utils/refresh'
 import { Tomorrow } from '../utils/date-time'
@@ -14,11 +14,11 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
         await fillDate(page, '#StartDate\\:datePicker', options.date as Date)
     }
 
-    await selectOptionAndWait(page, '#RelatedTo\\:selectOneMenu', options.relatesTo)
-    await selectOptionAndWait(page, '#ContactCategory\\:selectOneMenu', options.category)
-    await selectOptionAndWait(page, '#ContactType\\:selectOneMenu', options.type)
-    await selectOptionAndWait(page, '#TransferToTrust\\:selectOneMenu', options.allocation?.team?.provider)
-    await selectOptionAndWait(page, '#TransferToTeam\\:selectOneMenu', options.allocation?.team?.name)
+    await selectOption(page, '#RelatedTo\\:selectOneMenu', options.relatesTo)
+    await selectOption(page, '#ContactCategory\\:selectOneMenu', options.category)
+    await selectOption(page, '#ContactType\\:selectOneMenu', options.type)
+    await selectOption(page, '#TransferToTrust\\:selectOneMenu', options.allocation?.team?.provider)
+    await selectOption(page, '#TransferToTeam\\:selectOneMenu', options.allocation?.team?.name)
 
     if (options.allocation?.team?.location) {
         await selectOption(page, '#Location\\:selectOneMenu', options.allocation?.team?.location)

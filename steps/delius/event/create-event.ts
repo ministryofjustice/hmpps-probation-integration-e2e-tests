@@ -1,7 +1,7 @@
 import { expect, type Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
 import { findOffenderByCRN } from '../offender/find-offender'
-import { fillDate, fillTime, selectOption, selectOptionAndWait } from '../utils/inputs'
+import { fillDate, fillTime, selectOption } from '../utils/inputs'
 import { Yesterday } from '../utils/date-time'
 import { Allocation, data, Optional } from '../../../test-data/test-data'
 import { waitForJS } from '../utils/refresh'
@@ -42,28 +42,23 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     await fillDate(page, '#OffenceDate\\:datePicker', _date)
     await fillDate(page, '#ConvictionDate\\:datePicker', _date)
     await waitForJS(page, 1000)
-    await selectOptionAndWait(
-        page,
-        '#MainOffence\\:selectOneMenu',
-        event.mainOffence,
-        option => !option.startsWith('(')
-    )
+    await selectOption(page, '#MainOffence\\:selectOneMenu', event.mainOffence, option => !option.startsWith('('))
     if (event.subOffence) {
         await selectOption(page, '#SubOffence\\:selectOneMenu', event.subOffence)
     }
     createdEvent.court = await selectOption(page, '#Court\\:selectOneMenu')
-    await selectOptionAndWait(page, '#Area\\:selectOneMenu', allocation?.team?.provider)
-    await selectOptionAndWait(page, '#Team\\:selectOneMenu', allocation?.team?.name)
+    await selectOption(page, '#Area\\:selectOneMenu', allocation?.team?.provider)
+    await selectOption(page, '#Team\\:selectOneMenu', allocation?.team?.name)
     if (allocation?.staff?.name) {
         await selectOption(page, '#Staff\\:selectOneMenu', allocation?.staff?.name)
     }
     await selectOption(page, '#AppearanceType\\:selectOneMenu', event.appearanceType)
-    await selectOptionAndWait(page, '#Plea\\:selectOneMenu', event.plea)
-    await selectOptionAndWait(page, '#Outcome\\:selectOneMenu', event.outcome)
+    await selectOption(page, '#Plea\\:selectOneMenu', event.plea)
+    await selectOption(page, '#Outcome\\:selectOneMenu', event.outcome)
     createdEvent.outcome = event.outcome
     if (requiresAdditionalOutcomeDetails.includes(event.outcome)) {
-        await selectOptionAndWait(page, '#OutcomeArea\\:selectOneMenu', allocation?.team?.provider)
-        await selectOptionAndWait(page, '#OutcomeTeam\\:selectOneMenu', allocation?.team?.name)
+        await selectOption(page, '#OutcomeArea\\:selectOneMenu', allocation?.team?.provider)
+        await selectOption(page, '#OutcomeTeam\\:selectOneMenu', allocation?.team?.name)
     }
     if (event.length) {
         await page.fill('#Length', event.length)

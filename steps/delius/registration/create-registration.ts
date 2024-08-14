@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test'
-import { selectOption, selectOptionAndWait } from '../utils/inputs'
+import { selectOption } from '../utils/inputs'
 import { findOffenderByCRN } from '../offender/find-offender'
 import { doUntil } from '../utils/refresh'
 
@@ -17,15 +17,15 @@ export async function createRegistration(
     await expect(page).toHaveTitle('Add Registration')
 
     if (registrationType === 'Integrated Offender Management') {
-        await selectOptionAndWait(page, '#Trust\\:selectOneMenu', registeringOfficerProvider)
-        await selectOptionAndWait(page, '#RegisterType\\:selectOneMenu', registrationType)
-        await selectOptionAndWait(page, '#Team\\:selectOneMenu')
-        await selectOptionAndWait(page, '#Staff\\:selectOneMenu')
-        await selectOptionAndWait(page, '#Category\\:selectOneMenu', 'IOM - Fixed')
+        await selectOption(page, '#Trust\\:selectOneMenu', registeringOfficerProvider)
+        await selectOption(page, '#RegisterType\\:selectOneMenu', registrationType)
+        await selectOption(page, '#Team\\:selectOneMenu')
+        await selectOption(page, '#Staff\\:selectOneMenu')
+        await selectOption(page, '#Category\\:selectOneMenu', 'IOM - Fixed')
     } else {
-        await selectOptionAndWait(page, '#Trust\\:selectOneMenu')
-        await selectOptionAndWait(page, '#RegisterType\\:selectOneMenu', registrationType)
-        await selectOptionAndWait(page, '#Team\\:selectOneMenu')
+        await selectOption(page, '#Trust\\:selectOneMenu')
+        await selectOption(page, '#RegisterType\\:selectOneMenu', registrationType)
+        await selectOption(page, '#Team\\:selectOneMenu')
         await selectOption(page, '#Staff\\:selectOneMenu')
     }
 

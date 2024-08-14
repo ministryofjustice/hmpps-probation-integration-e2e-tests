@@ -69,9 +69,6 @@ export async function verifyAssessmentDateTextToBe(page: Page, expectedText: str
     // Fetch the text from the locator and normalize it
     const actualText = await locator.evaluate(el => el.textContent?.trim().replace(/\s+/g, ' '))
 
-    // Log the actual text for debugging
-    console.log(`Actual text: "${actualText}"`)
-
     // Verify that the normalized text matches the expected text
     expect(actualText).toBe(expectedText)
 }

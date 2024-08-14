@@ -1,7 +1,7 @@
 import { type Page } from '@playwright/test'
 import { data, Team } from '../../../test-data/test-data'
 import { findEventByCRN } from '../event/find-events'
-import { selectOption, selectOptionAndWait } from '../utils/inputs'
+import { selectOption } from '../utils/inputs'
 
 export async function createRequirementForEvent(
     page: Page,
@@ -25,7 +25,7 @@ export async function createRequirementForEvent(
     await page.click('#navigation-include\\:linkNavigation3SentenceComponentREQ')
     await page.locator('main', { has: page.locator('h1', { hasText: 'Requirement Types' }) })
     await page.locator('input', { hasText: 'Add' }).click()
-    await selectOptionAndWait(page, '#requirementMainCategory\\:selectOneMenu', requirement?.category)
+    await selectOption(page, '#requirementMainCategory\\:selectOneMenu', requirement?.category)
     await selectOption(page, '#requirementSubCategory\\:selectOneMenu', requirement?.subCategory)
     await selectOption(page, '#area\\:selectOneMenu', team?.provider)
     await selectOption(page, '#team\\:selectOneMenu', team?.name)

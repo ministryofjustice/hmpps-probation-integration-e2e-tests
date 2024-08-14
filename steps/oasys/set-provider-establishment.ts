@@ -11,6 +11,5 @@ export const setProviderEstablishment = async (page: Page) => {
         await expect(page.locator('#searchtop > h2')).toHaveText('Task Manager')
     } catch {
         // If the option is not visible within the timeout, do nothing
-        console.error('Option is not visible within the timeout period.')
     }
 }

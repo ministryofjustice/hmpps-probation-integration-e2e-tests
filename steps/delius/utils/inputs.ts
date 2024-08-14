@@ -23,27 +23,15 @@ export const selectOption = async (
     option: string = null,
     filter: (s: string) => boolean = null
 ): Promise<string> => {
+    // Delius has lots of dynamic drop-down fields that are populated based on previous actions, so wait for any
+    // asynchronous requests to complete before attempting to select an option.
+    await waitForAjax(page)
     if (option == null) {
         option = await getRandomOption(page, selector, 2, filter)
     }
     await page.selectOption(selector, { label: option })
     return option
 }
-
-/**
- * Selects an option, then waits for any asynchronous JS requests to complete. Use this for drop-downs that cause other
- * fields on the page to be re-rendered.  For other drop-downs, you should use the normal "selectOption" method.
- * @param page
- * @param selector
- * @param option
- * @param filter
- */
-export const selectOptionAndWait = async (
-    page: Page,
-    selector: string,
-    option: string = null,
-    filter: (s: string) => boolean = null
-): Promise<string> => (await Promise.all([selectOption(page, selector, option, filter), waitForAjax(page)]))[0]
 
 export const fillDate = async (page: Page, selector: string, date: Date) => {
     await page.fill(selector, DeliusDateFormatter(date))

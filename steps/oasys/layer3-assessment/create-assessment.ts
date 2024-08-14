@@ -1,6 +1,6 @@
-import { type Page, expect } from '@playwright/test'
+import { expect, type Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
-import { OasysDateFormatter, Yesterday } from '../../delius/utils/date-time'
+import { Yesterday } from '../../delius/utils/date-time'
 import { fillDateOasys } from '../../delius/utils/inputs'
 import { doUntil } from '../../delius/utils/refresh'
 
@@ -36,7 +36,6 @@ export const clickSection1 = async (
     await page.getByRole('link', { name: 'Offending Information' }).click()
     await page.getByLabel('Count').fill('1')
     await page.getByRole('link', { name: 'Predictors' }).click()
-    console.log('the date ', OasysDateFormatter(firstOffenceDate))
     await page.getByLabel('Date of first sanction').click()
     await fillDateOasys(page, '#itm_1_8_2', firstOffenceDate)
     await page.getByLabel('Total number of sanctions for all offences').fill('11')
@@ -56,7 +55,6 @@ export const clickSection1 = async (
         const contactOffenceDropdown = page.getByLabel(
             'Does the current offence involve actual/attempted direct contact against a victim who was a stranger?'
         )
-        console.log('Waiting for contact offence dropdown to be visible')
         await contactOffenceDropdown.waitFor({ state: 'visible' })
         await contactOffenceDropdown.selectOption('1.44~YES')
     }
