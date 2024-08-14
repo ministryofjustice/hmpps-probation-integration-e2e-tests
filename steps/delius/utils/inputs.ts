@@ -1,5 +1,5 @@
 import { type Page } from '@playwright/test'
-import { DeliusDateFormatter, DeliusTimeFormatter, OasysDateFormatter, options } from './date-time'
+import { DeliusDateFormatter, DeliusTimeFormatter, OasysDateFormatter } from './date-time'
 import { waitForAjax } from './refresh'
 
 const getOptions = async (page: Page, selector: string, filter: (s: string) => boolean = null) => {
