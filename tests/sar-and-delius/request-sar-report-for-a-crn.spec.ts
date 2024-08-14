@@ -35,7 +35,7 @@ test('Verify SAR report correctly includes subject details from Delius using CRN
     const pdfText = await getPdfText(await fs.promises.readFile(`downloads/${crn}-sar.pdf`))
     expect(pdfText).toContain(crn)
     expect(pdfText).toContain(person.firstName)
-    expect(pdfText).toContain(person.lastName)
+    expect(pdfText).toContain(person.lastName.toUpperCase())
 })
 
 test.afterAll(async () => {
