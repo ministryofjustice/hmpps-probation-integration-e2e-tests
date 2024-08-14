@@ -1,5 +1,5 @@
 import { devices, type PlaywrightTestConfig } from '@playwright/test'
-import { minutesToMilliseconds } from 'date-fns'
+import { minutesToMilliseconds, secondsToMilliseconds } from 'date-fns'
 
 /**
  * Read environment variables from file.
@@ -26,6 +26,7 @@ const config: PlaywrightTestConfig = {
     reporter: 'html',
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
+        actionTimeout: secondsToMilliseconds(30),
         timezoneId: 'Europe/London',
         launchOptions: { slowMo: 150 },
         screenshot: 'only-on-failure',

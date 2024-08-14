@@ -1,5 +1,5 @@
 import { type Page } from '@playwright/test'
-import { DeliusDateFormatter, DeliusTimeFormatter, OasysDateFormatter } from './date-time'
+import { DeliusDateFormatter, DeliusTimeFormatter, OasysDateFormatter, options } from './date-time'
 import { waitForAjax } from './refresh'
 
 const getOptions = async (page: Page, selector: string, filter: (s: string) => boolean = null) => {
@@ -26,10 +26,19 @@ export const selectOption = async (
     // Delius has lots of dynamic drop-down fields that are populated based on previous actions, so wait for any
     // asynchronous requests to complete before attempting to select an option.
     await waitForAjax(page)
-    if (option == null) {
+    const originalOption = option
+    if (originalOption == null) {
         option = await getRandomOption(page, selector, 2, filter)
     }
-    await page.selectOption(selector, { label: option })
+    try {
+        await page.selectOption(selector, { label: option }, { timeout: 5000 })
+    } catch (e) {
+        // Sometimes the options change even after we've waited for asynchronous requests to complete, so retry after 5 seconds
+        if (originalOption == null) {
+            option = await getRandomOption(page, selector, 2, filter)
+            await page.selectOption(selector, { label: option })
+        } else throw e
+    }
     return option
 }
 

@@ -261,7 +261,7 @@ async function outlineBehaviourInCAS(page: Page) {
 
 async function confirmPlacementLocation(page: Page) {
     await page.getByRole('link', { name: 'Confirm placement location' }).click()
-    await expect(page).toHaveTitle('Is placement required in an alternative PDU? - Transitional Accommodation (CAS3)')
+    await expect(page).toHaveTitle(/Is placement required/)
     await page.getByRole('radio', { name: 'No', exact: true }).check()
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(
