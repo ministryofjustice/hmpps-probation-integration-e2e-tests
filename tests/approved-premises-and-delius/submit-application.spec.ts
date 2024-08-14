@@ -16,13 +16,15 @@ import { login as approvedPremisesLogin, navigateToApplications } from '../../st
 import { submitAPApplication } from '../../steps/cas1-approved-premises/applications/submit-application-full'
 import { reallocateApplication } from '../../steps/cas1-approved-premises/applications/reallocate'
 import { assessApplication } from '../../steps/cas1-approved-premises/applications/assess-application'
+import { slow } from '../../steps/common/common'
 
 dotenv.config() // read environment variables into process.env
 
 const nomisIds = []
 
 test('Create an approved premises application', async ({ page }) => {
-    test.slow() // increase the timeout - Delius/OASys/AP Applications can take a few minutes
+    slow()
+
     // Given I login in to NDelius
     await hmppsLogin(page)
     await deliusLogin(page)

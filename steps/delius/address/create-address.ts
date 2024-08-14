@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test'
-import { selectOption, selectOptionAndWait } from '../utils/inputs'
+import { selectOption } from '../utils/inputs'
 import { findOffenderByCRN } from '../offender/find-offender'
 import { faker } from '@faker-js/faker'
 
@@ -33,7 +33,7 @@ export const createAddress = async (page: Page, crn: string, options: Address) =
     await page.getByLabel(/City/).fill(options.cityName)
     await page.getByLabel(/County/).fill(options.county)
     await page.getByLabel(/Postcode/).fill(options.zipCode)
-    await selectOptionAndWait(page, '#addressStatus\\:selectOneMenu', 'Main')
+    await selectOption(page, '#addressStatus\\:selectOneMenu', 'Main')
     await selectOption(page, '#addressType\\:selectOneMenu', null, option => option !== 'Awaiting Assessment')
     await page.getByLabel(/Type Verified/).selectOption('Yes')
     await page.getByRole('button', { name: 'Save' }).click()

@@ -40,7 +40,6 @@ export const createLayer3CompleteAssessment = async (page: Page, crn: string, pe
             (await page.locator('#loginbodyheader > h2').innerText()) === 'Provider/Establishment'
     } catch {
         // If the element is not found within the timeout, set providerEstablishmentPageExists to false
-        console.error('Provider/Establishment page element not found within timeout.')
         providerEstablishmentPageExists = false
     }
 

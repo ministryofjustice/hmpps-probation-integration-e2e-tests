@@ -14,11 +14,12 @@ import { findCustodyForEventByCRN } from '../../steps/delius/event/find-events'
 import { refreshUntil } from '../../steps/delius/utils/refresh'
 import { createRelease } from '../../steps/delius/release/create-release'
 import { createLicenceCondition } from '../../steps/delius/licence-condition/create-licence-condition'
+import { slow } from '../../steps/common/common'
 
 const nomisIds = []
 
 test('Release and recall test', async ({ page }) => {
-    test.slow() // increase the timeout - releases/recall publishing can take a few minutes
+    slow()
 
     // Given a person with a sentenced event in Delius
     await deliusLogin(page)
@@ -52,7 +53,8 @@ test('Release and recall test', async ({ page }) => {
 })
 
 test('Temporary absence test', async ({ page }) => {
-    test.slow() // increase the timeout - releases/recall publishing can take a few minutes
+    slow()
+
     // Given a person with a sentenced event in Delius
     await deliusLogin(page)
     // await hmppsLogin(page)

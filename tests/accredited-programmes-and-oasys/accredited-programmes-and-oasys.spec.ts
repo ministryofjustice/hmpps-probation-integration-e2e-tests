@@ -1,6 +1,5 @@
 import { expect, test } from '@playwright/test'
 import * as dotenv from 'dotenv'
-dotenv.config() // read environment variables into process.env
 import { login as deliusLogin } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
@@ -11,19 +10,22 @@ import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessm
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { login as accreditedProgrammesLogin } from '../../steps/accredited-programmes/login'
 import {
+    apFormattedTodayDate as todaysDate,
     assertRoSHRiskTable,
     briefOffenceDetailsSummaryCard,
     clickOnOffenderLink,
     findProgrammeAndMakeReferral,
     verifyAssessmentDateTextToBe,
 } from '../../steps/accredited-programmes/application'
+import { slow } from '../../steps/common/common'
 
-import { apFormattedTodayDate as todaysDate } from '../../steps/accredited-programmes/application'
+dotenv.config() // read environment variables into process.env
 
 const nomisIds = []
 
 test('View OASys assessments in Accredited Programmes service', async ({ page }) => {
-    test.slow()
+    slow()
+
     // Step 1: Create new Offender & event in nDelius
     await deliusLogin(page)
     const person = deliusPerson()

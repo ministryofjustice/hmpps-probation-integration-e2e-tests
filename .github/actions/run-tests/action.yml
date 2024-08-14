@@ -30,6 +30,10 @@ runs:
         # Start workflow run
         gh workflow run test.yml --repo "$repo" -f "projects=$projects" && sleep 10 || exit 1
         run_id=$(gh run list --workflow=test.yml --repo "$repo" -L1 --json databaseId --jq '.[0].databaseId')
+        echo "run_id=$run_id" | tee -a "$GITHUB_OUTPUT"
+        function cancel_run() { gh run cancel "$run_id" --repo "$repo"; }
+        trap cancel_run SIGTERM SIGINT SIGKILL
+
         echo "Workflow started, follow the logs here: https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests/actions/runs/$run_id"
         
         # Wait for it to complete
@@ -51,6 +55,15 @@ runs:
       env:
         repo: ministryofjustice/hmpps-probation-integration-e2e-tests
         projects: ${{ inputs.projects }}
+        GITHUB_TOKEN: ${{ inputs.token }}
+
+    - name: Cancel remote test run
+      if: cancelled()
+      shell: bash
+      run: gh run cancel "$run_id" --repo "$repo"
+      env:
+        repo: ministryofjustice/hmpps-probation-integration-e2e-tests
+        run_id: ${{ steps.run.outputs.run_id }}
         GITHUB_TOKEN: ${{ inputs.token }}
 
     - name: Add test summary

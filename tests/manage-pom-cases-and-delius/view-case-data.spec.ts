@@ -4,9 +4,10 @@ import { randomiseCommunityManagerName } from '../../steps/delius/staff/communit
 import { login as mpcLogin } from '../../steps/manage-pom-cases/login'
 import { switchCaseload } from '../../steps/manage-pom-cases/caseload'
 import { execCommand, getPodName } from '../../steps/k8s/k8s-utils'
+import { slow } from '../../steps/common/common'
 
 test('View Delius case data', async ({ page }) => {
-    test.slow() // extend the timeout - the import job can take a few minutes
+    slow()
 
     // Given a prisoner's information has changed
     const { nomsNumber } = data.prisoners.allocatedPrisoner

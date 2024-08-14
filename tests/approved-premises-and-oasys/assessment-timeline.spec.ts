@@ -1,6 +1,5 @@
 import { test } from '@playwright/test'
 import * as dotenv from 'dotenv'
-dotenv.config() // read environment variables into process.env
 import { login as deliusLogin } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
@@ -21,11 +20,15 @@ import { verifyRiskToSelfIsAsPerOASys } from '../../steps/cas1-approved-premises
 import { verifySupportingInfoIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-supporting-info'
 import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeedsReview } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
+import { slow } from '../../steps/common/common'
+
+dotenv.config() // read environment variables into process.env
 
 const nomisIds = []
 
 test('View OASys assessments in Approved Premises service', async ({ page }) => {
-    test.slow() // increase the timeout - Delius/OASys/AP Applications can take a few minutes
+    slow()
+
     // Given I create new Offender in nDelius
     await deliusLogin(page)
     const person = deliusPerson()

@@ -11,13 +11,14 @@ import { contact } from '../../steps/delius/utils/contact'
 
 import { login as dpsLogin } from '../../steps/dps/login'
 import { switchCaseload } from '../../steps/dps/caseload'
+import { slow } from '../../steps/common/common'
 
 dotenv.config() // read environment variables into process.env
 
 const nomisIds = []
 
 test('Submit a CAS2 short-term accommodation application', async ({ page }) => {
-    test.slow()
+    slow()
     await deliusLogin(page)
     const person = deliusPerson({ sex: 'Male' })
     const crn = await createOffender(page, { person })
