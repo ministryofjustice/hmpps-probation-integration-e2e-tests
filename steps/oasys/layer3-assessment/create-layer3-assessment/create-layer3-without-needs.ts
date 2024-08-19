@@ -29,7 +29,7 @@ import { completeRoSHSection9RoSHSummary } from './section-9'
 import { completeReviewSentencePlan } from './review-sentenceplan'
 import { addYears } from 'date-fns'
 import { completeRoSHFullSec8RisksToIndvdl } from '../rosh-full-analysis-section8'
-import { completeRoSHSection8FullAnalysisYes } from '../section-8.js'
+import { completeRoSHSection8FullAnalysisYes } from '../section-8'
 
 export const createLayer3CompleteAssessment = async (
     page: Page,
