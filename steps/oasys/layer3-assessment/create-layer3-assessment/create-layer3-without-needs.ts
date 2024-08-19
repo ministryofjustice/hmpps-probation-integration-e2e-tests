@@ -19,7 +19,7 @@ import {
     selfAssessmentForm,
 } from '../create-assessment'
 import { completeRoSHSection1MarkAllNo } from '../section-1'
-import { clickSection2To4, clickSection2To4NextButton } from '../section-2-4'
+import { clickSection2To4, clickSection2To4NextButton, clickSection2To4RoshYes } from '../section-2-4'
 import { completeRoSHSection5FullAnalysis, completeRoSHSection5FullAnalysisYes } from '../section-5'
 import { completeRoSHSection10RoSHSummary } from '../section-10'
 import { completeRiskManagementPlan } from '../risk-management-plan'
@@ -29,8 +29,15 @@ import { completeRoSHSection9RoSHSummary } from './section-9'
 import { completeReviewSentencePlan } from './review-sentenceplan'
 import { addYears } from 'date-fns'
 import { completeRoSHFullSec8RisksToIndvdl } from '../rosh-full-analysis-section8'
+import { completeRoSHSection8FullAnalysisYes } from '../section-8.js'
 
-export const createLayer3CompleteAssessment = async (page: Page, crn: string, person: Person, nomisId?: string) => {
+export const createLayer3CompleteAssessment = async (
+    page: Page,
+    crn: string,
+    person: Person,
+    nomisId?: string,
+    highRoshScore: boolean = false
+) => {
     let providerEstablishmentPageExists = false
 
     try {
@@ -78,12 +85,25 @@ export const createLayer3CompleteAssessment = async (page: Page, crn: string, pe
     await clickRoSHScreeningSection1(page)
     // And I complete RoSH Screening Section 1 and Click Save & Next
     await completeRoSHSection1MarkAllNo(page)
-    // And I Click on "RoSH Screening" - Section 2 to 4 & and Click Next without selecting/entering anything
-    await clickSection2To4(page, person)
-    // And I complete "RoSH Screening" Section 5 and Click Save & Next
-    await completeRoSHSection5FullAnalysis(page)
-    // And I Click on "RoSH Summary" Section
-    await clickRoSHSummary(page)
+
+    if (highRoshScore) {
+        console.log('High RoSH Score is true')
+        // And I Click on "RoSH Screening" - Section 2 to 4 & and Click Next without selecting/entering anything
+        await clickSection2To4RoshYes(page, person)
+        // // And I complete "RoSH Screening" Section 5 and Click Save & Next
+        await completeRoSHSection5FullAnalysis(page)
+        // And I complete "'R8 Risks to the individual - full analysis'" Section 5 and Click Save & Next
+        await completeRoSHSection8FullAnalysisYes(page)
+    } else {
+        console.log('High RoSH Score is false')
+        // And I Click on "RoSH Screening" - Section 2 to 4 & and Click Next without selecting/entering anything
+        await clickSection2To4(page, person)
+        // // And I complete "RoSH Screening" Section 5 and Click Save & Next
+        await completeRoSHSection5FullAnalysis(page)
+        // And I Click on "RoSH Summary" Section
+        await clickRoSHSummary(page)
+    }
+
     // And I complete "RoSH Summary - R9" Questions
     await completeRoSHSection9RoSHSummary(page)
     // And I complete "RoSH Summary - R10" Questions
