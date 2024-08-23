@@ -3,6 +3,7 @@ import { hearingData, SHEFFIELD_COURT } from './hearing-data'
 import { Person } from '../delius/utils/person'
 
 export async function addCourtHearing(person: Person, courtCode: string = SHEFFIELD_COURT.code) {
+    const data = hearingData(person, courtCode)
     await runPod(
         'court-probation-dev',
         'probation-integration-e2e-tests',
@@ -10,7 +11,7 @@ export async function addCourtHearing(person: Person, courtCode: string = SHEFFI
         ['aws sns publish --topic-arn "$TOPIC_ARN" --message "$MESSAGE" --message-attributes "$ATTRIBUTES"'],
         [
             { name: 'TOPIC_ARN', valueFrom: { secretKeyRef: { name: 'court-case-events-topic', key: 'topic_arn' } } },
-            { name: 'MESSAGE', value: JSON.stringify(hearingData(person, courtCode)) },
+            { name: 'MESSAGE', value: JSON.stringify(data) },
             {
                 name: 'ATTRIBUTES',
                 value: JSON.stringify({
@@ -20,4 +21,6 @@ export async function addCourtHearing(person: Person, courtCode: string = SHEFFI
             },
         ]
     )
+
+    return data.hearing.id
 }
