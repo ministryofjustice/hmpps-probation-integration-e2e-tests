@@ -1,0 +1,38 @@
+name: Test data cleanup
+
+on:
+  # Every Monday at 07:00 UTC
+  schedule:
+    - cron: "0 7 * * MON"
+  # Run manually via GitHub API
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: moj-cloud-platform
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          cache: npm
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npx playwright install
+
+      - name: Run Playwright script
+        id: tests
+        run: npx playwright test -g 'Allocate unallocated workforce crns in delius'
+        env:
+          TZ: Europe/London
+          ENV: test
+          TEST_DIR: test-data-setup
+          # URLs
+          DELIUS_URL: https://ndelius.test.probation.service.justice.gov.uk
+          WORKFORCE_URL: https://workforce-management-dev.hmpps.service.justice.gov.uk
+          # Credentials
+          DELIUS_USERNAME: ${{ secrets.E2E_DELIUS_USERNAME }}
+          DELIUS_PASSWORD: ${{ secrets.E2E_DELIUS_PASSWORD }}

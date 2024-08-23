@@ -42,10 +42,9 @@ export const allocateCase = async (page: Page, crn: string, allocation: Allocati
     await page.click('#isSensitive')
     await page.locator('button', { hasText: 'Continue' }).click()
 
-    // Review and submit allocation
-    await expect(page).toHaveTitle(/.*SPO Oversight Contact.*/)
-    await page.fill('#instructions', `Allocation for ${crn} completed by hmpps-end-to-end-tests`)
-    await page.locator('button', { hasText: /Save and allocate case/ }).click()
+    // Save Notes as an oversight contact and allocate case
+    await expect(page).toHaveURL(/spo-oversight-contact-option$/)
+    await page.getByRole('button', { name: 'Save my notes without editing' }).click()
 
     await refreshUntil(
         page,
