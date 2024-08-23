@@ -286,10 +286,24 @@ export const clickRoshFullRisksToIndividual = async (page: Page) => {
 }
 
 export const clickAccommodation = async (page: Page) => {
-    // await expandSectionIfNeeded(page, 'Section 2 to 13', '3 - Accommodation')
     await doUntil(
-        () => page.locator('a', { hasText: '3 - Accommodation' }).click(),
-        () => expect(page.locator('#contextleft > h3')).toHaveText('3 - Accommodation (Layer 3)'),
+        async () => {
+            // Ensure the link is scrolled into view
+            const linkLocator = page.locator("[href*='LAYER3_1_MENU,SEC3']", { hasText: '3 - Accommodation' })
+            await linkLocator.scrollIntoViewIfNeeded()
+            await page.waitForTimeout(500)
+
+            // Click on the element and handle any potential errors
+            try {
+                await linkLocator.click({ timeout: 10000 })
+            } catch (error) {
+                console.error('Click action failed: ', error)
+                throw error // Re-throw to allow `doUntil` to handle retry
+            }
+        },
+        async () => {
+            await expect(page.locator('#contextleft > h3')).toHaveText('3 - Accommodation (Layer 3)')
+        },
         { timeout: 60_000, intervals: [500, 1000, 5000] }
     )
 }
