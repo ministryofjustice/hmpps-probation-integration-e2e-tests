@@ -22,5 +22,5 @@ export async function addCourtHearing(person: Person, courtCode: string = SHEFFI
         ]
     )
 
-    return data.hearing.id
+    return data.hearing
 }

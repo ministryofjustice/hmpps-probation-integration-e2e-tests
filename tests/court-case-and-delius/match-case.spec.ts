@@ -18,8 +18,8 @@ import { createRegistration } from '../../steps/delius/registration/create-regis
 test('Match Delius case with Court Case Hearing', async ({ page }) => {
     // Given a person with hearing in the Court Case Service
     const person = deliusPerson()
-    const hearingId = await addCourtHearing(person)
-    console.log('Added court hearing with id', hearingId)
+    const hearing = await addCourtHearing(person)
+    console.log('Added court hearing with id', hearing.id, 'and date', hearing.hearingDays[0].sittingDay)
 
     // When I create the person's record in Delius
     await deliusLogin(page)
