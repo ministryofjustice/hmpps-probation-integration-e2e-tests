@@ -14,7 +14,7 @@ export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.
         hearingDays: [
             {
                 listedDurationMinutes: 60,
-                sittingDay: `${format(faker.date.between({ from: '2024-01-01', to: '2025-01-01' }), 'yyyy-MM-dd')}T09:00:00.000Z`,
+                sittingDay: `${format(faker.date.between({ from: '2010-01-01', to: '2020-01-01' }), 'yyyy-MM-dd')}T09:00:00.000Z`,
             },
         ],
         type: {
