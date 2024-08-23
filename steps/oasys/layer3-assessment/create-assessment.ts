@@ -314,9 +314,18 @@ export const clickRelationships = async (page: Page) => {
 }
 
 const expandSectionIfNeeded = async (page: Page, sectionText: string, linkText: string) => {
+    const sectionLocator = page.locator('a', { hasText: sectionText })
     const linkLocator = page.locator('a', { hasText: linkText })
 
-    if (!(await linkLocator.isVisible())) {
-        await page.locator('a', { hasText: sectionText }).click()
-    }
+    await doUntil(
+        async () => {
+            if (!(await linkLocator.isVisible())) {
+                await sectionLocator.click()
+            }
+        },
+        async () => {
+            await expect(linkLocator).toBeVisible()
+        },
+        { timeout: 60_000, intervals: [500, 1000, 5000] }
+    )
 }
