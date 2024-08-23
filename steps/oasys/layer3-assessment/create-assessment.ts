@@ -286,7 +286,7 @@ export const clickRoshFullRisksToIndividual = async (page: Page) => {
 }
 
 export const clickAccommodation = async (page: Page) => {
-    await expandSectionIfNeeded(page, 'Section 2 to 13', '3 - Accommodation')
+    // await expandSectionIfNeeded(page, 'Section 2 to 13', '3 - Accommodation')
     await doUntil(
         () => page.locator('a', { hasText: '3 - Accommodation' }).click(),
         () => expect(page.locator('#contextleft > h3')).toHaveText('3 - Accommodation (Layer 3)'),
