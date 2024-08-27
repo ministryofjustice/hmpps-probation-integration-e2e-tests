@@ -6,7 +6,7 @@ import { completeRelationshipsSection } from '../relationships-section'
 import { signAndlock } from '../sign-and-lock'
 
 export const addLayer3AssessmentNeeds = async (page: Page, role?: string) => {
-    // await page.locator('a', { hasText: 'Section 2 to 13' }).click()
+    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
     // And I click on "Accommodation' under Section 2 to 4
     await clickAccommodation(page)
     // And I complete "Accommodation" Section
