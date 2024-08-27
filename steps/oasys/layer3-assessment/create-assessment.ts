@@ -318,15 +318,26 @@ const expandSectionIfNeeded = async (page: Page, sectionText: string, linkText: 
     const sectionLocator = page.locator('a', { hasText: sectionText })
     const linkLocator = page.locator('a', { hasText: linkText })
 
-    await doUntil(
-        async () => {
-            if (!(await linkLocator.isVisible())) {
-                await sectionLocator.click()
-            }
-        },
-        async () => {
-            await expect(linkLocator).toBeVisible()
-        },
-        { timeout: 60_000, intervals: [500, 1000, 5000] }
-    )
+    // await doUntil(
+    //     async () => {
+    //         if (!(await linkLocator.isVisible())) {
+    //             await sectionLocator.click()
+    //         }
+    //     },
+    //     async () => {
+    //         await expect(linkLocator).toBeVisible()
+    //     },
+    //     { timeout: 60_000, intervals: [500, 1000, 5000] }
+    // )
+
+    // Check if the link is visible
+    if (!(await linkLocator.isVisible())) {
+        // Expand the section
+        await sectionLocator.click()
+        // Wait for the section to expand
+        await page.waitForTimeout(1000)
+    }
+
+    // Verify that the link is visible after expanding
+    await expect(linkLocator).toBeVisible()
 }
