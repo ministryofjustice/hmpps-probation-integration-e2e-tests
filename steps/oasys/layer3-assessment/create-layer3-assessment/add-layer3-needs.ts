@@ -24,7 +24,7 @@ export const addLayer3AssessmentNeeds = async (page: Page, role?: string) => {
 }
 export const addLayer3AssessmentNeedsReview = async (page: Page) => {
     // And I click on "Accommodation' under Section 2 to 4
-    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
+    // await page.locator('a', { hasText: 'Section 2 to 13' }).click()
     await clickAccommodation(page)
     // And I complete "Accommodation" Section
     await completeAccommodationSectionYes(page)
