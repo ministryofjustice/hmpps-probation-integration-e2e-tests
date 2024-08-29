@@ -7,8 +7,6 @@ import { createCommunityEvent } from '../../steps/delius/event/create-event.js'
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement.js'
 import { createInitialAppointment } from '../../steps/delius/contact/create-contact.js'
 
-const crns: string[] = []
-
 test.beforeEach(async ({ page }) => {
     await deliusLogin(page)
 })
@@ -23,7 +21,6 @@ const createCasesAwaitingAllocation = async (page: Page, number: number) => {
 
     for (let i = 0; i < number; i++) {
         const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.provider })
-        crns.push(crn)
 
         await createCommunityEvent(page, {
             crn,
