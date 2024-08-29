@@ -34,6 +34,7 @@ on:
           - recommend-a-recall
           - refer-and-monitor-functional-tests
           - hmpps-integration-api
+          - create-unallocated-workforce-cases
 jobs:
   create-generic-data:
     uses: ./.github/workflows/test.yml
