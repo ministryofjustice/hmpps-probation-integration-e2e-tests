@@ -1,16 +1,12 @@
 import { login as deliusLogin } from '../../steps/delius/login'
-import { login as workforceLogin } from '../../steps/workforce/login'
-import { internalTransfer } from '../../steps/delius/transfer/internal-transfer'
 import { data } from '../../test-data/test-data'
-import { chromium, expect, Page, test } from '@playwright/test'
+import { Page, test } from '@playwright/test'
 import { slow } from '../../steps/common/common'
-import { refreshUntil } from '../../steps/delius/utils/refresh.js'
 import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { createCommunityEvent } from '../../steps/delius/event/create-event.js'
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement.js'
 import { createInitialAppointment } from '../../steps/delius/contact/create-contact.js'
 
-// Global array to store CRNs
 const crns: string[] = []
 
 test.beforeEach(async ({ page }) => {
