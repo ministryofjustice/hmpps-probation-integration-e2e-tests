@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('Create cases awaiting Allocation', async ({ page }) => {
-    slow(10)
+    slow()
     await createCasesAwaitingAllocation(page, 50)
 })
 
