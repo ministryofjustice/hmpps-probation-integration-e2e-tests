@@ -62,13 +62,13 @@ export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.
                             {
                                 id: '0c932f0c-282b-418e-b294-8966498b1eef',
                                 offenceLegislation:
-                                    'Contrary to section 20 of the Offences Against the Person Act 1861.',
-                                offenceTitle: 'Wound / inflict grievous bodily harm without intent',
+                                    'Contrary to section 47 of the Offences Against the Person Act 1861.',
+                                offenceTitle: 'Assault a person thereby occasioning them actual bodily harm',
                                 wording:
-                                    'on 01/08/2009 at  the County public house, unlawfully and maliciously wounded, John Smith',
+                                    'On 25/11/2023 at Oxford,  you assaulted John Smith, thereby occasioning him, actual bodily harm',
                                 listingNumber: 3,
-                                offenceDefinitionId: '1136fd5e-d9d3-4df6-a6a6-a79c8530379f',
-                                offenceCode: 'CJO3523',
+                                offenceDefinitionId: 'a86115ce-b611-38e3-8300-1d3d653f5b3a',
+                                offenceCode: 'OF61102',
                                 plea: {
                                     pleaValue: 'not guilty',
                                 },

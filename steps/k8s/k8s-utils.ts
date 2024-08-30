@@ -94,7 +94,7 @@ export async function runPod(
     console.log('Started pod:', podName)
     try {
         const started = Date.now()
-        while (Date.now() - started > 30_000) {
+        while (Date.now() - started < 30_000) {
             const { body: pod } = await coreV1Api.readNamespacedPod(podName, namespace)
             if (pod.status?.phase === 'Succeeded') break
             if (pod.status?.phase === 'Failed') throw new Error('Pod failed.')
