@@ -43,7 +43,7 @@ test('View OASys assessments in Approved Premises service', async ({ page }) => 
 
     // And I create a Layer 3 Assessment with Needs in OASys
     await oasysLogin(page, UserType.Timeline)
-    await createLayer3CompleteAssessment(page, crn, undefined, 'Yes')
+    await createLayer3CompleteAssessment(page, crn, person, 'Yes')
     await signAndlock(page)
 
     // When I login in to Approved Premises and navigate to Applications Task-list page
