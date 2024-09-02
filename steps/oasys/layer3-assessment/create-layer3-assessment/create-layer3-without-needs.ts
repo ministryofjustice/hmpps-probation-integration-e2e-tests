@@ -30,11 +30,13 @@ import { completeReviewSentencePlan } from './review-sentenceplan'
 import { addYears } from 'date-fns'
 import { completeRoSHFullSec8RisksToIndvdl } from '../rosh-full-analysis-section8'
 import { completeRoSHSection8FullAnalysisYes } from '../section-8'
+type Needs = 'Yes' | 'No'
 
 export const createLayer3CompleteAssessment = async (
     page: Page,
     crn: string,
     person: Person,
+    needs: Needs = 'No',
     nomisId?: string,
     highRoshScore: boolean = false
 ) => {
@@ -79,7 +81,7 @@ export const createLayer3CompleteAssessment = async (
     // And I complete section 1
     await clickSection1(page, addYears(person.dob, 15))
     // And I complete section 2 to 13
-    await clickSection2to13(page)
+    await clickSection2to13(page, needs)
     // And I Click on "RoSH Screening" Section
     await selfAssessmentForm(page)
     await clickRoSHScreeningSection1(page)

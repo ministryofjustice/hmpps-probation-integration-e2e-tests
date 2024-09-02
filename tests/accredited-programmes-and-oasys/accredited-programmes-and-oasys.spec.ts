@@ -7,7 +7,6 @@ import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
-import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { login as accreditedProgrammesLogin } from '../../steps/accredited-programmes/login'
 import {
     apFormattedTodayDate as todaysDate,
@@ -18,6 +17,7 @@ import {
     verifyAssessmentDateTextToBe,
 } from '../../steps/accredited-programmes/application'
 import { slow } from '../../steps/common/common'
+import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock.js'
 
 dotenv.config() // read environment variables into process.env
 
@@ -38,8 +38,8 @@ test('View OASys assessments in Accredited Programmes service', async ({ page })
 
     // Step 3: Create a Layer 3 Assessment in OASys
     await oasysLogin(page, UserType.AccreditedProgrammesAssessment)
-    await createLayer3CompleteAssessment(page, crn, person, nomisId)
-    await addLayer3AssessmentNeeds(page)
+    await createLayer3CompleteAssessment(page, crn, person, 'Yes', nomisId)
+    await signAndlock(page)
 
     // Step 4: Make referral in Accredited Programmes
     await accreditedProgrammesLogin(page)

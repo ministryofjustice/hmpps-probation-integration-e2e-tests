@@ -1,6 +1,6 @@
 import { type Page, expect } from '@playwright/test'
 
-export const completeRelationshipsSection = async (page: Page) => {
+export const complete6RelationshipsSection = async (page: Page) => {
     await page.getByLabel('Current relationship with close family members').selectOption({ label: 'Missing' })
     await page.getByLabel('Experience of childhood').selectOption({ label: '0-No problems' })
     await page.getByLabel('Current relationship status').selectOption({ label: 'In a relationship living together' })
