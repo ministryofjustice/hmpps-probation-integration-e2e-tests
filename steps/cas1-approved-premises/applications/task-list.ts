@@ -81,52 +81,36 @@ export const verifyRoshScoresAreAsPerOasys = async (page: Page) => {
 export const navigateToTaskListPage = async (page: Page, crn: string) => {
     // When I login in to Approved Premises
     await approvedPremisesLogin(page)
-
     // And I navigate to AP Applications
     await navigateToApplications(page)
-
     // And I enter the CRN & Submit
     await enterCRN(page, crn)
-
     // And I click on Save and Continue confirming the offender's details
     await clickSaveAndContinue(page)
-
     // And I say this an exceptional case
     await clickExceptionalCaseYes(page)
-
     // And I say add the agreed date and exception details
     await addExemptionDetails(page)
-
     // And I confirm the user's details
     await confirmYourDetails(page)
-
     // And I say there no transgender history
     await selectTransgenderStatus(page)
-
     // And I enter Sentence end date (SED), Licence end date (LED), Post-sentence supervision (PSS)
     await enterSedLedPssDates(page)
-
     // And I select Sentence Type and click on Submit
     await selectSentenceType(page)
-
     // And I select "Referral for risk management" Option that describes the situation
     await selectSituationOption(page)
-
     // And I select that I know release date
     await selectReleaseDateKnownStatus(page)
-
     // And I confirm placement start date is same as release date
     await confirmPlacementStartdate(page)
-
     // And I select the reason for application being submitted outside of National Standards timescales
     await applicationOutsideNSTimescales(page)
-
     // And I select "Public protection" as the purpose of the Approved Premises (AP) placement
     await selectAPPlacementPurpose(page)
-
     // And I click on Type Of AP Required Link
     await clickTypeOfAPRequiredLink(page)
-
     // And I select Type Of Approved Premises Required and Click on Submit
     await selectTypeOfAPRequired(page)
 }
