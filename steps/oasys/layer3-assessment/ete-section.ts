@@ -1,6 +1,6 @@
 import { type Page, expect } from '@playwright/test'
 
-export const completeETESection = async (page: Page) => {
+export const complete4ETESection = async (page: Page) => {
     await page
         .getByLabel('Is the person unemployed, or will be unemployed on release')
         .selectOption({ label: '0 - No' })
@@ -32,10 +32,9 @@ export const completeETESection = async (page: Page) => {
     await page.click('input[value="Save"]')
     await page.click('input[value="Next"]')
     await expect(page.locator('#contextleft > h3')).toHaveText('5 - Financial Management and Income (Layer 3)')
-    await page.click('input[value="Save"]')
-    await page.click('input[value="Next"]')
 }
-export const completeETESectionProblems = async (page: Page) => {
+
+export const complete4ETESectionProblems = async (page: Page) => {
     await page
         .getByLabel('Is the person unemployed, or will be unemployed on release')
         .selectOption({ label: '0 - No' })

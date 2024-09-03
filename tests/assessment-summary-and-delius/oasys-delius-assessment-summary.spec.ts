@@ -4,7 +4,6 @@ import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
-import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { createEvent } from '../../steps/delius/event/create-event'
 import { faker } from '@faker-js/faker'
 import * as dotenv from 'dotenv'
@@ -12,6 +11,7 @@ import { navigateToDeliusOASysAssessments } from '../../steps/delius/contact/fin
 import { refreshUntil } from '../../steps/delius/utils/refresh'
 import { format } from 'date-fns'
 import { slow } from '../../steps/common/common'
+import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock.js'
 
 dotenv.config() // read environment variables into process.env
 
@@ -36,8 +36,8 @@ test('Create an OASys assessment and verify the Delius Assessment Summary', asyn
 
     // Create a assessment in OASys
     await oasysLogin(page, UserType.Assessment)
-    await createLayer3CompleteAssessment(page, crn, person)
-    await addLayer3AssessmentNeeds(page)
+    await createLayer3CompleteAssessment(page, crn, person, 'Yes')
+    await signAndlock(page)
 
     await loginDelius(page)
     await navigateToDeliusOASysAssessments(page, crn)

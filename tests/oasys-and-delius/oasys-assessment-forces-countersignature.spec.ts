@@ -9,8 +9,8 @@ import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/pris
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { createRegistration } from '../../steps/delius/registration/create-registration'
-import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { slow } from '../../steps/common/common'
+import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock.js'
 
 dotenv.config() // read environment variables into process.env
 
@@ -40,8 +40,8 @@ test('Verify that OASys assessments with Delius registration forces countersigna
 
     // Log in to OASys as a PSO and create a medium risk assessment
     await oasysLogin(page, UserType.ApprovedPSORole)
-    await createLayer3CompleteAssessment(page, crn, person)
-    await addLayer3AssessmentNeeds(page, 'ApprovedPSORole')
+    await createLayer3CompleteAssessment(page, crn, person, 'Yes')
+    await signAndlock(page, 'ApprovedPSORole')
 
     // Verify that Delius registration forces countersignature on a Medium Risk assessment
     await expect(page.locator('.RegionStandard')).toContainText(

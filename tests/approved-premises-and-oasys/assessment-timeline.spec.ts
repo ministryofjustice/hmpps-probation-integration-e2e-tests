@@ -19,8 +19,8 @@ import { verifyOffenceAnalysisIsAsPerOASys } from '../../steps/cas1-approved-pre
 import { verifyRiskToSelfIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-risk-to-self'
 import { verifySupportingInfoIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-supporting-info'
 import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
-import { addLayer3AssessmentNeedsReview } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { slow } from '../../steps/common/common'
+import { addLayer3AssessmentNeedsReview } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs.js'
 
 dotenv.config() // read environment variables into process.env
 
