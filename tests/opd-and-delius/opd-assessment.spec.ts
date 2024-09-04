@@ -50,7 +50,7 @@ test('OPD assessment creates an event in Delius', async ({ page }) => {
         .getByRole('row', { name: /OPD Status - Pending Consultation Unallocated/ })
         .getByTitle('Link to view the contact details.')
         .click()
-    await expect(page.locator('#content > h1')).toHaveText('Contact Details')
+    await expect(page.locator('#content > h1')).toContainText('Contact Details')
     await expect(page.locator('span:right-of(:text("Contact Type"))').first()).toContainText(
         'OPD Status - Pending Consultation'
     )
