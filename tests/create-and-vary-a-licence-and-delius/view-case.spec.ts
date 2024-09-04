@@ -27,7 +27,7 @@ test('View case in Create and Vary a Licence', async ({ page }) => {
 
     // Create a licence in CVL and approve it.
     await createLicence(page, crn, nomsNumber)
-    await approveLicence(page, crn, nomsNumber)
+    await approveLicence(page, crn, nomsNumber, 'Swansea (HMP)')
 
     // Release the prisoner to apply the licence conditions.
     await releasePrisoner(nomsNumber)

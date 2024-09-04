@@ -20,6 +20,6 @@ export async function createSubjectAccessReport(page: Page, crn, downloadLocatio
 export async function getFileFromZip(downloadLocation: string, filename: RegExp): Promise<Buffer> {
     const zip = new StreamZip.async({ file: downloadLocation })
     const matchingFiles = Object.values(await zip.entries()).filter(entry => entry.isFile && filename.test(entry.name))
-    expect(matchingFiles).toHaveLength(1)
+    expect(matchingFiles).toHaveLength(2)
     return zip.entryData(matchingFiles[0])
 }
