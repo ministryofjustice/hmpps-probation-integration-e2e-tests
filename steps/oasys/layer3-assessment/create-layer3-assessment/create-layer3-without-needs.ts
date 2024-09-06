@@ -125,7 +125,7 @@ export const createLayer3CompleteAssessment = async (
     // And I complete Offence Analysis Plan Questions
     await completeOffenceAnalysisYes(page)
 }
-export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string) => {
+export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string, highRoshScore: boolean = false) => {
     // And I select "Warwickshire" from Choose Provider Establishment
     await selectRegion(page)
     // And I click on the Search button from the top menu
@@ -155,7 +155,7 @@ export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string
     // And I Click on "RoSH Summary" Section
     await clickRoSHSummary(page)
     // And I complete "RoSH Summary - R10" Questions
-    await completeRoSHSection10RoSHSummary(page)
+    await completeRoSHSection10RoSHSummary(page, highRoshScore)
     // And I Click on "Risk Management Plan" Section
     await clickRiskManagementPlan(page)
     // And I complete "Risk Management Plan" Questions
