@@ -38,7 +38,7 @@ test('View OASys assessments in Accredited Programmes service', async ({ page })
 
     // Step 3: Create a Layer 3 Assessment in OASys
     await oasysLogin(page, UserType.AccreditedProgrammesAssessment)
-    await createLayer3CompleteAssessment(page, crn, person, 'Yes', nomisId)
+    await createLayer3CompleteAssessment(page, crn, person, 'Yes', nomisId, true)
     await signAndlock(page)
 
     // Step 4: Make referral in Accredited Programmes

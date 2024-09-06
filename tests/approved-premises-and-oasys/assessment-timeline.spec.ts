@@ -18,7 +18,10 @@ import { verifyRMPInfoIsAsPerOASys } from '../../steps/cas1-approved-premises/ap
 import { verifyOffenceAnalysisIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-offence-analysis'
 import { verifyRiskToSelfIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-risk-to-self'
 import { verifySupportingInfoIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-supporting-info'
-import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
+import {
+    createLayer3AssessmentWithoutNeeds,
+    createLayer3CompleteAssessment,
+} from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { slow } from '../../steps/common/common'
 import { addLayer3AssessmentNeedsReview } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs.js'
 
@@ -43,7 +46,7 @@ test('View OASys assessments in Approved Premises service', async ({ page }) => 
 
     // And I create a Layer 3 Assessment with Needs in OASys
     await oasysLogin(page, UserType.Timeline)
-    await createLayer3AssessmentWithoutNeeds(page, crn)
+    await createLayer3CompleteAssessment(page, crn, person, undefined, undefined, true)
     await addLayer3AssessmentNeedsReview(page)
 
     // When I login in to Approved Premises and navigate to Applications Task-list page
