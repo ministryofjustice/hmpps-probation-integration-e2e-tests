@@ -96,6 +96,10 @@ export const createLayer3CompleteAssessment = async (
         await completeRoSHSection5FullAnalysis(page)
         // And I complete "'R8 Risks to the individual - full analysis'" Section 5 and Click Save & Next
         await completeRoSHSection8FullAnalysisYes(page)
+        // And I complete "RoSH Summary - R9" Questions
+        await completeRoSHSection9RoSHSummary(page)
+        // And I complete "RoSH Summary - R10" Questions
+        await completeRoSHSection10RoSHSummary(page, highRoshScore)
     } else {
         console.log('High RoSH Score is false')
         // And I Click on "RoSH Screening" - Section 2 to 4 & and Click Next without selecting/entering anything
@@ -104,12 +108,12 @@ export const createLayer3CompleteAssessment = async (
         await completeRoSHSection5FullAnalysis(page)
         // And I Click on "RoSH Summary" Section
         await clickRoSHSummary(page)
+        // And I complete "RoSH Summary - R9" Questions
+        await completeRoSHSection9RoSHSummary(page)
+        // And I complete "RoSH Summary - R10" Questions
+        await completeRoSHSection10RoSHSummary(page)
     }
 
-    // And I complete "RoSH Summary - R9" Questions
-    await completeRoSHSection9RoSHSummary(page)
-    // And I complete "RoSH Summary - R10" Questions
-    await completeRoSHSection10RoSHSummary(page)
     // And I Click on "Risk Management Plan" Section
     await clickRiskManagementPlan(page)
     // And I complete "Risk Management Plan" Questions
