@@ -9,7 +9,7 @@ export const completeRoSHSection8FullAnalysisYes = async (page: Page) => {
     await page.getByLabel('Are there any current concerns about self-harm').selectOption({ label: 'Yes' })
     await page.fill(
         '#textarea_FA33',
-        "OASys Question - '8.1.1 Are there any current concerns about suicide & self-harm - Ans: Test circumstances, relevant issues and needs regarding current concerns"
+        "OASys Question - '8.1.1 Are there any current concerns about suicide & self-harm - Ans: Test circumstances, relevant issues and needs regarding current concerns'"
     )
     await page.fill('#itm_FA35', '1000')
     await page.getByLabel('Have there been any concerns about suicide in the past').selectOption({ label: 'Yes' })

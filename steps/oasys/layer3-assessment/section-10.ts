@@ -1,6 +1,6 @@
 import { type Page, expect } from '@playwright/test'
 
-export const completeRoSHSection10RoSHSummary = async (page: Page) => {
+export const completeRoSHSection10RoSHSummary = async (page: Page, highRoshScore: boolean = false) => {
     await page.fill('#textarea_SUM1', "OASys Question - 'R10.1 Who is at risk.' - Answer Input - 'Child'")
     await page.fill(
         '#textarea_SUM2',
@@ -18,10 +18,24 @@ export const completeRoSHSection10RoSHSummary = async (page: Page) => {
         '#textarea_SUM5',
         "OASys Question - 'R10.5 - What factors are likely to reduce the risk Describe factors, actions, and events which may reduce or contain the level of risk. What has previously stopped him / her? ' - Answer Input - 'Test Factors to reduce the risk'"
     )
-    await page.locator('#itm_SUM6_1_1').selectOption({ label: 'Very High' })
-    await page.locator('#itm_SUM6_2_1').selectOption({ label: 'Medium' })
-    await page.locator('#itm_SUM6_3_1').selectOption({ label: 'High' })
-    await page.locator('#itm_SUM6_4_1').selectOption({ label: 'Medium' })
+
+    if (highRoshScore) {
+        await page.locator('#itm_SUM6_1_1').selectOption({ label: 'Very High' })
+        await page.locator('#itm_SUM6_2_1').selectOption({ label: 'Medium' })
+        await page.locator('#itm_SUM6_3_1').selectOption({ label: 'High' })
+        await page.locator('#itm_SUM6_4_1').selectOption({ label: 'Medium' })
+    } else {
+        await page.locator('#itm_SUM6_1_1').selectOption({ label: 'Medium' })
+        await page.locator('#itm_SUM6_2_1').selectOption({ label: 'Medium' })
+        await page.locator('#itm_SUM6_3_1').selectOption({ label: 'Medium' })
+        await page.locator('#itm_SUM6_4_1').selectOption({ label: 'Medium' })
+        await page.locator('#itm_SUM6_1_2').selectOption({ label: 'Medium' })
+        await page.locator('#itm_SUM6_2_2').selectOption({ label: 'Medium' })
+        await page.locator('#itm_SUM6_3_2').selectOption({ label: 'Medium' })
+        await page.locator('#itm_SUM6_4_2').selectOption({ label: 'Medium' })
+        await page.locator('#itm_SUM6_5_2').selectOption({ label: 'Medium' })
+    }
+
     await page.keyboard.down('End')
     await page.click('input[value="Save"]')
     await page.click('input[value="Next"]')

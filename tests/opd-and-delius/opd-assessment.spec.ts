@@ -33,7 +33,7 @@ test('OPD assessment creates an event in Delius', async ({ page }) => {
     })
 
     await oasysLogin(page, UserType.OPD)
-    await createLayer3CompleteAssessment(page, crn, person, 'Yes')
+    await createLayer3CompleteAssessment(page, crn, person, 'Yes', undefined, true)
     await signAndlock(page)
 
     await loginDelius(page)
