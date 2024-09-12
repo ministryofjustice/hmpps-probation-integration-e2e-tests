@@ -4,7 +4,10 @@ import { deliusPerson, type Person } from '../utils/person'
 import { fillDate, selectOption } from '../utils/inputs'
 import { doUntil } from '../utils/refresh'
 
-export async function createOffender(page: Page, args: { person?: Person; providerName?: string }): Promise<string> {
+export async function createOffender(
+    page: Page,
+    args: { person?: Person; providerName?: string } = {}
+): Promise<string> {
     try {
         const person = deliusPerson(args.person)
         await findOffenderByName(page, person.firstName, person.lastName)
