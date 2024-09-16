@@ -17,8 +17,8 @@
   "type": "module",
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
-    "@kubernetes/client-node": "^0.21.0",
-    "@playwright/test": "1.47.0",
+    "@kubernetes/client-node": "^0.22.0",
+    "@playwright/test": "1.47.1",
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.1",
     "@typescript-eslint/parser": "^8.0.1",
