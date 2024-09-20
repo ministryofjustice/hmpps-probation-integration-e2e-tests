@@ -1,9 +1,10 @@
 import { expect, type Page } from '@playwright/test'
 import { selectOption } from '../utils/inputs'
 import { findOffenderByCRN } from '../offender/find-offender'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en_GB'
 
 export interface Address {
+    type: string
     buildingNumber: string
     street: string
     cityName: string
@@ -11,8 +12,9 @@ export interface Address {
     zipCode: string
 }
 
-export const buildAddress = (): Address => {
+export const buildAddress = (type: string = 'Main'): Address => {
     return {
+        type,
         buildingNumber: faker.location.buildingNumber(),
         street: faker.location.street(),
         cityName: faker.location.city(),
@@ -33,9 +35,14 @@ export const createAddress = async (page: Page, crn: string, options: Address) =
     await page.getByLabel(/City/).fill(options.cityName)
     await page.getByLabel(/County/).fill(options.county)
     await page.getByLabel(/Postcode/).fill(options.zipCode)
-    await selectOption(page, '#addressStatus\\:selectOneMenu', 'Main')
+    await selectOption(page, '#addressStatus\\:selectOneMenu', options.type)
     await selectOption(page, '#addressType\\:selectOneMenu', null, option => option !== 'Awaiting Assessment')
     await page.getByLabel(/Type Verified/).selectOption('Yes')
+    await page.locator('#newNotes\\:notesField').fill(`Notes added for ${options.type} address`)
     await page.getByRole('button', { name: 'Save' }).click()
+    if (await page.locator('#j_idt686\\:screenWarningPrompt').isVisible()) {
+        await page.locator('input', { hasText: 'Confirm' }).click()
+    }
+
     await expect(page.locator('h1')).toContainText('Addresses and Accommodation')
 }
