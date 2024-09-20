@@ -4,6 +4,7 @@ node_modules/
 /playwright/.cache/
 /downloads/
 /dist/
+*.tgz
 
 ### IntelliJ IDEA ###
 .idea/**/*
