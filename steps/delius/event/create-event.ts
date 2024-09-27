@@ -37,7 +37,7 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     await page.click('#navigation-include\\:linkNavigation2EventList')
     await expect(page).toHaveTitle(/Events/)
     await page.locator('input', { hasText: 'Add' }).click()
-    const _date = date ?? faker.date.recent({ days: 1, refDate: Yesterday })
+    const _date = date ?? faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() })
     await fillDate(page, '#ReferralDate\\:datePicker', _date)
     await fillDate(page, '#OffenceDate\\:datePicker', _date)
     await fillDate(page, '#ConvictionDate\\:datePicker', _date)

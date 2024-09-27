@@ -1,4 +1,4 @@
-import { format } from 'date-fns'
+import { DateTime } from 'luxon'
 import { v4 } from 'uuid'
 import { Person } from '../delius/utils/person'
 import { faker } from '@faker-js/faker'
@@ -14,7 +14,7 @@ export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.
         hearingDays: [
             {
                 listedDurationMinutes: 60,
-                sittingDay: `${format(new Date(), 'yyyy-MM-dd')}T09:00:00.000Z`,
+                sittingDay: DateTime.now().toISO(),
             },
         ],
         type: {
@@ -51,7 +51,7 @@ export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.
                                     work: faker.phone.number(),
                                     mobile: faker.phone.number(),
                                 },
-                                dateOfBirth: format(person.dob, 'yyyy-MM-dd'),
+                                dateOfBirth: DateTime.fromJSDate(person.dob).toISODate(), // Use Luxon to format date of birth
                                 firstName: person.firstName,
                                 gender: person.sex.toUpperCase(),
                                 lastName: person.lastName,

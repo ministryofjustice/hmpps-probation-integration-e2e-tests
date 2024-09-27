@@ -59,8 +59,8 @@ export const createInitialAppointment = async (page: Page, crn: string, eventNum
     createContact(page, crn, {
         relatesTo: `Event ${eventNumber} - ORA Community Order (6 Months)`,
         allocation: { team: team },
-        date: Tomorrow,
-        startTime: Tomorrow,
-        endTime: new Date(Tomorrow.getTime() + 60000),
+        date: Tomorrow.toJSDate(),
+        startTime: Tomorrow.toJSDate(),
+        endTime: new Date(Tomorrow.toJSDate().getTime() + 60000),
         ...data.contacts.initialAppointment,
     })

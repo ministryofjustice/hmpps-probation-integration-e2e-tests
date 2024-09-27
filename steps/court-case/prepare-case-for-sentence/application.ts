@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test'
-import { format, parse } from 'date-fns'
+import { DateTime } from 'luxon'
 
 export async function addCourtToUser(page: Page, court: string) {
     await page.getByRole('button', { name: /Accept analytics cookies/ }).click()
@@ -29,10 +29,15 @@ export async function searchAndClickDefendantAndGetHeader(
 
 export async function formatDateToPrepareCase(dateString: string): Promise<string> {
     // Parse the date string in the format 'DD/MM/YYYY'
-    const parsedDate = parse(dateString, 'dd/MM/yyyy', new Date())
+    const parsedDate = DateTime.fromFormat(dateString, 'dd/MM/yyyy');
+
+    // Check if the date is valid
+    if (!parsedDate.isValid) {
+        throw new Error('Invalid date format');
+    }
 
     // Format the parsed date to 'D MMM YYYY'
-    return format(parsedDate, 'd MMM yyyy')
+    return parsedDate.toFormat('d MMM yyyy');
 }
 
 export async function extractRegistrationDetails(page: Page) {

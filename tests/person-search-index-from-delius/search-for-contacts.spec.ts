@@ -18,7 +18,7 @@ test('Create and search for contacts', async ({ page }) => {
         category: 'Education, Training, Employment',
         type: 'CV Created',
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
-        date: LastMonth,
+        date: LastMonth.toJSDate(),
         allocation: {
             team: data.teams.genericTeam,
             staff: data.staff.genericStaff,
@@ -28,7 +28,7 @@ test('Create and search for contacts', async ({ page }) => {
         category: 'Community Management',
         type: 'Other Contact',
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
-        date: Yesterday,
+        date: Yesterday.toJSDate(),
         allocation: {
             team: data.teams.genericTeam,
             staff: data.staff.genericStaff,
@@ -48,7 +48,7 @@ test('Create and search for contacts', async ({ page }) => {
         category: 'Case Administration',
         type: 'Clerical Officer Contact',
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
-        date: Tomorrow,
+        date: Tomorrow.toJSDate(),
         allocation: {
             team: data.teams.genericTeam,
             staff: data.staff.genericStaff,
@@ -67,11 +67,9 @@ test('Create and search for contacts', async ({ page }) => {
 
     await page.fill('#searchContents\\:notesField', 'CV')
     await page.click('#textSearchButton')
-
     await expect(page.locator('tbody > tr').first()).toContainText('CV Created')
 
     await page.fill('#searchContents\\:notesField', 'Clerical Officer')
     await page.click('#textSearchButton')
-
     await expect(page.locator('tbody > tr')).toHaveCount(2)
 })

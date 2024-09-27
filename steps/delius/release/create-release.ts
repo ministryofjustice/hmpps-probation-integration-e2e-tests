@@ -9,7 +9,7 @@ export const createRelease = async (
     crn: string,
     eventNumber = 1,
     temporary = false,
-    releaseDate: Date = Yesterday
+    releaseDate: Date = Yesterday.toJSDate()
 ) => {
     await findEventByCRN(page, crn, eventNumber)
     await page.getByRole('button', { name: 'Throughcare' }).click()

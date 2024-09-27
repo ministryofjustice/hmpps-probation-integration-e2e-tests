@@ -1,5 +1,6 @@
 import { expect, Page } from '@playwright/test'
-import { format } from 'date-fns'
+import { DateTime } from 'luxon'
+import {formatDate} from "../delius/utils/date-time.js";
 
 export async function findProgrammeAndMakeReferral(page: Page, nomisId: string) {
     await page.getByRole('link', { name: 'Find a programme and make a referral' }).click()
@@ -106,5 +107,5 @@ export async function assertRoSHRiskTable(page: Page, assertions: RoSHRiskAssert
 }
 
 export const oasysImportDateText = '[data-testid="last-assessment-date-text"]'
-export const apFormattedTodayDate = format(new Date(), 'd MMMM yyyy')
+export const apFormattedTodayDate = formatDate(DateTime.now(), 'd MMMM yyyy')
 export const briefOffenceDetailsSummaryCard = '[data-testid="brief-offence-details-summary-card"]'

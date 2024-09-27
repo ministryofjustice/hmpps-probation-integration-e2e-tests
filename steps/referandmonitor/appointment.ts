@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test'
 import { referralProgress } from './referral'
-import { addMinutes } from 'date-fns'
+import { DateTime } from 'luxon'
 import { get12Hour, getTimeOfDay } from '../delius/utils/date-time'
 import { refreshUntil } from '../delius/utils/refresh'
 import { fillAndSaveIfTextBoxIsAvailable } from '../delius/contact/find-contacts'
@@ -8,7 +8,7 @@ import { fillAndSaveIfTextBoxIsAvailable } from '../delius/contact/find-contacts
 export const createSupplierAssessmentAppointment = async (
     page: Page,
     referralRef: string,
-    appointmentDate: Date = addMinutes(new Date(), -1),
+    appointmentDate: DateTime = DateTime.now().minus({ minutes: 1 }),
     appointmentTime = appointmentDate,
     conflictingAppointment = false
 ) => {
@@ -20,12 +20,12 @@ export const createSupplierAssessmentAppointment = async (
     await expect(page).toHaveURL(/service-provider\/referrals\/.*\/supplier-assessment\/schedule\/.*\/details/)
 
     // Appointment date and time
-    await page.locator('input[name="date-day"]').fill(appointmentDate.getDate().toString())
-    await page.locator('input[name="date-month"]').fill((appointmentDate.getMonth() + 1).toString())
-    await page.locator('input[name="date-year"]').fill(appointmentDate.getFullYear().toString())
-    await page.locator('input[name="time-hour"]').fill(get12Hour(appointmentTime).toString())
-    await page.locator('input[name="time-minute"]').fill(appointmentTime.getMinutes().toString())
-    await page.locator('select[name="time-part-of-day"]').selectOption(getTimeOfDay(appointmentTime))
+    await page.locator('input[name="date-day"]').fill(appointmentDate.day.toString())
+    await page.locator('input[name="date-month"]').fill(appointmentDate.month.toString())
+    await page.locator('input[name="date-year"]').fill(appointmentDate.year.toString())
+    await page.locator('input[name="time-hour"]').fill(get12Hour(appointmentTime.toJSDate()).toString())
+    await page.locator('input[name="time-minute"]').fill(appointmentTime.minute.toString())
+    await page.locator('select[name="time-part-of-day"]').selectOption(getTimeOfDay(appointmentTime.toJSDate()))
 
     // Appointment duration
     await page.locator('input[name="duration-hours"]').fill('0')
@@ -42,15 +42,16 @@ export const createSupplierAssessmentAppointment = async (
     if (conflictingAppointment) {
         await page.waitForURL(/service-provider\/referrals\/.*\/supplier-assessment\/schedule\/.*\/details/)
         return
-    } else if (appointmentDate <= new Date()) {
+    } else if (appointmentDate <= DateTime.now()) {
         await page.waitForURL(
             /service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/edit\/.*\/attendance/
         )
-        await page.click('#attended')
+        await page.click('#didSessionHappenYesRadio')
         await page.click('button.govuk-button')
+        await page.click('#wasLateNoRadio')
         await page.fill('#session-summary', 'Summary about the session')
         await page.fill('#session-response', 'Response to the session')
-        await page.click('#notify-probation-practitioner-2')
+        await page.click('#noNotifyPPCheckbox')
         await page.click('button.govuk-button')
         await page.waitForURL(
             /service-provider\/referrals\/.*\/supplier-assessment\/post-assessment-feedback\/edit\/.*\/check-your-answers/
@@ -150,12 +151,27 @@ export async function addAppointmentFeedback(page: Page, attended: boolean) {
     const addFeedbackLink = page.getByRole('link', { name: 'Mark attendance and add feedback' })
     await refreshUntil(page, () => expect(addFeedbackLink).toBeVisible())
     await addFeedbackLink.click()
-    await page.locator(attended ? '#attended' : '#attended-3').check()
-    await page
-        .locator('#attendance-failure-information')
-        .fill('Additional information of the person not attending the appointment')
-    await page.getByRole('button', { name: 'Save and continue' }).click()
-    await page.getByRole('button', { name: 'Confirm' }).click()
+    await page.locator(attended ? '#didSessionHappenYesRadio' : '#didSessionHappenNoRadio').check()
+    if (!attended) {
+        await page.locator('#attendedNoRadio').check()
+        await page.getByRole('button', { name: 'Save and continue' }).click()
+        await page
+            .locator('#no-attendance-information')
+            .fill('Additional information of the person not attending the appointment')
+        await page.locator('#noNotifyPPRadio').check()
+    } else {
+        await page.getByRole('button', { name: 'Save and continue' }).click()
+        await page.locator('#wasLateNoRadio').check()
+        await page
+            .locator('#session-summary')
+            .fill('Test session summary of what I did in the appointment')
+        await page
+            .locator('#session-response')
+            .fill('Person seemed quite engaged and responded quite well')
+        await page.locator('#noNotifyPPCheckbox').check()
+    }
+    await page.getByRole('button', {name: 'Save and continue'}).click()
+    await page.getByRole('button', { name: /Confirm and send/ }).click()
     await page.waitForURL(
         /\/service-provider\/referrals\/[^/]+\/progress\?showFeedbackBanner=true&notifyPP=null&dna=true/
     )

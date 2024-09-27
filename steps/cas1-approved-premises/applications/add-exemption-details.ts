@@ -3,7 +3,7 @@ import { splitDate } from '../../common/common'
 import { Yesterday } from '../../delius/utils/date-time'
 import { faker } from '@faker-js/faker'
 
-const [agreedDay, agreedMonth, agreedYear] = splitDate(Yesterday)
+const [agreedDay, agreedMonth, agreedYear] = splitDate(Yesterday);
 
 export const addExemptionDetails = async (page: Page) => {
     await page.locator('#agreedCaseWithManager').click()

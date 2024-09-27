@@ -1,8 +1,9 @@
 import { type Page, expect } from '@playwright/test'
 import { splitDate } from '../../common/common'
-import { addMonths } from 'date-fns'
+import { DateTime } from 'luxon'
 
-export const [futureDay, futureMonth, futureYear] = splitDate(addMonths(new Date(), 5))
+const futureDate = DateTime.now().plus({ months: 5 })
+export const [futureDay, futureMonth, futureYear] = splitDate(futureDate)
 
 export const selectReleaseDateKnownStatus = async (page: Page) => {
     await page.getByLabel('Yes').check()

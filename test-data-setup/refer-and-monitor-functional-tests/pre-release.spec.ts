@@ -1,5 +1,4 @@
 import { test } from '@playwright/test'
-
 import { login as loginDelius } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { createCommunityEvent, createCustodialEvent } from '../../steps/delius/event/create-event'
@@ -9,8 +8,9 @@ import { data } from '../../test-data/test-data'
 import { contact } from '../../steps/delius/utils/contact'
 import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { createAndApproveActionPlan, createAndAssignReferral } from '../../tests/refer-and-monitor-and-delius/common'
-import { addDays, addMonths } from 'date-fns'
+import { DateTime } from 'luxon'
 import { internalTransfer } from '../../steps/delius/transfer/internal-transfer'
+import {addDays,  addMonths } from "../../steps/delius/utils/date-time"
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
@@ -21,7 +21,8 @@ test('Create a referral for a pre-release - COM allocated', async ({ page }) => 
     await createCustodialEvent(page, {
         crn,
         allocation: { team: data.teams.referAndMonitorTestTeam },
-        date: addDays(addMonths(new Date(), -6), 8),
+        date: addDays(addMonths(DateTime.now(), -6), 8).toJSDate()
+
     })
     await internalTransfer(page, {
         crn,
@@ -73,7 +74,7 @@ test('Create a referral for a pre-release - COM not allocated', async ({ page })
         crn,
         allocation: { team: data.teams.referAndMonitorTestTeam },
         event: { ...data.events.custodial, length: '9' },
-        date: addDays(addMonths(new Date(), -9), 8),
+        date: addDays(addMonths(DateTime.now(), -9), 8).toJSDate(),
     })
 
     const referralRef = await createAndAssignReferral(page, crn)

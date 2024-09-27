@@ -172,7 +172,7 @@ export const createAnAlert = retry(
                 alertType: alertType,
                 alertCode: alertCode,
                 comment: comment,
-                alertDate: alertDate ?? faker.date.recent({ days: 1, refDate: Yesterday }),
+                alertDate: alertDate ?? faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() }),
             },
         })
     })

@@ -5,7 +5,7 @@ import { findCustodyForEventByCRN, verifyKeyDates } from '../../steps/delius/eve
 import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { contact } from '../../steps/delius/utils/contact'
 import { data } from '../../test-data/test-data'
-import { format } from 'date-fns'
+import {formatDate} from "../../steps/delius/utils/date-time"
 
 test('Update Custody Key Dates', async ({ page }) => {
     await deliusLogin(page)
@@ -20,10 +20,10 @@ test('Update Custody Key Dates', async ({ page }) => {
     date.setUTCDate(date.getUTCDate() + 1)
 
     await updateCustodyDates(data.prisoners.sentencedPrisoner.bookingId, {
-        sentenceExpiryDate: format(date, 'yyyy-MM-dd'),
-        conditionalReleaseDate: format(date, 'yyyy-MM-dd'),
-        licenceExpiryDate: format(date, 'yyyy-MM-dd'),
-        paroleEligibilityDate: format(date, 'yyyy-MM-dd'),
+        sentenceExpiryDate: formatDate(date, 'yyyy-MM-dd'),
+        conditionalReleaseDate: formatDate(date, 'yyyy-MM-dd'),
+        licenceExpiryDate: formatDate(date, 'yyyy-MM-dd'),
+        paroleEligibilityDate: formatDate(date, 'yyyy-MM-dd'),
     })
 
     await verifyKeyDates(page, data.prisoners.sentencedPrisoner.crn, 1, date)
