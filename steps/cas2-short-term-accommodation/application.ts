@@ -1,6 +1,5 @@
 import { expect, Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
-// import { addMonths, getDate, getMonth, getYear, subMonths } from 'date-fns'
 import { DateTime } from 'luxon'
 import {addMonths, getDate, getMonth, getYear, subMonths} from "../delius/utils/date-time"
 
@@ -64,62 +63,21 @@ async function confirmEligibilityAndConsent(page: Page) {
     await expect(page).toHaveTitle(/Task list/)
 }
 
-// async function fillDateInput(page: Page, label: string, offsetMonths: number = 0) {
-//     // Calculate the target date
-//     const currentDate = new Date()
-//     const targetDate =
-//         offsetMonths >= 0 ? addMonths(currentDate, offsetMonths) : subMonths(currentDate, Math.abs(offsetMonths))
-//
-//     // Ensure the day is valid for the target month
-//     const validDate = new Date(
-//         targetDate.getFullYear(),
-//         targetDate.getMonth(),
-//         Math.min(getDate(targetDate), new Date(targetDate.getFullYear(), targetDate.getMonth() + 1, 0).getDate())
-//     )
-//
-//     // Fill the date input fields
-//     await page.getByRole('group', { name: label }).getByLabel('Day').fill(getDate(validDate).toString())
-//     await page
-//         .getByRole('group', { name: label })
-//         .getByLabel('Month')
-//         .fill((getMonth(validDate) + 1).toString()) // Months are 1-based in input fields
-//     await page.getByRole('group', { name: label }).getByLabel('Year').fill(getYear(validDate).toString())
-//
-//     return validDate
-// }
-
-// async function fillDateInput(page: Page, label: string, offsetMonths: number = 0) {
-//     // Calculate the target date
-//     const currentDate = DateTime.now();
-//     const targetDate = offsetMonths >= 0 ? currentDate.plus({ months: offsetMonths }) : currentDate.minus({ months: Math.abs(offsetMonths) })
-//
-//     // Ensure the day is valid for the target month
-//     const validDate = targetDate.startOf('month').set({ day: Math.min(targetDate.day, targetDate.daysInMonth) })
-//
-//     // Fill the date input fields
-//     await page.getByRole('group', { name: label }).getByLabel('Day').fill(validDate.day.toString())
-//     await page.getByRole('group', { name: label }).getByLabel('Month').fill(validDate.month.toString()) // Months are 1-based in input fields
-//     await page.getByRole('group', { name: label }).getByLabel('Year').fill(validDate.year.toString())
-//
-//     return validDate.toJSDate()
-// }
-
 async function fillDateInput(page: Page, label: string, offsetMonths: number = 0) {
-    // Calculate the target date using DateTime
+    // Calculate the target date
     const currentDate = DateTime.now();
-    const targetDate = offsetMonths >= 0 ? addMonths(currentDate, offsetMonths) : subMonths(currentDate, Math.abs(offsetMonths));
+    const targetDate = offsetMonths >= 0 ? addMonths(currentDate, offsetMonths) : subMonths(currentDate, Math.abs(offsetMonths))
 
     // Ensure the day is valid for the target month
-    const validDate = targetDate.startOf('month').set({ day: Math.min(getDate(targetDate), targetDate.daysInMonth) });
+    const validDate = targetDate.startOf('month').set({ day: Math.min(getDate(targetDate), targetDate.daysInMonth) })
 
     // Fill the date input fields
-    await page.getByRole('group', { name: label }).getByLabel('Day').fill(getDate(validDate).toString());
-    await page.getByRole('group', { name: label }).getByLabel('Month').fill(getMonth(validDate).toString());
-    await page.getByRole('group', { name: label }).getByLabel('Year').fill(getYear(validDate).toString());
+    await page.getByRole('group', { name: label }).getByLabel('Day').fill(getDate(validDate).toString())
+    await page.getByRole('group', { name: label }).getByLabel('Month').fill(getMonth(validDate).toString())
+    await page.getByRole('group', { name: label }).getByLabel('Year').fill(getYear(validDate).toString())
 
     return validDate.toJSDate(); // Convert DateTime back to Date if needed
 }
-
 
 async function addReferrerDetails(page: Page) {
     await page.getByRole('link', { name: 'Add referrer details' }).click()

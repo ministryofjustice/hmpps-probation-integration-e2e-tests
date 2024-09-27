@@ -42,7 +42,6 @@ test('Make a Management Oversight Decision and verify in Delius', async ({ page 
         type: 'Other Contact',
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
         date: Yesterday.toJSDate(),
-
     }
     await createContact(page, crn, contactDetails)
 

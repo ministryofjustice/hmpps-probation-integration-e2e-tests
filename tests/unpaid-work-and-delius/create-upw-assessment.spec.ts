@@ -14,7 +14,7 @@ import { completeAllUPWSections } from '../../steps/unpaidwork/complete-all-upw-
 import { doUntil } from '../../steps/delius/utils/refresh'
 import * as fs from 'fs'
 import { getPdfText } from '../../steps/delius/utils/pdf-utils'
-import {formatDate} from "../../steps/delius/utils/date-time"
+import { formatDate } from "../../steps/delius/utils/date-time"
 
 dotenv.config() // read environment variables into process.env
 

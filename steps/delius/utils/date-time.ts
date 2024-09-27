@@ -1,7 +1,6 @@
 import {DateTime, Duration} from 'luxon'
 
 export const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' }
-
 export const HmppsDateFormatter = (date: Date): string => DateTime.fromJSDate(date).toFormat('d MMM yyyy')
 export const DeliusDateFormatter = (date: Date): string => DateTime.fromJSDate(date).toFormat('dd/MM/yyyy')
 export const OasysDateFormatter = (date: Date): string => DateTime.fromJSDate(date).toFormat('dd/MM/yyyy')
@@ -9,6 +8,7 @@ export const DeliusTimeFormatter = (time: Date): string => {
     const dt = DateTime.fromJSDate(time)
     return `${dt.hour.toString().padStart(2, '0')}:${dt.minute.toString().padStart(2, '0')}`
 }
+
 export const EuropeLondonFormat = (date: Date): string =>
     DateTime.fromJSDate(date).setZone('Europe/London').toISO() // uses ISO format (YYYY-MM-DDTHH:mm:ss)
 

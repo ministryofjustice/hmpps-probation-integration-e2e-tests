@@ -1,4 +1,4 @@
-import {expect, type Page, test} from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { login as loginDelius } from '../../steps/delius/login'
 import { logout as logoutDelius } from '../../steps/delius/logout'
 import { createOffender } from '../../steps/delius/offender/create-offender'
@@ -19,12 +19,12 @@ import {
     verifyContact,
     verifySAApptmntLocationInDelius,
 } from '../../steps/delius/contact/find-contacts'
+import { DateTime } from "luxon"
 import { DeliusDateFormatter } from '../../steps/delius/utils/date-time'
 import { createAndAssignReferral } from '../../tests/refer-and-monitor-and-delius/common'
 import { createContact } from '../../steps/delius/contact/create-contact'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { withdrawReferral } from '../../steps/referandmonitor/referral'
-import { DateTime } from "luxon"
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
@@ -44,7 +44,6 @@ test('Reschedule Supplier Assessment Appointment to future date', async ({ page 
     // Verify the initial Supplier Assessment Appointment in Delius
     await loginDelius(page)
     await navigateToNSIContactDetails(page, crn)
-    // const formattedInitialDateTime = DeliusDateFormatter(initialAppointmentDateTime)
     const formattedInitialDateTime = DeliusDateFormatter(initialAppointmentDateTime.toJSDate())
     await verifyContact(
         page,
@@ -263,7 +262,6 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
     // Reschedule the Supplier Assessment Appointment in R&M
     await logoutRandM(page)
     await loginRandMAsSupplier(page)
-    // const pastAppointmentDate = subHours(new Date(), 1)
     const pastAppointmentDate = DateTime.now().minus({ hours: 1 }).toJSDate()
     await rescheduleSupplierAssessmentAppointment(page, referralRef, pastAppointmentDate, true)
     const formattedDateTime = DeliusDateFormatter(pastAppointmentDate)
@@ -342,7 +340,6 @@ test('Perform supplier assessment appointment scheduling with conflicting appoin
     const appointmentDate = DateTime.now().plus({ days: 2 })
     const startTime = DateTime.fromFormat('10:00', 'HH:mm').set({ year: appointmentDate.year, month: appointmentDate.month, day: appointmentDate.day })
     const endTime = DateTime.fromFormat('10:30', 'HH:mm').set({ year: appointmentDate.year, month: appointmentDate.month, day: appointmentDate.day })
-
     await createContact(page, crn, {
         category: 'All/Always',
         type: 'Other Appointment (Non NS)',
@@ -391,4 +388,3 @@ test('Verify Referral withdrawal by Probation Practitioner and its Reflection in
         'Did not start (Work, Caring Commitments, Long-term Sickness)'
     )
 })
-

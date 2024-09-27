@@ -89,7 +89,6 @@ async function addSentenceInformation(page: Page) {
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle('Sentence expiry date - Transitional Accommodation (CAS3)')
 
-    // Use Luxon to calculate the expiry date
     const expiryDate = DateTime.now().plus({ months: 6 })
     await page.getByLabel('Day').fill(expiryDate.day.toString())
     await page.getByLabel('Month').fill(expiryDate.month.toString())
@@ -115,7 +114,6 @@ async function addSentenceInformation(page: Page) {
     )
     await expect(page.locator('#sentence-information-status')).toHaveText('Completed')
 }
-
 
 async function enterContactDetails(page: Page) {
     await page.getByRole('link', { name: 'Enter contact details' }).click()
@@ -172,7 +170,6 @@ async function confirmEligibility(page: Page) {
     )
     await expect(page.locator('#eligibility-status')).toHaveText('Completed')
 }
-
 
 async function confirmConsent(page: Page) {
     await page.getByRole('link', { name: 'Confirm consent' }).click()

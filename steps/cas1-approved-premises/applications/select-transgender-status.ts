@@ -8,10 +8,7 @@ export const selectTransgenderStatus = async (page: Page) => {
 }
 
 export const enterSedLedPssDates = async (page: Page) => {
-    // Add 9 months to the current date
-    const futureDate = DateTime.now().plus({ months: 9 });
-
-    // Format day, month, and year using Luxon
+    const futureDate = DateTime.now().plus({ months: 9 })
     const day = futureDate.toFormat('dd')
     const month = futureDate.toFormat('MM')
     const year = futureDate.toFormat('yyyy')
@@ -33,11 +30,7 @@ export const enterSedLedPssDates = async (page: Page) => {
     await page.locator('#pssEndDate-day').fill(day)
     await page.locator('#pssEndDate-month').fill(month)
     await page.locator('#pssEndDate-year').fill(year)
-
-    // Click the save button
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
-
-    // Expect the next page to load correctly
     await expect(page.locator('.govuk-fieldset__heading')).toHaveText(
         'Which of the following best describes the sentence type the person is on?'
     );

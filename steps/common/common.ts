@@ -1,5 +1,5 @@
 import { test } from '@playwright/test'
-import {DateTime, Duration} from "luxon"
+import { DateTime, Duration } from "luxon"
 
 export const splitDate = (date: DateTime) => {
     if (!date || !date.isValid) {
@@ -12,4 +12,4 @@ export const splitDate = (date: DateTime) => {
 export const slow = (minutes: number = 7) => {
     const duration = Duration.fromObject({ minutes })
     test.setTimeout(duration.as('milliseconds'))
-};
+}

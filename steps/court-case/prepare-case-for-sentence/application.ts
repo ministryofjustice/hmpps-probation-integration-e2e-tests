@@ -29,15 +29,15 @@ export async function searchAndClickDefendantAndGetHeader(
 
 export async function formatDateToPrepareCase(dateString: string): Promise<string> {
     // Parse the date string in the format 'DD/MM/YYYY'
-    const parsedDate = DateTime.fromFormat(dateString, 'dd/MM/yyyy');
+    const parsedDate = DateTime.fromFormat(dateString, 'dd/MM/yyyy')
 
     // Check if the date is valid
     if (!parsedDate.isValid) {
-        throw new Error('Invalid date format');
+        throw new Error('Invalid date format')
     }
 
     // Format the parsed date to 'D MMM YYYY'
-    return parsedDate.toFormat('d MMM yyyy');
+    return parsedDate.toFormat('d MMM yyyy')
 }
 
 export async function extractRegistrationDetails(page: Page) {

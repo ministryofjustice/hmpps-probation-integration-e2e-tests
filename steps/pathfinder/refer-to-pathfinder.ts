@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test'
-import { HmppsDateFormatter } from '../delius/utils/date-time.js'
+import { HmppsDateFormatter } from '../delius/utils/date-time'
 
 export const referToPathfinder = async (page: Page, crn: string) => {
     // Search for CRN

@@ -51,7 +51,7 @@ export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.
                                     work: faker.phone.number(),
                                     mobile: faker.phone.number(),
                                 },
-                                dateOfBirth: DateTime.fromJSDate(person.dob).toISODate(), // Use Luxon to format date of birth
+                                dateOfBirth: DateTime.fromJSDate(person.dob).toISODate(),
                                 firstName: person.firstName,
                                 gender: person.sex.toUpperCase(),
                                 lastName: person.lastName,

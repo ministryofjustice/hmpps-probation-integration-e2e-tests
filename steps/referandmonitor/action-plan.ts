@@ -39,7 +39,7 @@ export const approveActionPlan = async (page: Page, referralRef: string) => {
 
     await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/progress/)
     await page.locator('a.govuk-link', { hasText: 'View action plan' }).click()
-    await expect(page).toHaveURL(/probation-practitioner\/action-plan\/.*/);
+    await expect(page).toHaveURL(/probation-practitioner\/action-plan\/.*/)
     await expect(page.locator('#action-plan-status')).toContainText(/Approved/)
     await page.locator('.govuk-back-link').click()
     await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/progress/)
