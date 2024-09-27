@@ -1,6 +1,6 @@
 import { expect, Page } from '@playwright/test'
 import { DateTime } from 'luxon'
-import {formatDate} from "../delius/utils/date-time.js";
+import { formatDate } from '../delius/utils/date-time.js'
 
 export async function findProgrammeAndMakeReferral(page: Page, nomisId: string) {
     await page.getByRole('link', { name: 'Find a programme and make a referral' }).click()

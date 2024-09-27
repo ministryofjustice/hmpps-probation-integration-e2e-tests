@@ -1,4 +1,4 @@
-import {DateTime, Duration} from 'luxon'
+import { DateTime, Duration } from 'luxon'
 
 export const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' }
 export const HmppsDateFormatter = (date: Date): string => DateTime.fromJSDate(date).toFormat('d MMM yyyy')
@@ -9,15 +9,14 @@ export const DeliusTimeFormatter = (time: Date): string => {
     return `${dt.hour.toString().padStart(2, '0')}:${dt.minute.toString().padStart(2, '0')}`
 }
 
-export const EuropeLondonFormat = (date: Date): string =>
-    DateTime.fromJSDate(date).setZone('Europe/London').toISO() // uses ISO format (YYYY-MM-DDTHH:mm:ss)
+export const EuropeLondonFormat = (date: Date): string => DateTime.fromJSDate(date).setZone('Europe/London').toISO() // uses ISO format (YYYY-MM-DDTHH:mm:ss)
 
 export const get12Hour = (date: Date): number => {
     const dt = DateTime.fromJSDate(date)
     return dt.hour > 12 ? dt.hour - 12 : dt.hour
 }
 
-export const getTimeOfDay = (date: Date): 'am' | 'pm' => DateTime.fromJSDate(date).hour < 12 ? 'am' : 'pm'
+export const getTimeOfDay = (date: Date): 'am' | 'pm' => (DateTime.fromJSDate(date).hour < 12 ? 'am' : 'pm')
 export const Tomorrow = DateTime.now().plus({ days: 1 })
 export const LastMonth = DateTime.now().minus({ months: 1 })
 export const NextMonth = DateTime.now().plus({ months: 1 })
@@ -32,15 +31,15 @@ export const addMonths = (date: DateTime, months: number): DateTime => {
 }
 
 export const getDate = (date: DateTime): number => {
-    return date.day;
+    return date.day
 }
 
 export const getMonth = (date: DateTime): number => {
-    return date.month; // Luxon months are already 1-based
+    return date.month // Luxon months are already 1-based
 }
 
 export const getYear = (date: DateTime): number => {
-    return date.year;
+    return date.year
 }
 
 export const subDays = (date: DateTime, days: number): DateTime => {
@@ -61,7 +60,7 @@ export const formatDate = (date: Date | DateTime, formatString: string): string 
         // If it's already a DateTime, use it directly
         dateTime = date
     } else {
-        throw new Error("Invalid date input: must be a Date or DateTime object.")
+        throw new Error('Invalid date input: must be a Date or DateTime object.')
     }
 
     return dateTime.toFormat(formatString)

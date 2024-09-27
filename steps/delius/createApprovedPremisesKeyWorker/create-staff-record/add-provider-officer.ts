@@ -1,7 +1,7 @@
 import { expect, type Page } from '@playwright/test'
 import { deliusPerson } from '../../utils/person'
 import { DateTime } from 'luxon'
-import {formatDate, subDays} from "../../utils/date-time"
+import { formatDate, subDays } from '../../utils/date-time'
 
 export const addProviderOfficerDetails = async (page: Page) => {
     const pastDate = formatDate(subDays(DateTime.now(), 30), 'dd/MM/yyyy')

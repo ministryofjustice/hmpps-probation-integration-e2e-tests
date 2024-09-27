@@ -10,7 +10,7 @@ import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { createAndApproveActionPlan, createAndAssignReferral } from '../../tests/refer-and-monitor-and-delius/common'
 import { DateTime } from 'luxon'
 import { internalTransfer } from '../../steps/delius/transfer/internal-transfer'
-import {addDays,  addMonths } from "../../steps/delius/utils/date-time"
+import { addDays, addMonths } from '../../steps/delius/utils/date-time'
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
@@ -21,7 +21,7 @@ test('Create a referral for a pre-release - COM allocated', async ({ page }) => 
     await createCustodialEvent(page, {
         crn,
         allocation: { team: data.teams.referAndMonitorTestTeam },
-        date: addDays(addMonths(DateTime.now(), -6), 8).toJSDate()
+        date: addDays(addMonths(DateTime.now(), -6), 8).toJSDate(),
     })
     await internalTransfer(page, {
         crn,

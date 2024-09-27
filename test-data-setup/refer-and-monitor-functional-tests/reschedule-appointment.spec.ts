@@ -19,7 +19,7 @@ import {
     verifyContact,
     verifySAApptmntLocationInDelius,
 } from '../../steps/delius/contact/find-contacts'
-import { DateTime } from "luxon"
+import { DateTime } from 'luxon'
 import { DeliusDateFormatter } from '../../steps/delius/utils/date-time'
 import { createAndAssignReferral } from '../../tests/refer-and-monitor-and-delius/common'
 import { createContact } from '../../steps/delius/contact/create-contact'
@@ -338,8 +338,16 @@ test('Perform supplier assessment appointment scheduling with conflicting appoin
 
     // Create an Appointment in Delius with future date
     const appointmentDate = DateTime.now().plus({ days: 2 })
-    const startTime = DateTime.fromFormat('10:00', 'HH:mm').set({ year: appointmentDate.year, month: appointmentDate.month, day: appointmentDate.day })
-    const endTime = DateTime.fromFormat('10:30', 'HH:mm').set({ year: appointmentDate.year, month: appointmentDate.month, day: appointmentDate.day })
+    const startTime = DateTime.fromFormat('10:00', 'HH:mm').set({
+        year: appointmentDate.year,
+        month: appointmentDate.month,
+        day: appointmentDate.day,
+    })
+    const endTime = DateTime.fromFormat('10:30', 'HH:mm').set({
+        year: appointmentDate.year,
+        month: appointmentDate.month,
+        day: appointmentDate.day,
+    })
     await createContact(page, crn, {
         category: 'All/Always',
         type: 'Other Appointment (Non NS)',

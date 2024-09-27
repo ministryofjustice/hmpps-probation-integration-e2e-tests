@@ -162,15 +162,11 @@ export async function addAppointmentFeedback(page: Page, attended: boolean) {
     } else {
         await page.getByRole('button', { name: 'Save and continue' }).click()
         await page.locator('#wasLateNoRadio').check()
-        await page
-            .locator('#session-summary')
-            .fill('Test session summary of what I did in the appointment')
-        await page
-            .locator('#session-response')
-            .fill('Person seemed quite engaged and responded quite well')
+        await page.locator('#session-summary').fill('Test session summary of what I did in the appointment')
+        await page.locator('#session-response').fill('Person seemed quite engaged and responded quite well')
         await page.locator('#noNotifyPPCheckbox').check()
     }
-    await page.getByRole('button', {name: 'Save and continue'}).click()
+    await page.getByRole('button', { name: 'Save and continue' }).click()
     await page.getByRole('button', { name: /Confirm and send/ }).click()
     await page.waitForURL(
         /\/service-provider\/referrals\/[^/]+\/progress\?showFeedbackBanner=true&notifyPP=null&dna=true/

@@ -6,9 +6,18 @@ import { selectTeam } from './allocations'
 import { login as workforceLogin } from '../../steps/workforce/login'
 
 const months = [
-    'January', 'February', 'March', 'April', 'May',
-    'June', 'July', 'August', 'September', 'October',
-    'November', 'December'
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
 ]
 
 export const WorkforceDateFormat = (date: DateTime) => {
@@ -16,7 +25,7 @@ export const WorkforceDateFormat = (date: DateTime) => {
         throw new Error('Invalid DateTime object provided')
     }
 
-    const day = date.day;
+    const day = date.day
     const month = months[date.month - 1]
     const year = date.year
 
@@ -54,7 +63,7 @@ export const allocateUnallocatedCasesWithinDateRange = async (
             // Check if the date is before five days ago
             if (date < fiveDaysAgo) {
                 console.log(`Date ${date.toISODate()} is 5 days or less before today's date. Stopping loop.`)
-                break;
+                break
             }
 
             const crn = await page

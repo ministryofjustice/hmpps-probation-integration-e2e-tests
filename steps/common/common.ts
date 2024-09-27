@@ -1,5 +1,5 @@
 import { test } from '@playwright/test'
-import { DateTime, Duration } from "luxon"
+import { DateTime, Duration } from 'luxon'
 
 export const splitDate = (date: DateTime) => {
     if (!date || !date.isValid) {

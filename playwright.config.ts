@@ -1,5 +1,5 @@
 import { devices, type PlaywrightTestConfig } from '@playwright/test'
-import {minutesToMilliseconds, secondsToMilliseconds} from "./steps/delius/utils/date-time"
+import { minutesToMilliseconds, secondsToMilliseconds } from './steps/delius/utils/date-time'
 
 /**
  * Read environment variables from file.
