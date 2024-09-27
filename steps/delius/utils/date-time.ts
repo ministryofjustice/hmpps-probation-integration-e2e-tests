@@ -21,7 +21,6 @@ export const getTimeOfDay = (date: Date): 'am' | 'pm' => DateTime.fromJSDate(dat
 export const Tomorrow = DateTime.now().plus({ days: 1 })
 export const LastMonth = DateTime.now().minus({ months: 1 })
 export const NextMonth = DateTime.now().plus({ months: 1 })
-export const NextYear: Date = DateTime.now().plus({ years: 1 })
 export const Yesterday = DateTime.now().minus({ days: 1 })
 
 export const addDays = (date: DateTime, days: number): DateTime => {
