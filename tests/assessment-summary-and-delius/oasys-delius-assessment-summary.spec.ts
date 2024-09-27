@@ -12,7 +12,7 @@ import { refreshUntil } from '../../steps/delius/utils/refresh'
 import { slow } from '../../steps/common/common'
 import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock'
 import { formatDate } from "../../steps/delius/utils/date-time"
-import {DateTime} from "luxon"
+import { DateTime } from "luxon"
 
 dotenv.config() // read environment variables into process.env
 

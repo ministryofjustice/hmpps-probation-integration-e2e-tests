@@ -22,7 +22,6 @@ test('Create a referral for a pre-release - COM allocated', async ({ page }) => 
         crn,
         allocation: { team: data.teams.referAndMonitorTestTeam },
         date: addDays(addMonths(DateTime.now(), -6), 8).toJSDate()
-
     })
     await internalTransfer(page, {
         crn,

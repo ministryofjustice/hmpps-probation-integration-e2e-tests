@@ -33,5 +33,5 @@ export const enterSedLedPssDates = async (page: Page) => {
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
     await expect(page.locator('.govuk-fieldset__heading')).toHaveText(
         'Which of the following best describes the sentence type the person is on?'
-    );
+    )
 }

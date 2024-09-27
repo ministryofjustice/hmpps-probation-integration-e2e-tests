@@ -7,7 +7,7 @@ import { selectApprovedPremises } from './approved-premises-home'
 import { selectCreatePlacementAction } from './approved-premises'
 import { searchOffenderWithCrn } from './create-placement'
 
-const [arrivalDay, arrivalMonth, arrivalYear] = splitDate((Tomorrow))
+const [arrivalDay, arrivalMonth, arrivalYear] = splitDate(Tomorrow)
 const [departureDay, departureMonth, departureYear] = splitDate(NextMonth)
 
 export const createBooking = async (page: Page) => {

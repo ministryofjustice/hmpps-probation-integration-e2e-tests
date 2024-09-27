@@ -1,7 +1,7 @@
 import { expect, Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
 import { DateTime } from 'luxon'
-import {addMonths, getDate, getMonth, getYear, subMonths} from "../delius/utils/date-time"
+import { addMonths, getDate, getMonth, getYear, subMonths } from "../delius/utils/date-time"
 
 export async function submitApplication(page: Page, nomisId: string) {
     await startApplication(page)
@@ -65,7 +65,7 @@ async function confirmEligibilityAndConsent(page: Page) {
 
 async function fillDateInput(page: Page, label: string, offsetMonths: number = 0) {
     // Calculate the target date
-    const currentDate = DateTime.now();
+    const currentDate = DateTime.now()
     const targetDate = offsetMonths >= 0 ? addMonths(currentDate, offsetMonths) : subMonths(currentDate, Math.abs(offsetMonths))
 
     // Ensure the day is valid for the target month
@@ -76,7 +76,7 @@ async function fillDateInput(page: Page, label: string, offsetMonths: number = 0
     await page.getByRole('group', { name: label }).getByLabel('Month').fill(getMonth(validDate).toString())
     await page.getByRole('group', { name: label }).getByLabel('Year').fill(getYear(validDate).toString())
 
-    return validDate.toJSDate(); // Convert DateTime back to Date if needed
+    return validDate.toJSDate()
 }
 
 async function addReferrerDetails(page: Page) {

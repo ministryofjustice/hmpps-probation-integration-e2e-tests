@@ -165,7 +165,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
 })
 
 test('Reschedule Supplier Assessment Appointment to past date/time with attendance set to No', async ({ page }) => {
-    test.slow()
+    // test.slow()
     const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
     await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
