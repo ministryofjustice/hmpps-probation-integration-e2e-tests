@@ -16,7 +16,7 @@
   },
   "type": "module",
   "devDependencies": {
-    "@faker-js/faker": "^8.4.1",
+    "@faker-js/faker": "^9.0.3",
     "@kubernetes/client-node": "^0.22.0",
     "@playwright/test": "1.47.2",
     "@types/luxon": "^3.4.2",
