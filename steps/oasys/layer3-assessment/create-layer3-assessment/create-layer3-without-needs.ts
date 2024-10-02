@@ -27,9 +27,10 @@ import { completeOffenceAnalysis, completeOffenceAnalysisYes } from '../analysis
 import { Person } from '../../../delius/utils/person'
 import { completeRoSHSection9RoSHSummary } from './section-9'
 import { completeReviewSentencePlan } from './review-sentenceplan'
-import { addYears } from 'date-fns'
+import { DateTime } from 'luxon'
 import { completeRoSHFullSec8RisksToIndvdl } from '../rosh-full-analysis-section8'
 import { completeRoSHSection8FullAnalysisYes } from '../section-8'
+
 type Needs = 'Yes' | 'No'
 
 export const createLayer3CompleteAssessment = async (
@@ -79,7 +80,7 @@ export const createLayer3CompleteAssessment = async (
     // And I start creating Layer 3 Assessment
     await createLayer3Assessment(page)
     // And I complete section 1
-    await clickSection1(page, addYears(person.dob, 15))
+    await clickSection1(page, DateTime.fromJSDate(person.dob).plus({ years: 15 }).toJSDate())
     // And I complete section 2 to 13
     await clickSection2to13(page, needs)
     // And I Click on "RoSH Screening" Section

@@ -75,7 +75,7 @@ export const navigateToNSIDetails = async (page: Page, crn: string, includeTermi
         await page.locator('#ShowTerminated\\:selectOneMenu').selectOption({ label: 'Yes' })
     }
     await page.locator('#nsiTable > tbody').getByRole('link', { name: 'view' }).click()
-    await expect(page.locator('#content > h1')).toHaveText('Non Statutory Intervention Details')
+    await expect(page.locator('#content > h1 > span.float-start')).toHaveText('Non Statutory Intervention Details')
 }
 
 export const navigateToNSIDetailsFromPersonalDetails = async (page: Page, crn: string) => {

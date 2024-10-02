@@ -22,6 +22,7 @@ import { Yesterday } from '../../steps/delius/utils/date-time'
 import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { contact } from '../../steps/delius/utils/contact'
 import { data } from '../../test-data/test-data'
+
 dotenv.config() // read environment variables into process.env
 
 test('Make a Management Oversight Decision and verify in Delius', async ({ page }) => {
@@ -40,7 +41,7 @@ test('Make a Management Oversight Decision and verify in Delius', async ({ page 
         category: 'Community Management',
         type: 'Other Contact',
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
-        date: Yesterday,
+        date: Yesterday.toJSDate(),
     }
     await createContact(page, crn, contactDetails)
 

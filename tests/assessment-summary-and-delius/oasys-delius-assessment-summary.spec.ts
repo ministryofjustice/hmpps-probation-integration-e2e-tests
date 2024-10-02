@@ -9,9 +9,10 @@ import { faker } from '@faker-js/faker'
 import * as dotenv from 'dotenv'
 import { navigateToDeliusOASysAssessments } from '../../steps/delius/contact/find-contacts'
 import { refreshUntil } from '../../steps/delius/utils/refresh'
-import { format } from 'date-fns'
 import { slow } from '../../steps/common/common'
-import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock.js'
+import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock'
+import { formatDate } from '../../steps/delius/utils/date-time'
+import { DateTime } from 'luxon'
 
 dotenv.config() // read environment variables into process.env
 
@@ -45,7 +46,10 @@ test('Create an OASys assessment and verify the Delius Assessment Summary', asyn
     // Then Assessment summary is available in Delius
     await refreshUntil(
         page,
-        () => expect(page.locator('#assessmentsTable > tbody > tr')).toContainText(format(new Date(), 'dd/MM/yyyy')),
+        () =>
+            expect(page.locator('#assessmentsTable > tbody > tr')).toContainText(
+                formatDate(DateTime.now(), 'dd/MM/yyyy')
+            ),
         { timeout: 120_000 }
     )
 })

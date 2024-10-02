@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test'
-import { format } from 'date-fns'
+import { HmppsDateFormatter } from '../delius/utils/date-time'
 
 export const referToPathfinder = async (page: Page, crn: string) => {
     // Search for CRN
@@ -19,5 +19,5 @@ export const referToPathfinder = async (page: Page, crn: string) => {
 
 export const pathfinderDateFormatter = (date: Date | string): string => {
     const parsedDate = typeof date === 'string' ? new Date(date) : date
-    return format(parsedDate, 'd MMM yyyy')
+    return HmppsDateFormatter(parsedDate)
 }

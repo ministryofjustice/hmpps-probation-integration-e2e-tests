@@ -41,7 +41,7 @@ export const clickRoSHScreeningSection1 = async (page: Page) => {
 
 export const clickSection1 = async (
     page: Page,
-    firstOffenceDate: Date = faker.date.recent({ days: 1, refDate: Yesterday })
+    firstOffenceDate: Date = faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() })
 ) => {
     await page.getByRole('link', { name: 'Section 1' }).click()
     await page.getByRole('link', { name: 'Offending Information' }).click()
@@ -51,7 +51,7 @@ export const clickSection1 = async (
     await fillDateOasys(page, '#itm_1_8_2', firstOffenceDate)
     await page.getByLabel('Total number of sanctions for all offences').fill('11')
     await page.getByLabel('How many of the total number of sanctions involved violent offences?').fill('4')
-    const _date = faker.date.recent({ days: 1, refDate: Yesterday })
+    const _date = faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() })
     await page.getByLabel('Date of current conviction').click()
     await fillDateOasys(page, '#itm_1_29', _date)
 

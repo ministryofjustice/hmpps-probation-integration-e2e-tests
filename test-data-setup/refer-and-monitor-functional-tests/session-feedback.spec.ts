@@ -13,7 +13,7 @@ import {
     createAndAssignReferral,
     editSessionFailedToAttend,
 } from '../../tests/refer-and-monitor-and-delius/common'
-import { addMinutes } from 'date-fns'
+import { DateTime } from 'luxon'
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
@@ -48,13 +48,15 @@ test('Create an appointment that was not attended', async ({ page }) => {
 
 test('Add feedback to a scheduled appointment', async ({ page }) => {
     test.slow()
+
     // Given a person in Delius
     const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
     await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
+
     // And a referral with a supplier assessment appointment in the future
     const referralRef = await createAndAssignReferral(page, crn)
-    await createSupplierAssessmentAppointment(page, referralRef, addMinutes(new Date(), 1))
+    await createSupplierAssessmentAppointment(page, referralRef, DateTime.now().plus({ minutes: 1 }))
 
     // When I mark it as failed to attend
     await addAppointmentFeedback(page, false)

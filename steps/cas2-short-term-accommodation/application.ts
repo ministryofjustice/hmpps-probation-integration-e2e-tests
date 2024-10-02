@@ -1,6 +1,7 @@
 import { expect, Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
-import { addMonths, getDate, getMonth, getYear, subMonths } from 'date-fns'
+import { DateTime } from 'luxon'
+import { addMonths, getDate, getMonth, getYear, subMonths } from '../delius/utils/date-time'
 
 export async function submitApplication(page: Page, nomisId: string) {
     await startApplication(page)
@@ -64,26 +65,19 @@ async function confirmEligibilityAndConsent(page: Page) {
 
 async function fillDateInput(page: Page, label: string, offsetMonths: number = 0) {
     // Calculate the target date
-    const currentDate = new Date()
+    const currentDate = DateTime.now()
     const targetDate =
         offsetMonths >= 0 ? addMonths(currentDate, offsetMonths) : subMonths(currentDate, Math.abs(offsetMonths))
 
     // Ensure the day is valid for the target month
-    const validDate = new Date(
-        targetDate.getFullYear(),
-        targetDate.getMonth(),
-        Math.min(getDate(targetDate), new Date(targetDate.getFullYear(), targetDate.getMonth() + 1, 0).getDate())
-    )
+    const validDate = targetDate.startOf('month').set({ day: Math.min(getDate(targetDate), targetDate.daysInMonth) })
 
     // Fill the date input fields
     await page.getByRole('group', { name: label }).getByLabel('Day').fill(getDate(validDate).toString())
-    await page
-        .getByRole('group', { name: label })
-        .getByLabel('Month')
-        .fill((getMonth(validDate) + 1).toString()) // Months are 1-based in input fields
+    await page.getByRole('group', { name: label }).getByLabel('Month').fill(getMonth(validDate).toString())
     await page.getByRole('group', { name: label }).getByLabel('Year').fill(getYear(validDate).toString())
 
-    return validDate
+    return validDate.toJSDate()
 }
 
 async function addReferrerDetails(page: Page) {

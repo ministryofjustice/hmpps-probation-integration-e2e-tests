@@ -1,6 +1,6 @@
 import { expect, Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
-import { getDate, getMonth, getYear, addMonths, addDays } from 'date-fns'
+import { DateTime } from 'luxon'
 
 export async function submitCAS3Referral(page: Page, crn: string) {
     await startApplication(page)
@@ -88,18 +88,26 @@ async function addSentenceInformation(page: Page) {
     await page.getByLabel('Days').fill('1')
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle('Sentence expiry date - Transitional Accommodation (CAS3)')
-    await page.getByLabel('Day').fill(getDate(addMonths(new Date(), 6)).toString())
-    await page.getByLabel('Month').fill((getMonth(addMonths(new Date(), 6)) + 1).toString())
-    await page.getByLabel('Year').fill(getYear(addMonths(new Date(), 6)).toString())
+
+    const expiryDate = DateTime.now().plus({ months: 6 })
+    await page.getByLabel('Day').fill(expiryDate.day.toString())
+    await page.getByLabel('Month').fill(expiryDate.month.toString())
+    await page.getByLabel('Year').fill(expiryDate.year.toString())
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle('What is the release type? - Transitional Accommodation (CAS3)')
     await page.getByRole('checkbox', { name: 'Licence, following standard recall', exact: true }).check()
-    await page.locator('#standardRecallStartDate-day').fill(getDate(addDays(new Date(), 10)).toString())
-    await page.locator('#standardRecallStartDate-month').fill((getMonth(addDays(new Date(), 10)) + 1).toString())
-    await page.locator('#standardRecallStartDate-year').fill(getYear(addDays(new Date(), 10)).toString())
-    await page.locator('#standardRecallEndDate-day').fill(getDate(addMonths(new Date(), 6)).toString())
-    await page.locator('#standardRecallEndDate-month').fill((getMonth(addMonths(new Date(), 6)) + 1).toString())
-    await page.locator('#standardRecallEndDate-year').fill(getYear(addMonths(new Date(), 6)).toString())
+
+    // Set standard recall start date
+    const recallStartDate = DateTime.now().plus({ days: 10 })
+    await page.locator('#standardRecallStartDate-day').fill(recallStartDate.day.toString())
+    await page.locator('#standardRecallStartDate-month').fill(recallStartDate.month.toString())
+    await page.locator('#standardRecallStartDate-year').fill(recallStartDate.year.toString())
+
+    // Set standard recall end date
+    await page.locator('#standardRecallEndDate-day').fill(expiryDate.day.toString())
+    await page.locator('#standardRecallEndDate-month').fill(expiryDate.month.toString())
+    await page.locator('#standardRecallEndDate-year').fill(expiryDate.year.toString())
+
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(
         'Make a referral for Transitional Accommodation (CAS3) - Transitional Accommodation (CAS3)'
@@ -144,14 +152,18 @@ async function confirmEligibility(page: Page) {
         .check()
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle("What is the person's release date? - Transitional Accommodation (CAS3)")
-    await page.getByLabel('Day').fill(getDate(addMonths(new Date(), 6)).toString())
-    await page.getByLabel('Month').fill((getMonth(addMonths(new Date(), 6)) + 1).toString())
-    await page.getByLabel('Year').fill(getYear(addMonths(new Date(), 6)).toString())
+
+    // Calculate the release date
+    const releaseDate = DateTime.now().plus({ months: 6 })
+    await page.getByLabel('Day').fill(releaseDate.day.toString())
+    await page.getByLabel('Month').fill(releaseDate.month.toString())
+    await page.getByLabel('Year').fill(releaseDate.year.toString())
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle('What date is accommodation required from? - Transitional Accommodation (CAS3)')
-    await page.getByLabel('Day').fill(getDate(addDays(new Date(), 10)).toString())
-    await page.getByLabel('Month').fill((getMonth(addDays(new Date(), 10)) + 1).toString())
-    await page.getByLabel('Year').fill(getYear(addDays(new Date(), 10)).toString())
+    const accommodationDate = DateTime.now().plus({ days: 10 })
+    await page.getByLabel('Day').fill(accommodationDate.day.toString())
+    await page.getByLabel('Month').fill(accommodationDate.month.toString())
+    await page.getByLabel('Year').fill(accommodationDate.year.toString())
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(
         'Make a referral for Transitional Accommodation (CAS3) - Transitional Accommodation (CAS3)'
