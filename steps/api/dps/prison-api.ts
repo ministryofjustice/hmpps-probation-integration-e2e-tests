@@ -1,11 +1,12 @@
 import { type Person } from '../../delius/utils/person'
 import { type APIRequestContext, Page, request } from '@playwright/test'
 import { getToken } from '../auth/get-token'
-import { EuropeLondonFormat, Yesterday } from '../../delius/utils/date-time'
+import { Yesterday } from '../../delius/utils/date-time'
 import { setNomisId } from '../../delius/offender/update-offender'
 import { retry, sanitiseError } from '../utils/api-utils'
 import { v4 as uuid } from 'uuid'
 import { faker } from '@faker-js/faker'
+import { DateTime } from 'luxon'
 
 async function getContext(): Promise<APIRequestContext> {
     const token = await getToken()
@@ -115,14 +116,13 @@ export const temporaryAbsenceReturn = retry(
 
 export const recallPrisoner = retry(
     sanitiseError(async (offenderNo: string) => {
-        const date = EuropeLondonFormat(new Date())
         await (
             await getContext()
         ).put(`/api/offenders/${offenderNo}/recall`, {
             failOnStatusCode: true,
             data: {
                 prisonId: 'SWI',
-                recallTime: date,
+                recallTime: DateTime.local().toISO({ includeOffset: false }),
                 movementReasonCode: '24',
             },
         })

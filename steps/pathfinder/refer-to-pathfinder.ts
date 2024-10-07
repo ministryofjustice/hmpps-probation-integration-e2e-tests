@@ -1,5 +1,4 @@
 import { expect, type Page } from '@playwright/test'
-import { HmppsDateFormatter } from '../delius/utils/date-time'
 
 export const referToPathfinder = async (page: Page, crn: string) => {
     // Search for CRN
@@ -15,9 +14,4 @@ export const referToPathfinder = async (page: Page, crn: string) => {
     await page.getByRole('button', { name: 'Save and continue' }).click()
     // Check referral was successful
     await expect(page.getByRole('heading', { name: 'Referral successful' })).toBeVisible()
-}
-
-export const pathfinderDateFormatter = (date: Date | string): string => {
-    const parsedDate = typeof date === 'string' ? new Date(date) : date
-    return HmppsDateFormatter(parsedDate)
 }
