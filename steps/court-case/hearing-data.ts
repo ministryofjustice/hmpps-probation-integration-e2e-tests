@@ -14,7 +14,7 @@ export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.
         hearingDays: [
             {
                 listedDurationMinutes: 60,
-                sittingDay: DateTime.now().toISO(),
+                sittingDay: DateTime.now().toUTC().toString(),
             },
         ],
         type: {
