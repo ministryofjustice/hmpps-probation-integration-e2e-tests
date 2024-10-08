@@ -28,10 +28,10 @@ test('View Community manager details', async ({ page }) => {
     // When I allocate them to a Community Manager
     await internalTransfer(page, { crn, allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff } })
 
-    // Then the Community Manager details appear in the Get Someone Ready To Work service
+    // Then the Community Manager details appear in the Work after release service
     await dpsLogin(page)
     await switchCaseload(page, 'SWI')
-    await page.getByRole('link', { name: 'Get someone ready to work' }).first().click()
+    await page.getByRole('link', { name: 'Work after release' }).first().click()
     await expect(page.locator(' #main-content h1')).toContainText('Work after release')
     await page.getByRole('link', { name: 'Get someone ready to work' }).first().click()
     await page.getByLabel(`Profile link for ${person.lastName}, ${person.firstName}`).click()

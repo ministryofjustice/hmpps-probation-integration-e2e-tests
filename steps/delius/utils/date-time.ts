@@ -9,8 +9,6 @@ export const DeliusTimeFormatter = (time: Date): string => {
     return `${dt.hour.toString().padStart(2, '0')}:${dt.minute.toString().padStart(2, '0')}`
 }
 
-export const EuropeLondonFormat = (date: Date): string => DateTime.fromJSDate(date).setZone('Europe/London').toISO() // uses ISO format (YYYY-MM-DDTHH:mm:ss)
-
 export const get12Hour = (date: Date): number => {
     const dt = DateTime.fromJSDate(date)
     return dt.hour > 12 ? dt.hour - 12 : dt.hour
