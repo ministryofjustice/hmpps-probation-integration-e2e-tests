@@ -7,7 +7,7 @@ export async function terminateEvent(page: Page, crn: string, eventNumber: strin
     await findOffenderByCRN(page, crn)
     await page.click('#navigation-include\\:linkNavigation2EventList')
     await expect(page).toHaveTitle(/Events/)
-    await page.locator('tr', { hasText: eventNumber }).locator('a', { hasText: 'terminate' }).click()
+    await page.locator(`tr:has(td:first-child:has-text("${eventNumber}"))` ).first().locator('a', { hasText: 'terminate' }).click()
 
     await expect(page).toHaveTitle(/Terminate Event/)
     await fillDate(page, '#Terminated\\:datePicker', faker.date.recent())

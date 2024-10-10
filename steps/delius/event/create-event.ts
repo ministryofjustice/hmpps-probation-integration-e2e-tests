@@ -8,8 +8,8 @@ import { waitForJS } from '../utils/refresh'
 
 const autoAddComponent = ['ORA Community Order']
 const autoAddCourtReport = ['Adjourned - Pre-Sentence Report']
-const requiresAdditionalOutcomeDetails = ['ORA Community Order', 'Adult Custody < 12m', 'CJA - Std Determinate Custody']
-
+// const requiresAdditionalOutcomeDetails = ['ORA Community Order', 'Adult Custody < 12m', 'CJA - Std Determinate Custody']
+const requiresAdditionalOutcomeDetails = ['ORA Community Order', 'Adult Custody < 12m', 'CJA - Std Determinate Custody', 'CJA - Deferred Sentence', 'ORA Adult Custody (inc PSS)']
 export interface CreateEvent {
     crn: string
     allocation?: Optional<Allocation>

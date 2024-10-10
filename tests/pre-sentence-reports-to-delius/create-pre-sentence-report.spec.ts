@@ -10,6 +10,7 @@ import { findCourtReport } from '../../steps/delius/court-report/find-court-repo
 import { createDocumentFromTemplate } from '../../steps/delius/document/create-document'
 import { createSubjectAccessReport, getFileFromZip } from '../../steps/delius/document/subject-access-report'
 import { getPdfText } from '../../steps/delius/utils/pdf-utils'
+import { releasePrisoner } from '../../steps/api/dps/prison-api.js'
 
 test('Create a short format pre-sentence report', async ({ page }) => {
     // Given a person with an event that has been adjourned for pre-sentence report,
@@ -109,3 +110,4 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     const pdfText = await getPdfText(file)
     expect(pdfText).not.toContain('DRAFT')
 })
+

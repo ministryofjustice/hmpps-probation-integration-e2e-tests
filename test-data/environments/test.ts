@@ -65,6 +65,10 @@ export const testEnvironmentData: TestData = {
             name: 'OMU A',
             provider: 'NPS North East',
         },
+        npsNorthWestTeam: {
+            name: 'OMU A',
+            provider: 'NPS North West',
+        },
     },
     prisoners: {
         sentencedPrisoner: {

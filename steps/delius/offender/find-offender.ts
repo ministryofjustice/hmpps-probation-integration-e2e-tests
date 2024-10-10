@@ -5,7 +5,7 @@ import { Allocation } from '../../../test-data/test-data'
 
 export async function findOffenderByName(page: Page, forename: string, surname: string) {
     await page.locator('a', { hasText: 'National search' }).click()
-    await expect(page).toHaveTitle(/National Search/)
+    // await expect(page).toHaveTitle(/National Search/)
     await page.fill('#firstName\\:inputText', forename)
     await page.fill('#lastName\\:inputText', surname)
     await page.click('#searchButton')

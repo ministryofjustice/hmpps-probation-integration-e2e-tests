@@ -29,6 +29,9 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
     if (options.endTime) {
         await fillTime(page, '#EndTime\\:timePicker', options.endTime)
     }
+    if (options.outcome) {
+        await selectOption(page, '#contactOutcome\\:selectOneMenu', options.outcome)
+    }
     await selectOption(page, '#TransferToOfficer\\:selectOneMenu', options.allocation?.staff?.name)
 
     try {
