@@ -4,9 +4,11 @@ export const complete9AlcoholMisuseSection = async (page: Page) => {
     await page.getByLabel('Motivation to tackle alcohol misuse (if applicable)').selectOption('9.5~1')
     await page
         .getByLabel(
-            'Identify alcohol misuse issues contributing to risks of offending and harm.  Please include any positive factors. - additional information spellcheck available'
+            'Identify alcohol misuse issues contributing to risks of offending and harm.  Please include any positive factors.'
         )
-        .fill('OPD Autotest')
+        .fill(
+            "OASys Question - 'Identify alcohol misuse issues contributing to risks of offending and harm. Please include any positive factors.' - Answer Input - 'Test drug alcohol misuse issues'"
+        )
     await page
         .getByLabel('Alcohol misuse issues linked to risk of serious harm, risks to the individual and other risks')
         .selectOption('9.98~NO')
