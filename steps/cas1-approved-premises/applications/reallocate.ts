@@ -1,6 +1,9 @@
 import { type Page } from '@playwright/test'
 
-export const reallocateApplication = async (page: Page, person: { firstName: string; lastName: string; sex: string }) => {
+export const reallocateApplication = async (
+    page: Page,
+    person: { firstName: string; lastName: string; sex: string }
+) => {
     await page.getByRole('link', { name: 'Task allocation' }).click()
     await page.getByRole('link', { name: 'Unallocated' }).click()
     if (person.sex === 'Female') {
