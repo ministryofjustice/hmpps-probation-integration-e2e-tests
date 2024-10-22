@@ -117,6 +117,7 @@ export const verifyRecallOffendersAddress = async (
     city: string,
     postcode: string
 ): Promise<void> => {
+    await page.locator('[href$="personal-details"]').first().isVisible()
     await page.getByRole('link', { name: 'Personal details' }).click()
     const addressLocator = await page.locator('[data-qa="address-1"]').first()
     await expect(addressLocator).toContainText(street)
