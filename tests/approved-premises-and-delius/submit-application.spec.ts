@@ -52,7 +52,7 @@ test('Create an approved premises application', async ({ page }) => {
     await submitAPApplication(page, crn)
 
     // And I approve the application
-    await reallocateApplication(page, `${person.firstName} ${person.lastName}`)
+    await reallocateApplication(page, person)
     await assessApplication(page, `${person.firstName} ${person.lastName}`)
 
     // And login to nDelius

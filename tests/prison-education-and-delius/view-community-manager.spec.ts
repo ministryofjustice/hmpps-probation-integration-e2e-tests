@@ -31,7 +31,7 @@ test('View Community manager details', async ({ page }) => {
     // Then the Community Manager details appear in the Work after release service
     await dpsLogin(page)
     await switchCaseload(page, 'SWI')
-    await page.getByRole('link', { name: 'Work after release' }).first().click()
+    await page.getByRole('link', { name: 'Work after leaving prison' }).first().click()
     await expect(page.locator(' #main-content h1')).toContainText('Work after release')
     await page.getByRole('link', { name: 'Get someone ready to work' }).first().click()
     await page.getByLabel(`Profile link for ${person.lastName}, ${person.firstName}`).click()
