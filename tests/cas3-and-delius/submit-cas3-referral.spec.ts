@@ -15,7 +15,7 @@ dotenv.config() // read environment variables into process.env
 const nomisIds = []
 
 test('Submit a Transitional Accommodation CAS3 referral', async ({ page }) => {
-    test.slow()
+    slow()
 
     // Step 1: Log in to Delius
     await deliusLogin(page)
