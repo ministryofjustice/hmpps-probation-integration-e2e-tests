@@ -33,9 +33,10 @@ export const createLicence = async (page: Page, crn: string, nomsNumber: string)
     await expect(page).toHaveTitle('Create and vary a licence - Create a licence - When is the initial appointment?')
     await page.getByLabel(/Immediately after release/).check()
     await page.getByRole('button', { name: 'Continue' }).click()
-    await expect(page).toHaveTitle(
-        'Create and vary a licence - Create a licence - Additional Post Sentence Supervision Conditions'
-    )
+    await expect(page).toHaveTitle('Create and vary a licence - Create a licence - Additional Licence Conditions')
+    await page.getByLabel(/No/).check()
+    await page.getByRole('button', { name: 'Continue' }).click()
+    await expect(page).toHaveTitle('Create and vary a licence - Create a licence - Bespoke Conditions')
     await page.getByLabel(/No/).check()
     await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveTitle('Create and vary a licence - Create a licence - Check your answers')
