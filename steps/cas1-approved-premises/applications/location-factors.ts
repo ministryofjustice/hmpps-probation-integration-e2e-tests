@@ -15,11 +15,12 @@ export const addLocationFactors = async (page: Page) => {
         await expect(page).toHaveTitle(
             /Approved Premises - Select all preferred properties for your women’s AP application/
         )
-        await selectOption(page, '#preferredAp1', 'Test Female AP 1')
+        await selectOption(page, '#preferredAp1', 'NE Women Premise 1')
     } else if (title === 'Approved Premises - Select a preferred AP') {
         // If the title is for the male case
         await expect(page).toHaveTitle(/Approved Premises - Select a preferred AP/)
-        await selectOption(page, '#preferredAp1', 'Test AP 1')
+        await selectOption(page, '#area0', 'Wales')
+        await selectOption(page, '#preferredAp1', 'LON Men Premise 1')
     } else {
         throw new Error(`Unexpected page title: ${title}`)
     }
