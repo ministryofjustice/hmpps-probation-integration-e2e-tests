@@ -6,7 +6,7 @@ export async function addCourtHearing(person: Person, courtCode: string = SHEFFI
     await runPod(
         'court-probation-dev',
         'probation-integration-e2e-tests',
-        'court-case-service',
+        'court-facing-api',
         ['aws sns publish --topic-arn "$TOPIC_ARN" --message "$MESSAGE" --message-attributes "$ATTRIBUTES"'],
         [
             { name: 'TOPIC_ARN', valueFrom: { secretKeyRef: { name: 'court-case-events-topic', key: 'topic_arn' } } },
