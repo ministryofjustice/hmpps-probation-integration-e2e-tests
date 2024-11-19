@@ -21,22 +21,20 @@ export const selectOption = async (
     page: Page,
     selector: string,
     option: string = null,
-    filter: (s: string) => boolean = null
+    filter: (s: string) => boolean = null,
+    attempts = 3
 ): Promise<string> => {
     // Delius has lots of dynamic drop-down fields that are populated based on previous actions, so wait for any
     // asynchronous requests to complete before attempting to select an option.
     await waitForAjax(page)
-    const originalOption = option
-    if (originalOption == null) {
-        option = await getRandomOption(page, selector, 2, filter)
-    }
+    const optionToSelect = option != null ? option : await getRandomOption(page, selector, 2, filter)
     try {
-        await page.selectOption(selector, { label: option }, { timeout: 5000 })
+        await page.selectOption(selector, { label: optionToSelect }, { timeout: 5000 })
     } catch (e) {
-        // Sometimes the options change even after we've waited for asynchronous requests to complete, so retry after 5 seconds
-        if (originalOption == null) {
-            option = await getRandomOption(page, selector, 2, filter)
-            await page.selectOption(selector, { label: option })
+        if (option == null && attempts > 0) {
+            // Sometimes the options change even after we've waited for asynchronous requests to complete, so retry with
+            // a new random option after 5 seconds
+            await selectOption(page, selector, option, filter, attempts - 1)
         } else throw e
     }
     return option
