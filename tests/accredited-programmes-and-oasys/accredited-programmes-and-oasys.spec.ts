@@ -47,7 +47,9 @@ test('View OASys assessments in Accredited Programmes service', async ({ page })
 
     // Step 5: Verify OASys assessment data in Accredited Programmes service
     await clickOnOffenderLink(page, 'Date referred', `${person.lastName}, ${person.firstName}`)
-    await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Referral to Becoming New Me Plus: sexual offence/)
+    await expect(page).toHaveTitle(
+        /HMPPS Accredited Programmes - Referral to Becoming New Me Plus: general violence offence/
+    )
     await page.getByRole('link', { name: 'Risks and needs' }).click()
     await verifyAssessmentDateTextToBe(page, `Assessment completed ${todaysDate}`)
     await page.getByRole('link', { name: 'Risks and alerts' }).click()
