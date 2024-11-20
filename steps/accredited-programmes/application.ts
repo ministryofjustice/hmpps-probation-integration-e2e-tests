@@ -5,11 +5,11 @@ import { formatDate } from '../delius/utils/date-time.js'
 export async function findProgrammeAndMakeReferral(page: Page, nomisId: string) {
     await page.getByRole('link', { name: 'Find a programme and make a referral' }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Find an Accredited Programme/)
-    await page.getByRole('link', { name: 'Becoming New Me Plus: sexual offence' }).click()
-    await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Becoming New Me Plus: sexual offence/)
-    await page.getByRole('link', { name: 'Whatton (HMP)' }).click()
+    await page.getByRole('link', { name: 'Becoming New Me Plus: general violence offence' }).click()
+    await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Becoming New Me Plus: general violence offence/)
+    await page.getByRole('link', { name: 'Stoke Heath (HMP & YOI)' }).click()
     await expect(page).toHaveTitle(
-        /HMPPS Accredited Programmes - Becoming New Me Plus: sexual offence, Whatton \(HMP\)/
+        /HMPPS Accredited Programmes - Becoming New Me Plus: general violence offence, Stoke Heath \(HMP & YOI\)/
     )
     await page.getByRole('button', { name: /Make a referral/ }).click()
     await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Make a referral/)
