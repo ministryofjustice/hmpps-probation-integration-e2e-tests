@@ -24,7 +24,6 @@ test('test epf context api endpoint', async ({ page }) => {
     expect(json.name.forename).toBe(person.firstName)
     expect(json.name.surname).toBe(person.lastName)
     expect(json.name.middleName).toBe('')
-    expect(json.dateOfBirth).toBe(person.dob.toISOString().split('T')[0])
     const expectedDate = DateTime.fromJSDate(new Date(person.dob)).toFormat('yyyy-LL-dd')
     expect(json.dateOfBirth).toBe(expectedDate)
     expect(json.gender).toBe(person.sex)
