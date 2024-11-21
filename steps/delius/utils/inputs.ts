@@ -30,14 +30,14 @@ export const selectOption = async (
     const optionToSelect = option != null ? option : await getRandomOption(page, selector, 2, filter)
     try {
         await page.selectOption(selector, { label: optionToSelect }, { timeout: 5000 })
+        return optionToSelect
     } catch (e) {
         if (option == null && attempts > 0) {
             // Sometimes the options change even after we've waited for asynchronous requests to complete, so retry with
             // a new random option after 5 seconds
-            await selectOption(page, selector, option, filter, attempts - 1)
+            return await selectOption(page, selector, option, filter, attempts - 1)
         } else throw e
     }
-    return option
 }
 
 export const fillDate = async (page: Page, selector: string, date: Date) => {
