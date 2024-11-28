@@ -25,9 +25,11 @@ export async function findOffenderByCRN(page: Page, crn: string) {
         await page.locator('tr', { hasText: crn }).locator('a', { hasText: 'View' }).click()
     }
     // Check for the pop-up and handle if it appears
-    const warningPopup = await page.locator('#j_idt638\\:screenWarningPrompt')
-    if (warningPopup && (await warningPopup.isVisible())) {
+    if (await page.locator('#j_idt638\\:screenWarningPrompt').isVisible()) {
         await page.click('[title="Save Court Appearance & Close this screen"]')
+    }
+    if (await page.locator('#offenderMessageModal').isVisible()) {
+        await page.click('#overview-include\\:okButton')
     }
 
     await expect(page).toHaveTitle(/Case Summary/)
