@@ -11,7 +11,8 @@ import {
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
-import { addCourtHearing } from '../../steps/court-case/add-court-hearing'
+import { addCourtHearing } from '../../steps/api/court-case/court-case-api'
+import { hearingData } from '../../steps/court-case/hearing-data'
 
 test('Create a case in multiple systems', async ({ page }) => {
     test.slow()
@@ -40,6 +41,6 @@ test('Create a case in multiple systems', async ({ page }) => {
         }
     }
     if (process.env.CREATE_COURT_HEARING === 'true') {
-        await addCourtHearing(person)
+        await addCourtHearing(hearingData(person))
     }
 })

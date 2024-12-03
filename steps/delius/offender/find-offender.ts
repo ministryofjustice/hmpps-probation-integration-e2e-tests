@@ -14,6 +14,7 @@ export async function findOffenderByName(page: Page, forename: string, surname: 
 export async function findOffenderByCRN(page: Page, crn: string) {
     if (await isInOffenderContext(page, crn)) {
         // Already in offender context, go to case summary
+        await dismissModals(page)
         await page.locator('a', { hasText: 'Case Management' }).click()
     } else {
         // Search for offender
@@ -23,11 +24,7 @@ export async function findOffenderByCRN(page: Page, crn: string) {
         await selectOption(page, '#otherIdentifier', '[Not Selected]')
         await page.click('#searchButton')
         await page.locator('tr', { hasText: crn }).locator('a', { hasText: 'View' }).click()
-    }
-    // Check for the pop-up and handle if it appears
-    const warningPopup = await page.locator('#j_idt638\\:screenWarningPrompt')
-    if (warningPopup && (await warningPopup.isVisible())) {
-        await page.click('[title="Save Court Appearance & Close this screen"]')
+        await dismissModals(page)
     }
 
     await expect(page).toHaveTitle(/Case Summary/)
@@ -79,4 +76,13 @@ export async function verifyAllocation(page: Page, args: { allocation: Allocatio
 export async function isInOffenderContext(page: Page, crn: string): Promise<boolean> {
     const crnLocator = page.locator('#offender-overview a[title*="Case Reference Number"]')
     return (await crnLocator.count()) > 0 && (await crnLocator.first().textContent()) === crn
+}
+
+export async function dismissModals(page) {
+    if (await page.locator('#j_idt638\\:screenWarningPrompt').isVisible()) {
+        await page.click('[title="Save Court Appearance & Close this screen"]')
+    }
+    if ((await page.locator('#offenderMessageModal').count()) > 0) {
+        await page.click('#overview-include\\:okButton')
+    }
 }
