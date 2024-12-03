@@ -191,9 +191,10 @@ jobs:
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
         if: ${{ failure() && github.event_name == 'schedule' }}
         with:
-          channel-id: probation-integration-notifications
+          method: chat.postMessage
           payload: |
             {
+              "channel": "probation-integration-notifications",
               "blocks": [
                 {
                   "type": "section",
@@ -234,5 +235,4 @@ jobs:
                 }
               ]
             }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
