@@ -189,12 +189,13 @@ jobs:
           echo 'report-url=https://ministryofjustice.github.io/hmpps-probation-integration-e2e-tests/${{ env.report-dir }}' | tee -a "$GITHUB_OUTPUT"
 
       - name: Send message to Slack
-        uses: slackapi/slack-github-action@37ebaef184d7626c5f204ab8d3baff4262dd30f0 # v1.27.0
+        uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
         if: ${{ failure() && github.event_name == 'schedule' }}
         with:
-          channel-id: probation-integration-notifications
+          method: chat.postMessage
           payload: |
             {
+              "channel": "probation-integration-notifications",
               "blocks": [
                 {
                   "type": "section",
@@ -235,5 +236,4 @@ jobs:
                 }
               ]
             }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
