@@ -8,7 +8,7 @@ export const SHEFFIELD_COURT = {
     description: 'Sheffield Magistrates Court',
 }
 
-export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.code, caseId: string = v4()) => ({
+export const hearingData = (person: Person, court = SHEFFIELD_COURT, caseId: string = v4()) => ({
     hearing: {
         id: v4(),
         hearingDays: [
@@ -23,9 +23,10 @@ export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.
         },
         courtCentre: {
             id: '9b583616-049b-30f9-a14f-028a53b7cfe8',
-            code: courtCode,
+            code: court.code,
             roomId: '7cb09222-49e1-3622-a5a6-ad253d2b3c39',
             roomName: '01',
+            name: court.description,
         },
         jurisdictionType: 'MAGISTRATES',
         prosecutionCases: [

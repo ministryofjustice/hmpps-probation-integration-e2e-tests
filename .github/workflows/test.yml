@@ -121,6 +121,7 @@ jobs:
           PRISON_IDENTIFIER_AND_DELIUS_URL: https://prison-identifier-and-delius-dev.hmpps.service.justice.gov.uk
           MANAGE_A_SUPERVISION_URL: https://manage-a-supervision-dev.hmpps.service.justice.gov.uk
           SUBJECT_ACCESS_REQUEST_URL: https://subject-access-request-dev.hmpps.service.justice.gov.uk
+          COURT_HEARING_EVENT_RECEIVER_URL: https://court-hearing-event-receiver-dev.hmpps.service.justice.gov.uk
 
           # Credentials
           DELIUS_USERNAME: ${{ secrets.E2E_DELIUS_USERNAME }}

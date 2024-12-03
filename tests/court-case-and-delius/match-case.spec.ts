@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test'
-import { addCourtHearing } from '../../steps/court-case/add-court-hearing'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { login as deliusLogin } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
@@ -14,11 +13,13 @@ import {
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { data } from '../../test-data/test-data'
 import { createRegistration } from '../../steps/delius/registration/create-registration'
+import { addCourtHearing } from '../../steps/api/court-case/court-case-api'
+import { hearingData } from '../../steps/court-case/hearing-data'
 
 test('Match Delius case with Court Case Hearing', async ({ page }) => {
     // Given a person with hearing in the Court Case Service
     const person = deliusPerson()
-    await addCourtHearing(person)
+    await addCourtHearing(hearingData(person))
     console.log('Added court hearing for', person)
 
     // When I create the person's record in Delius
