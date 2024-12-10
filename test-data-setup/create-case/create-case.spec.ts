@@ -20,7 +20,7 @@ test('Create a case in multiple systems', async ({ page }) => {
 
     if (process.env.CREATE_DELIUS_RECORD === 'true') {
         await loginDelius(page)
-        const crn = 'X838527'//await createOffender(page, { person })
+        const crn await createOffender(page, { person })
         if (process.env.CREATE_NOMIS_RECORD === 'true') {
             await createCustodialEvent(page, { crn })
             const { nomisId } = await createAndBookPrisoner(page, crn, person)
