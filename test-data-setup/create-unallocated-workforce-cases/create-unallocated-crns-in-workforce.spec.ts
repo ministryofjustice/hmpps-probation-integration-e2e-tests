@@ -6,6 +6,8 @@ import { createOffender } from '../../steps/delius/offender/create-offender.js'
 import { createCommunityEvent } from '../../steps/delius/event/create-event.js'
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement.js'
 import { createInitialAppointment } from '../../steps/delius/contact/create-contact.js'
+import { createDocumentFromTemplate } from '../../steps/delius/document/create-document.js'
+import { faker } from '@faker-js/faker'
 
 test.beforeEach(async ({ page }) => {
     await deliusLogin(page)
@@ -15,6 +17,37 @@ test('Create cases awaiting Allocation', async ({ page }) => {
     slow()
     await createCasesAwaitingAllocation(page, 50)
 })
+
+test('Create case awaiting Allocation with multiple documents', async ({ page }) => {
+    slow()
+    await createCaseWithDocuments(page, 50)
+})
+
+const createCaseWithDocuments= async (page: Page, number: number) => {
+    await deliusLogin(page)
+
+    const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.provider, person: {
+        firstName: 'Doc',
+        lastName: 'Holiday',
+        sex: 'Male',
+        dob: faker.date.birthdate({ min: 18, max: 69, mode: 'age' }),
+    } })
+    
+    await createCommunityEvent(page, {
+        crn,
+        allocation: {
+            team: data.teams.allocationsTestTeam,
+            staff: data.staff.unallocated,
+        },
+    })
+    
+    await createRequirementForEvent(page, { crn, team: data.teams.allocationsTestTeam })
+    await createInitialAppointment(page, crn, '1', data.teams.allocationsTestTeam)
+    
+    for (let i = 0; i < number; i++) {
+        await createDocumentFromTemplate(page)
+    }
+}
 
 const createCasesAwaitingAllocation = async (page: Page, number: number) => {
     await deliusLogin(page)
