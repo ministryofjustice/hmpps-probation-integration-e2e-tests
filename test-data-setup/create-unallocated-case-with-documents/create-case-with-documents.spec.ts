@@ -14,16 +14,19 @@ test('Create case awaiting Allocation with multiple documents', async ({ page })
     await createCaseWithDocuments(page, 50)
 })
 
-const createCaseWithDocuments= async (page: Page, number: number) => {
+const createCaseWithDocuments = async (page: Page, number: number) => {
     await deliusLogin(page)
 
-    const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.provider, person: {
-        firstName: 'Doc',
-        lastName: 'Holiday',
-        sex: 'Male',
-        dob: faker.date.birthdate({ min: 18, max: 69, mode: 'age' }),
-    } })
-    
+    const crn = await createOffender(page, {
+        providerName: data.teams.allocationsTestTeam.provider,
+        person: {
+            firstName: 'Doc',
+            lastName: 'Holiday',
+            sex: 'Male',
+            dob: faker.date.birthdate({ min: 18, max: 69, mode: 'age' }),
+        },
+    })
+
     await createCommunityEvent(page, {
         crn,
         allocation: {
@@ -31,10 +34,10 @@ const createCaseWithDocuments= async (page: Page, number: number) => {
             staff: data.staff.unallocated,
         },
     })
-    
+
     await createRequirementForEvent(page, { crn, team: data.teams.allocationsTestTeam })
     await createInitialAppointment(page, crn, '1', data.teams.allocationsTestTeam)
-    
+
     for (let i = 0; i < number; i++) {
         await createDocumentFromTemplate(page)
     }
