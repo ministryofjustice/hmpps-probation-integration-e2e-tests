@@ -7,7 +7,7 @@ import { execCommand, getPodName } from '../../steps/k8s/k8s-utils'
 import { slow } from '../../steps/common/common'
 
 test('View Delius case data', async ({ page }) => {
-    slow(20)
+    slow(10)
 
     // Given a prisoner's information has changed
     const { nomsNumber } = data.prisoners.allocatedPrisoner
