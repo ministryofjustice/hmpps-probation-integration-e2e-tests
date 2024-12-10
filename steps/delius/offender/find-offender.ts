@@ -78,11 +78,14 @@ export async function isInOffenderContext(page: Page, crn: string): Promise<bool
     return (await crnLocator.count()) > 0 && (await crnLocator.first().textContent()) === crn
 }
 
-export async function dismissModals(page) {
+export async function dismissModals(page: Page) {
     if (await page.locator('#j_idt638\\:screenWarningPrompt').isVisible()) {
         await page.click('[title="Save Court Appearance & Close this screen"]')
     }
-    if ((await page.locator('#offenderMessageModal').count()) > 0) {
-        await page.click('#overview-include\\:okButton')
+
+    try {
+        await page.locator('#overview-include\\:okButton').click({ timeout: 1000 })
+    } catch (_) {
+        //Modal did not disappear within the timeout, continuing...'
     }
 }

@@ -58,6 +58,14 @@ export default [
             sourceType: 'module',
         },
 
-        rules: {},
+        rules: {
+            '@typescript-eslint/no-unused-vars': [
+                1,
+                {
+                    argsIgnorePattern: 'res|next|^err|_',
+                    ignoreRestSiblings: true,
+                },
+            ],
+        },
     },
 ]

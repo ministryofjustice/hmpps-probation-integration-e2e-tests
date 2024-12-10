@@ -12,6 +12,7 @@ import { createSubjectAccessReport, getFileFromZip } from '../../steps/delius/do
 import { getPdfText } from '../../steps/delius/utils/pdf-utils'
 
 test('Create a short format pre-sentence report', async ({ page }) => {
+    test.skip() //Skipping this test as the pre-sentence are rewriting their application
     // Given a person with an event that has been adjourned for pre-sentence report,
     // and a court report with a newly created pre-sentence report document
     await hmppsLogin(page)
