@@ -40,7 +40,7 @@ const createCaseWithDocuments = async (page: Page, number: number) => {
     await createInitialAppointment(page, crn, '1', data.teams.allocationsTestTeam)
 
     await findOffenderByCRN(page, crn)
-    
+
     for (let i = 0; i < number; i++) {
         await createDocumentFromTemplate(page)
     }
