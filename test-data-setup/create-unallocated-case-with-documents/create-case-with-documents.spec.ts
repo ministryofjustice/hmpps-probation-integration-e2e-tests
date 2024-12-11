@@ -8,7 +8,8 @@ import { createRequirementForEvent } from '../../steps/delius/requirement/create
 import { createInitialAppointment } from '../../steps/delius/contact/create-contact.js'
 import { createDocumentFromTemplate } from '../../steps/delius/document/create-document.js'
 import { faker } from '@faker-js/faker'
-import { findOffenderByCRN } from '../../steps/delius/offender/find-offender.js'
+import { findOffenderByCRN } from '../../steps/delius/offender/find-offender'
+import { findEventByCRN } from '../../steps/delius/event/find-events'
 
 test('Create case awaiting Allocation with multiple documents', async ({ page }) => {
     slow()
@@ -39,9 +40,9 @@ const createCaseWithDocuments = async (page: Page, number: number) => {
     await createRequirementForEvent(page, { crn, team: data.teams.allocationsTestTeam })
     await createInitialAppointment(page, crn, '1', data.teams.allocationsTestTeam)
 
-    await findOffenderByCRN(page, crn)
-
     for (let i = 0; i < number; i++) {
+        await findOffenderByCRN(page, crn)
+        await findEventByCRN(page, crn, 1)
         await createDocumentFromTemplate(page)
     }
 }
