@@ -41,7 +41,7 @@ jobs:
     if: inputs.project == 'none'
     with:
       directory: test-data-setup
-      projects: '["create-case"]'
+      projects: '["create-generic-case"]'
       workers: 1
       env: |
         {
