@@ -27,6 +27,10 @@ const createCaseWithDocuments = async (page: Page, number: number) => {
         },
     })
 
+    for (let i = 0; i < number; i++) {
+        await createDocumentFromTemplate(page)
+    }
+
     await createCommunityEvent(page, {
         crn,
         allocation: {
@@ -38,7 +42,5 @@ const createCaseWithDocuments = async (page: Page, number: number) => {
     await createRequirementForEvent(page, { crn, team: data.teams.allocationsTestTeam })
     await createInitialAppointment(page, crn, '1', data.teams.allocationsTestTeam)
 
-    for (let i = 0; i < number; i++) {
-        await createDocumentFromTemplate(page)
-    }
+    
 }
