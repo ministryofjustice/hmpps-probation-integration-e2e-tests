@@ -1,5 +1,4 @@
-import { CoreV1Api, Exec, KubeConfig } from '@kubernetes/client-node'
-import { V1EnvVar } from '@kubernetes/client-node/dist/gen/model/v1EnvVar'
+import { CoreV1Api, Exec, KubeConfig, V1EnvVar } from '@kubernetes/client-node'
 
 /**
  * Get the name of the first pod in a deployment
@@ -10,15 +9,8 @@ export async function getPodName(namespace: string, deploymentName: string): Pro
     const kubeConfig = new KubeConfig()
     kubeConfig.loadFromDefault()
     const coreV1Api = kubeConfig.makeApiClient(CoreV1Api)
-    const podsResponse = await coreV1Api.listNamespacedPod(
-        namespace,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        `app=${deploymentName}`
-    )
-    const name = podsResponse.body.items[0].metadata.name
+    const podsResponse = await coreV1Api.listNamespacedPod({ namespace, labelSelector: `app=${deploymentName}` })
+    const name = podsResponse.items[0].metadata.name
     console.log('Found pod:', name)
     return name
 }
@@ -73,36 +65,39 @@ export async function runPod(
     const kubeConfig = new KubeConfig()
     kubeConfig.loadFromDefault()
     const coreV1Api = kubeConfig.makeApiClient(CoreV1Api)
-    await coreV1Api.createNamespacedPod(namespace, {
-        metadata: {
-            name: podName,
-        },
-        spec: {
-            serviceAccountName,
-            restartPolicy: 'Never',
-            containers: [
-                {
-                    name: podName,
-                    image: 'ghcr.io/ministryofjustice/hmpps-devops-tools:latest',
-                    command: ['sh', '-c'],
-                    args,
-                    env,
-                },
-            ],
+    await coreV1Api.createNamespacedPod({
+        namespace,
+        body: {
+            metadata: {
+                name: podName,
+            },
+            spec: {
+                serviceAccountName,
+                restartPolicy: 'Never',
+                containers: [
+                    {
+                        name: podName,
+                        image: 'ghcr.io/ministryofjustice/hmpps-devops-tools:latest',
+                        command: ['sh', '-c'],
+                        args,
+                        env,
+                    },
+                ],
+            },
         },
     })
     console.log('Started pod:', podName)
     try {
         const started = Date.now()
         while (Date.now() - started < 30_000) {
-            const { body: pod } = await coreV1Api.readNamespacedPod(podName, namespace)
+            const pod = await coreV1Api.readNamespacedPod({ name: podName, namespace })
             if (pod.status?.phase === 'Succeeded') break
             if (pod.status?.phase === 'Failed') throw new Error('Pod failed.')
             await new Promise(resolve => setTimeout(resolve, 1000))
         }
         console.log('Pod completed:', podName)
     } finally {
-        await coreV1Api.deleteNamespacedPod(podName, namespace)
+        await coreV1Api.deleteNamespacedPod({ name: podName, namespace })
         console.log('Pod deleted:', podName)
     }
 }
