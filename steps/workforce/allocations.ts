@@ -19,28 +19,28 @@ export const allocateCase = async (page: Page, crn: string, allocation: Allocati
     await selectTeam(page, allocation.team)
     await viewAllocation(page, crn)
     // Navigate to allocation page
-    await page.locator('a', { hasText: /Continue/ }).click()
-    await expect(page).toHaveTitle(/.*Choose practitioner.*/)
+    await page.getByRole('button', { name: 'Continue' }).click()
+    await expect(page).toHaveTitle(/Choose practitioner/)
 
     // Allocate to team/staff
     await page
         .locator('tr', { hasText: `${allocation.staff.firstName} ${allocation.staff.lastName}` })
         .getByRole('radio')
         .check()
-    await page.locator('button', { hasText: 'Continue' }).click()
+    await page.getByRole('button', { name: 'Continue' }).click()
 
     // Confirm allocation
-    await expect(page).toHaveTitle(/.*Choose practitioner | Manage a workforce.*/)
-    await page.locator('a', { hasText: 'Continue' }).click()
+    await expect(page).toHaveTitle(/Allocate to practitioner/)
+    await page.getByRole('button', { name: 'Continue' }).click()
 
     // Explain the reason for allocation to this Practitioner
-    await refreshUntil(page, () => expect(page).toHaveTitle(/.*Explain your decision | Manage a workforce.*/))
+    await refreshUntil(page, () => expect(page).toHaveTitle(/Review allocation notes/))
     await page.fill(
         '#instructions',
         `${allocation.staff.firstName} ${allocation.staff.lastName} is allocated on case with ${crn}. Allocation for ${crn} completed by hmpps-end-to-end-tests`
     )
     await page.click('#isSensitive')
-    await page.locator('button', { hasText: 'Continue' }).click()
+    await page.getByRole('button', { name: 'Continue' }).click()
 
     // Save Notes as an oversight contact and allocate case
     await expect(page).toHaveURL(/spo-oversight-contact-option$/)
