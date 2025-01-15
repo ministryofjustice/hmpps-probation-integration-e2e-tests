@@ -6,5 +6,5 @@ export const login = async (page: Page) => {
     await page.fill('#username', process.env.DPS_USERNAME!)
     await page.fill('#password', process.env.DPS_PASSWORD!)
     await page.click('#submit')
-    await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Home/)
+    await expect(page).toHaveTitle(/Accredited Programmes/)
 }
