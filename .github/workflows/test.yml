@@ -119,7 +119,7 @@ jobs:
           TIER_UI_URL: https://tier-dev.hmpps.service.justice.gov.uk
           PREPARE_A_CASE_FOR_SENTENCE_URL: https://prepare-a-case-dev.apps.live-1.cloud-platform.service.justice.gov.uk
           PRISON_IDENTIFIER_AND_DELIUS_URL: https://prison-identifier-and-delius-dev.hmpps.service.justice.gov.uk
-          MANAGE_A_SUPERVISION_URL: https://manage-a-supervision-dev.hmpps.service.justice.gov.uk
+          MANAGE_PEOPLE_ON_PROBATION_URL: https://manage-people-on-probation-dev.hmpps.service.justice.gov.uk
           SUBJECT_ACCESS_REQUEST_URL: https://subject-access-request-dev.hmpps.service.justice.gov.uk
           COURT_HEARING_EVENT_RECEIVER_URL: https://court-hearing-event-receiver-dev.hmpps.service.justice.gov.uk
 
