@@ -7,8 +7,10 @@ export interface Address {
     type: string
     buildingNumber: string
     street: string
+    streetAddress: string
     cityName: string
     county: string
+    country: string
     zipCode: string
 }
 
@@ -17,8 +19,10 @@ export const buildAddress = (type: string = 'Main'): Address => {
         type,
         buildingNumber: faker.location.buildingNumber(),
         street: faker.location.street(),
+        streetAddress: faker.location.streetAddress(),
         cityName: faker.location.city(),
         county: faker.location.county(),
+        country: faker.location.country(),
         zipCode: faker.location.zipCode(),
     }
 }
