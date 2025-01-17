@@ -9,7 +9,12 @@ export const SHEFFIELD_COURT = {
     description: 'Sheffield Magistrates Court',
 }
 
-export const hearingData = (person: Person, address = buildAddress(), court = SHEFFIELD_COURT, caseId: string = v4()) => ({
+export const hearingData = (
+    person: Person,
+    address = buildAddress(),
+    court = SHEFFIELD_COURT,
+    caseId: string = v4()
+) => ({
     hearing: {
         id: v4(),
         hearingDays: [
