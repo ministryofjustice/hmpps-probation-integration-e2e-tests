@@ -43,20 +43,20 @@ test('Create and search for a person', async ({ page }) => {
 
     // Check personal details screen information is correct
     await page.getByRole('link', { name: 'Personal Details' }).click()
-    await expect(page.locator('[id="FirstName\\:outputText"]')).toContainText(person.firstName)
-    await expect(page.locator('[id="Surname\\:outputText"]')).toContainText(person.lastName)
-    await expect(page.locator('[id="Sex\\:outputText"]')).toContainText(person.sex)
-    await expect(page.locator('[id="DateOfBirth\\:DateOfBirth\\:outputText"]')).toContainText(
+    await expect(page.locator('span:right-of(:text("First Name"))').first()).toContainText(person.firstName)
+    await expect(page.locator('span:right-of(:text("Surname or Family Name"))').first()).toContainText(person.lastName)
+    await expect(page.locator('span:right-of(:text("Sex"))').first()).toContainText(person.sex)
+    await expect(page.locator('span:right-of(:text("Date of Birth"))').first()).toContainText(
         DateTime.fromJSDate(person.dob).toFormat('dd/MM/yyyy')
     )
-    await expect(page.locator('[id="PNC\\:outputText"]')).toContainText(person.pnc)
+    await expect(page.locator('span:right-of(:text("PNC Number"))').first()).toContainText(person.pnc)
 
     // Check address record has been created
     await page.getByRole('link', { name: 'Addresses' }).click()
     await page.getByRole('link', { name: 'view', exact: true }).click()
-    await expect(page.locator('[id="j_idt714\\:outputText"]')).toContainText(address.streetAddress)
-    await expect(page.locator('[id="j_idt718\\:outputText"]')).toContainText(address.cityName)
-    await expect(page.locator('[id="j_idt722\\:outputText"]')).toContainText(address.county)
-    await expect(page.locator('[id="j_idt726\\:outputText"]')).toContainText(address.country)
-    await expect(page.locator('[id="j_idt730\\:outputText"]')).toContainText(address.zipCode)
+    await expect(page.locator('span:right-of(:text("Street Name"))').first()).toContainText(address.streetAddress)
+    await expect(page.locator('span:right-of(:text("District"))').first()).toContainText(address.cityName)
+    await expect(page.locator('span:right-of(:text("Town/City"))').first()).toContainText(address.county)
+    await expect(page.locator('span:right-of(:text("County"))').first()).toContainText(address.country)
+    await expect(page.locator('span:right-of(:text("Postcode"))').first()).toContainText(address.zipCode)
 })
