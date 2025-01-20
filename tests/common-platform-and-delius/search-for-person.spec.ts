@@ -17,7 +17,7 @@ test('Create and search for a person', async ({ page }) => {
         'hmpps-probation-integration-services-dev',
         'probation-integration-e2e-test',
         'common-platform-and-delius',
-        ['aws sqs send-message --queue-url "$QUEUEURL" --message-body "$MESSAGEBODY" || sleep 30'],
+        ['aws sqs send-message --queue-url "$QUEUEURL" --message-body "$MESSAGEBODY"'],
         [
             {
                 name: 'QUEUEURL',
