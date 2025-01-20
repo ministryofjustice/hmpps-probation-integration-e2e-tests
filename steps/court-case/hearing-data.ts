@@ -2,13 +2,19 @@ import { DateTime } from 'luxon'
 import { v4 } from 'uuid'
 import { Person } from '../delius/utils/person'
 import { faker } from '@faker-js/faker'
+import { buildAddress } from '../delius/address/create-address'
 
 export const SHEFFIELD_COURT = {
-    code: 'B14LO',
+    code: 'B14LO00',
     description: 'Sheffield Magistrates Court',
 }
 
-export const hearingData = (person: Person, court = SHEFFIELD_COURT, caseId: string = v4()) => ({
+export const hearingData = (
+    person: Person,
+    address = buildAddress(),
+    court = SHEFFIELD_COURT,
+    caseId: string = v4()
+) => ({
     hearing: {
         id: v4(),
         hearingDays: [
@@ -40,11 +46,11 @@ export const hearingData = (person: Person, court = SHEFFIELD_COURT, caseId: str
                         personDefendant: {
                             personDetails: {
                                 address: {
-                                    address1: faker.location.streetAddress(),
-                                    address2: faker.location.city(),
-                                    address3: faker.location.county(),
-                                    address5: faker.location.country(),
-                                    postcode: faker.location.zipCode(),
+                                    address1: address.streetAddress,
+                                    address2: address.cityName,
+                                    address3: address.county,
+                                    address5: address.country,
+                                    postcode: address.zipCode,
                                 },
                                 contact: {
                                     email: faker.internet.exampleEmail(),
@@ -80,9 +86,9 @@ export const hearingData = (person: Person, court = SHEFFIELD_COURT, caseId: str
                                 },
                                 judicialResults: [
                                     {
-                                        label: 'label',
+                                        label: 'Remanded in custody',
                                         resultText: 'resultText',
-                                        isConvictedResult: false,
+                                        isConvictedResult: true,
                                         judicialResultTypeId: 'id',
                                     },
                                 ],
