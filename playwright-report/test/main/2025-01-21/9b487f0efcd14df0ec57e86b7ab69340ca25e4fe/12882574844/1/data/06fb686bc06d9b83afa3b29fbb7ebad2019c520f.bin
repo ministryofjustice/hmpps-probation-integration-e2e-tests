@@ -1,0 +1,2 @@
+rake aborted!
+JSON::ParserError: unexpected token at '{"offenderNo":"G4018GC","createD' (JSON::ParserError)
