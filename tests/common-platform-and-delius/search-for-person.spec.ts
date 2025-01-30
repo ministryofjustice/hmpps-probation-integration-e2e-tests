@@ -14,9 +14,9 @@ test('Create and search for a person', async ({ page }) => {
     const address = buildAddress()
 
     await runPod(
-        'hmpps-probation-integration-services-dev',
+        'hmpps-probation-integration',
         'probation-integration-e2e-test',
-        'common-platform-and-delius',
+        'probation-integration',
         ['aws sqs send-message --queue-url "$QUEUEURL" --message-body "$MESSAGEBODY"'],
         [
             {
