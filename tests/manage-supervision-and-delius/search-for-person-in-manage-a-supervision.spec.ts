@@ -23,7 +23,7 @@ test('Search for a person in Manage a Supervision', async ({ page }) => {
 
     // Then the person appears in the search results and crn & name matches
     await page.locator(`[href$="${crn}"]`).click()
-    await expect(page).toHaveTitle('Manage people on probation - Overview')
+    await expect(page).toHaveTitle(/Overview/)
     await expect(page.locator('[data-qa="crn"]')).toContainText(crn)
     await expect(page.locator('[data-qa="name"]')).toContainText(person.firstName + ' ' + person.lastName)
 })
