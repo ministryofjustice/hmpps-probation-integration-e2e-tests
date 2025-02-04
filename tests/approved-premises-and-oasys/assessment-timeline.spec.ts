@@ -21,7 +21,7 @@ import { verifySupportingInfoIsAsPerOASys } from '../../steps/cas1-approved-prem
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { slow } from '../../steps/common/common'
 import { addLayer3AssessmentNeedsReview } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs.js'
-import { signAndlock } from "../../steps/oasys/layer3-assessment/sign-and-lock";
+import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock'
 
 dotenv.config() // read environment variables into process.env
 
