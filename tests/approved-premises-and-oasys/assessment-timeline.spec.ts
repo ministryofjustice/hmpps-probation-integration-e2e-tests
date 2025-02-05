@@ -20,7 +20,6 @@ import { verifyRiskToSelfIsAsPerOASys } from '../../steps/cas1-approved-premises
 import { verifySupportingInfoIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-supporting-info'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { slow } from '../../steps/common/common'
-import { addLayer3AssessmentNeedsReview } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs.js'
 import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock'
 
 dotenv.config() // read environment variables into process.env
@@ -44,20 +43,20 @@ test('View OASys assessments in Approved Premises service', async ({ page }) => 
 
     // And I create a Layer 3 Assessment with Needs in OASys
     await oasysLogin(page, UserType.Timeline)
-    await createLayer3CompleteAssessment(page, crn, person, 'Yes')
+    await createLayer3CompleteAssessment(page, crn, person, 'Yes', nomisId, true)
     await signAndlock(page)
 
     // When I login in to Approved Premises and navigate to Applications Task-list page
     await navigateToTaskListPage(page, crn)
-
-    // And I Verify that the "RoSH Risk scores" in the RoSH Widget are as per OASys
-    await verifyRoshScoresAreAsPerOasys(page)
 
     // And I click on "Choose sections of OASys to import" link
     await clickChooseSectionsOfOASysToImportLink(page)
 
     // And I select the "Needs" related to the offender
     await selectNeedsAndSubmit(page)
+
+    // And I Verify that the "RoSH Risk scores" in the RoSH Widget are as per OASys
+    await verifyRoshScoresAreAsPerOasys(page)
 
     // Then I verify that "RoSH Summary", "Risk Management Plan", "Offence Analysis", "Risk to Self" information &  "Supporting Information"  is as per the OASys
     await verifyRoSHSummaryIsAsPerOASys(page)

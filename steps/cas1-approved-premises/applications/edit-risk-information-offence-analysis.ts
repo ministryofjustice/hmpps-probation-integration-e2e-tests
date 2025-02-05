@@ -23,4 +23,5 @@ export const verifyOffenceAnalysisIsAsPerOASys = async (page: Page) => {
         "OASys Question - 'Identify offence analysis issues contributing to risks of offending and harm. Please include any positive factors.'  - Answer Input - 'Test Contributions'"
     )
     await page.locator('.govuk-button', { hasText: /Save and continue/ }).click()
+    await expect(page.locator('#main-content h1')).toHaveText('Supporting information')
 }

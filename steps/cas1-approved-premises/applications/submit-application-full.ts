@@ -1,7 +1,6 @@
 import { expect, type Page } from '@playwright/test'
 import { enterCRN } from './enter-crn'
 import { clickSaveAndContinue } from './confirm-details'
-import { clickExceptionalCaseYes } from './application-not-eligible'
 import { selectSentenceType } from './select-sentence-type'
 import { selectSituationOption } from './select-situation-option'
 import { selectReleaseDateKnownStatus } from './release-date-known-status'
@@ -20,7 +19,6 @@ import {
     clickTypeOfAPRequiredLink,
 } from './task-list'
 import { selectTypeOfAPRequired } from './select-type-ap-required'
-import { addExemptionDetails } from './add-exemption-details'
 import { addRisksNeedsDetails } from './add-details-managing-risks-needs'
 import { reviewPrisoninformation } from './review-prison-information'
 import { addLocationFactors } from './location-factors'
@@ -38,10 +36,6 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     await enterCRN(page, crn)
     // And I click on Save and Continue confirming the offender's details
     await clickSaveAndContinue(page)
-    // And I say this an exceptional case
-    await clickExceptionalCaseYes(page)
-    // And I say add the agreed date and exception details
-    await addExemptionDetails(page)
     // And I confirm the user's details
     await confirmYourDetails(page)
     // And I select their transgender status

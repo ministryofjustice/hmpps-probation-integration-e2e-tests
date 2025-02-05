@@ -2,8 +2,6 @@ import { type Page, expect } from '@playwright/test'
 import { login as approvedPremisesLogin, navigateToApplications } from '../login'
 import { enterCRN } from './enter-crn'
 import { clickSaveAndContinue } from './confirm-details'
-import { clickExceptionalCaseYes } from './application-not-eligible'
-import { addExemptionDetails } from './add-exemption-details'
 import { selectSentenceType } from './select-sentence-type'
 import { selectSituationOption } from './select-situation-option'
 import { selectReleaseDateKnownStatus } from './release-date-known-status'
@@ -72,6 +70,7 @@ export const clickCheckYourAnswersLink = async (page: Page) => {
 }
 
 export const verifyRoshScoresAreAsPerOasys = async (page: Page) => {
+    await expect(page.locator('.govuk-heading-l')).toHaveText('RoSH summary')
     await expect(page.locator(`td:right-of(:text-is("Children"))`).first()).toHaveText('Very high')
     await expect(page.locator(`td:right-of(:text-is("Public"))`).first()).toHaveText('Medium')
     await expect(page.locator(`td:right-of(:text-is("Known adult"))`).first()).toHaveText('High')
@@ -87,11 +86,7 @@ export const navigateToTaskListPage = async (page: Page, crn: string) => {
     await enterCRN(page, crn)
     // And I click on Save and Continue confirming the offender's details
     await clickSaveAndContinue(page)
-    // And I say this an exceptional case
-    await clickExceptionalCaseYes(page)
-    // And I say add the agreed date and exception details
-    await addExemptionDetails(page)
-    // And I confirm the user's details
+    // And I confirm my details
     await confirmYourDetails(page)
     // And I say there no transgender history
     await selectTransgenderStatus(page)
