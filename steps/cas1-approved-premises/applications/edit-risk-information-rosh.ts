@@ -14,4 +14,5 @@ export const verifyRoSHSummaryIsAsPerOASys = async (page: Page) => {
         "OASys Question - 'R10.4 What circumstances are likely to increase risk Describe factors, actions, events which might increase level of risk, now and in the future - 'Test Circumstances'"
     )
     await page.locator('.govuk-button', { hasText: /Save and continue/ }).click()
+    await expect(page.locator('#main-content h1')).toHaveText('Offence details')
 }

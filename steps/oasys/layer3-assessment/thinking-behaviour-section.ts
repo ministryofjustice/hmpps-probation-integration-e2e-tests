@@ -20,7 +20,9 @@ export const complete11ThinkingAndBehaviourSection = async (page: Page) => {
         .getByLabel(
             'Identify thinking / behavioural issues contributing to risks of offending and harm.  Please include any positive factors. - additional information spellcheck available'
         )
-        .fill('OPD Autotest')
+        .fill(
+            "OASys Question - 'Identify thinking / behavioural issues contributing to risks of offending and harm. Please include any positive factors.' - Answer Input - 'Thinking / behavioural issues'"
+        )
     await page
         .getByLabel('Thinking and behaviour linked to risk of serious harm, risks to the individual and other risks')
         .selectOption('11.98~YES')

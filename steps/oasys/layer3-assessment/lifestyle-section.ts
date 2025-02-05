@@ -11,7 +11,9 @@ export const complete7LifestyleSection = async (page: Page) => {
         .getByLabel(
             'Identify lifestyle issues contributing to risks of offending and harm.  Please include any positive factors. - additional information spellcheck available'
         )
-        .fill('OPD Autotest')
+        .fill(
+            "OASys Question - 'Identify lifestyle issues contributing to risks of offending and harm. Please include any positive factors.' - Answer Input - 'Test lifestyle issues contributing to risks of offending and harm'"
+        )
     await page
         .getByLabel('Lifestyle and associates linked to risk of serious harm, risks to the individual and other risks')
         .selectOption('7.98~YES')
