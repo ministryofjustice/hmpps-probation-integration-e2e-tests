@@ -122,6 +122,7 @@ jobs:
           MANAGE_PEOPLE_ON_PROBATION_URL: https://manage-people-on-probation-dev.hmpps.service.justice.gov.uk
           SUBJECT_ACCESS_REQUEST_URL: https://subject-access-request-dev.hmpps.service.justice.gov.uk
           COURT_HEARING_EVENT_RECEIVER_URL: https://court-hearing-event-receiver-dev.hmpps.service.justice.gov.uk
+          APPOINTMENT_REMINDERS_URL: https://appointment-reminders-dev.hmpps.service.justice.gov.uk
 
           # Credentials
           DELIUS_USERNAME: ${{ secrets.E2E_DELIUS_USERNAME }}

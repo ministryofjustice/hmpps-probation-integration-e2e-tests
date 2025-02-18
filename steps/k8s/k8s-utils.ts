@@ -1,4 +1,5 @@
-import { CoreV1Api, Exec, KubeConfig, V1EnvVar } from '@kubernetes/client-node'
+import { BatchV1Api, CoreV1Api, Exec, KubeConfig, V1EnvVar } from '@kubernetes/client-node'
+import { DateTime } from 'luxon'
 
 /**
  * Get the name of the first pod in a deployment
@@ -69,6 +70,7 @@ export async function runPod(
         namespace,
         body: {
             metadata: {
+                namespace,
                 name: podName,
             },
             spec: {
@@ -100,4 +102,46 @@ export async function runPod(
         await coreV1Api.deleteNamespacedPod({ name: podName, namespace })
         console.log('Pod deleted:', podName)
     }
+}
+
+/**
+ * Run a cron job
+ * @param namespace
+ * @param cronJobName
+ */
+export async function triggerCronJob(namespace: string, cronJobName: string): Promise<void> {
+    const kubeConfig = new KubeConfig()
+    kubeConfig.loadFromDefault()
+    const batchClient = kubeConfig.makeApiClient(BatchV1Api)
+    const cronJob = await batchClient.readNamespacedCronJob({ name: cronJobName, namespace })
+    const jobName = `${cronJobName}-manual-${Math.random().toString(16).slice(2, 8)}`
+    const job = await batchClient.createNamespacedJob({
+        body: {
+            metadata: {
+                namespace,
+                name: jobName,
+                ownerReferences: [
+                    {
+                        apiVersion: 'batch/v',
+                        kind: 'CronJob',
+                        name: cronJobName,
+                        uid: cronJob.metadata.uid,
+                        controller: true,
+                    },
+                ],
+            },
+            spec: cronJob.spec.jobTemplate.spec,
+        },
+        namespace,
+    })
+    console.log('Job started:', job.metadata.name)
+
+    const started = DateTime.now()
+    while (DateTime.now() < started.plus({ minutes: 5 })) {
+        const { status } = await batchClient.readNamespacedJob({ namespace, name: jobName })
+        if (status.succeeded) break
+        if (status.failed) throw new Error(`Job ${jobName} failed`)
+        await new Promise(resolve => setTimeout(resolve, 5000))
+    }
+    console.log('Job completed:', jobName)
 }
