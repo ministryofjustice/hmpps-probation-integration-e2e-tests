@@ -41,7 +41,7 @@ test('Send an UPW appointment reminder', async ({ page }) => {
     await selectOption(
         page,
         '#allocationDay\\:selectOneMenu',
-        `${DateTime.now().plus({ day: 2 }).toFormat("cccc', Weekly, (09:00 - 17:00) Next available 'dd/MM/yyyy")}`
+        `${DateTime.now().plus({ day: 1 }).toFormat("cccc', Weekly, (09:00 - 17:00) Next available 'dd/MM/yyyy")}`
     )
     await page.getByRole('button', { name: 'Add' }).click()
     await page.getByRole('button', { name: 'Save' }).click()
@@ -53,6 +53,8 @@ test('Send an UPW appointment reminder', async ({ page }) => {
     // Then the appointment appears in the appointment reminders service
     await hmppsAuthLogin(page)
     await page.goto(process.env.APPOINTMENT_REMINDERS_URL)
+    await page.fill('#date', DateTime.now().toFormat('dd/MM/yyyy'))
+    await page.getByRole('button', { name: 'Apply filters' }).click()
     await expect(page.locator('.govuk-table')).toContainText(crn)
     await expect(page.locator('.govuk-table')).toContainText(mobileNumber)
 })
