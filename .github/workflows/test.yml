@@ -186,8 +186,10 @@ jobs:
         id: html
         if: always()
         run: |
-          echo '[🎭 Playwright HTML Report](https://ministryofjustice.github.io/hmpps-probation-integration-e2e-tests/${{ env.report-dir }})' | tee -a "$GITHUB_STEP_SUMMARY"
-          echo 'report-url=https://ministryofjustice.github.io/hmpps-probation-integration-e2e-tests/${{ env.report-dir }}' | tee -a "$GITHUB_OUTPUT"
+          echo "[🎭 Playwright HTML Report](https://ministryofjustice.github.io/hmpps-probation-integration-e2e-tests/$report_dir)" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "report-url=https://ministryofjustice.github.io/hmpps-probation-integration-e2e-tests/$report_dir" | tee -a "$GITHUB_OUTPUT"
+        env:
+          report_dir: ${{ env.report-dir }}
 
       - name: Send message to Slack
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
