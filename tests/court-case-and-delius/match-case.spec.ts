@@ -47,7 +47,6 @@ test('Match Delius case with Court Case Hearing', async ({ page }) => {
 
     // And I verify that "Probation record" details are same as Delius
     const { outcome: outcomeInPrepareCase, offence: offenceInPrepareCase } = await extractProbationRecordDetails(page)
-    // expect(event.subOffence).toContain(offenceInPrepareCase)
     expect(offenceInPrepareCase).toContain(event.subOffence)
     expect(outcomeInPrepareCase).toContain(createdEvent.outcome)
 
