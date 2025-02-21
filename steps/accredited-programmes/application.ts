@@ -4,19 +4,27 @@ import { formatDate } from '../delius/utils/date-time.js'
 
 export async function findProgrammeAndMakeReferral(page: Page, nomisId: string) {
     await page.getByRole('link', { name: 'Find a programme and make a referral' }).click()
-    await expect(page).toHaveTitle(/Find an Accredited Programme/)
+    await expect(page).toHaveTitle(/Find recommended programmes - Accredited Programmes - DPS/)
+    await page
+        .getByLabel(
+            "Enter a prison number to check what programmes are recommended based on the person's risks and needs."
+        )
+        .fill(nomisId)
+    await page.getByRole('button', { name: /Continue/ }).click()
+    await expect(page).toHaveTitle(/Accredited Programmes - DPS/)
+    await page.getByRole('button', { name: /See all programmes/ }).click()
+
     await page.getByRole('link', { name: 'Becoming New Me Plus: general violence offence' }).click()
-    await expect(page).toHaveTitle(/Becoming New Me Plus: general violence offence programme/)
+    await expect(page).toHaveTitle(/Becoming New Me Plus: general violence offence programme description - DPS/)
     await page.getByRole('link', { name: 'Stoke Heath (HMP & YOI)' }).click()
+
     await expect(page).toHaveTitle(
         /Becoming New Me Plus: general violence offence programme at Stoke Heath \(HMP & YOI\)/
     )
+
     await page.getByRole('button', { name: /Make a referral/ }).click()
     await expect(page).toHaveTitle(/Start referral - Accredited Programmes/)
     await page.getByRole('button', { name: 'Start now' }).click()
-    await expect(page).toHaveTitle(/Enter person's details - Accredited Programmes/)
-    await page.getByLabel("Enter a prison number. We'll import the person's details into the referral.").fill(nomisId)
-    await page.getByRole('button', { name: /Continue/ }).click()
     await expect(page).toHaveTitle(/Confirm person's details - Accredited Programmes/)
     await page.getByRole('button', { name: /Continue/ }).click()
     await expect(page).toHaveTitle(/Referral tasks to complete - Accredited Programmes/)
@@ -47,8 +55,10 @@ export async function findProgrammeAndMakeReferral(page: Page, nomisId: string) 
 }
 
 export async function clickOnOffenderLink(page: Page, linkName: string, fullName: string) {
-    // Click on 'Date referred' link first
+    // // Click on 'Date referred' link first
     await page.getByRole('link', { name: linkName }).click()
+
+    // await page.getByLabel("Search by name or prison number").fill(nomisId)
 
     // Get the link with person's full name
     const nameLink = page.getByRole('link', { name: fullName })

@@ -95,7 +95,7 @@ async function addSentenceInformation(page: Page) {
     await page.getByLabel('Year').fill(expiryDate.year.toString())
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle('What is the release type? - Transitional Accommodation (CAS3)')
-    await page.getByRole('checkbox', { name: 'Licence, following standard recall', exact: true }).check()
+    await page.getByRole('checkbox', { name: 'Licence following standard recall', exact: true }).check()
 
     // Set standard recall start date
     const recallStartDate = DateTime.now().plus({ days: 10 })

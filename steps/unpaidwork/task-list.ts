@@ -12,14 +12,14 @@ export const clickGenderInformationLink = async (page: Page) => {
 
 export const clickCulturalReligiousAdjustmentsLink = async (page: Page) => {
     await page.getByRole('link', { name: 'Cultural and religious adjustments' }).click()
-    await expect(page.locator("[class$='adjustment govuk-label--m']")).toContainText(
+    await expect(page.locator("[class*='adjustment govuk-fieldset']")).toContainText(
         'Are adjustments required for cultural or religious reasons?'
     )
 }
 
 export const clickPlacementPreferencesLink = async (page: Page) => {
     await page.getByRole('link', { name: 'Placement preferences' }).click()
-    await expect(page.locator("[class$='placement_preference govuk-label--m']")).toContainText(
+    await expect(page.locator("[class*='placement_preference govuk-fieldset']")).toContainText(
         'Does the individual have any placement preferences?'
     )
 }
