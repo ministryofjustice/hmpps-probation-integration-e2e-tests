@@ -65,7 +65,7 @@ export async function extractRegistrationDetails(page: Page) {
 export async function extractProbationRecordDetails(page: Page): Promise<{ outcome: string; offence: string }> {
     await page.getByRole('link', { name: 'Probation record' }).click()
     await expect(page).toHaveTitle('Probation record - Prepare a case for sentence')
-    const outcome = await page.locator('[href^="record/"]').innerText()
-    const offence = await page.locator('p:nth-of-type(2)').first().innerText()
+    const outcome = await page.locator('.govuk-summary-card__title').innerText()
+    const offence = await page.locator('dd p.govuk-body').first().innerText()
     return { outcome, offence }
 }

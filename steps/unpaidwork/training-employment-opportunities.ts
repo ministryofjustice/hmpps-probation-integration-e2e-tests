@@ -8,8 +8,6 @@ export const completeTrainingEmplOpportunitiesSection = async (page: Page) => {
     await page.locator('#individual_commitment').click()
     await page.locator('#employment_training_complete').click()
     await page.getByRole('button', { name: 'Save' }).click()
-    await expect(page.locator('li:has-text("Training & employment opportunities")').first()).toContainText(
-        'COMPLETED'.toLowerCase()
-    )
+    await expect(page.locator('li:has-text("Training & employment opportunities")').first()).toContainText('Completed')
     await expect(page.locator('#main-content h1')).toHaveText('Community payback assessment')
 }
