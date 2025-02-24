@@ -11,6 +11,7 @@ import { selectOption } from '../../steps/delius/utils/inputs'
 import { DateTime } from 'luxon'
 import { triggerCronJob } from '../../steps/k8s/k8s-utils'
 import { findOffenderByCRN } from '../../steps/delius/offender/find-offender'
+import { faker } from '@faker-js/faker/locale/en_GB'
 
 dotenv.config() // read environment variables into process.env
 
@@ -21,7 +22,7 @@ test('Send an UPW appointment reminder', async ({ page }) => {
     await deliusLogin(page)
     const person = deliusPerson()
     crn = await createOffender(page, { person })
-    const mobileNumber = `07${Math.random().toString().slice(2, 11)}`
+    const mobileNumber = `07700900${faker.number.int({ min: 4, max: 999 }).toString().padStart(3, '0')}` // in test range [07700900004,07700900999]
     await page.getByRole('button', { name: 'Update' }).click()
     await page.click('#mobile\\:inputText')
     await page.keyboard.type(mobileNumber)
