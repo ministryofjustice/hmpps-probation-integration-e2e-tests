@@ -169,7 +169,7 @@ jobs:
 
       - name: Publish JUnit report
         if: always()
-        uses: mikepenz/action-junit-report@ee6b445351cd81e2f73a16a0e52d598aeac2197f # v5.3.0
+        uses: mikepenz/action-junit-report@b14027d33d3a745ccc4d6a12f649e83110b5a373 # v5.4.0
         id: junit
         with:
           check_name: End-to-end test results
@@ -177,7 +177,7 @@ jobs:
 
       - name: Publish HTML report
         if: always()
-        uses: JamesIves/github-pages-deploy-action@15de0f09300eea763baee31dff6c6184995c5f6a # v4
+        uses: JamesIves/github-pages-deploy-action@6c2d9db40f9296374acc17b90404b6e8864128c8 # v4
         with:
           folder: playwright-report
           target-folder: ${{ env.report-dir }}
