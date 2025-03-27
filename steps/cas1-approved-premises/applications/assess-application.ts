@@ -17,6 +17,32 @@ export const assessApplication = async (page: Page, personName: string) => {
     await page.locator('#locationOfPlacement').check()
     await page.locator('#moveOnPlan').check()
     await page.getByRole('button', { name: 'Submit' }).click()
+    await expect(page.locator('.govuk-heading-l')).toHaveText('Suitability assessment')
+    await page
+        .getByRole('group', {
+            name: 'Does the application identify the risk factors that an Approved Premises (AP) placement can support?',
+        })
+        .getByLabel('Yes')
+        .check()
+    await page
+        .getByRole('group', {
+            name: 'Does the application explain how an AP placement would be beneficial for risk management?',
+        })
+        .getByLabel('Yes')
+        .check()
+    await page
+        .getByRole('group', {
+            name: 'Are there factors to consider regarding the location of placement?',
+        })
+        .getByLabel('No')
+        .check()
+    await page
+        .getByRole('group', {
+            name: 'Is the move on plan sufficient?',
+        })
+        .getByLabel('Yes')
+        .check()
+    await page.getByRole('button', { name: 'Submit' }).click()
     await expect(page.locator('.govuk-heading-l')).toHaveText('Application timeliness')
     await page
         .getByRole('group', {
@@ -66,6 +92,11 @@ export const assessApplication = async (page: Page, personName: string) => {
     await page.getByLabel('Is catered notRelevant').check()
     await page.getByLabel('Has en suite notRelevant').check()
     await page.getByLabel('Is suited for sex offenders notRelevant').check()
+    await page.getByLabel('Is suitable for vulnerable notRelevant').check()
+    await page.getByLabel('Accepts sex offenders notRelevant').check()
+    await page.getByLabel('Accepts child sex offenders notRelevant').check()
+    await page.getByLabel('Accepts non sexual child offenders notRelevant').check()
+    await page.getByLabel('Accepts hate crime offenders notRelevant').check()
     await page.getByLabel('Yes').check()
     await page.getByRole('button', { name: 'Submit' }).click()
     await page.getByRole('link', { name: 'Check assessment answers' }).click()
