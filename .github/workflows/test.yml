@@ -123,6 +123,7 @@ jobs:
           SUBJECT_ACCESS_REQUEST_URL: https://subject-access-request-dev.hmpps.service.justice.gov.uk
           COURT_HEARING_EVENT_RECEIVER_URL: https://court-hearing-event-receiver-dev.hmpps.service.justice.gov.uk
           APPOINTMENT_REMINDERS_URL: https://appointment-reminders-dev.hmpps.service.justice.gov.uk
+          SENTENCE_PLAN_AND_DELIUS_URL: https://sentence-plan-and-delius-dev.hmpps.service.justice.gov.uk
 
           # Credentials
           DELIUS_USERNAME: ${{ secrets.E2E_DELIUS_USERNAME }}
