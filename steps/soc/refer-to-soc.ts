@@ -7,6 +7,7 @@ export const referToSOC = async (page: Page, crn: string) => {
     await page.getByRole('button', { name: 'Search' }).click()
     await page.getByRole('link', { name: 'Add nominal to SOC' }).click()
     // Enter reason for referral
+    await page.getByLabel('Commodity importation, counterfeiting or illegal supply').check()
     await page.getByLabel('Reason for referral or inclusion').fill('Automated testing')
     await page.getByRole('button', { name: 'Save and continue' }).click()
     // Check referral was successful
