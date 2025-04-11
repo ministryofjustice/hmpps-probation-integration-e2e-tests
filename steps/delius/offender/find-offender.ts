@@ -84,7 +84,6 @@ export async function dismissModals(page: Page) {
     }
 
     try {
-        // await page.locator('#overview-include\\:okButton').click({ timeout: 3000 })
         await page.getByRole('button', { name: 'OK' }).click({ timeout: 5000 })
     } catch (_) {
         //Modal did not disappear within the timeout, continuing...'
