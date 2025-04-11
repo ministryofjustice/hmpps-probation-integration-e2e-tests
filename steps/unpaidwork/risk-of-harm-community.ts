@@ -19,6 +19,7 @@ export const completeRiskHarmCommunitySection = async (page: Page) => {
     await page.locator('#high_profile_person_details').fill('Entering Text related to hate-based attitudes')
     await page.locator('#history_of_hate_based_behaviour').click()
     await page.locator('#history_of_hate_based_behaviour_details').fill('Entering Text related to hate-based attitudes')
+    await page.locator('#risks_history_of_offending_against_vulnerable_adults-2').first().click()
     await page.locator('#high_profile_person').click()
     await page.locator('#high_profile_person_details').fill(' Entering Text related to high-profile person')
     await page.locator('#additional_rosh_info').click()
