@@ -13,6 +13,7 @@ import {
     clickIndividualDetailsLink,
     clickInstensiveWorkingLink,
     clickManagingRiskLink,
+    clickOtherAdjustmentsLink,
     clickPlacementPreferencesLink,
     clickRiskOfHarmCommunityLink,
     clickTrainingEmplOpprtunitiesLink,
@@ -35,6 +36,7 @@ import { completeIntensiveWorkingSection } from './intensive-working'
 import { completeEquipmentSizesSection } from './choose-equipment-sizes'
 import { completeAvailabilitySection } from './availability'
 import { completeAddtlInformationSection } from './additional-information'
+import { completeOtherAdjustmentsSection } from './other-adjustments'
 
 export const completeAllUPWSections = async (page: Page) => {
     // And I click on "Individual's details" link
@@ -49,6 +51,10 @@ export const completeAllUPWSections = async (page: Page) => {
     await clickCulturalReligiousAdjustmentsLink(page)
     // And I complete "Cultural and Religious Adjustments" Section
     await completeCulturalReligiousAdjustmentsSection(page)
+    // And I click on "Other Adjustments" link
+    await clickOtherAdjustmentsLink(page)
+    // And I complete "Other Adjustments" Section
+    await completeOtherAdjustmentsSection(page)
     // And I click on "Placement preferencesCOMPLETED" link
     await clickPlacementPreferencesLink(page)
     // And I complete "Placement preferencesCOMPLETED" Section

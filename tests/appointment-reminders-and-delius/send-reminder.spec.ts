@@ -54,7 +54,8 @@ test('Send an UPW appointment reminder', async ({ page }) => {
     // Then the appointment appears in the appointment reminders service
     await hmppsAuthLogin(page)
     await page.goto(process.env.APPOINTMENT_REMINDERS_URL)
-    await page.fill('#date', DateTime.now().toFormat('dd/MM/yyyy'))
+    await page.fill('#from', DateTime.now().toFormat('dd/MM/yyyy'))
+    await page.fill('#to', DateTime.now().toFormat('dd/MM/yyyy'))
     await page.getByRole('button', { name: 'Apply filters' }).click()
     await expect(page.locator('.govuk-table')).toContainText(crn)
     await expect(page.locator('.govuk-table')).toContainText(mobileNumber)

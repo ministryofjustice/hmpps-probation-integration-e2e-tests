@@ -17,6 +17,11 @@ export const clickCulturalReligiousAdjustmentsLink = async (page: Page) => {
     )
 }
 
+export const clickOtherAdjustmentsLink = async (page: Page) => {
+    await page.getByRole('link', { name: 'Other adjustments' }).click()
+    await expect(page.locator('.govuk-caption-xl')).toHaveText('Other adjustments')
+}
+
 export const clickPlacementPreferencesLink = async (page: Page) => {
     await page.getByRole('link', { name: 'Placement preferences' }).click()
     await expect(page.locator("[class*='placement_preference govuk-fieldset']")).toContainText(
