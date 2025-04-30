@@ -1,0 +1,74 @@
+# Test info
+
+- Name: View OASys assessments in Approved Premises service
+- Location: /_work/hmpps-probation-integration-e2e-tests/hmpps-probation-integration-e2e-tests/tests/approved-premises-and-oasys/assessment-timeline.spec.ts:29:1
+
+# Error details
+
+```
+TimeoutError: locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: 'Confirm Sign & Lock' })
+
+    at signAndlock (/_work/hmpps-probation-integration-e2e-tests/hmpps-probation-integration-e2e-tests/steps/oasys/layer3-assessment/sign-and-lock.ts:16:69)
+    at /_work/hmpps-probation-integration-e2e-tests/hmpps-probation-integration-e2e-tests/tests/approved-premises-and-oasys/assessment-timeline.spec.ts:47:5
+```
+
+# Page snapshot
+
+```yaml
+- heading "OASys (Offender Assessment System)" [level=3]:
+  - strong: OASys
+  - text: (Offender Assessment System)
+- text: Logged in as
+- strong: TestUser3Surname TestUser3Forename, Warwickshire
+- button "Logout"
+- button "Continue with Signing"
+- button "Return to Assessment"
+- strong: Gleichner, C
+- text: "| Male | 25/07/1970 | 70/4781565T"
+- heading "Main Section" [level=1]
+- link "Hidden first navigation itemfirstNavItem":
+  - /url: "#"
+  - text: Hidden first navigation item
+  - img "firstNavItem"
+- heading "Outstanding Assessment Questions Requiring Mandatory Completion / Warning Messages" [level=2]
+- heading "Questions Requiring Mandatory Completion / Warning Messages have occurred" [level=1]
+- text: Warning - The RSR Predictor score has not been calculated for this offender. Please press 'Return to Assessment' to complete questions. End Of Messages.
+- heading "To access Help, hold down the ALT key and press Q" [level=3]
+- paragraph:
+  - text: "Module: ASS110 |"
+  - strong: Restricted
+- heading "Press \"Alt+K\" to obtain a list of hotkeys" [level=3]
+```
+
+# Test source
+
+```ts
+   1 | import { expect, type Page } from '@playwright/test'
+   2 |
+   3 | export const signAndlock = async (page: Page, role?: string) => {
+   4 |     await page.getByRole('link', { name: 'Summary Sheet' }).click()
+   5 |     await page.locator('#B1720617953204991').click()
+   6 |     await page.getByRole('button', { name: 'Sign & Lock' }).click()
+   7 |     await page.getByRole('button', { name: 'Mark 1 to 9 as Missing' }).click()
+   8 |
+   9 |     // Click on 'Continue with Signing' if it is visible
+  10 |     const continueButton = await page.locator('[value="Continue with Signing"]')
+  11 |     if (await continueButton.isVisible()) {
+  12 |         await continueButton.click()
+  13 |     }
+  14 |
+  15 |     // Click 'Confirm Sign & Lock'
+> 16 |     await page.getByRole('button', { name: 'Confirm Sign & Lock' }).click()
+     |                                                                     ^ TimeoutError: locator.click: Timeout 30000ms exceeded.
+  17 |
+  18 |     // Verify the header is 'Task Manager' if role is not 'ApprovedPSORole'
+  19 |     if (role !== 'ApprovedPSORole') {
+  20 |         const taskManagerHeader = page.locator('#searchtop > h2')
+  21 |         await taskManagerHeader.waitFor({ timeout: 15000, state: 'visible' })
+  22 |         await expect(taskManagerHeader).toHaveText('Task Manager')
+  23 |     }
+  24 | }
+  25 |
+```
