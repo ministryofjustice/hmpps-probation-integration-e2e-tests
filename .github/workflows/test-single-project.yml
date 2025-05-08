@@ -61,6 +61,7 @@ on:
           - '["assess-for-early-release-and-delius"]'
           - '["breach-notice-and-delius"]'
           - '["jitbit-and-delius"]'
+          - '["find-and-refer-and-delius"]'
           # ^ add new projects here
           # GitHub Actions doesn't support dynamic choices, we must add each project here to enable manual deployments
           # See https://github.com/community/community/discussions/11795
