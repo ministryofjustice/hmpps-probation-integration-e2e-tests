@@ -2,7 +2,7 @@ import { login as deliusLogin } from '../../steps/delius/login'
 import { login as workforceLogin } from '../../steps/workforce/login'
 import { internalTransfer } from '../../steps/delius/transfer/internal-transfer'
 import { data } from '../../test-data/test-data'
-import { chromium, expect, Page, test } from '@playwright/test'
+import { chromium, expect, test } from '@playwright/test'
 import { slow } from '../../steps/common/common'
 import { refreshUntil } from '../../steps/delius/utils/refresh.js'
 
@@ -30,7 +30,9 @@ test('Allocate unallocated workforce CRNs in Delius', async ({ page }) => {
         await deliusLogin(deliusPage)
 
         for (let i = 1; i <= Math.min(unallocatedCount - minimumToLeaveUnallocated, maximumToAllocate); i++) {
-            const crn = await page.locator(`#main-content table tr:nth-child(${i}) td:first-child span`).textContent()
+            const crn = await page
+                .locator(`#main-content table tr:nth-child(${i}) td:first-child`)
+                .getAttribute('data-sort-value')
             console.log('CRN from workforce is ' + crn)
 
             try {
