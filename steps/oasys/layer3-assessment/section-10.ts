@@ -7,16 +7,20 @@ export const completeRoSHSection10RoSHSummary = async (page: Page, highRoshScore
         "OASys Question - 'R10.2 - What is the nature of the risk' - Answer Input - 'Test Nature'"
     )
     await page.fill(
-        '#textarea_SUM3',
-        "OASys Question - 'R10.3 - When is the risk likely to be greatest Consider the timescale and indicate whether risk is immediate or not. Consider the risks in custody as well as on release' - Answer Input - 'Test Risk Greatest'"
+        '#textarea_SUM9',
+        "OASys Question - 'Further analysis of risk factors' - Answer Input - 'Test Risk Greatest'"
     )
     await page.fill(
-        '#textarea_SUM4',
-        "OASys Question - 'R10.4 What circumstances are likely to increase risk Describe factors, actions, events which might increase level of risk, now and in the future - 'Test Circumstances'"
+        '#textarea_SUM10',
+        "OASys Question - 'R10.5 - What strengths and protective factors are actively present or could be developed and how will they mitigate the risk factors?' - Answer Input - 'Test Factors to mitigate the risk'"
     )
     await page.fill(
-        '#textarea_SUM5',
-        "OASys Question - 'R10.5 - What factors are likely to reduce the risk Describe factors, actions, and events which may reduce or contain the level of risk. What has previously stopped him / her? ' - Answer Input - 'Test Factors to reduce the risk'"
+        '#textarea_SUM11',
+        "OASys Question - 'R10.3 - In what circumstances or situations would offending be most likely to occur and are any of these currently present' - Answer Input - ' Test lifestyle deterioration & victim proximity circumstances'"
+    )
+    await page.fill(
+        '#textarea_SUM8',
+        "OASys Question - 'If necessary record the details of any key documents or reports used in this analysis:' - Answer Input - ' Test documents'"
     )
 
     if (highRoshScore) {

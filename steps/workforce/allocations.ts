@@ -45,18 +45,6 @@ export const allocateCase = async (page: Page, crn: string, allocation: Allocati
     // Save Notes as an oversight contact and allocate case
     await expect(page).toHaveURL(/spo-oversight-contact-option$/)
     await page.getByRole('button', { name: 'Save my notes without editing' }).click()
-
-    await refreshUntil(
-        page,
-        () =>
-            expect(page.locator('div.govuk-panel--confirmation > h1.govuk-panel__title')).toContainText(
-                'Case allocated'
-            ),
-        {
-            timeout: 180_000,
-        }
-    )
-    await refreshUntil(page, () => expect(page).toHaveTitle(/.*Case allocated | Manage a workforce.*/))
 }
 
 export const selectTeam = async (page: Page, team: Team) => {

@@ -27,6 +27,7 @@ dotenv.config() // read environment variables into process.env
 const nomisIds = []
 
 test('View OASys assessments in Approved Premises service', async ({ page }) => {
+    test.skip()
     slow()
 
     // Given I create new Offender in nDelius

@@ -154,7 +154,7 @@ async function confirmEligibility(page: Page) {
     await expect(page).toHaveTitle("What is the person's release date? - Transitional Accommodation (CAS3)")
 
     // Calculate the release date
-    const releaseDate = DateTime.now().plus({ months: 6 })
+    const releaseDate = DateTime.now().plus({ months: 2 })
     await page.getByLabel('Day').fill(releaseDate.day.toString())
     await page.getByLabel('Month').fill(releaseDate.month.toString())
     await page.getByLabel('Year').fill(releaseDate.year.toString())

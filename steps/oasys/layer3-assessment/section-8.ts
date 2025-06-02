@@ -3,58 +3,22 @@ import { type Page, expect } from '@playwright/test'
 export const completeRoSHSection8FullAnalysisYes = async (page: Page) => {
     await page.keyboard.down('End')
     await page.click('input[value="Next"]')
-    await page.click('input[value="Next"]')
     await expect(page.locator('#R2846717162014845 > h6')).toHaveText('R8 Risks to the individual - full analysis')
-    await page.getByLabel('Are there any current concerns about suicide').selectOption({ label: 'Yes' })
-    await page.getByLabel('Are there any current concerns about self-harm').selectOption({ label: 'Yes' })
     await page.fill(
-        '#textarea_FA33',
-        "OASys Question - '8.1.1 Are there any current concerns about suicide & self-harm - Ans: Test circumstances, relevant issues and needs regarding current concerns'"
+        '#textarea_FA62',
+        "OASys Question - 'R8.1 Suicide and / or Self-harm - Provide an analysis of any current or previous suicide and/or self-harm concerns, include any information from ACCT assessments (Assessments, Care in Custody and Teamwork)'"
     )
-    await page.fill('#itm_FA35', '1000')
-    await page.getByLabel('Have there been any concerns about suicide in the past').selectOption({ label: 'Yes' })
-    await page.getByLabel('Have there been any concerns about self-harm in the past').selectOption({ label: 'Yes' })
     await page.fill(
-        '#textarea_FA38',
-        "OASys Question - 'R8.1.3 & R8.1.4 Have there been any concerns about suicide & self-harm in the past - Ans: Test circumstances, relevant issues and needs regarding concerns in the past"
+        '#textarea_FA63',
+        "OASys Question - 'R8.2 Coping in custody / approved premises / hostel setting / secure hospital - Provide an analysis of the circumstances, relevant issues and need - Ans: Test circumstances, relevant issues and needs regarding current concerns"
     )
-    await page.getByLabel('Are there any current concerns about coping in custody').selectOption({ label: 'Yes' })
-    await page
-        .getByLabel('Are there any current concerns about coping in hostel settings')
-        .selectOption({ label: 'Yes' })
     await page.fill(
-        '#textarea_FA41',
-        "OASys Question - 'R8.2.1 Are there any current concerns about coping in custody or Hostel settings - Ans: Test circumstances, relevant issues and needs regarding current concerns"
-    )
-    await page.getByLabel('Are there any previous concerns about coping in custody').selectOption({ label: 'Yes' })
-    await page
-        .getByLabel('Are there any previous concerns about coping in hostel settings')
-        .selectOption({ label: 'Yes' })
-    await page.fill(
-        '#textarea_FA44',
-        "OASys Question - 'R8.2.2 Are there any previous about coping in custody or Hostel settings - Ans: Test circumstances, relevant issues and needs regarding previous concerns"
+        '#textarea_FA64',
+        "OASys Question - 'R8.3 - Vulnerability - Provide an analysis of any vulnerabilities:- what are the relevant issues and needs. - Ans: Test circumstances, relevant issues and needs regarding current concerns"
     )
     await page
         .getByLabel(
-            'Are there any current concerns about vulnerability (eg victimisation, being bullied, assaulted, exploited)'
-        )
-        .selectOption({ label: 'Yes' })
-    await page.fill(
-        '#textarea_FA45_t',
-        "OASys Question - 'R8.3.1 Are there any current concerns about vulnerability (eg victimisation, being bullied, assaulted, exploited) - Ans: Test circumstances, relevant issues and needs regarding current concerns"
-    )
-    await page
-        .getByLabel(
-            'Have there been any previous concerns about vulnerability (eg victimisation, being bullied, assaulted, exploited)'
-        )
-        .selectOption({ label: 'Yes' })
-    await page.fill(
-        '#textarea_FA47_t',
-        "OASys Question - 'R8.3.2 Have there been any previous concerns about vulnerability (eg victimisation, being bullied, assaulted, exploited) - Ans: Test circumstances, relevant issues and needs regarding previous concerns"
-    )
-    await page
-        .getByLabel(
-            'Do any of the above (R8.1 - 8.3) indicate a risk of serious harm to others. If YES complete the risk of serious harm analysis, R6'
+            "Do any of the above concerns (R8.1 - 8.3) increase the person's potential to cause harm to others or need to be addressed to support the effective delivery of the RMP"
         )
         .selectOption({ label: 'Yes' })
     await page.fill(
