@@ -43,7 +43,7 @@ test('OPD assessment creates an event in Delius', async ({ page }) => {
     )
     await expect(page.locator('span:right-of(:text("Status"))').first()).toContainText('Pending Consultation')
     await expect(page.locator('#Notes\\:notesFieldHTML')).toContainText('OPD Result: Screened In')
-    await expect(page.locator('#Notes\\:notesFieldHTML')).toContainText('Comment added by OPD and Delius Service')
+    await expect(page.locator('#Notes\\:notesFieldHTML')).toContainText('Comment added by O Service')
     await page.click('#navigation-include\\:linkNavigation1ContactList')
     await expect(page).toHaveTitle(/Contact List/)
     await page

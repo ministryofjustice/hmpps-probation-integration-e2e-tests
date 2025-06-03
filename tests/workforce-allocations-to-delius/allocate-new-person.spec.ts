@@ -74,7 +74,10 @@ test('Allocate currently-managed person', async ({ page }) => {
     const crn = await createOffender(page, { providerName: anotherPractitioner.team.provider })
     crns.push(crn)
     await createEvent(page, { crn, event: data.events.appeal, allocation: { team: data.teams.allocationsTestTeam } })
-    await internalTransfer(page, { crn, allocation: { team: data.teams.allocationsTestTeam } })
+    await internalTransfer(page, {
+        crn,
+        allocation: { team: data.teams.allocationsTestTeam },
+    })
 
     // And a new unallocated event
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.allocationsTestTeam } })

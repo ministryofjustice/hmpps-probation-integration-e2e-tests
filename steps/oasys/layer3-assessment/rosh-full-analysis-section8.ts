@@ -21,7 +21,7 @@ export const completeRoSHFullSec8RisksToIndvdl = async (page: Page) => {
         .selectOption({ label: 'Yes' })
     await page.fill(
         '#textarea_FA41',
-        "OASys Question - 'R8.2 Coping in custody / hostel setting - Describe circumstances, relevant issues and needs' - Answer Input - 'Test Issues and Needs'"
+        "OASys Question - 'R8.2 Coping in Custody / Approved Premises / Hostel - Describe circumstances, relevant issues and needs' - Answer Input - 'Test Issues and Needs'"
     )
     await page
         .getByLabel(
