@@ -1,0 +1,82 @@
+# Test info
+
+- Name: View probation documents in DPS
+- Location: /_work/hmpps-probation-integration-e2e-tests/hmpps-probation-integration-e2e-tests/tests/dps-and-delius/view-documents.spec.ts:15:1
+
+# Error details
+
+```
+Error: Timed out 5000ms waiting for expect(locator).toHaveTitle(expected)
+
+Locator: locator(':root')
+Expected pattern: /Home - Digital Prison Services/
+Received string:  "HMPPS Digital Services - Change Password"
+Call log:
+  - expect.toHaveTitle with timeout 5000ms
+  - waiting for locator(':root')
+    8 × locator resolved to <html lang="en" class="govuk-template">…</html>
+      - unexpected value "HMPPS Digital Services - Change Password"
+
+    at login (/_work/hmpps-probation-integration-e2e-tests/hmpps-probation-integration-e2e-tests/steps/dps/login.ts:9:24)
+    at /_work/hmpps-probation-integration-e2e-tests/hmpps-probation-integration-e2e-tests/tests/dps-and-delius/view-documents.spec.ts:28:5
+```
+
+# Page snapshot
+
+```yaml
+- link "Skip to main content":
+  - /url: "#main-content"
+- banner:
+  - link "HMPPS":
+    - /url: /auth/
+  - link "Digital Services":
+    - /url: /auth/
+- main:
+  - heading "Your password has expired" [level=1]
+  - paragraph: You need to create a new password to sign in.
+  - text: Username
+  - textbox "Username": PROBATION_INTEGRATION_TEST_GEN
+  - text: "Your password must:"
+  - list:
+    - listitem: be between 9 and 30 characters in length
+    - listitem: only include letters and numbers
+  - text: Enter password
+  - textbox "Enter password"
+  - button "Show password"
+  - text: Confirm password
+  - textbox "Confirm password"
+  - button "Show password"
+  - button "Save password"
+- contentinfo:
+  - heading "Support links" [level=2]
+  - list:
+    - listitem:
+      - link "Feedback and support":
+        - /url: https://support-dev.hmpps.service.justice.gov.uk/feedback-and-support
+    - listitem:
+      - link "Terms and conditions":
+        - /url: /auth/terms
+  - text: All content is available under the
+  - link "Open Government Licence v3.0":
+    - /url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+  - text: ", except where otherwise stated"
+  - link "© Crown copyright":
+    - /url: https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/
+```
+
+# Test source
+
+```ts
+   1 | import { type Page, expect } from '@playwright/test'
+   2 |
+   3 | export const login = async (page: Page) => {
+   4 |     await page.goto(process.env.DPS_URL)
+   5 |     await expect(page).toHaveTitle(/HMPPS Digital Services - Sign in/)
+   6 |     await page.fill('#username', process.env.DPS_USERNAME!)
+   7 |     await page.fill('#password', process.env.DPS_PASSWORD!)
+   8 |     await page.click('#submit')
+>  9 |     await expect(page).toHaveTitle(/Home - Digital Prison Services/)
+     |                        ^ Error: Timed out 5000ms waiting for expect(locator).toHaveTitle(expected)
+  10 | }
+  11 |
+```
