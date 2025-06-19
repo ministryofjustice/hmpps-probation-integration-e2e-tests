@@ -74,8 +74,12 @@ export async function verifyAllocation(page: Page, args: { allocation: Allocatio
 }
 
 export async function isInOffenderContext(page: Page, crn: string): Promise<boolean> {
-    const crnLocator = page.locator('#offender-overview a[title*="Case Reference Number"]')
-    return (await crnLocator.count()) > 0 && (await crnLocator.first().textContent()) === crn
+    try {
+        await expect(page.locator('#offender-overview')).toContainText(crn, { timeout: 5000 })
+        return true
+    } catch (_) {
+        return false
+    }
 }
 
 export async function dismissModals(page: Page) {
