@@ -1,0 +1,59 @@
+# Page snapshot
+
+```yaml
+- heading "Caution IconOASys is running in SIT - T2" [level=1]:
+  - img "Caution Icon"
+  - text: OASys is running in SIT - T2
+- heading "OASys (Offender Assessment System)" [level=3]:
+  - strong: OASys
+  - text: (Offender Assessment System)
+- text: Logged in as
+- strong: Malepati Srikanth - AutoTestUser1, Warwickshire
+- button "Logout"
+- heading "Main Menu navigation" [level=2]
+- menubar:
+  - menuitem "Tasks"
+  - menuitem "Offender Views"
+  - menuitem "Search"
+  - menuitem "History"
+  - menuitem "Admin"
+  - menuitem "Maintenance"
+  - menuitem "Reports"
+  - menuitem "Print Template"
+  - menuitem "Help"
+- button "Close"
+- heading "Breadcrumb Navigation" [level=2]
+- list:
+  - listitem: Search
+- heading "Main Section" [level=1]
+- heading "Offender Search" [level=2]:
+  - strong:
+    - link "Offender Search":
+      - /url: javascript:searchFormToggleCE();
+- link "Hidden first navigation itemfirstNavItem":
+  - /url: "#"
+  - text: Hidden first navigation item
+  - img "firstNavItem"
+- text: Delius Case Reference Number
+- textbox "Delius Case Reference Number": X930642
+- text: Search Delius?
+- combobox "Search Delius?":
+  - option "Yes" [selected]
+  - option "No"
+- text: Results Per Page
+- combobox "Results Per Page":
+  - option "5" [selected]
+  - option "10"
+  - option "15"
+  - option "20"
+  - option "25"
+  - option "50"
+- button "Search"
+- button "Reset"
+- heading "Search Results Section" [level=1]
+- text: No events have been found for this Offender
+- paragraph:
+  - text: "Module: OFF050 |"
+  - strong: Restricted
+- heading "Press \"Alt+K\" to obtain a list of hotkeys" [level=3]
+```
