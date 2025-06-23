@@ -20,7 +20,7 @@
     "@kubernetes/client-node": "^1.0.0",
     "@playwright/test": "1.53.1",
     "@types/luxon": "^3.4.2",
-    "@types/node": "^22.10.1",
+    "@types/node": "^24.0.3",
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.1",
     "@typescript-eslint/parser": "^8.0.1",
