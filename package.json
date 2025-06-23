@@ -18,7 +18,7 @@
   "devDependencies": {
     "@faker-js/faker": "^9.0.3",
     "@kubernetes/client-node": "^1.0.0",
-    "@playwright/test": "1.53.0",
+    "@playwright/test": "1.53.1",
     "@types/luxon": "^3.4.2",
     "@types/node": "^22.10.1",
     "@types/uuid": "^10.0.0",
@@ -30,7 +30,7 @@
     "luxon": "^3.5.0",
     "node-stream-zip": "^1.15.0",
     "pdf2json": "^3.1.4",
-    "prettier": "3.5.3",
+    "prettier": "3.6.0",
     "uuid": "^11.0.2"
   }
 }
