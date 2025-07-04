@@ -16,7 +16,7 @@ export async function internalTransfer(
     }
 ) {
     await findOffenderByCRN(page, crn)
-    await page.locator('input', { hasText: 'Transfers' }).click()
+    await page.locator('input', { hasText: 'Transfers' }).click({ timeout: 5000 })
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
     await selectOption(page, '#Trust\\:selectOneMenu', allocation?.team?.provider)
     await selectOption(page, '#Team\\:selectOneMenu', allocation?.team?.name)

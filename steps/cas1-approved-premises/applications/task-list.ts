@@ -1,7 +1,6 @@
 import { type Page, expect } from '@playwright/test'
 import { login as approvedPremisesLogin, navigateToApplications } from '../login'
 import { enterCRN } from './enter-crn'
-import { clickSaveAndContinue } from './confirm-details'
 import { selectSentenceType } from './select-sentence-type'
 import { selectSituationOption } from './select-situation-option'
 import { selectReleaseDateKnownStatus } from './release-date-known-status'
@@ -11,6 +10,7 @@ import { selectTypeOfAPRequired } from './select-type-ap-required'
 import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status'
 import { confirmYourDetails } from './confirm-your-details'
 import { applicationOutsideNSTimescales } from './application-outside-national-standards'
+import { selectOffence } from './select-offence'
 
 export const clickTypeOfAPRequiredLink = async (page: Page) => {
     await page.locator('a', { hasText: 'Type of AP required' }).click()
@@ -85,7 +85,7 @@ export const navigateToTaskListPage = async (page: Page, crn: string) => {
     // And I enter the CRN & Submit
     await enterCRN(page, crn)
     // And I click on Save and Continue confirming the offender's details
-    await clickSaveAndContinue(page)
+    await selectOffence(page)
     // And I confirm my details
     await confirmYourDetails(page)
     // And I say there no transgender history
