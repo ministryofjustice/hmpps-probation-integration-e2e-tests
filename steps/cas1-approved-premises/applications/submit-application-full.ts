@@ -1,6 +1,5 @@
 import { expect, type Page } from '@playwright/test'
 import { enterCRN } from './enter-crn'
-import { clickSaveAndContinue } from './confirm-details'
 import { selectSentenceType } from './select-sentence-type'
 import { selectSituationOption } from './select-situation-option'
 import { selectReleaseDateKnownStatus } from './release-date-known-status'
@@ -30,12 +29,13 @@ import { checkYourAnswers } from './check-your-answers'
 import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status'
 import { confirmYourDetails } from './confirm-your-details'
 import { applicationOutsideNSTimescales } from './application-outside-national-standards'
+import { selectOffence } from './select-offence'
 
 export const submitAPApplication = async (page: Page, crn: string) => {
     // And I enter the CRN & Submit
     await enterCRN(page, crn)
-    // And I click on Save and Continue confirming the offender's details
-    await clickSaveAndContinue(page)
+    // And I select the offence
+    await selectOffence(page)
     // And I confirm the user's details
     await confirmYourDetails(page)
     // And I select their transgender status
