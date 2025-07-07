@@ -176,19 +176,31 @@ jobs:
           check_name: End-to-end test results
           report_paths: junit.xml
 
+      - name: Get token
+        if: always()
+        uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: hmpps-probation-integration-e2e-test-reports
+
       - name: Publish HTML report
         if: always()
         uses: JamesIves/github-pages-deploy-action@6c2d9db40f9296374acc17b90404b6e8864128c8 # v4
         with:
           folder: playwright-report
           target-folder: ${{ env.report-dir }}
+          repository-name: ministryofjustice/hmpps-probation-integration-e2e-test-reports
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Output HTML report URL
         id: html
         if: always()
         run: |
-          echo "[🎭 Playwright HTML Report](https://ministryofjustice.github.io/hmpps-probation-integration-e2e-tests/$report_dir)" | tee -a "$GITHUB_STEP_SUMMARY"
-          echo "report-url=https://ministryofjustice.github.io/hmpps-probation-integration-e2e-tests/$report_dir" | tee -a "$GITHUB_OUTPUT"
+          echo "[🎭 Playwright HTML Report](https://ministryofjustice.github.io/hmpps-probation-integration-e2e-test-reports/$report_dir)" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "report-url=https://ministryofjustice.github.io/hmpps-probation-integration-e2e-test-reports/$report_dir" | tee -a "$GITHUB_OUTPUT"
         env:
           report_dir: ${{ env.report-dir }}
 
@@ -226,7 +238,7 @@ jobs:
                         "type": "plain_text",
                         "text": "📈 Report"
                       },
-                      "url": "https://ministryofjustice.github.io/hmpps-probation-integration-e2e-tests/${{ env.report-dir }}"
+                      "url": "https://ministryofjustice.github.io/hmpps-probation-integration-e2e-test-reports/${{ env.report-dir }}"
                     },
                     {
                       "type": "button",
