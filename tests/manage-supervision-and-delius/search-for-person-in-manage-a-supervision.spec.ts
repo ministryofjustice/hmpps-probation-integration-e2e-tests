@@ -26,7 +26,6 @@ test('Search for a person in Manage a Supervision', async ({ page }) => {
         () => expect(page.locator('#search-results-container')).toContainText(crn)
     )
 
-
     // Then the person appears in the search results and crn & name matches
     await page.locator(`[href$="${crn}"]`).click()
     await expect(page).toHaveTitle(/Overview/)
