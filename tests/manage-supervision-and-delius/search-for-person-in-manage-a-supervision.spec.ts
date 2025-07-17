@@ -4,6 +4,7 @@ import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import * as dotenv from 'dotenv'
 import { login as managePeopleOnProbationLogin } from '../../steps/manage-a-supervision/login'
+import { doUntil } from '../../steps/delius/utils/refresh'
 
 dotenv.config() // read environment variables into process.env
 
@@ -19,8 +20,12 @@ test('Search for a person in Manage a Supervision', async ({ page }) => {
     // And I search for the CRN
     await page.getByRole('link', { name: 'Search' }).click()
     await page.getByLabel('Find a person on probation').fill(crn)
-    await page.waitForTimeout(3000)
-    await page.getByRole('button', { name: 'Search' }).click()
+
+    await doUntil(
+        () => page.getByRole('button', { name: 'Search' }).click(),
+        () => expect(page.locator('#search-results-container')).toContainText(crn)
+    )
+
 
     // Then the person appears in the search results and crn & name matches
     await page.locator(`[href$="${crn}"]`).click()
