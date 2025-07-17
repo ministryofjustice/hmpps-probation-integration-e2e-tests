@@ -19,6 +19,7 @@ test('Search for a person in Manage a Supervision', async ({ page }) => {
     // And I search for the CRN
     await page.getByRole('link', { name: 'Search' }).click()
     await page.getByLabel('Find a person on probation').fill(crn)
+    await page.waitForTimeout(3000)
     await page.getByRole('button', { name: 'Search' }).click()
 
     // Then the person appears in the search results and crn & name matches
