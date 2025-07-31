@@ -30,7 +30,7 @@ const config: PlaywrightTestConfig = {
         timezoneId: 'Europe/London',
         launchOptions: { slowMo: 150 },
         screenshot: 'only-on-failure',
-        trace: process.env.CI ? 'retain-on-failure' : 'on',
+        trace: process.env.CI ? 'off' : 'on',
         ...devices['Desktop Chrome'],
     },
 
