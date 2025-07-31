@@ -8,32 +8,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  delete-reports:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          fetch-depth: 0
-      - name: Delete Playwright reports older than 1 week
-        run: |
-          wget https://raw.githubusercontent.com/newren/git-filter-repo/main/git-filter-repo
-          git pull origin gh-pages
-          python3 git-filter-repo \
-            --path "playwright-report/test/main/$(date -d '-7 days' '+%Y-%m-%d')" \
-            --path "playwright-report/test/main/$(date -d '-6 days' '+%Y-%m-%d')" \
-            --path "playwright-report/test/main/$(date -d '-5 days' '+%Y-%m-%d')" \
-            --path "playwright-report/test/main/$(date -d '-4 days' '+%Y-%m-%d')" \
-            --path "playwright-report/test/main/$(date -d '-3 days' '+%Y-%m-%d')" \
-            --path "playwright-report/test/main/$(date -d '-2 days' '+%Y-%m-%d')" \
-            --path "playwright-report/test/main/$(date -d '-1 days' '+%Y-%m-%d')" \
-            --path "playwright-report/test/main/$(date '+%Y-%m-%d')" \
-            --path index.html \
-            --refs gh-pages \
-            --force
-          git gc --prune=now
-          git push origin gh-pages --force
-
   allocate-cases:
     runs-on: moj-cloud-platform
     timeout-minutes: 60
