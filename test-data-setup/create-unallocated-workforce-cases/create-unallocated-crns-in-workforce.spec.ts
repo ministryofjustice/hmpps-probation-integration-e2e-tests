@@ -31,6 +31,6 @@ const createCasesAwaitingAllocation = async (page: Page, number: number) => {
         })
 
         await createRequirementForEvent(page, { crn, team: data.teams.allocationsTestTeam })
-        await createInitialAppointment(page, crn, '1', data.teams.allocationsTestTeam)
+        await createInitialAppointment(page, crn, 1, data.teams.allocationsTestTeam)
     }
 }

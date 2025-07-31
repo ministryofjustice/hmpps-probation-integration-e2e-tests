@@ -1,6 +1,5 @@
 import { commonData } from './environments/common'
 import { testEnvironmentData } from './environments/test'
-import { preProdEnvironmentData } from './environments/pre-prod'
 import * as dotenv from 'dotenv'
 
 export type Optional<T> = { [K in keyof T]?: T[K] }
@@ -52,7 +51,6 @@ dotenv.config() // read environment variables into process.env
 export const data: TestData = new TestData()
 const environmentData: TestData =
     (process.env.ENV == 'test' && testEnvironmentData) ||
-    (process.env.ENV == 'pre-prod' && preProdEnvironmentData) ||
     (() => {
         throw new Error(`Unexpected environment: ${process.env.ENV}. Make sure you set the ENV variable correctly.`)
     })()

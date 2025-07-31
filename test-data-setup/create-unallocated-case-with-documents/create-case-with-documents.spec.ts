@@ -38,7 +38,7 @@ const createCaseWithDocuments = async (page: Page, number: number) => {
     })
 
     await createRequirementForEvent(page, { crn, team: data.teams.allocationsTestTeam })
-    await createInitialAppointment(page, crn, '1', data.teams.allocationsTestTeam)
+    await createInitialAppointment(page, crn, 1, data.teams.allocationsTestTeam)
 
     for (let i = 0; i < number; i++) {
         await findOffenderByCRN(page, crn)
