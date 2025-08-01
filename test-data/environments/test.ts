@@ -1,5 +1,6 @@
 import { type TestData } from '../test-data'
 
+// Static / well-known data that is unique to the test environment
 export const testEnvironmentData: TestData = {
     documentTemplates: {
         shortFormatPreSentenceReport: 'Nat Short format pre-sentence report pilot',

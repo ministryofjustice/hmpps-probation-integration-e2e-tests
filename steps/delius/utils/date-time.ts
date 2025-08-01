@@ -16,6 +16,7 @@ export const get12Hour = (date: Date): number => {
 
 export const getTimeOfDay = (date: Date): 'am' | 'pm' => (DateTime.fromJSDate(date).hour < 12 ? 'am' : 'pm')
 export const Tomorrow = DateTime.now().plus({ days: 1 })
+export const NextWeek = DateTime.now().plus({ weeks: 1 })
 export const LastMonth = DateTime.now().minus({ months: 1 })
 export const NextMonth = DateTime.now().plus({ months: 1 })
 export const Yesterday = DateTime.now().minus({ days: 1 })

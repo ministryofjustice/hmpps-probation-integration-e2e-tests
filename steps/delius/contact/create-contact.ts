@@ -29,6 +29,12 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
     if (options.endTime) {
         await fillTime(page, '#EndTime\\:timePicker', options.endTime)
     }
+    if (options.outcome) {
+        await selectOption(page, '#contactOutcome\\:selectOneMenu', options.outcome)
+    }
+    if (options.enforcementAction) {
+        await selectOption(page, '#enforcementAction\\:selectOneMenu', options.enforcementAction)
+    }
     await selectOption(page, '#TransferToOfficer\\:selectOneMenu', options.allocation?.staff?.name)
 
     try {
@@ -55,7 +61,7 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
     }
 }
 
-export const createInitialAppointment = async (page: Page, crn: string, eventNumber: string, team: Team = null) =>
+export const createInitialAppointment = async (page: Page, crn: string, eventNumber: number, team: Team = null) =>
     createContact(page, crn, {
         relatesTo: `Event ${eventNumber} - ORA Community Order (6 Months)`,
         allocation: { team: team },

@@ -122,19 +122,15 @@ test("Create a custodial event", async ({ page }) => {
 
 ### Environments
 
-Each test scenario is designed to run in both the Test and Pre-production environments, which may have slight
-differences in reference data.
-For this reason, there are three data files:
+Each test scenario is currently designed to run in the Test environment only.
 
 * [test-data/environments/common.ts](test-data/environments/common.ts) contains static / well-known data that is the
   same across all environments
 * [test-data/environments/test.ts](test-data/environments/test.ts) contains data that only exists in the Test
   environment
-* [test-data/environments/pre-prod.ts](test-data/environments/test.ts) contains data that only exists in the
-  Pre-production environment
 
 Use the `ENV` variable in your `.env` file to specify which set of data to use.
-Valid values are `test` or `pre-prod`.
+Currently, `test` is the only valid value.
 
 ### Data Creation
 Playwright tests can also be useful for setting up data in systems where APIs aren't available.

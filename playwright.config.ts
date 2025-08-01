@@ -11,7 +11,7 @@ import { minutesToMilliseconds, secondsToMilliseconds } from './steps/delius/uti
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
-    testDir: process.env.TEST_DIR ? process.env.TEST_DIR : './tests',
+    testDir: process.env.TEST_DIR ?? './tests',
     /* Maximum time one test can run for. */
     timeout: minutesToMilliseconds(3),
     /* Maximum time test suite can run for. */
