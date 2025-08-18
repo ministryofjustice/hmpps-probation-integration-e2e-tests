@@ -15,6 +15,7 @@ test.beforeEach(async ({ page }) => {
 test('Create a referral and nsi is created in delius', async ({ page }) => {
     const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
+
     await createAndAssignReferral(page, crn)
     await logoutRandM(page)
     await loginDelius(page)
