@@ -4,7 +4,6 @@ import { createOffender } from '../../steps/delius/offender/create-offender'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { epfContext } from '../../steps/api/epf/epf-api'
-import { data } from '../../test-data/test-data'
 import { DateTime } from 'luxon'
 
 test('test epf context api endpoint', async ({ page }) => {
