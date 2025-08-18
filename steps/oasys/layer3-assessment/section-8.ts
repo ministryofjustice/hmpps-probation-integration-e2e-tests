@@ -18,7 +18,7 @@ export const completeRoSHSection8FullAnalysisYes = async (page: Page) => {
     )
     await page
         .getByLabel(
-            "Do any of the above concerns (R8.1 - 8.3) increase the person's potential to cause harm to others or need to be addressed to support the effective delivery of the RMP"
+            "Do any of the above concerns (R8.1 - 8.3) increase the person's potential to cause serious harm to others or need to be addressed to support the effective delivery of the RMP"
         )
         .selectOption({ label: 'Yes' })
     await page.fill(

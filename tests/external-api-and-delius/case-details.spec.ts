@@ -12,9 +12,8 @@ test('can retrieve case details', async ({ page }) => {
 
     const crn: string = await createOffender(page, {
         person: person,
-        providerName: data.teams.referAndMonitorTestTeam.provider,
     })
-    await createCustodialEvent(page, { crn, allocation: { team: data.teams.genericTeam } })
+    await createCustodialEvent(page, { crn })
 
     const json = await getCaseDetails(crn)
     const supervision = json.supervisions[0]

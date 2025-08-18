@@ -38,6 +38,7 @@ test('View OASys assessments in Accredited Programmes service', async ({ page })
 
     // Step 3: Create a Layer 3 Assessment in OASys
     await oasysLogin(page, UserType.AccreditedProgrammesAssessment)
+    // await oasysLogin(page, UserType.Booking)
     await createLayer3CompleteAssessment(page, crn, person, 'Yes', nomisId, true)
     await signAndlock(page)
 
@@ -46,6 +47,8 @@ test('View OASys assessments in Accredited Programmes service', async ({ page })
     await findProgrammeAndMakeReferral(page, nomisId)
 
     // Step 5: Verify OASys assessment data in Accredited Programmes service
+    await page.getByTestId('search-input').fill(nomisId)
+    await page.getByRole('button', { name: 'Search', exact: true }).click()
     await clickOnOffenderLink(page, 'Date referred', `${person.lastName}, ${person.firstName}`)
 
     // await clickOnOffenderLink(page, 'Date referred', `Runte, Ginger`)

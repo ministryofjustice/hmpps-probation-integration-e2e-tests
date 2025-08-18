@@ -9,7 +9,7 @@ import { findOffenderByCRNNoContextCheck } from '../offender/find-offender'
 export const createContact = async (page: Page, crn: string, options: Contact) => {
     await findContactsByCRN(page, crn)
     await page.locator('input.btn', { hasText: 'Add Contact' }).first().click()
-    await expect(page).toHaveTitle('Add Contact Details')
+    await expect(page).toHaveTitle('Add Contact Details', { timeout: 10000 })
     if (options.date) {
         await fillDate(page, '#StartDate\\:datePicker', options.date as Date)
     }

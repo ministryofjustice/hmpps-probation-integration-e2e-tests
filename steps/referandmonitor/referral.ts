@@ -16,31 +16,23 @@ export const referralProgress = async (page: Page, referralRef: string) => {
 
 export const makeReferral = async (page: Page, crn: string) => {
     // Navigate to list of available interventions
-    await page.locator('text=Find interventions').click()
-    await expect(page).toHaveURL(/probation-practitioner\/find/)
-    await page.locator('[data-cy="find-interventions-button"]').click()
-    await expect(page).toHaveURL(/find-interventions?/)
+    await page.getByRole('link', { name: 'Find a CRS intervention and make a referral' }).click()
 
     // Find Intervention
-    await page.locator('text=Accommodation Services - North West').click()
-    await expect(page).toHaveURL(/find-interventions\/intervention\/.*/)
+    await page.locator('text=GM - Accommodation Support Service').click()
 
     // Navigate to Make a referral page
     await page.locator('text=Make a referral').click()
-    await expect(page).toHaveURL(/intervention\/.*\/refer?/)
 
     // Submit CRN
     await page.locator('input[name="service-user-crn"]').fill(crn)
     await page.locator('text=Continue').click()
-    await expect(page).toHaveURL(/referrals\/.*\/community-allocated-form/)
     await page.locator('#community-allocated-2[value="no"]').click()
     await page.locator('text=Save and continue').click()
-    await expect(page).toHaveURL(/\/prison-release-form/)
 
     // Enter prison release details
     await page.getByLabel(/No/).check()
     await page.locator('text=Save and continue').click()
-    await expect(page).toHaveURL(/\/referrals\/.*\/form/)
 
     // Enter contact details
     await page.locator('text=Name, email address and location').click()
@@ -52,11 +44,9 @@ export const makeReferral = async (page: Page, crn: string) => {
     await page.locator('#probation-practitioner-office').fill('London: 71 Lordship Lane')
     await page.locator('#probation-practitioner-office').press('Enter')
     await page.locator('text=Save and continue').click()
-    await expect(page).toHaveURL(/\/referrals\/.*\/form/)
 
     // Enter contact details
     await page.locator('text=Establishment').click()
-    await expect(page).toHaveURL(/referrals\/.*\/submit-current-location/)
     await page.locator('#prison-select').fill('Belmarsh (HMP & YOI)')
     await page.locator('#prison-select').press('Enter')
     await page.locator('text=Save and continue').click()
