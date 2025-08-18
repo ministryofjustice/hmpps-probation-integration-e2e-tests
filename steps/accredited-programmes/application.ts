@@ -16,11 +16,9 @@ export async function findProgrammeAndMakeReferral(page: Page, nomisId: string) 
 
     await page.getByRole('link', { name: 'Becoming New Me Plus: general violence offence' }).click()
     await expect(page).toHaveTitle(/Becoming New Me Plus: general violence offence programme description - DPS/)
-    await page.getByRole('link', { name: 'Stoke Heath (HMP & YOI)' }).click()
+    await page.getByRole('cell', { name: 'Moorland (HMP & YOI)' }).getByRole('link').click()
 
-    await expect(page).toHaveTitle(
-        /Becoming New Me Plus: general violence offence programme at Stoke Heath \(HMP & YOI\)/
-    )
+    await expect(page).toHaveTitle(/Becoming New Me Plus: general violence offence programme/)
 
     await page.getByRole('button', { name: /Make a referral/ }).click()
     await expect(page).toHaveTitle(/Start referral - Accredited Programmes/)

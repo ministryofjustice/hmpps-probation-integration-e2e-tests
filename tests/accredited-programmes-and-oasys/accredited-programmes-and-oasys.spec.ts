@@ -46,6 +46,8 @@ test('View OASys assessments in Accredited Programmes service', async ({ page })
     await findProgrammeAndMakeReferral(page, nomisId)
 
     // Step 5: Verify OASys assessment data in Accredited Programmes service
+    await page.getByTestId('search-input').fill(nomisId)
+    await page.getByRole('button', { name: 'Search', exact: true }).click()
     await clickOnOffenderLink(page, 'Date referred', `${person.lastName}, ${person.firstName}`)
 
     // await clickOnOffenderLink(page, 'Date referred', `Runte, Ginger`)

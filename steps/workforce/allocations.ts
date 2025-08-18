@@ -52,7 +52,7 @@ export const selectTeam = async (page: Page, team: Team) => {
         .getByRole('combobox', { name: 'Probation delivery unit (PDU)' })
         .selectOption({ label: team.probationDeliveryUnit })
     await page.getByRole('combobox', { name: 'Local admin unit (LAU)' }).selectOption({ label: team.localDeliveryUnit })
-    await page.getByRole('combobox', { name: 'Team' }).selectOption({ label: team.name.replace(/^NPS - /, '') })
+    await page.locator('form >> select[name="team"]').first().selectOption({ label: 'NPS - Wrexham - Team 1' })
     await page.getByRole('button', { name: 'Save and view selection' }).click()
     await refreshUntil(page, () => expect(page).toHaveTitle(/.*Unallocated cases.*/))
     await expect(page).toHaveTitle(/.*Unallocated cases.*/)

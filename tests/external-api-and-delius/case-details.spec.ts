@@ -2,7 +2,6 @@ import { expect, test } from '@playwright/test'
 import { login as deliusLogin } from '../../steps/delius/login'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { createOffender } from '../../steps/delius/offender/create-offender'
-import { data } from '../../test-data/test-data'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { getCaseDetails } from '../../steps/api/external-api/external-api'
 
@@ -12,9 +11,8 @@ test('can retrieve case details', async ({ page }) => {
 
     const crn: string = await createOffender(page, {
         person: person,
-        providerName: data.teams.referAndMonitorTestTeam.provider,
     })
-    await createCustodialEvent(page, { crn, allocation: { team: data.teams.genericTeam } })
+    await createCustodialEvent(page, { crn })
 
     const json = await getCaseDetails(crn)
     const supervision = json.supervisions[0]

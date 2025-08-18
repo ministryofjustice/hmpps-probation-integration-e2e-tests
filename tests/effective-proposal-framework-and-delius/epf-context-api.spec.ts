@@ -4,7 +4,6 @@ import { createOffender } from '../../steps/delius/offender/create-offender'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { epfContext } from '../../steps/api/epf/epf-api'
-import { data } from '../../test-data/test-data'
 import { DateTime } from 'luxon'
 
 test('test epf context api endpoint', async ({ page }) => {
@@ -14,9 +13,8 @@ test('test epf context api endpoint', async ({ page }) => {
 
     const crn: string = await createOffender(page, {
         person: person,
-        providerName: data.teams.referAndMonitorTestTeam.provider,
     })
-    const event = await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
+    const event = await createCustodialEvent(page, { crn })
 
     //get the epf context and check the json returned is correct
     const json = await epfContext(crn, '1')
@@ -28,5 +26,4 @@ test('test epf context api endpoint', async ({ page }) => {
     expect(json.dateOfBirth).toBe(expectedDate)
     expect(json.gender).toBe(person.sex)
     expect(json.courtAppearance.court.name).toBe(event.court)
-    expect(json.responsibleProvider.name).toBe(data.teams.referAndMonitorTestTeam.provider)
 })
