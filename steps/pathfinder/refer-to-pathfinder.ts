@@ -1,10 +1,14 @@
 import { expect, type Page } from '@playwright/test'
+import { doUntil } from '../delius/utils/refresh'
 
 export const referToPathfinder = async (page: Page, crn: string) => {
     // Search for CRN
     await page.getByRole('link', { name: 'Refer from the community' }).click()
     await page.getByLabel('CRN').fill(crn)
-    await page.getByRole('button', { name: 'Search' }).click()
+    await doUntil(
+        () => page.getByRole('button', { name: 'Search' }).click(),
+        () => expect(page.getByRole('link', { name: 'Refer to Pathfinder' })).toBeVisible()
+    )
     await page.getByRole('link', { name: 'Refer to Pathfinder' }).click()
     // Accept non-custodial case
     await page.getByLabel('Yes').check()
