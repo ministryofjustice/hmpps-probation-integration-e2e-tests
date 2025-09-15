@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { v4 } from 'uuid'
+import { randomUUID } from 'crypto'
 import { Person } from '../delius/utils/person'
 import { faker } from '@faker-js/faker'
 import { buildAddress } from '../delius/address/create-address'
@@ -13,10 +13,10 @@ export const hearingData = (
     person: Person,
     address = buildAddress(),
     court = SHEFFIELD_COURT,
-    caseId: string = v4()
+    caseId: string = randomUUID()
 ) => ({
     hearing: {
-        id: v4(),
+        id: randomUUID(),
         hearingDays: [
             {
                 listedDurationMinutes: 60,
@@ -40,7 +40,7 @@ export const hearingData = (
                 id: caseId,
                 defendants: [
                     {
-                        id: v4(),
+                        id: randomUUID(),
                         pncId: person.pnc,
                         prosecutionCaseId: caseId,
                         personDefendant: {

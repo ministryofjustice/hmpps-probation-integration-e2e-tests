@@ -4,7 +4,7 @@ import { getToken } from '../auth/get-token'
 import { Yesterday } from '../../delius/utils/date-time'
 import { setNomisId } from '../../delius/offender/update-offender'
 import { retry, sanitiseError } from '../utils/api-utils'
-import { v4 as uuid } from 'uuid'
+import { randomUUID } from 'crypto'
 import { faker } from '@faker-js/faker'
 import { DateTime } from 'luxon'
 
@@ -147,7 +147,7 @@ export const updateCustodyDates = retry(
         ).post(`/api/offender-dates/${bookingId}`, {
             failOnStatusCode: true,
             data: {
-                calculationUuid: uuid(),
+                calculationUuid: randomUUID(),
                 submissionUser: process.env.DPS_USERNAME,
                 keyDates: custodyDates,
             },
