@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v5
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v5
     - name: Download example test script
       run: wget https://raw.githubusercontent.com/microsoft/create-playwright/main/assets/example.spec.ts
       working-directory: tests
