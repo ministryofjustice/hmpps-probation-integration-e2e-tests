@@ -52,7 +52,7 @@ dotenv.config() // read environment variables into process.env
 // Merge environment config with common config and export single `data` object
 export const data: TestData = new TestData()
 const environmentData: TestData =
-    (process.env.ENV == 'test' && testEnvironmentData) ||
+    ((!process.env.ENV || process.env.ENV == 'test') && testEnvironmentData) ||
     (() => {
         throw new Error(`Unexpected environment: ${process.env.ENV}. Make sure you set the ENV variable correctly.`)
     })()
