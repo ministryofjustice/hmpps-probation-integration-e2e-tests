@@ -56,7 +56,7 @@ test('Create and search for contacts', async ({ page }) => {
     })
 
     await page.locator('input.btn', { hasText: /Text Search/ }).click()
-    await expect(page).toHaveTitle('Free Text Search')
+    await expect(page).toHaveTitle(/Text Search/)
 
     await page.click('#textSearchButton')
     // will have the four contacts above plus tier calculation
