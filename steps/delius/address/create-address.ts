@@ -34,6 +34,7 @@ export const createAddress = async (page: Page, crn: string, options: Address) =
     await expect(page.locator('h1')).toContainText('Addresses and Accommodation')
     await page.getByRole('button', { name: 'Add Address' }).click()
     await expect(page.locator('h1')).toContainText('Add Address')
+    await page.getByRole('link', { name: /Click here to enter it manually/ }).click()
     await page.getByLabel(/House Number/).fill(options.buildingNumber)
     await page.getByLabel(/Street Name/).fill(options.street)
     await page.getByLabel(/City/).fill(options.cityName)
