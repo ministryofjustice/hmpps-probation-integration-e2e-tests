@@ -36,6 +36,12 @@ on:
           - hmpps-integration-api
           - create-unallocated-workforce-cases
           - create-unallocated-case-with-documents
+          - delete-addresses-for-crn
+      crn:
+        description: Offenders CRN
+        type: string
+        required: false
+
 jobs:
   create-generic-data:
     uses: ./.github/workflows/test.yml
@@ -55,9 +61,22 @@ jobs:
 
   create-for-project:
     uses: ./.github/workflows/test.yml
-    if: inputs.project != 'none'
+    if: inputs.project != 'none' && inputs.project != 'delete-addresses-for-crn'
     with:
       directory: test-data-setup
       projects: '["${{ inputs.project }}"]'
+      workers: 1
+    secrets: inherit
+
+  delete-for-project:
+    uses: ./.github/workflows/test.yml
+    if: inputs.project == 'delete-addresses-for-crn'
+    with:
+      directory: test-data-setup
+      projects: '["${{ inputs.project }}"]'
+      env: |
+        {
+          "OFFENDER_CRN": "${{ inputs.crn }}"
+        }
       workers: 1
     secrets: inherit
