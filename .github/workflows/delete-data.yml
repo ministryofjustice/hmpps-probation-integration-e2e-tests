@@ -17,7 +17,7 @@ on:
 jobs:
   delete-for-project:
     uses: ./.github/workflows/test.yml
-    if: inputs.project == ' delete-previous-addresses-for-offender'
+    if: inputs.project == 'delete-previous-addresses-for-offender'
     with:
       directory: test-data-setup
       projects: '["${{ inputs.project }}"]'
