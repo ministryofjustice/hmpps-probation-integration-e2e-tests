@@ -2,6 +2,15 @@ name: '* Delete test data'
 
 on:
   workflow_call:
+    inputs:
+      project:
+        description: Delete data for a specific offender
+        type: string
+        required: true
+      crn:
+        description: Offender's CRN
+        type: string
+        required: true
   workflow_dispatch:
     inputs:
       project:
