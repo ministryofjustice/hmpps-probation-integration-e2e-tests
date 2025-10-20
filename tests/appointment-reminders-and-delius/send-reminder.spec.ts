@@ -10,8 +10,8 @@ import { createRequirementForEvent } from '../../steps/delius/requirement/create
 import { selectOption } from '../../steps/delius/utils/inputs'
 import { DateTime } from 'luxon'
 import { triggerCronJob } from '../../steps/k8s/k8s-utils'
-import { findOffenderByCRN } from '../../steps/delius/offender/find-offender'
 import { faker } from '@faker-js/faker/locale/en_GB'
+import { deleteOffender } from '../../steps/delius/offender/delete-offender'
 
 dotenv.config() // read environment variables into process.env
 
@@ -64,11 +64,5 @@ test('Send an UPW appointment reminder', async ({ page }) => {
 test.afterEach(async ({ page }) => {
     // Delete the offender to prevent duplicate mobile numbers
     await deliusLogin(page)
-    await findOffenderByCRN(page, crn)
-    await page.getByRole('link', { name: 'Event List' }).click()
-    await page.getByRole('link', { name: 'delete' }).click()
-    await page.getByRole('button', { name: 'Confirm' }).click()
-    await page.getByRole('link', { name: 'Personal Details' }).click()
-    await page.getByRole('button', { name: 'Delete' }).click()
-    await page.getByRole('button', { name: 'Confirm' }).click()
+    await deleteOffender(page, crn)
 })
