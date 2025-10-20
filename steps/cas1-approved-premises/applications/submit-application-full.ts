@@ -30,6 +30,7 @@ import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgend
 import { confirmYourDetails } from './confirm-your-details'
 import { applicationOutsideNSTimescales } from './application-outside-national-standards'
 import { selectOffence } from './select-offence'
+import { selectAPPlacingReason } from './select-ap-placing-reason'
 
 export const submitAPApplication = async (page: Page, crn: string) => {
     // And I enter the CRN & Submit
@@ -44,8 +45,10 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     await enterSedLedPssDates(page)
     // And I select Sentence Type and click on Submit
     await selectSentenceType(page)
-    // And I select "Referral for risk management" Option that describes the situation
-    await selectSituationOption(page)
+    // I select Approved Premises Placing reason
+    await selectAPPlacingReason(page)
+    // // And I select "Referral for risk management" Option that describes the situation
+    // await selectSituationOption(page)
     // And I select that I know release date
     await selectReleaseDateKnownStatus(page)
     // And I confirm short notice application status

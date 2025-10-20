@@ -42,7 +42,8 @@ test('Create an approved premises application', async ({ page }) => {
     nomisIds.push(nomisId)
 
     // And I login to OASys T2 and create a Layer 3 Assessment with Needs in OASys
-    await oasysLogin(page, UserType.Booking)
+    // await oasysLogin(page, UserType.Booking)
+    await oasysLogin(page, UserType.AccreditedProgrammesAssessment)
     await createLayer3CompleteAssessment(page, crn, person, 'Yes', nomisId, true)
     await signAndlock(page)
 
