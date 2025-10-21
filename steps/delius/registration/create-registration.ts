@@ -41,8 +41,8 @@ export async function createRegistration(
     // Extract text from the first row
     const [deliusRegtype, deliusRegDate, deliusRegNextReviewDate] = await Promise.all(
         [
-            tableRows[0].$('td:nth-child(3)'), // Selecting the Type column (3rd td)
-            tableRows[0].$('td:nth-child(4)'), // Selecting the Date column (4th td)
+            tableRows[0].$('td:nth-child(2)'), // Selecting the Type column (2nd td)
+            tableRows[0].$('td:nth-child(3)'), // Selecting the Date column (3rd td)
             tableRows[0].$('td:nth-child(5)'), // Selecting the Next Review column (5th td)
         ].map(async cell => {
             return cell ? await (await cell).innerText() : '' // Extract inner text of the cell if it exists, otherwise return an empty string
