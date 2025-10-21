@@ -47,8 +47,6 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     await selectSentenceType(page)
     // I select Approved Premises Placing reason
     await selectAPPlacingReason(page)
-    // // And I select "Referral for risk management" Option that describes the situation
-    // await selectSituationOption(page)
     // And I select that I know release date
     await selectReleaseDateKnownStatus(page)
     // And I confirm short notice application status
