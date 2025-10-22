@@ -1,5 +1,4 @@
 import { expect, Page } from '@playwright/test'
-// import { faker } from '@faker-js/faker'
 import { login as cvlLogin, loginAsPrisonOfficer } from './login'
 import { faker } from '@faker-js/faker/locale/en_GB'
 
