@@ -63,8 +63,8 @@ export const testEnvironmentData: TestData = {
             provider: 'North East Region',
         },
         genericTeam: {
-            name: 'OMU A',
-            provider: 'London',
+            name: 'OMU B',
+            provider: 'Wales',
         },
     },
     prisoners: {
