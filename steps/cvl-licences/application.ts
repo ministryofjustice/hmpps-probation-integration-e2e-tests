@@ -1,6 +1,6 @@
 import { expect, Page } from '@playwright/test'
-import { faker } from '@faker-js/faker'
 import { login as cvlLogin, loginAsPrisonOfficer } from './login'
+import { faker } from '@faker-js/faker/locale/en_GB'
 
 export const createLicence = async (page: Page, crn: string, nomsNumber: string) => {
     await cvlLogin(page)
@@ -17,8 +17,9 @@ export const createLicence = async (page: Page, crn: string, nomsNumber: string)
     await page.getByLabel(/Who is the initial appointment with?/).fill(faker.person.fullName())
     await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveTitle('Create and vary a licence - Create a licence - Where is the initial appointment?')
+    await page.getByRole('link', { name: /Enter address manually/ }).click()
     await page
-        .getByLabel(/Building and street/)
+        .getByLabel(/Address line 1/)
         .first()
         .fill(faker.location.buildingNumber() + ' ' + faker.location.street())
     await page.getByLabel(/Town or city/).fill(faker.location.city())
@@ -28,7 +29,7 @@ export const createLicence = async (page: Page, crn: string, nomsNumber: string)
     await expect(page).toHaveTitle(
         'Create and vary a licence - Create a licence - What is the contact phone number for the initial appointment?'
     )
-    await page.getByLabel('UK telephone number').fill(cvlFormattedPhoneNumber())
+    await page.getByLabel('UK telephone number').first().fill(cvlFormattedPhoneNumber())
     await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveTitle('Create and vary a licence - Create a licence - When is the initial appointment?')
     await page.getByLabel(/Immediately after release/).check()
