@@ -26,8 +26,7 @@ export async function findOffenderByCRN(page: Page, crn: string) {
         await page.locator('tr', { hasText: crn }).locator('a', { hasText: 'View' }).click()
         await dismissModals(page)
     }
-
-    await expect(page).toHaveTitle(/Case Summary/)
+    await expect(page.getByRole('heading', { name: 'Case Summary' })).toBeVisible({ timeout: 10000 })
 }
 
 export async function findOffenderByCRNNoContextCheck(page: Page, crn: string) {

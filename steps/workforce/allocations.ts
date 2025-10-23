@@ -39,7 +39,6 @@ export const allocateCase = async (page: Page, crn: string, allocation: Allocati
         '#instructions',
         `${allocation.staff.firstName} ${allocation.staff.lastName} is allocated on case with ${crn}. Allocation for ${crn} completed by hmpps-end-to-end-tests`
     )
-    await page.click('#isSensitive')
     await page.getByRole('button', { name: 'Continue' }).click()
 
     // Save Notes as an oversight contact and allocate case

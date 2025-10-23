@@ -9,6 +9,8 @@ export const referToSOC = async (page: Page, crn: string) => {
     // Enter reason for referral
     await page.getByLabel('Reason for referral or inclusion').fill('Automated testing')
     await page.getByRole('button', { name: 'Save and continue' }).click()
+    await page.getByLabel('Directorate of Security (DoS').selectOption('North West and West Midlands')
+    await page.getByRole('button', { name: 'Save and continue' }).click()
     // Check referral was successful
     await expect(page.getByRole('heading', { name: 'Referral successful' })).toBeVisible()
 }
