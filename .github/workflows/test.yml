@@ -76,7 +76,7 @@ jobs:
         env:
           ENV_VARS: ${{ inputs.env }}
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           cache: npm
 
@@ -110,6 +110,7 @@ jobs:
           DELIUS_URL: https://ndelius.test.probation.service.justice.gov.uk
           DPS_URL: https://digital-dev.prison.service.justice.gov.uk
           EPF_API: https://effective-proposal-framework-and-delius-dev.hmpps.service.justice.gov.uk
+          ESUPERVISION_URL: https://esupervision-dev.hmpps.service.justice.gov.uk
           EXTERNAL_API: https://external-api-and-delius-dev.hmpps.service.justice.gov.uk
           MANAGE_PEOPLE_ON_PROBATION_URL: https://manage-people-on-probation-dev.hmpps.service.justice.gov.uk
           MANAGE_POM_CASES_URL: https://dev.moic.service.justice.gov.uk

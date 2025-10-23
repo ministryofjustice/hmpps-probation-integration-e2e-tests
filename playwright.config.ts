@@ -28,12 +28,19 @@ const config: PlaywrightTestConfig = {
     use: {
         actionTimeout: secondsToMilliseconds(30),
         timezoneId: 'Europe/London',
-        launchOptions: { slowMo: 150 },
+        permissions: ['microphone', 'camera'],
+        launchOptions: {
+            slowMo: 150,
+            args: [
+                '--use-fake-device-for-media-stream',
+                '--use-fake-ui-for-media-stream',
+                '--use-file-for-fake-video-capture=./files/mock-camera-capture.y4m',
+            ],
+        },
         screenshot: 'only-on-failure',
         trace: process.env.CI ? 'off' : 'on',
         ...devices['Desktop Chrome'],
     },
-
     /* Configure projects */
     projects: [{ name: 'default' }],
 }

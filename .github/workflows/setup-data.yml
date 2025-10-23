@@ -36,6 +36,7 @@ on:
           - hmpps-integration-api
           - create-unallocated-workforce-cases
           - create-unallocated-case-with-documents
+
 jobs:
   create-generic-data:
     uses: ./.github/workflows/test.yml

@@ -5,6 +5,7 @@ import { DateTime } from 'luxon'
 export async function submitCAS3Referral(page: Page, crn: string) {
     await startApplication(page)
     await searchForPerson(page, crn)
+    await confirmPlacementLocation(page)
     await addOffenceAndBehaviourSummary(page)
     await addSentenceInformation(page)
     await enterContactDetails(page)
@@ -15,7 +16,6 @@ export async function submitCAS3Referral(page: Page, crn: string) {
     await enterPlacementConsiderations(page)
     await enterApprovalsForSpecificRisks(page)
     await outlineBehaviourInCAS(page)
-    await confirmPlacementLocation(page)
     await addDisabilityCulturalAndSpecificNeeds(page)
     await addInformationOnSafeguardingAndSupport(page)
     await provideFoodAllergies(page)
@@ -273,8 +273,11 @@ async function outlineBehaviourInCAS(page: Page) {
 
 async function confirmPlacementLocation(page: Page) {
     await page.getByRole('link', { name: 'Confirm placement location' }).click()
-    await expect(page).toHaveTitle(/Is placement required/)
-    await page.getByRole('radio', { name: 'No', exact: true }).check()
+    await expect(page).toHaveTitle(/Is the placement for the London region/)
+    await page.getByRole('radio', { name: 'Yes, London' }).check()
+    await page.getByRole('button', { name: 'Save and continue' }).click()
+    await expect(page).toHaveTitle(/Is placement required in a different PDU/)
+    await page.getByRole('radio', { name: 'No' }).check()
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(
         'Make a referral for Transitional Accommodation (CAS3) - Transitional Accommodation (CAS3)'

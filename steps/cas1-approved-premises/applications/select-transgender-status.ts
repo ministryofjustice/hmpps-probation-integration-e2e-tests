@@ -31,7 +31,5 @@ export const enterSedLedPssDates = async (page: Page) => {
     await page.locator('#pssEndDate-month').fill(month)
     await page.locator('#pssEndDate-year').fill(year)
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
-    await expect(page.locator('.govuk-fieldset__heading')).toHaveText(
-        'Which of the following best describes the sentence type the person is on?'
-    )
+    await expect(page.locator('.govuk-fieldset__heading')).toHaveText('Which sentence type does the person have?')
 }
