@@ -1,0 +1,12 @@
+name: X371199 address clean up
+on:
+  schedule:
+    - cron: 0 12 * * *
+jobs:
+  X371199_address_cleanup:
+    name: X371199 address clean up
+    uses: ./.github/workflows/delete-data.yml
+    secrets: inherit
+    with:
+      project: delete-previous-addresses-for-offender
+      crn: X371199

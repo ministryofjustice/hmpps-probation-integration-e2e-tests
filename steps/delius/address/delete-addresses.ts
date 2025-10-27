@@ -8,6 +8,7 @@ export const deleteAddresses = async (page: Page, crn: string) => {
     await expect(page.locator('h1')).toContainText('Addresses and Accommodation')
 
     while ((await page.locator('#otherAddressTable tbody tr').count()) > 1) {
+
         await page
             .locator('#otherAddressTable tbody tr')
             .first()
@@ -17,4 +18,18 @@ export const deleteAddresses = async (page: Page, crn: string) => {
         await page.locator('input', { hasText: 'Confirm' }).click()
         await expect(page.locator('h1')).toContainText('Addresses and Accommodation')
     }
+
+    await page.getByRole('button', { name: 'Address History' }).click()
+    await expect(page.locator('h1')).toContainText('Address History')
+    while ((await page.locator('#addressHistoryTable tbody tr').count()) > 1) {
+        await page
+            .locator('#addressHistoryTable tbody tr')
+            .first()
+            .locator('a[title="Link to Delete this Address"]')
+            .click()
+        await expect(page.locator('h1')).toContainText('Delete Address')
+        await page.locator('input', { hasText: 'Confirm' }).click()
+        await expect(page.locator('h1')).toContainText('Address History')
+    }
+
 }
