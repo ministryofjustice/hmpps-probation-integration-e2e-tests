@@ -34,6 +34,7 @@ on:
           - recommend-a-recall
           - refer-and-monitor-functional-tests
           - hmpps-integration-api
+          - create-case-with-unpaid-work-allocation
           - create-unallocated-workforce-cases
           - create-unallocated-case-with-documents
 
