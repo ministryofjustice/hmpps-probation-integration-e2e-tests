@@ -62,6 +62,10 @@ export const testEnvironmentData: TestData = {
             name: 'The Crescent',
             provider: 'North East Region',
         },
+        unpaidWorkTestTeam: {
+            name: 'Default Designated Transfer Team',
+            provider: 'East of England',
+        },
         genericTeam: {
             name: 'Vale - Team',
             provider: 'Wales',
