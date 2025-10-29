@@ -2,12 +2,6 @@ import { devices, type PlaywrightTestConfig } from '@playwright/test'
 import { minutesToMilliseconds, secondsToMilliseconds } from './steps/delius/utils/date-time'
 
 /**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// require('dotenv').config();
-
-/**
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {

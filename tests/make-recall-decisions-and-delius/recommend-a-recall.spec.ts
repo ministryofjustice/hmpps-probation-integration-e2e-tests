@@ -12,7 +12,6 @@ import {
     verifyRecallOffenderDetails,
     verifyRecallOffendersAddress,
 } from '../../steps/make-recall-decisions/start-recommendation'
-import * as dotenv from 'dotenv'
 import { buildAddress, createAddress } from '../../steps/delius/address/create-address'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { createLicenceCondition } from '../../steps/delius/licence-condition/create-licence-condition'
@@ -23,7 +22,6 @@ import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { contact } from '../../steps/delius/utils/contact'
 import { data } from '../../test-data/test-data'
 import { refreshUntil } from '../../steps/delius/utils/refresh'
-dotenv.config() // read environment variables into process.env
 
 test('Make a Management Oversight Decision and verify in Delius', async ({ page }) => {
     // Given a new person in Delius
