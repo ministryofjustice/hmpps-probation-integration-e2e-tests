@@ -1,22 +1,19 @@
 import { expect, test } from '@playwright/test'
 import { login as deliusLogin } from '../../steps/delius/login'
 import { deliusPerson } from '../../steps/delius/utils/person'
-import * as dotenv from 'dotenv'
 import { runPod } from '../../steps/k8s/k8s-utils'
 import { DateTime } from 'luxon'
 import { hearingData } from '../../steps/court-case/hearing-data'
 import { buildAddress } from '../../steps/delius/address/create-address'
-
-dotenv.config() // read environment variables into process.env
 
 test('Create and search for a person', async ({ page }) => {
     const person = deliusPerson()
     const address = buildAddress()
 
     await runPod(
-        'hmpps-probation-integration',
+        'hmpps-probation-integration-services-dev',
         'probation-integration-e2e-test',
-        'probation-integration',
+        'common-platform-and-delius',
         ['aws sqs send-message --queue-url "$QUEUEURL" --message-body "$MESSAGEBODY"'],
         [
             {

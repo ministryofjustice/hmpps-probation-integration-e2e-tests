@@ -3,11 +3,8 @@ import { login as deliusLogin } from '../../steps/delius/login'
 import { login as tierLogin } from '../../steps/tier-ui/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
-import * as dotenv from 'dotenv'
 import { createRegistration } from '../../steps/delius/registration/create-registration'
 import { searchTierByCRN } from '../../steps/tier-ui/search_tier'
-
-dotenv.config()
 
 test('Adding a registration updates the tier', async ({ page }) => {
     // Given a new person in Delius

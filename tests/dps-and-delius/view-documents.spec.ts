@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test'
-import * as dotenv from 'dotenv'
 import { login as dpsLogin } from '../../steps/dps/login'
 import { login as deliusLogin } from '../../steps/delius/login'
 import { deliusPerson } from '../../steps/delius/utils/person'
@@ -7,8 +6,6 @@ import { createOffender } from '../../steps/delius/offender/create-offender'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { createDocumentFromTemplate } from '../../steps/delius/document/create-document'
-
-dotenv.config() // read environment variables into process.env
 
 const nomisIds = []
 
