@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test'
-import * as dotenv from 'dotenv'
 import { login as deliusLogin } from '../../steps/delius/login'
 import { login as hmppsAuthLogin } from '../../steps/hmpps-auth/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
@@ -12,8 +11,6 @@ import { DateTime } from 'luxon'
 import { triggerCronJob } from '../../steps/k8s/k8s-utils'
 import { faker } from '@faker-js/faker/locale/en_GB'
 import { deleteOffender } from '../../steps/delius/offender/delete-offender'
-
-dotenv.config() // read environment variables into process.env
 
 let crn: string
 

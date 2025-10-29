@@ -1,10 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { login as deliusLogin } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
-import * as dotenv from 'dotenv'
 import { buildAddress, createAddress } from '../../steps/delius/address/create-address'
-
-dotenv.config() // read environment variables into process.env
 
 test('Create a person and check their address', async ({ page }) => {
     // Given two people with the same address in Delius

@@ -5,12 +5,9 @@ import { createAndBookPrisoner, releasePrisoner, updateCustodyDates } from '../.
 import { formatDate, NextMonth, Yesterday } from '../../steps/delius/utils/date-time'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { createOffender } from '../../steps/delius/offender/create-offender'
-import * as dotenv from 'dotenv'
 import { internalTransfer } from '../../steps/delius/transfer/internal-transfer'
 import { data } from '../../test-data/test-data'
 import { switchCaseload } from '../../steps/dps/caseload'
-
-dotenv.config() // read environment variables into process.env
 
 const nomisIds = []
 const bookingIds = []

@@ -3,9 +3,6 @@ import { login as deliusLogin } from '../../steps/delius/login'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { getCaseDetails } from '../../steps/api/sentence-plan/sentence-plan-and-delius'
-import * as dotenv from 'dotenv'
-
-dotenv.config()
 
 test('can retrieve case details', async ({ page }) => {
     await deliusLogin(page)

@@ -6,15 +6,12 @@ import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { createEvent } from '../../steps/delius/event/create-event'
 import { faker } from '@faker-js/faker'
-import * as dotenv from 'dotenv'
 import { navigateToDeliusOASysAssessments } from '../../steps/delius/contact/find-contacts'
 import { refreshUntil } from '../../steps/delius/utils/refresh'
 import { slow } from '../../steps/common/common'
 import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock'
 import { formatDate } from '../../steps/delius/utils/date-time'
 import { DateTime } from 'luxon'
-
-dotenv.config() // read environment variables into process.env
 
 test('Create an OASys assessment and verify the Delius Assessment Summary', async ({ page }) => {
     slow()

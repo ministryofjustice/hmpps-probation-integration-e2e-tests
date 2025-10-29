@@ -4,10 +4,7 @@ import { login as pathfinderLogin } from '../../steps/pathfinder/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { referToPathfinder } from '../../steps/pathfinder/refer-to-pathfinder'
-import * as dotenv from 'dotenv'
 import { DeliusDateFormatter } from '../../steps/delius/utils/date-time'
-
-dotenv.config()
 
 test('Refer a community case to pathfinder', async ({ page }) => {
     // Given a new person in Delius

@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test'
-import * as dotenv from 'dotenv'
 import { login as deliusLogin } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
@@ -15,8 +14,6 @@ import { doUntil } from '../../steps/delius/utils/refresh'
 import * as fs from 'fs'
 import { getPdfText } from '../../steps/delius/utils/pdf-utils'
 import { formatDate } from '../../steps/delius/utils/date-time'
-
-dotenv.config() // read environment variables into process.env
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {

@@ -1,6 +1,4 @@
 import { expect, test } from '@playwright/test'
-import * as dotenv from 'dotenv'
-dotenv.config() // read environment variables into process.env
 import { login as deliusLogin } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
