@@ -11,10 +11,13 @@ import { DateTime } from 'luxon'
 import { triggerCronJob } from '../../steps/k8s/k8s-utils'
 import { faker } from '@faker-js/faker/locale/en_GB'
 import { deleteOffender } from '../../steps/delius/offender/delete-offender'
+import { slow } from '../../steps/common/common'
 
 let crn: string
 
 test('Send an UPW appointment reminder', async ({ page }) => {
+    slow()
+
     // Given a person with a unique mobile number and an UPW appointment two days from now
     await deliusLogin(page)
     const person = deliusPerson()
