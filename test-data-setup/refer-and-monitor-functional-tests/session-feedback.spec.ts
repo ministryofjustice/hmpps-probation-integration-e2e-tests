@@ -14,6 +14,7 @@ import {
     editSessionFailedToAttend,
 } from '../../tests/refer-and-monitor-and-delius/common'
 import { DateTime } from 'luxon'
+import { slow } from '../../steps/common/common'
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
@@ -47,7 +48,7 @@ test('Create an appointment that was not attended', async ({ page }) => {
 })
 
 test('Add feedback to a scheduled appointment', async ({ page }) => {
-    test.slow()
+    slow()
 
     // Given a person in Delius
     const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
