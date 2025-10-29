@@ -8,7 +8,6 @@ export const deleteAddresses = async (page: Page, crn: string) => {
     await expect(page.locator('h1')).toContainText('Addresses and Accommodation')
 
     while ((await page.locator('#otherAddressTable tbody tr').count()) > 1) {
-
         await page
             .locator('#otherAddressTable tbody tr')
             .first()
@@ -31,5 +30,4 @@ export const deleteAddresses = async (page: Page, crn: string) => {
         await page.locator('input', { hasText: 'Confirm' }).click()
         await expect(page.locator('h1')).toContainText('Address History')
     }
-
 }
