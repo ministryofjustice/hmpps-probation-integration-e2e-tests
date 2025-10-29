@@ -8,7 +8,7 @@ import { createRequirementForEvent } from '../../steps/delius/requirement/create
 import { allocateCurrentCaseToUpwProject } from '../../steps/delius/upw/allocate-current-case-to-upw-project'
 
 test('Create a case with an Unpaid Work Project Allocation', async ({ page }) => {
-    test.slow()
+    slow()
     const person = deliusPerson()
     await loginDelius(page)
 

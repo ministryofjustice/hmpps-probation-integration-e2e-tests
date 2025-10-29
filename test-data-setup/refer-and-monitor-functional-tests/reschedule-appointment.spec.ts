@@ -25,13 +25,14 @@ import { createAndAssignReferral } from '../../tests/refer-and-monitor-and-deliu
 import { createContact } from '../../steps/delius/contact/create-contact'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { withdrawReferral } from '../../steps/referandmonitor/referral'
+import { slow } from '../../steps/common/common'
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
 })
 
 test('Reschedule Supplier Assessment Appointment to future date', async ({ page }) => {
-    test.slow()
+    slow()
     const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
     await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
@@ -99,7 +100,7 @@ test('Reschedule Supplier Assessment Appointment to future date', async ({ page 
 test('Reschedule Supplier Assessment Appointment to past date/time with attendance set to Yes and notify practitioner set to No', async ({
     page,
 }) => {
-    test.slow()
+    slow()
     const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
     await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
@@ -165,7 +166,6 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
 })
 
 test('Reschedule Supplier Assessment Appointment to past date/time with attendance set to No', async ({ page }) => {
-    // test.slow()
     const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
     await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
@@ -235,7 +235,7 @@ test('Reschedule Supplier Assessment Appointment to past date/time with attendan
 test('Reschedule Supplier Assessment Appointment to past date/time with attendance set to Yes and notify practitioner set to Yes', async ({
     page,
 }) => {
-    test.slow()
+    slow()
     const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
     await createRequirementForEvent(page, { crn, team: data.teams.referAndMonitorTestTeam })
@@ -330,7 +330,7 @@ test('Update Future Dated Supplier Assessment Appointment Location in Refer and 
 })
 
 test('Perform supplier assessment appointment scheduling with conflicting appointment in Delius', async ({ page }) => {
-    test.slow()
+    slow()
     const person = deliusPerson()
     const crn = await createOffender(page, { person, providerName: data.teams.referAndMonitorTestTeam.provider })
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.referAndMonitorTestTeam } })
@@ -373,7 +373,7 @@ test('Perform supplier assessment appointment scheduling with conflicting appoin
 })
 
 test('Verify Referral withdrawal by Probation Practitioner and its Reflection in Delius', async ({ page }) => {
-    test.slow()
+    slow()
 
     // Create offender, community event, and requirement
     const crn = await createOffender(page, { providerName: data.teams.referAndMonitorTestTeam.provider })

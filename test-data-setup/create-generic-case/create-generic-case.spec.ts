@@ -15,7 +15,7 @@ import { addCourtHearing } from '../../steps/api/court-case/court-case-api'
 import { hearingData } from '../../steps/court-case/hearing-data'
 
 test('Create a case in multiple systems', async ({ page }) => {
-    test.slow()
+    slow()
     const person = deliusPerson()
 
     if (process.env.CREATE_DELIUS_RECORD === 'true') {
