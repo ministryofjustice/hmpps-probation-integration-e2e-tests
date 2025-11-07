@@ -1,4 +1,4 @@
-name: '* Delete test data'
+name: Delete test data
 
 on:
   workflow_call:
