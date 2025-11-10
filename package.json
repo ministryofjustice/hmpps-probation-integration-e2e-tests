@@ -30,6 +30,6 @@
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.1",
     "prettier": "3.6.2",
-    "tsdown": "^0.15.2"
+    "tsdown": "^0.16.1"
   }
 }
