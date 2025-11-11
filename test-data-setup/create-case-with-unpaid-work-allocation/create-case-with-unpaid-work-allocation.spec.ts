@@ -6,6 +6,7 @@ import { createCommunityEvent } from '../../steps/delius/event/create-event'
 import { data } from '../../test-data/test-data'
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement'
 import { allocateCurrentCaseToUpwProject } from '../../steps/delius/upw/allocate-current-case-to-upw-project'
+import { slow } from '../../steps/common/common'
 
 test('Create a case with an Unpaid Work Project Allocation', async ({ page }) => {
     slow()
