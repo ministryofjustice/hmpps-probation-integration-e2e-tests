@@ -20,6 +20,8 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
     await selectOption(page, '#TransferToTrust\\:selectOneMenu', options.allocation?.team?.provider)
     await selectOption(page, '#TransferToTeam\\:selectOneMenu', options.allocation?.team?.name)
 
+    await selectOption(page, '#alert\\:selectOneMenu', options.alert ? "Yes" : "No")
+
     if (options.allocation?.team?.location) {
         await selectOption(page, '#Location\\:selectOneMenu', options.allocation?.team?.location)
     }
@@ -36,6 +38,10 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
         await selectOption(page, '#enforcementAction\\:selectOneMenu', options.enforcementAction)
     }
     await selectOption(page, '#TransferToOfficer\\:selectOneMenu', options.allocation?.staff?.name)
+
+    if (options.note){
+        await page.fill(`#Notes\\:notesField`, options.note)
+    }
 
     try {
         // Attempt to create contact

@@ -34,6 +34,8 @@ export interface Contact extends ContactType {
     enforcementAction?: string
     attended?: string
     complied?: string
+    alert?: boolean
+    note?: string
 }
 
 export class TestData {
