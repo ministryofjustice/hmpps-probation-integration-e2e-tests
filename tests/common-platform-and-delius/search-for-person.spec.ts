@@ -9,21 +9,19 @@ import { buildAddress } from '../../steps/delius/address/create-address'
 test('Create and search for a person', async ({ page }) => {
     const person = deliusPerson()
     const address = buildAddress()
-
     await runPod(
-        'hmpps-probation-integration-services-dev',
-        'probation-integration-e2e-test',
-        'common-platform-and-delius',
-        ['aws sqs send-message --queue-url "$QUEUEURL" --message-body "$MESSAGEBODY"'],
+        'court-probation-dev',
+        'probation-integration-e2e-tests',
+        'court-facing-api',
+        ['aws sns publish --topic-arn "$TOPIC_ARN" --message "$MESSAGE" --message-attributes "$ATTRIBUTES"'],
         [
+            { name: 'TOPIC_ARN', valueFrom: { secretKeyRef: { name: 'court-case-events-topic', key: 'topic_arn' } } },
+            { name: 'MESSAGE', value: JSON.stringify(hearingData(person, address)) },
             {
-                name: 'QUEUEURL',
-                value: 'https://eu-west-2.queue.amazonaws.com/754256621582/probation-integration-dev-common-platform-and-delius-queue',
-            },
-            {
-                name: 'MESSAGEBODY',
+                name: 'ATTRIBUTES',
                 value: JSON.stringify({
-                    Message: JSON.stringify(hearingData(person, address)),
+                    messageType: { DataType: 'String', StringValue: 'COMMON_PLATFORM_HEARING' },
+                    hearingEventType: { DataType: 'String', StringValue: 'ConfirmedOrUpdated' },
                 }),
             },
         ]
