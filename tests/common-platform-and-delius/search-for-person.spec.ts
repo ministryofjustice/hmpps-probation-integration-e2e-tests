@@ -15,7 +15,7 @@ test('Create and search for a person', async ({ page }) => {
         'court-facing-api',
         ['aws sns publish --topic-arn "$TOPIC_ARN" --message "$MESSAGE" --message-attributes "$ATTRIBUTES"'],
         [
-            { name: 'TOPIC_ARN', valueFrom: { secretKeyRef: { name: 'court-case-events-topic', key: 'topic_arn' } } },
+            { name: 'TOPIC_ARN', valueFrom: { secretKeyRef: { name: 'court-cases-topic', key: 'topic_arn' } } },
             { name: 'MESSAGE', value: JSON.stringify(hearingData(person, address)) },
             {
                 name: 'ATTRIBUTES',
