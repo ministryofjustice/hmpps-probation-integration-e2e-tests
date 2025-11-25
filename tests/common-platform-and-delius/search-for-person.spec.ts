@@ -14,14 +14,17 @@ test('Create and search for a person', async ({ page }) => {
         'court-probation-dev',
         'probation-integration-e2e-tests',
         'court-facing-api',
-        ['aws sns publish --topic-arn "$TOPIC_ARN" --message "$MESSAGE" --message-attributes "$ATTRIBUTES"'],
+        [
+            'aws sns publish --topic-arn "$TOPIC_ARN" --message "$MESSAGE" --message-attributes "$ATTRIBUTES" --message-group-id "$MESSAGE_GROUP_ID"',
+        ],
         [
             { name: 'TOPIC_ARN', valueFrom: { secretKeyRef: { name: 'court-cases-topic', key: 'topic_arn' } } },
             { name: 'MESSAGE', value: JSON.stringify(hearingData(person, address)) },
-            { name: 'MessageGroupId', value: randomUUID() },
+            { name: 'MESSAGE_GROUP_ID', value: randomUUID() },
             {
                 name: 'ATTRIBUTES',
                 value: JSON.stringify({
+                    eventType: { DataType: 'String', StringValue: 'commonplatform.case.received' },
                     messageType: { DataType: 'String', StringValue: 'COMMON_PLATFORM_HEARING' },
                     hearingEventType: { DataType: 'String', StringValue: 'ConfirmedOrUpdated' },
                 }),
