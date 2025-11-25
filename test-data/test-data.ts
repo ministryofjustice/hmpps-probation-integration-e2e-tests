@@ -1,6 +1,5 @@
 import { commonData } from './environments/common'
 import { testEnvironmentData } from './environments/test'
-import * as dotenv from 'dotenv'
 
 export type Optional<T> = { [K in keyof T]?: T[K] }
 export interface Team {
@@ -35,6 +34,8 @@ export interface Contact extends ContactType {
     enforcementAction?: string
     attended?: string
     complied?: string
+    alert?: boolean
+    note?: string
 }
 
 export class TestData {
@@ -46,8 +47,6 @@ export class TestData {
     teams: { [key: string]: Team } = {}
     prisoners: { [key: string]: { crn: string; nomsNumber: string; bookingId?: number } } = {}
 }
-
-dotenv.config() // read environment variables into process.env
 
 // Merge environment config with common config and export single `data` object
 export const data: TestData = new TestData()

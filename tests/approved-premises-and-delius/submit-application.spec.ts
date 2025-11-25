@@ -1,5 +1,4 @@
 import { test } from '@playwright/test'
-import * as dotenv from 'dotenv'
 import { login as deliusLogin } from '../../steps/delius/login'
 import { login as hmppsLogin } from '../../steps/hmpps-auth/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
@@ -18,8 +17,6 @@ import { reallocateApplication } from '../../steps/cas1-approved-premises/applic
 import { assessApplication } from '../../steps/cas1-approved-premises/applications/assess-application'
 import { slow } from '../../steps/common/common'
 import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock'
-
-dotenv.config() // read environment variables into process.env
 
 const nomisIds = []
 

@@ -6,5 +6,5 @@ export const prepareCaseForSentenceLogin = async (page: Page) => {
     await page.fill('#username', process.env.DELIUS_USERNAME!)
     await page.fill('#password', process.env.DELIUS_PASSWORD!)
     await page.locator('#submit', { hasText: 'Sign in' }).click()
-    await expect(page).toHaveTitle('Which courts do you work in? - Prepare a case for sentence')
+    await expect(page).toHaveTitle('My courts - Prepare a case for sentence')
 }

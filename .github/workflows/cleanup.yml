@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           cache: npm
 
@@ -36,3 +36,33 @@ jobs:
           # Credentials
           DELIUS_USERNAME: ${{ secrets.E2E_DELIUS_USERNAME }}
           DELIUS_PASSWORD: ${{ secrets.E2E_DELIUS_PASSWORD }}
+
+  delete-addresses:
+    runs-on: [ self-hosted, hmpps-github-actions-runner ]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          cache: npm
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npx playwright install
+
+      - name: Run Playwright script
+        id: tests
+        run: npx playwright test -g 'Delete previous addresses for a given offender'
+        env:
+          TZ: Europe/London
+          ENV: test
+          TEST_DIR: test-data-setup
+          # URLs
+          DELIUS_URL: https://ndelius.test.probation.service.justice.gov.uk
+          # Credentials
+          DELIUS_USERNAME: ${{ secrets.E2E_DELIUS_USERNAME }}
+          DELIUS_PASSWORD: ${{ secrets.E2E_DELIUS_PASSWORD }}
+          # Inputs
+          OFFENDER_CRN: X371199

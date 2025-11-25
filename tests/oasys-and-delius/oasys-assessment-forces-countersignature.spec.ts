@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test'
-import * as dotenv from 'dotenv'
 import { login as deliusLogin } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { data } from '../../test-data/test-data'
@@ -11,8 +10,6 @@ import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessm
 import { createRegistration } from '../../steps/delius/registration/create-registration'
 import { slow } from '../../steps/common/common'
 import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock.js'
-
-dotenv.config() // read environment variables into process.env
 
 const nomisIds = []
 
