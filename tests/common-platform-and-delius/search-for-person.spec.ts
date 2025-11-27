@@ -5,25 +5,28 @@ import { runPod } from '../../steps/k8s/k8s-utils'
 import { DateTime } from 'luxon'
 import { hearingData } from '../../steps/court-case/hearing-data'
 import { buildAddress } from '../../steps/delius/address/create-address'
+import { randomUUID } from 'crypto'
 
 test('Create and search for a person', async ({ page }) => {
     const person = deliusPerson()
     const address = buildAddress()
-
     await runPod(
-        'hmpps-probation-integration-services-dev',
-        'probation-integration-e2e-test',
-        'common-platform-and-delius',
-        ['aws sqs send-message --queue-url "$QUEUEURL" --message-body "$MESSAGEBODY"'],
+        'court-probation-dev',
+        'probation-integration-e2e-tests',
+        'court-facing-api',
         [
+            'aws sns publish --topic-arn "$TOPIC_ARN" --message "$MESSAGE" --message-attributes "$ATTRIBUTES" --message-group-id "$MESSAGE_GROUP_ID"',
+        ],
+        [
+            { name: 'TOPIC_ARN', valueFrom: { secretKeyRef: { name: 'court-cases-topic', key: 'topic_arn' } } },
+            { name: 'MESSAGE', value: JSON.stringify(hearingData(person, address)) },
+            { name: 'MESSAGE_GROUP_ID', value: randomUUID() },
             {
-                name: 'QUEUEURL',
-                value: 'https://eu-west-2.queue.amazonaws.com/754256621582/probation-integration-dev-common-platform-and-delius-queue',
-            },
-            {
-                name: 'MESSAGEBODY',
+                name: 'ATTRIBUTES',
                 value: JSON.stringify({
-                    Message: JSON.stringify(hearingData(person, address)),
+                    eventType: { DataType: 'String', StringValue: 'commonplatform.case.received' },
+                    messageType: { DataType: 'String', StringValue: 'COMMON_PLATFORM_HEARING' },
+                    hearingEventType: { DataType: 'String', StringValue: 'ConfirmedOrUpdated' },
                 }),
             },
         ]
