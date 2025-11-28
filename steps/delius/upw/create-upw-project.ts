@@ -3,6 +3,7 @@ import { fillDate, selectOption } from '../utils/inputs'
 import { faker } from '@faker-js/faker'
 import { getCurrentDay, Tomorrow } from '../utils/date-time'
 import { waitForAjax } from '../utils/refresh'
+import { DateTime } from 'luxon'
 
 export async function createUpwProject(
     page: Page,
@@ -78,7 +79,8 @@ async function addProjectAvailability(
     await fillDate(page, '#EndDate\\:datePicker', projectAvailability.endDate)
     await page.fill('#StartTime\\:timePicker', projectAvailability.startTime)
     await page.fill('#EndTime\\:timePicker', projectAvailability.endTime)
-    await page.getByRole('button', { name: 'Add' }).click()
+    await page.getByRole('button', { name: 'Add', exact: true }).nth(1).click()
+    await page.getByTitle('Project Availability').click()
     await waitForAjax(page)
     await page.getByRole('button', { name: 'Save' }).click()
 }
