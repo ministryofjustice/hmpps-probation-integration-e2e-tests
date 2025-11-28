@@ -76,4 +76,6 @@ export const secondsToMilliseconds = (seconds: number): number => {
 export function getCurrentDay() {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     return days[new Date().getDay()]
+export function getCurrentDay() {
+    return DateTime.now().weekdayLong
 }
