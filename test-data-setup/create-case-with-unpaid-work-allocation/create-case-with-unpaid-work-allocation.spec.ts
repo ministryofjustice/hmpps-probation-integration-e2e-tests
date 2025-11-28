@@ -7,12 +7,19 @@ import { data } from '../../test-data/test-data'
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement'
 import { allocateCurrentCaseToUpwProject } from '../../steps/delius/upw/allocate-current-case-to-upw-project'
 import { slow } from '../../steps/common/common'
+import { createUpwProject } from '../../steps/delius/upw/create-upw-project'
 
 test('Create a case with an Unpaid Work Project Allocation', async ({ page }) => {
     slow()
-    const person = deliusPerson()
     await loginDelius(page)
 
+    data.teams.unpaidWorkTestTeam.name
+    let project = await createUpwProject(page, {
+        providerName: data.teams.unpaidWorkTestTeam.provider,
+        teamName: data.teams.unpaidWorkTestTeam.name
+    })
+
+    const person = deliusPerson()
     const crn: string = await createOffender(page, {
         person,
         providerName: data.teams.unpaidWorkTestTeam.provider,
@@ -31,5 +38,6 @@ test('Create a case with an Unpaid Work Project Allocation', async ({ page }) =>
     await allocateCurrentCaseToUpwProject(page, {
         providerName: data.teams.unpaidWorkTestTeam.provider,
         teamName: data.teams.unpaidWorkTestTeam.name,
+        projectName: project.projectName,
     })
 })

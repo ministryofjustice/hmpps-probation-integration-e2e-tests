@@ -72,3 +72,8 @@ export const minutesToMilliseconds = (minutes: number): number => {
 export const secondsToMilliseconds = (seconds: number): number => {
     return Duration.fromObject({ seconds }).as('milliseconds')
 }
+
+export function getCurrentDay() {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    return days[new Date().getDay()]
+}

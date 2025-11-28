@@ -1,16 +1,19 @@
 import { expect, Page } from '@playwright/test'
 import { selectOption } from '../utils/inputs'
+import { getCurrentDay } from '../utils/date-time'
 
 export async function allocateCurrentCaseToUpwProject(
     page: Page,
     {
         providerName,
         teamName,
-        day = 'Monday',
+        projectName,
+        day = getCurrentDay(),
         projectType = 'Group Placement - National Project',
     }: {
         providerName: string
         teamName: string
+        projectName: string
         day?: string
         projectType?: string
     }
@@ -29,7 +32,7 @@ export async function allocateCurrentCaseToUpwProject(
     await selectOption(page, '#selectionDay\\:selectOneMenu', day)
     await selectOption(page, '#projectType\\:selectOneMenu', projectType)
     await selectOption(page, '#team\\:selectOneMenu', teamName)
-    const projectName = await selectOption(page, '#project\\:selectOneMenu')
+    await selectOption(page, '#project\\:selectOneMenu', projectName)
     await selectOption(page, '#allocationDay\\:selectOneMenu')
     await page.getByRole('button', { name: 'Add' }).click()
 
