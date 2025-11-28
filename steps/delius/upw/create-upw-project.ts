@@ -28,7 +28,14 @@ export async function createUpwProject(
         pickupPoint?: string
         projectName?: string
         projectCode?: string
-        projectAvailability?: { day: string; frequency: string, startDate: Date; endDate: Date; startTime: string; endTime: string }
+        projectAvailability?: {
+            day: string
+            frequency: string
+            startDate: Date
+            endDate: Date
+            startTime: string
+            endTime: string
+        }
     }
 ): Promise<{ projectCode: string; projectName: string }> {
     await page.getByRole('link', { name: 'UPW Projects' }).click()
@@ -61,14 +68,17 @@ export function createNameWithTimeStamp(prefix = 'project'): string {
     return `${prefix}-${dateFormat}`
 }
 
-async function addProjectAvailability(page: Page, projectAvailability: {
-    day: string;
-    frequency: string;
-    startDate: Date;
-    endDate: Date;
-    startTime: string;
-    endTime: string
-}) {
+async function addProjectAvailability(
+    page: Page,
+    projectAvailability: {
+        day: string
+        frequency: string
+        startDate: Date
+        endDate: Date
+        startTime: string
+        endTime: string
+    }
+) {
     await page.getByRole('button', { name: 'Project Availability' }).click()
     await selectOption(page, '#Day\\:selectOneMenu', projectAvailability.day)
     await selectOption(page, '#Frequency\\:selectOneMenu', projectAvailability.frequency)
