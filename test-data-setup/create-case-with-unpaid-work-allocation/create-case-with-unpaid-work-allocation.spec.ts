@@ -13,7 +13,6 @@ test('Create a case with an Unpaid Work Project Allocation', async ({ page }) =>
     slow()
     await loginDelius(page)
 
-    data.teams.unpaidWorkTestTeam.name
     const project = await createUpwProject(page, {
         providerName: data.teams.unpaidWorkTestTeam.provider,
         teamName: data.teams.unpaidWorkTestTeam.name,
