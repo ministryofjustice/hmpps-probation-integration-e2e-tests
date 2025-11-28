@@ -78,7 +78,7 @@ async function addProjectAvailability(
     await fillDate(page, '#EndDate\\:datePicker', projectAvailability.endDate)
     await page.fill('#StartTime\\:timePicker', projectAvailability.startTime)
     await page.fill('#EndTime\\:timePicker', projectAvailability.endTime)
-    await page.locator('input[type="submit"][name="j_idt808"][value="Add"]').click()
+    await page.getByRole('button', { name: 'Add' }).click()
     await waitForAjax(page)
     await page.getByRole('button', { name: 'Save' }).click()
 }
