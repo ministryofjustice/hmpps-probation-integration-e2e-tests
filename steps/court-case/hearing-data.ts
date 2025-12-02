@@ -4,15 +4,15 @@ import { Person } from '../delius/utils/person'
 import { faker } from '@faker-js/faker'
 import { buildAddress } from '../delius/address/create-address'
 
-export const SHEFFIELD_COURT = {
-    code: 'B14LO00',
-    description: 'Sheffield Magistrates Court',
+export const OXFORD_MAGISTRATE_COURT = {
+    code: 'B43KB00',
+    description: 'Oxford Magistrates Court',
 }
 
 export const hearingData = (
     person: Person,
     address = buildAddress(),
-    court = SHEFFIELD_COURT,
+    court = OXFORD_MAGISTRATE_COURT,
     caseId: string = randomUUID()
 ) => ({
     hearing: {
