@@ -62,18 +62,18 @@ test('Create and search for a person', async ({ page }) => {
 
     // Check Event List + Details
     await page.getByRole('link', { name: 'Event List' }).click()
-    await expect(page.locator('tbody')).toContainText('Sheffield Magistrates Court')
+    await expect(page.locator('tbody')).toContainText('Oxford Magistrates Court')
     await expect(page.locator('tbody')).toContainText('Pre-Sentence')
     await expect(page.locator('tbody')).toContainText('Remanded In Custody')
     await page.getByRole('link', { name: 'view', exact: true }).click()
-    await expect(page.locator('span:right-of(:text("Court"))').first()).toContainText('Sheffield Magistrates Court')
+    await expect(page.locator('span:right-of(:text("Court"))').first()).toContainText('Oxford Magistrates Court')
 
     // Check Court Appearance List + Details
     await page.getByRole('link', { name: 'Court Appearances' }).click()
     await expect(page.locator('tbody')).toContainText('Trial/Adjournment')
-    await page.getByRole('cell', { name: 'Sheffield Magistrates Court' }).click()
+    await page.getByRole('cell', { name: 'Oxford Magistrates Court' }).click()
     await page.getByRole('link', { name: 'view', exact: true }).click()
-    await expect(page.locator('span:right-of(:text("Court:"))').first()).toContainText('Sheffield Magistrates Court')
+    await expect(page.locator('span:right-of(:text("Court:"))').first()).toContainText('Oxford Magistrates Court')
     await expect(page.locator('span:right-of(:text("Appearance Type"))').first()).toContainText('Trial/Adjournment')
     await expect(page.locator('span:right-of(:text("Outcome"))').first()).toContainText('Remanded In Custody')
 
