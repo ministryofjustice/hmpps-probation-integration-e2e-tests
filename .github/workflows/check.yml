@@ -9,6 +9,8 @@ jobs:
     steps:
     - uses: actions/checkout@v6
     - uses: actions/setup-node@v6
+      with:
+        node-version-file: .nvmrc
     - name: Download example test script
       run: wget https://raw.githubusercontent.com/microsoft/create-playwright/main/assets/example.spec.ts
       working-directory: tests
