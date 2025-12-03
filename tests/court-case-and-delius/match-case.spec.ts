@@ -39,7 +39,7 @@ test('Match Delius case with Court Case Hearing', async ({ page }) => {
 
     // Then the CRN is matched with the hearing and added to the court case service
     await prepareCaseForSentenceLogin(page)
-    await addCourtToUser(page, "Sheffield Magistrates' Court")
+    await addCourtToUser(page, 'Oxford Magistrates Court')
     const prepareCaseHeader = await searchAndClickDefendantAndGetHeader(page, person.firstName, person.lastName, crn)
     await expect(prepareCaseHeader).toContainText(crn)
     await expect(prepareCaseHeader).toContainText(person.pnc)
