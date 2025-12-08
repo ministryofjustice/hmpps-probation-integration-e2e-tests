@@ -53,7 +53,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          persist-credentials: false
+          persist-credentials: false # Removed this line of code which is a work around, once fix is in place as per the - https://github.com/JamesIves/github-pages-deploy-action/issues/1928
 
       - name: Get tests to run - all tests
         if: inputs.projects == '' || inputs.projects == 'All'
