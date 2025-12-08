@@ -1,9 +1,9 @@
 name: Cleanup
 
 on:
-  # Every weekday at 07:00 UTC
+  # Every weekday at 09:00 UTC
   schedule:
-    - cron: "0 7 * * MON-FRI"
+    - cron: "0 9 * * MON-FRI"
   # Run manually via GitHub API
   workflow_dispatch:
 
