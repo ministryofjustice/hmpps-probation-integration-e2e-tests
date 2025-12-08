@@ -52,6 +52,8 @@ jobs:
       report-url: ${{ steps.html.outputs.report-url }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Get tests to run - all tests
         if: inputs.projects == '' || inputs.projects == 'All'
