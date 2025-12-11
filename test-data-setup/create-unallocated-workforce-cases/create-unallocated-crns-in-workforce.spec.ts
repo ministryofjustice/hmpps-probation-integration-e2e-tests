@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
 
 test('Create cases awaiting Allocation', async ({ page }) => {
     slow()
-    await createCasesAwaitingAllocation(page, 50)
+    await createCasesAwaitingAllocation(page, 10)
 })
 
 const createCasesAwaitingAllocation = async (page: Page, number: number) => {

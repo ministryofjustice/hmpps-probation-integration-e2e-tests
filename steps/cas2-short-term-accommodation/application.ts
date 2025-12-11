@@ -25,7 +25,7 @@ export async function submitApplication(page: Page, nomisId: string) {
 
 async function startApplication(page: Page) {
     await page.getByRole('link', { name: 'Start a new application' }).click()
-    await expect(page).toHaveTitle('Home - Short-Term Accommodation (CAS-2)')
+    await expect(page).toHaveTitle('Home - CAS2 for HDC - short-term accommodation')
     await page.getByRole('button', { name: 'Start now' }).click()
     await expect(page).toHaveTitle(/Enter the person's prison number/)
 }
@@ -47,7 +47,7 @@ async function confirmEligibilityAndConsent(page: Page) {
     await fillDateInput(page, 'When did they give consent?')
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(
-        "The person's Home Detention Curfew (HDC) licence dates - Short-Term Accommodation (CAS-2)"
+        "The person's Home Detention Curfew (HDC) licence dates - CAS2 for HDC - short-term accommodation"
     )
     // Fill HDC eligibility date 1 month in the future and ensure it is before the conditional release date
     const hdcEligibilityDate = await fillDateInput(page, 'HDC eligibility date', 1)
@@ -233,7 +233,7 @@ async function riskToOthers(page: Page) {
     await expect(page).toHaveTitle(/Does the person have an older OASys with risk of serious harm \(RoSH\) information/)
     await page.getByLabel('No').check()
     await page.getByRole('button', { name: 'Save and continue' }).click()
-    await expect(page).toHaveTitle(/Create a RoSH summary for this person - Short-Term Accommodation \(CAS-2\)/)
+    await expect(page).toHaveTitle(/Create a RoSH summary for this person - CAS2 for HDC - short-term accommodation/)
     await page.getByRole('group', { name: 'What risk do they pose to children?' }).getByLabel('Low').check()
     await page.getByRole('group', { name: 'What risk do they pose to the public?' }).getByLabel('Medium').check()
     await page.getByRole('group', { name: 'What risk do they pose to a known adult?' }).getByLabel('Medium').check()

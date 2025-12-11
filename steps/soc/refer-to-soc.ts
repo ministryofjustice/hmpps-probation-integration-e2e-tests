@@ -7,6 +7,7 @@ export const referToSOC = async (page: Page, crn: string) => {
     await page.getByRole('button', { name: 'Search' }).click()
     await page.getByRole('link', { name: 'Add nominal to SOC' }).click()
     // Enter reason for referral
+    await page.getByRole('radio', { name: 'Preselection' }).check()
     await page.getByLabel('Reason for referral or inclusion').fill('Automated testing')
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await page.getByLabel('Directorate of Security (DoS').selectOption('North West and West Midlands')

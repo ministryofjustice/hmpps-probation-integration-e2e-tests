@@ -29,7 +29,7 @@ export const createLicence = async (page: Page, crn: string, nomsNumber: string)
     await expect(page).toHaveTitle(
         'Create and vary a licence - Create a licence - What is the contact phone number for the initial appointment?'
     )
-    await page.getByLabel('UK telephone number').first().fill(cvlFormattedPhoneNumber())
+    await page.getByLabel('UK phone number').first().fill(cvlFormattedPhoneNumber())
     await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveTitle('Create and vary a licence - Create a licence - When is the initial appointment?')
     await page.getByLabel(/Immediately after release/).check()

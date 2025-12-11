@@ -35,7 +35,7 @@ test.afterEach(async ({ page }) => {
     await hmppsAuthLogin(page)
     await page.goto(process.env.ESUPERVISION_URL)
     await page.getByRole('link', { name: 'Cases' }).click()
-    await page.getByRole('link', { name: `Manage ${person.firstName} ${person.lastName}` }).click({ timeout: 5000 })
+    await page.getByRole('link', { name: 'Manage' }).last().click({ timeout: 5000 })
     await page.getByRole('link', { name: 'Stop check ins' }).click()
     await page.getByRole('radio', { name: 'Yes' }).check()
     await page.getByRole('textbox', { name: /Explain the reason/ }).fill('Testing')
