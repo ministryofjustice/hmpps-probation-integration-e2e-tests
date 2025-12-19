@@ -54,7 +54,7 @@ export async function createCheckin(page: Page, uuid: string, person: Person) {
 
     await page.getByRole('button', { name: 'Continue' }).click()
     await page.getByRole('button', { name: 'Start recording' }).click()
-    await page.getByRole('button', { name: 'Continue' }).click()
+    await page.getByRole('button', { name: /Submit video anyway/ }).click()
 
     await page.getByRole('checkbox', { name: /I confirm/ }).check()
     await page.getByRole('button', { name: 'Complete check in' }).click()
