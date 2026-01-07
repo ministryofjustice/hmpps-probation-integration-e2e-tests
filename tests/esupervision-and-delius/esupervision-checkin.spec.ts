@@ -34,14 +34,24 @@ test.afterEach(async ({ page }) => {
     // Stop check-ins
     await hmppsAuthLogin(page)
     await page.goto(process.env.ESUPERVISION_URL)
-    await page.getByRole('link', { name: 'Cases' }).click()
-    await page.getByRole('link', { name: 'Manage' }).last().click({ timeout: 5000 })
-    await page.getByRole('link', { name: 'Stop check ins' }).click()
-    await page.getByRole('radio', { name: 'Yes' }).check()
+    await page.getByRole('link', { name: 'Check ins', exact: true }).click()
+    await expect(page.locator('.govuk-heading-l')).toContainText(/Check ins/)
+    await page.getByRole('link', { name: 'Reviewed', exact: true }).click()
+    await page.getByRole('button', { name: 'Reviewed on' }).click()
+    await page
+        .getByRole('link', {
+            name: new RegExp(`View\\s+the check-in of ${person.firstName} ${person.lastName}`),
+        })
+        .click()
+    await expect(page.locator('.govuk-caption-l')).toContainText('Check-in')
+    await page.getByRole('link', { name: 'Manage this persons check ins' }).click()
+    await expect(page.locator('.govuk-caption-l')).toContainText('Manage check ins')
+    await page.getByRole('link', { name: 'Stop check ins', exact: true }).click()
+    await expect(page.locator('.govuk-fieldset__heading')).toContainText(/Are you sure you want to stop check ins for/i)
+    await page.getByRole('radio', { name: 'Yes', exact: true }).check()
     await page.getByRole('textbox', { name: /Explain the reason/ }).fill('Testing')
-    await page.getByRole('button', { name: 'Continue' }).click()
-    await expect(page.locator('#main-content')).toContainText('Check-ins stopped')
-    // Delete the offender from Delius
+    await page.getByRole('button', { name: 'Continue', exact: true }).click()
+    await expect(page.locator('.moj-alert__heading')).toContainText('Check-ins stopped')
     await deliusLogin(page)
     await deleteOffender(page, crn)
 })
