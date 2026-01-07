@@ -18,8 +18,7 @@ test('Create person and check tier is updated', async ({ page }) => {
     await searchTierByCRN(page, crn, person)
 
     // Then the tier is updated in the HMPPS Tier UI service
-    await expect(page.locator("[data-qa='crn']")).toHaveText(crn)
-    await expect(page.locator("[data-qa='sex']")).toHaveText(person.sex)
-    await expect(page.locator("[data-qa='tier']")).toContainText('B0')
+    await expect(page.locator("[data-qa='case-details-header-crn']")).toHaveText(crn)
+    await expect(page.locator("[data-qa='case-details-header-tier']")).toContainText('B0')
     await expect(page.locator("[data-qa='protect-table']  tr td").first()).toContainText('High RoSH')
 })
