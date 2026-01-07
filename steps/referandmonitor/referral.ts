@@ -19,7 +19,7 @@ export const makeReferral = async (page: Page, crn: string) => {
     await page.getByRole('link', { name: 'Find a CRS intervention and make a referral' }).click()
 
     // Find Intervention
-    await page.locator('text=GM - Accommodation Support Service').click()
+    await page.locator('text=Accommodation Services - East of England').click()
 
     // Navigate to Make a referral page
     await page.locator('text=Make a referral').click()
