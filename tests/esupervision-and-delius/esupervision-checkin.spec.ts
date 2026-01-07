@@ -52,6 +52,7 @@ test.afterEach(async ({ page }) => {
     await page.getByRole('textbox', { name: /Explain the reason/ }).fill('Testing')
     await page.getByRole('button', { name: 'Continue', exact: true }).click()
     await expect(page.locator('.moj-alert__heading')).toContainText('Check-ins stopped')
+    // Delete the offender from Delius
     await deliusLogin(page)
     await deleteOffender(page, crn)
 })
