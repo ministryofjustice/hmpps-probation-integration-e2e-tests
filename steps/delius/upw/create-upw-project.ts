@@ -79,8 +79,7 @@ async function addProjectAvailability(
     await fillDate(page, '#EndDate\\:datePicker', projectAvailability.endDate)
     await page.fill('#StartTime\\:timePicker', projectAvailability.startTime)
     await page.fill('#EndTime\\:timePicker', projectAvailability.endTime)
-    await page.getByRole('button', { name: 'Add', exact: true }).nth(1).click()
-    await page.getByTitle('Project Availability').click()
+    await page.getByRole('button', { name: 'Add', exact: true }).nth(0).click()
     await waitForAjax(page)
     await page.getByRole('button', { name: 'Save' }).click()
 }
