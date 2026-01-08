@@ -1,6 +1,7 @@
 import { expect, type Page } from '@playwright/test'
 import { selectOption } from '../utils/inputs'
 import { findEventByCRN } from '../event/find-events'
+import { doUntil } from '../utils/refresh'
 
 export const createLicenceCondition = async (page: Page, crn: string, eventNumber = 1): Promise<string> => {
     await findEventByCRN(page, crn, eventNumber)
@@ -21,7 +22,15 @@ export const createLicenceCondition = async (page: Page, crn: string, eventNumbe
 
 export const navigateToLicenceConditions = async (page: Page, crn: string, eventNumber = 1): Promise<void> => {
     await findEventByCRN(page, crn, eventNumber)
-    await page.getByRole('link', { name: 'Licence conditions' }).click()
+    await doUntil(
+        () => page.getByRole('link', { name: 'Licence Conditions' }).click(),
+        () => expect(page.locator('h1')).toContainText('Licence Conditions'),
+        {
+            rollback: async () => {
+                if ((await page.title()) === 'Error Page') await page.goBack()
+            },
+        }
+    )
 }
 
 export const deliusLicenceCondition = 'table tr:first-child td:nth-child(2)'
