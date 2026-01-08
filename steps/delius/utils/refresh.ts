@@ -7,11 +7,20 @@ export const refreshUntil = async (page: Page, expectation: () => Promise<void>,
 export const doUntil = async <T>(
     action: () => Promise<T>,
     expectation: () => Promise<void>,
-    options: { timeout?: number; intervals?: number[] } = { timeout: 60_000, intervals: [250, 500, 1000, 5000] }
+    options: { timeout?: number; intervals?: number[]; rollback?: () => Promise<unknown> } = {
+        timeout: 60_000,
+        intervals: [250, 500, 1000, 5000],
+        rollback: null,
+    }
 ) => {
     await expect(async () => {
         await action()
-        return await expectation()
+        try {
+            return await expectation()
+        } catch (e) {
+            if (options.rollback) await options.rollback()
+            throw e
+        }
     }).toPass(options)
 }
 
