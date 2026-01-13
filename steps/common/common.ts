@@ -13,3 +13,5 @@ export const slow = (minutes: number = 7) => {
     const duration = Duration.fromObject({ minutes })
     test.setTimeout(duration.as('milliseconds'))
 }
+
+export const qa = (id: string) => `[data-qa="${id}"]`
