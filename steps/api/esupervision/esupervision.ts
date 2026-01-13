@@ -13,10 +13,7 @@ async function getEsupervisionContext(): Promise<APIRequestContext> {
     })
 }
 
-/**
- * Creates an eSupervision offender check-in for the given CRN and dueDate
- * and returns the UUID.
- */
+// Creates an eSupervision offender check-in for the given CRN & dueDate and returns the UUID.
 
 export async function createOffenderCheckin(crn: string, dueDate: string): Promise<string> {
     const ctx = await getEsupervisionContext()
