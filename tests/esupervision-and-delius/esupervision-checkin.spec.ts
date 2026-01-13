@@ -4,14 +4,15 @@ import { deliusPerson } from '../../steps/delius/utils/person'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { contact } from '../../steps/delius/utils/contact'
-
 import { createCommunityEvent } from '../../steps/delius/event/create-event'
 import { createCheckin, registerCaseInMPoP, reviewCheckinInMPoP } from '../../steps/manage-a-supervision/check-in'
+import { slow } from '../../steps/common/common'
 
 const person = deliusPerson()
 let crn: string
 
 test('Check-in for an e-supervision appointment', async ({ page }) => {
+    slow()
     // Given a case in Delius with an active event
     await deliusLogin(page)
     crn = await createOffender(page, { person })

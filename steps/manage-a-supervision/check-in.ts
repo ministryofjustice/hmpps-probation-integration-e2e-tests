@@ -4,8 +4,9 @@ import { getWorkingDayForEsupervision, options, uiDateToIso } from '../delius/ut
 import { DateTime } from 'luxon'
 import { login as managePeopleOnProbationLogin } from '../manage-a-supervision/login'
 import { refreshUntil } from '../delius/utils/refresh'
+import { qa } from '../common/common'
 import { createOffenderCheckin } from '../api/esupervision/esupervision'
-import { qa, searchPersonInMPoP } from './application'
+import { searchPersonInMPoP } from './application'
 
 export async function registerCaseInMPoP(page: Page, person: Person, crn: string) {
     const uiDueDate = getWorkingDayForEsupervision(1)

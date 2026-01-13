@@ -16,5 +16,3 @@ export async function searchPersonInMPoP(page: Page, crn: string, heading?: Retu
         await expect(heading).toContainText(/Overview/i)
     }
 }
-
-export const qa = (id: string) => `[data-qa="${id}"]`
