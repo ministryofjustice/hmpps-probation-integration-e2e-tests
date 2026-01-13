@@ -4,6 +4,7 @@ import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { login as managePeopleOnProbationLogin } from '../../steps/manage-a-supervision/login'
 import { doUntil } from '../../steps/delius/utils/refresh'
+import { searchPersonInMPoP } from '../../steps/manage-a-supervision/application'
 
 test('Search for a person in Manage a Supervision', async ({ page }) => {
     // Given a new person in Delius
@@ -15,16 +16,9 @@ test('Search for a person in Manage a Supervision', async ({ page }) => {
     await managePeopleOnProbationLogin(page)
 
     // And I search for the CRN
-    await page.getByRole('link', { name: 'Search' }).click()
-    await page.getByLabel('Find a person on probation').fill(crn)
-
-    await doUntil(
-        () => page.getByRole('button', { name: 'Search' }).click(),
-        () => expect(page.locator('#search-results-container')).toContainText(crn)
-    )
+    await searchPersonInMPoP(page, crn)
 
     // Then the person appears in the search results and crn & name matches
-    await page.locator(`[href$="${crn}"]`).click()
     await expect(page).toHaveTitle(/Overview/)
     await expect(page.locator('[data-qa="crn"]')).toContainText(crn)
     await expect(page.locator('[data-qa="name"]')).toContainText(person.firstName + ' ' + person.lastName)
