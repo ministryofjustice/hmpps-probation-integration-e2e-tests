@@ -1,4 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test'
+import { waitForAjax } from '../utils/refresh'
 
 export type CheckAppointmentOptions = {
     teamProvider: string
@@ -15,20 +16,29 @@ export type CheckAppointmentOptions = {
     outStanding?: string
 }
 
-export async function getRowByContent(page: Page, content: string): Promise<Locator> {
-    const row = page.locator(`#searchResultsTable tbody tr:has-text("${content}")`).first()
+async function clickNextButton(page: Page) {
+    const nextButtonSelector = 'a.page-link[title="Next"]:not(.disabled)'
+    await page.waitForSelector(nextButtonSelector, { state: 'visible' })
 
-    const isVisible = await row.isVisible().catch(() => false)
-    if (isVisible) {
+    await page.click(nextButtonSelector)
+    await waitForAjax(page)
+    await page.waitForSelector('#searchResultsTable tbody')
+
+    return true
+}
+
+async function getRowByContent(page: Page, content: string): Promise<Locator> {
+    const row = page.locator(`#searchResultsTable tbody tr:has-text("${content}")`).first()
+    if (await row.isVisible().catch(() => false)) {
         return row
     }
 
-    if (await page.getByRole('link', { name: 'Next' }).isEnabled()) {
-        await page.getByRole('link', { name: 'Next' }).click()
-        await page.waitForSelector('#searchResultsTable tbody tr')
+    const nextButton = page.locator('a.page-link[title="Next"]:not(.disabled)')
+
+    if ((await nextButton.count()) > 0) {
+        await clickNextButton(page)
         return getRowByContent(page, content)
     }
-
     throw new Error(`Row with content "${content}" not found`)
 }
 
@@ -66,6 +76,7 @@ export async function checkAppointmentOnDelius(
     await page.getByRole('combobox', { name: 'Team:' }).selectOption(teamName)
 
     await page.getByRole('button', { name: 'Search' }).click()
+    await waitForAjax(page)
     await page.waitForSelector('h2:text-is("Project List")')
 
     const row = await getRowByContent(page, projectName)
