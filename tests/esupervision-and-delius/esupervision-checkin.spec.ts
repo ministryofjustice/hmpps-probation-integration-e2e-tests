@@ -6,7 +6,9 @@ import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { contact } from '../../steps/delius/utils/contact'
 import { createCommunityEvent } from '../../steps/delius/event/create-event'
 import { createCheckin, registerCaseInMPoP, reviewCheckinInMPoP } from '../../steps/manage-a-supervision/check-in'
+import { internalTransfer } from '../../steps/delius/transfer/internal-transfer'
 import { slow } from '../../steps/common/common'
+import { data } from '../../test-data/test-data'
 
 const person = deliusPerson()
 let crn: string
@@ -15,7 +17,8 @@ test('Check-in for an e-supervision appointment', async ({ page }) => {
     slow()
     // Given a case in Delius with an active event
     await deliusLogin(page)
-    crn = await createOffender(page, { person })
+    crn = await createOffender(page, { person, providerName: data.teams.genericTeam.provider })
+    await internalTransfer(page, { crn, allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff } })
     await createCommunityEvent(page, { crn })
 
     // When the e-supervision case is registered in MPoP
