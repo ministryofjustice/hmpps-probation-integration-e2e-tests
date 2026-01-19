@@ -22,11 +22,9 @@ export async function internalTransfer(
     await selectOption(page, '#Team\\:selectOneMenu', allocation?.team?.name)
     const selectedStaff = await selectOption(page, '#Staff\\:selectOneMenu', allocation?.staff?.name)
 
-    const options = await page.locator('#offenderTransferRequestTable').locator('select')
-
-    const count = await options.count()
+    const count = await page.locator('#offenderTransferRequestTable select').count()
     for (let i = 0; i < count; i++) {
-        await options.nth(i).selectOption({ label: reason })
+        await selectOption(page, `:nth-match(#offenderTransferRequestTable select, ${i + 1})`, reason)
     }
 
     await page.locator('input', { hasText: 'Transfer' }).click()

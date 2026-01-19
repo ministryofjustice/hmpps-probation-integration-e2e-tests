@@ -17,7 +17,7 @@ test('Check-in for an e-supervision appointment', async ({ page }) => {
     slow()
     // Given a case in Delius with an active event
     await deliusLogin(page)
-    crn = await createOffender(page, { person })
+    crn = await createOffender(page, { person, providerName: data.teams.genericTeam.provider })
     await internalTransfer(page, { crn, allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff } })
     await createCommunityEvent(page, { crn })
 
