@@ -51,6 +51,7 @@ export async function createUpwProject(
     await page.fill('#ProjectCode\\:prependedInputText', projectCode)
     await page.fill('#ProjectName\\:inputText', projectName)
     await fillDate(page, '#ProjectStartDate\\:datePicker', new Date())
+    await fillDate(page, '#ProjectEndDate\\:datePicker', Tomorrow.toJSDate())
     await page.getByRole('button', { name: 'Save' }).click()
     await expect(page.locator('#content > h1')).toContainText('Update Project')
     await addProjectAvailability(page, projectAvailability)
