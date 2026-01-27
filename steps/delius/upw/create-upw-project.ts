@@ -57,17 +57,20 @@ export function createNameWithTimeStamp(prefix = 'project'): string {
     return `${prefix}-${DateTime.now().toFormat('ddMMyyyyHHmmss')}`
 }
 
-async function addProjectAvailability(
-    page: Page,
-    {
+async function addProjectAvailability(page: Page, projectAvailability: ProjectAvailability) {
+    const timeNow = DateTime.now()
+    // default duration set to 4 hours to ensure the appointment ends on the same day (when running before 8pm)
+    const timeLater = timeNow.plus({ hours: 4 })
+
+    const {
         day = getCurrentDay(),
         frequency = 'Weekly',
         startDate = new Date(),
         endDate = Tomorrow.toJSDate(),
-        startTime = '09:00',
-        endTime = '17:00',
-    }: ProjectAvailability
-) {
+        startTime = timeNow.toISOTime({ precision: 'minute' }),
+        endTime = timeLater.toISOTime({ precision: 'minute' }),
+    } = projectAvailability
+
     await page.getByRole('button', { name: 'Project Availability' }).click()
     await selectOption(page, '#Day\\:selectOneMenu', day)
     await selectOption(page, '#Frequency\\:selectOneMenu', frequency)
