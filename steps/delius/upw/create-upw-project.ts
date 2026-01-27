@@ -33,7 +33,7 @@ export async function createUpwProject(
         projectCode?: string
         projectAvailability?: ProjectAvailability
     }
-): Promise<{ projectCode: string; projectName: string }> {
+): Promise<{ projectCode: string; projectName: string; projectAvailability: ProjectAvailability }> {
     await page.getByRole('link', { name: 'UPW Projects' }).click()
     await expect(page.locator('#content > h1')).toContainText('UPW Projects List')
     await page.locator('input', { hasText: 'Add New Project' }).click()
@@ -49,15 +49,18 @@ export async function createUpwProject(
     await fillDate(page, '#ProjectEndDate\\:datePicker', Tomorrow.toJSDate())
     await page.getByRole('button', { name: 'Save' }).click()
     await expect(page.locator('#content > h1')).toContainText('Update Project')
-    await addProjectAvailability(page, projectAvailability)
-    return { projectCode, projectName }
+    const availability = await addProjectAvailability(page, projectAvailability)
+    return { projectCode, projectName, projectAvailability: availability }
 }
 
 export function createNameWithTimeStamp(prefix = 'project'): string {
     return `${prefix}-${DateTime.now().toFormat('ddMMyyyyHHmmss')}`
 }
 
-async function addProjectAvailability(page: Page, projectAvailability: ProjectAvailability) {
+async function addProjectAvailability(
+    page: Page,
+    projectAvailability: ProjectAvailability
+): Promise<ProjectAvailability> {
     const timeNow = DateTime.now()
     // default duration set to 4 hours to ensure the appointment ends on the same day (when running before 8pm)
     const timeLater = timeNow.plus({ hours: 4 })
@@ -81,4 +84,5 @@ async function addProjectAvailability(page: Page, projectAvailability: ProjectAv
     await page.getByRole('button', { name: 'Add', exact: true }).nth(0).click()
     await waitForAjax(page)
     await page.getByRole('button', { name: 'Save' }).click()
+    return { day, frequency, startDate, endDate, startTime, endTime }
 }
