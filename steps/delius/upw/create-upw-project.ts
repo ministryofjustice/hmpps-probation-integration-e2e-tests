@@ -5,6 +5,15 @@ import { getCurrentDay, Tomorrow } from '../utils/date-time'
 import { waitForAjax } from '../utils/refresh'
 import { DateTime } from 'luxon'
 
+interface ProjectAvailability {
+    day?: string
+    frequency?: string
+    startDate?: Date
+    endDate?: Date
+    startTime?: string
+    endTime?: string
+}
+
 export async function createUpwProject(
     page: Page,
     {
@@ -14,14 +23,7 @@ export async function createUpwProject(
         pickupPoint = 'Chelmsford',
         projectName = createNameWithTimeStamp(),
         projectCode = faker.string.alphanumeric(6),
-        projectAvailability = {
-            day: getCurrentDay(),
-            frequency: 'Weekly',
-            startDate: new Date(),
-            endDate: Tomorrow.toJSDate(),
-            startTime: '09:00',
-            endTime: '17:00',
-        },
+        projectAvailability = {},
     }: {
         providerName: string
         teamName: string
@@ -29,14 +31,7 @@ export async function createUpwProject(
         pickupPoint?: string
         projectName?: string
         projectCode?: string
-        projectAvailability?: {
-            day: string
-            frequency: string
-            startDate: Date
-            endDate: Date
-            startTime: string
-            endTime: string
-        }
+        projectAvailability?: ProjectAvailability
     }
 ): Promise<{ projectCode: string; projectName: string }> {
     await page.getByRole('link', { name: 'UPW Projects' }).click()
@@ -64,22 +59,22 @@ export function createNameWithTimeStamp(prefix = 'project'): string {
 
 async function addProjectAvailability(
     page: Page,
-    projectAvailability: {
-        day: string
-        frequency: string
-        startDate: Date
-        endDate: Date
-        startTime: string
-        endTime: string
-    }
+    {
+        day = getCurrentDay(),
+        frequency = 'Weekly',
+        startDate = new Date(),
+        endDate = Tomorrow.toJSDate(),
+        startTime = '09:00',
+        endTime = '17:00',
+    }: ProjectAvailability
 ) {
     await page.getByRole('button', { name: 'Project Availability' }).click()
-    await selectOption(page, '#Day\\:selectOneMenu', projectAvailability.day)
-    await selectOption(page, '#Frequency\\:selectOneMenu', projectAvailability.frequency)
-    await fillDate(page, '#StartDate\\:datePicker', projectAvailability.startDate)
-    await fillDate(page, '#EndDate\\:datePicker', projectAvailability.endDate)
-    await page.fill('#StartTime\\:timePicker', projectAvailability.startTime)
-    await page.fill('#EndTime\\:timePicker', projectAvailability.endTime)
+    await selectOption(page, '#Day\\:selectOneMenu', day)
+    await selectOption(page, '#Frequency\\:selectOneMenu', frequency)
+    await fillDate(page, '#StartDate\\:datePicker', startDate)
+    await fillDate(page, '#EndDate\\:datePicker', endDate)
+    await page.fill('#StartTime\\:timePicker', startTime)
+    await page.fill('#EndTime\\:timePicker', endTime)
     await page.getByRole('button', { name: 'Add', exact: true }).nth(0).click()
     await waitForAjax(page)
     await page.getByRole('button', { name: 'Save' }).click()
