@@ -70,8 +70,8 @@ async function addProjectAvailability(
         frequency = 'Weekly',
         startDate = new Date(),
         endDate = Tomorrow.toJSDate(),
-        startTime = timeNow.toISOTime({ precision: 'minute' }),
-        endTime = timeLater.toISOTime({ precision: 'minute' }),
+        startTime = timeNow.toISOTime({ precision: 'minute', includeOffset: false }),
+        endTime = timeLater.toISOTime({ precision: 'minute', includeOffset: false }),
     } = projectAvailability
 
     await page.getByRole('button', { name: 'Project Availability' }).click()
