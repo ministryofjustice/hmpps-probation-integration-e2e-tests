@@ -23,6 +23,7 @@ export async function createUpwProject(
         pickupPoint = 'Chelmsford',
         projectName = createNameWithTimeStamp(),
         projectCode = faker.string.alphanumeric(6),
+        endDate = Tomorrow.toJSDate(),
         projectAvailability = {},
     }: {
         providerName: string
@@ -31,6 +32,7 @@ export async function createUpwProject(
         pickupPoint?: string
         projectName?: string
         projectCode?: string
+        endDate?: Date
         projectAvailability?: ProjectAvailability
     }
 ): Promise<{ projectCode: string; projectName: string; projectAvailability: ProjectAvailability }> {
@@ -46,7 +48,7 @@ export async function createUpwProject(
     await page.fill('#ProjectCode\\:prependedInputText', projectCode)
     await page.fill('#ProjectName\\:inputText', projectName)
     await fillDate(page, '#ProjectStartDate\\:datePicker', new Date())
-    await fillDate(page, '#ProjectEndDate\\:datePicker', Tomorrow.toJSDate())
+    await fillDate(page, '#ProjectEndDate\\:datePicker', endDate)
     await page.getByRole('button', { name: 'Save' }).click()
     await expect(page.locator('#content > h1')).toContainText('Update Project')
     const availability = await addProjectAvailability(page, projectAvailability)
