@@ -2,7 +2,7 @@ import { test } from '@playwright/test'
 import { login as loginDelius } from '../../steps/delius/login'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { createOffender } from '../../steps/delius/offender/create-offender'
-import { createCustodialEvent } from '../../steps/delius/event/create-event'
+import { createCommunityEvent, createCustodialEvent } from '../../steps/delius/event/create-event'
 import {
     createAndBookPrisoner,
     createAndBookPrisonerWithoutDeliusLink,
@@ -26,6 +26,8 @@ test('Create a case in multiple systems', async ({ page }) => {
             await createCustodialEvent(page, { crn })
             const { nomisId } = await createAndBookPrisoner(page, crn, person)
             await releasePrisoner(nomisId)
+        } else {
+            await createCommunityEvent(page, { crn })
         }
         if (process.env.CREATE_OASYS_ASSESSMENT === 'true') {
             await oasysLogin(page, UserType.Booking)
