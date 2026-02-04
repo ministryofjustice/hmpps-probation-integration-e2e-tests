@@ -5,6 +5,15 @@ import { getCurrentDay, Tomorrow } from '../utils/date-time'
 import { waitForAjax } from '../utils/refresh'
 import { DateTime } from 'luxon'
 
+interface ProjectAvailability {
+    day?: string
+    frequency?: string
+    startDate?: Date
+    endDate?: Date
+    startTime?: string
+    endTime?: string
+}
+
 export async function createUpwProject(
     page: Page,
     {
@@ -14,14 +23,8 @@ export async function createUpwProject(
         pickupPoint = 'Chelmsford',
         projectName = createNameWithTimeStamp(),
         projectCode = faker.string.alphanumeric(6),
-        projectAvailability = {
-            day: getCurrentDay(),
-            frequency: 'Weekly',
-            startDate: new Date(),
-            endDate: Tomorrow.toJSDate(),
-            startTime: '09:00',
-            endTime: '17:00',
-        },
+        endDate = Tomorrow.toJSDate(),
+        projectAvailability = {},
     }: {
         providerName: string
         teamName: string
@@ -29,16 +32,10 @@ export async function createUpwProject(
         pickupPoint?: string
         projectName?: string
         projectCode?: string
-        projectAvailability?: {
-            day: string
-            frequency: string
-            startDate: Date
-            endDate: Date
-            startTime: string
-            endTime: string
-        }
+        endDate?: Date
+        projectAvailability?: ProjectAvailability
     }
-): Promise<{ projectCode: string; projectName: string }> {
+): Promise<{ projectCode: string; projectName: string; projectAvailability: ProjectAvailability }> {
     await page.getByRole('link', { name: 'UPW Projects' }).click()
     await expect(page.locator('#content > h1')).toContainText('UPW Projects List')
     await page.locator('input', { hasText: 'Add New Project' }).click()
@@ -51,10 +48,11 @@ export async function createUpwProject(
     await page.fill('#ProjectCode\\:prependedInputText', projectCode)
     await page.fill('#ProjectName\\:inputText', projectName)
     await fillDate(page, '#ProjectStartDate\\:datePicker', new Date())
+    await fillDate(page, '#ProjectEndDate\\:datePicker', endDate)
     await page.getByRole('button', { name: 'Save' }).click()
     await expect(page.locator('#content > h1')).toContainText('Update Project')
-    await addProjectAvailability(page, projectAvailability)
-    return { projectCode, projectName }
+    const availability = await addProjectAvailability(page, projectAvailability)
+    return { projectCode, projectName, projectAvailability: availability }
 }
 
 export function createNameWithTimeStamp(prefix = 'project'): string {
@@ -63,23 +61,30 @@ export function createNameWithTimeStamp(prefix = 'project'): string {
 
 async function addProjectAvailability(
     page: Page,
-    projectAvailability: {
-        day: string
-        frequency: string
-        startDate: Date
-        endDate: Date
-        startTime: string
-        endTime: string
-    }
-) {
+    projectAvailability: ProjectAvailability
+): Promise<ProjectAvailability> {
+    const timeNow = DateTime.now()
+    // default duration set to 4 hours to ensure the appointment ends on the same day (when running before 8pm)
+    const timeLater = timeNow.plus({ hours: 4 })
+
+    const {
+        day = getCurrentDay(),
+        frequency = 'Weekly',
+        startDate = new Date(),
+        endDate = Tomorrow.toJSDate(),
+        startTime = timeNow.toISOTime({ precision: 'minute', includeOffset: false }),
+        endTime = timeLater.toISOTime({ precision: 'minute', includeOffset: false }),
+    } = projectAvailability
+
     await page.getByRole('button', { name: 'Project Availability' }).click()
-    await selectOption(page, '#Day\\:selectOneMenu', projectAvailability.day)
-    await selectOption(page, '#Frequency\\:selectOneMenu', projectAvailability.frequency)
-    await fillDate(page, '#StartDate\\:datePicker', projectAvailability.startDate)
-    await fillDate(page, '#EndDate\\:datePicker', projectAvailability.endDate)
-    await page.fill('#StartTime\\:timePicker', projectAvailability.startTime)
-    await page.fill('#EndTime\\:timePicker', projectAvailability.endTime)
+    await selectOption(page, '#Day\\:selectOneMenu', day)
+    await selectOption(page, '#Frequency\\:selectOneMenu', frequency)
+    await fillDate(page, '#StartDate\\:datePicker', startDate)
+    await fillDate(page, '#EndDate\\:datePicker', endDate)
+    await page.fill('#StartTime\\:timePicker', startTime)
+    await page.fill('#EndTime\\:timePicker', endTime)
     await page.getByRole('button', { name: 'Add', exact: true }).nth(0).click()
     await waitForAjax(page)
     await page.getByRole('button', { name: 'Save' }).click()
+    return { day, frequency, startDate, endDate, startTime, endTime }
 }
