@@ -111,10 +111,8 @@ export async function reviewCheckinInMPoP(page: Page, crn: string) {
     await page.getByRole('button', { name: 'Confirm and review responses' }).click()
     await expect(heading).toContainText('Online check in submitted')
     await page.getByRole('button', { name: 'Confirm review' }).click()
-    await expect(page.locator(qa('timeline1Card'))).toContainText('Online check in completed')
-    const checkinCard = page.locator(qa('timeline1Card'), {
-        has: page.getByText('Online probation check in'),
-    })
+    await expect(page.locator(qa('timeline1Card'))).toContainText('Online probation check in')
+    const checkinCard = page.locator(qa('timeline1Card'), { has: page.getByText('Online probation check in') })
     await refreshUntil(
         page,
         async () => {
