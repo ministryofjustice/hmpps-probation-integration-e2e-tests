@@ -115,7 +115,7 @@ async function enterContactDetails(page: Page) {
     await expect(page).toHaveTitle('Backup contact / senior probation officer details - CAS3')
     await page.getByLabel('Name').fill('AutomatedTestUser AutomatedTestUser')
     await page.getByLabel('Phone number').fill(faker.phone.number())
-    await page.getByLabel('Email').fill(faker.internet.email())
+    await page.getByLabel('Email').fill('example@example.gov.uk')
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle("What is the person's phone number? - CAS3")
     await page

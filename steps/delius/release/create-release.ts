@@ -33,9 +33,6 @@ export const createRelease = async (
         () => page.getByRole('button', { name: 'Save' }).click(),
         () => expect(page).toHaveTitle(/Add Release/)
     )
-    await doUntil(
-        () => page.getByRole('button', { name: 'Confirm' }).click(),
-        () => expect(page).toHaveTitle(/Add Components/)
-    )
+    await page.getByRole('button', { name: 'Confirm' }).click()
     await expect(page.locator('h1')).toContainText('Add Licence Conditions')
 }

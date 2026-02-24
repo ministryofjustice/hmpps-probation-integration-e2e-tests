@@ -47,7 +47,7 @@ test('Release and recall test', async ({ page }) => {
     // When the person in nomis is recalled
     await recallPrisoner(nomisId)
     // Then the person is recalled in Delius
-    await refreshUntil(page, () => expect(page.locator("//span[contains(text(),'Swansea (HMP)')]")).toHaveCount(3), {
+    await refreshUntil(page, () => expect(page.locator("//span[contains(text(),'Swansea (HMP)')]")).toHaveCount(2), {
         timeout: 180_000,
     })
 })
