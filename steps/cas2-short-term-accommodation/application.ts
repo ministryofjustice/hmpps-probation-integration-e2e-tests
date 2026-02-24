@@ -282,7 +282,7 @@ async function hdcDetails(page: Page) {
     await expect(page).toHaveTitle(/Who is the person's Community Probation Practitioner \(CPP\)/)
     await page.getByLabel('Full name').fill(faker.person.fullName())
     await page.getByLabel('Probation region').fill('London')
-    await page.getByLabel('Contact email address').fill(faker.internet.exampleEmail())
+    await page.getByLabel('Contact email address').fill('example@example.gov.uk')
     await page.getByLabel('Contact number').fill('123')
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(/Does the person have any non-standard licence conditions/)

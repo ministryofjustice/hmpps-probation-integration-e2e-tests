@@ -22,6 +22,13 @@ export async function createRegistration(
         await selectOption(page, '#Team\\:selectOneMenu')
         await selectOption(page, '#Staff\\:selectOneMenu')
         await selectOption(page, '#Category\\:selectOneMenu', 'IOM - Fixed')
+    } else if (registrationType === 'MAPPA') {
+        await selectOption(page, '#Trust\\:selectOneMenu', registeringOfficerProvider)
+        await selectOption(page, '#RegisterType\\:selectOneMenu', registrationType)
+        await selectOption(page, '#Category\\:selectOneMenu', 'MAPPA Cat 1')
+        await selectOption(page, '#Level\\:selectOneMenu', 'MAPPA Level 3')
+        await selectOption(page, '#Team\\:selectOneMenu')
+        await selectOption(page, '#Staff\\:selectOneMenu')
     } else {
         await selectOption(page, '#Trust\\:selectOneMenu')
         await selectOption(page, '#RegisterType\\:selectOneMenu', registrationType)

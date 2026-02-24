@@ -17,6 +17,7 @@ import { reallocateApplication } from '../../steps/cas1-approved-premises/applic
 import { assessApplication } from '../../steps/cas1-approved-premises/applications/assess-application'
 import { slow } from '../../steps/common/common'
 import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock'
+import { createRegistration } from '../../steps/delius/registration/create-registration'
 
 const nomisIds = []
 
@@ -34,6 +35,10 @@ test('Create an approved premises application', async ({ page }) => {
     })
     // And I create an event in nDelius
     await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
+
+    // And I create a registration
+    await createRegistration(page, crn, 'MAPPA')
+
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
