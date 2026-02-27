@@ -93,11 +93,11 @@ interface RoSHRiskAssertion {
 
 export async function assertRoSHRiskTable(page: Page, assertions: RoSHRiskAssertion) {
     const selectors = {
-        riskToChildren: 'tr:has(td:text("Children")) td:nth-of-type(3)',
-        riskToPublic: 'tr:has(td:text("Public")) td:nth-of-type(3)',
-        riskToKnownAdult: 'tr:has(td:text("Known adult")) td:nth-of-type(3)',
-        riskToStaff: 'tr:has(td:text("Staff")) td:nth-of-type(3)',
-        riskToPrisoners: 'tr:has(td:text("Prisoners")) td:nth-of-type(3)',
+        riskToChildren: 'tr:has(th:text("Children")) td:nth-of-type(1)',
+        riskToPublic: 'tr:has(th:text("Public")) td:nth-of-type(1)',
+        riskToKnownAdult: 'tr:has(th:text("Known adult")) td:nth-of-type(1)',
+        riskToStaff: 'tr:has(th:text("Staff")) td:nth-of-type(1)',
+        riskToPrisoners: 'tr:has(th:text("Prisoners")) td:nth-of-type(1)',
     }
 
     for (const [key, expectedValue] of Object.entries(assertions)) {
