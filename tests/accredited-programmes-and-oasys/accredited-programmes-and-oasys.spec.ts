@@ -57,7 +57,7 @@ test('View OASys assessments in Accredited Programmes service', async ({ page })
         riskToPublic: 'Medium',
         riskToKnownAdult: 'High',
         riskToStaff: 'Medium',
-        riskToPrisoners: 'Not applicable',
+        riskToPrisoners: 'N/A',
     })
     await page.getByRole('link', { name: 'Section 2 - Offence analysis' }).click()
     await expect(page.locator(briefOffenceDetailsSummaryCard)).toContainText(
