@@ -37,6 +37,7 @@ on:
           - create-case-with-unpaid-work-allocation
           - create-unallocated-workforce-cases
           - create-unallocated-case-with-documents
+          - single-accommodation-service
 
 jobs:
   create-generic-data:
