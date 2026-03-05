@@ -27,6 +27,7 @@ export interface CreateEvent {
 
 export class CreatedEvent {
     court: string
+    nextCourt: string
     outcome: string
     provider: string
 }
@@ -71,7 +72,7 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     if (autoAddCourtReport.includes(event.outcome)) {
         await fillDate(page, '#NextAppearanceDate\\:datePicker', _date)
         await fillTime(page, '#AppearanceTime\\:timePicker', _date)
-        await selectOption(page, '#NextCourt\\:selectOneMenu')
+        createdEvent.nextCourt = await selectOption(page, '#NextCourt\\:selectOneMenu')
     }
     // focus on something outside of input to activate onblur
     await page.focus('#content')

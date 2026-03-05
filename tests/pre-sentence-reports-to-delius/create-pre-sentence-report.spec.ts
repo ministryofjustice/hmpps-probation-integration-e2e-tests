@@ -12,7 +12,6 @@ import { createSubjectAccessReport, getFileFromZip } from '../../steps/delius/do
 import { getPdfText } from '../../steps/delius/utils/pdf-utils'
 
 test('Create a short format pre-sentence report', async ({ page }) => {
-    test.skip() //Skipping this test as the pre-sentence are rewriting their application
     // Given a person with an event that has been adjourned for pre-sentence report,
     // and a court report with a newly created pre-sentence report document
     await hmppsLogin(page)
@@ -29,84 +28,96 @@ test('Create a short format pre-sentence report', async ({ page }) => {
     await createDocumentFromTemplate(page, data.documentTemplates.shortFormatPreSentenceReport)
 
     // When I complete the pre-sentence report in the popup window
-    const popup = await page.waitForEvent('popup')
-    await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Home/)
-    await popup.locator('text=Start now').click()
-    // - Offender details
-    await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Offender details/)
-    await expect(await popup.locator('#name').inputValue()).toContain(person.firstName)
-    await expect(await popup.locator('#name').inputValue()).toContain(person.lastName)
-    await expect(popup.locator('#crn')).toHaveValue(crn)
-    await popup.locator('textarea[name="address"]').fill(faker.location.streetAddress(true))
+    const iframe = page.locator('iframe[title="pdfcreation-frame"]').contentFrame()
+    await expect(iframe.getByRole('heading')).toContainText(/Short Format Pre-sentence Report/)
+    const popupPromise = page.waitForEvent('popup')
+    await iframe.getByRole('button', { name: 'Start now' }).click()
+    const popup = await popupPromise
 
-    await popup.locator('text=Save and continue').click()
+    // - Offender details
+    await expect(popup).toHaveTitle(/Offender details/)
+    await expect(await popup.locator('#value_name')).toContainText(person.firstName)
+    await expect(await popup.locator('#value_name')).toContainText(person.lastName)
+    await expect(popup.locator('#value_crn')).toContainText(crn)
+    await popup.locator('input[name="address"]').fill(faker.location.streetAddress(true))
+    await popup.getByRole('button', { name: 'Continue' }).click()
+
     // - Sentencing court details
-    await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Sentencing court details/)
-    await expect(popup.locator('#court')).toHaveValue(event.court)
+    await expect(popup).toHaveTitle(/Sentencing court details/)
+    await expect(popup.locator('#court')).toHaveValue(event.nextCourt)
     await popup.locator('input[name="localJusticeArea"]').fill(faker.location.city())
     const dateOfHearing = faker.date.recent()
-    await popup.locator('input[name="dateOfHearing-day"]').fill(dateOfHearing.getDate().toString())
-    await popup.locator('input[name="dateOfHearing-month"]').fill((dateOfHearing.getMonth() + 1).toString())
-    await popup.locator('input[name="dateOfHearing-year"]').fill(dateOfHearing.getFullYear().toString())
-    await popup.locator('text=Save and continue').click()
+    await popup.locator('input[name="dateOfHearing_day"]').fill(dateOfHearing.getDate().toString())
+    await popup.locator('input[name="dateOfHearing_month"]').fill((dateOfHearing.getMonth() + 1).toString())
+    await popup.locator('input[name="dateOfHearing_year"]').fill(dateOfHearing.getFullYear().toString())
+    await popup.getByRole('button', { name: 'Continue' }).click()
+
     // - Offence details
-    await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Offence details/)
+    await expect(popup).toHaveTitle(/Offence details/)
     for (const textarea of await popup.locator('[contenteditable]').elementHandles()) {
         await textarea.click()
         await popup.keyboard.type(faker.lorem.sentence())
     }
-    await popup.locator('text=Save and continue').click()
-    await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Offence analysis/)
+    await popup.getByRole('button', { name: 'Continue' }).click()
 
-    await popup.locator('#offenceAnalysis ~ .ck [contenteditable="true"]').click()
-    await popup.keyboard.type(faker.lorem.sentence())
-    await popup.locator('#patternOfOffendingBehaviour ~ .ck [contenteditable="true"]').click()
-    await popup.keyboard.type(faker.lorem.sentence())
-    await popup.locator('text=Save and continue').click()
+    // - Offence analysis
+    await expect(popup).toHaveTitle(/Offence analysis/)
+    for (const textarea of await popup.locator('[contenteditable]').elementHandles()) {
+        await textarea.click()
+        await popup.keyboard.type(faker.lorem.sentence())
+    }
+    await popup.getByRole('button', { name: 'Continue' }).click()
 
     // - Offender assessment
-    await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Offender assessment/)
-    await popup.locator('input[name=assessmentFactors][value=issueAccommodation]').click()
-    await popup.locator('input[name=experienceOfTrauma][value=no]').click()
+    await expect(popup).toHaveTitle(/Offender assessment/)
+    await popup.locator('input[name=issueAccommodation]').click()
+    await popup.locator('input[name=experienceTrauma][value=no]').click()
     await popup.locator('input[name=caringResponsibilities][value=no]').click()
-    await popup.locator('text=Save and continue').click()
+    await popup.getByRole('button', { name: 'Continue' }).click()
+
     // - Risk assessment
-    await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Risk assessment/)
+    await expect(popup).toHaveTitle(/Risk assessment/)
+    await popup.locator('input[type=radio][value="N/A"]').click()
     for (const textarea of await popup.locator('[contenteditable]').elementHandles()) {
         await textarea.click()
         await popup.keyboard.type(faker.lorem.sentence())
     }
-    await popup.locator('input[type=radio][value="N/A"]').click()
-    await popup.locator('text=Save and continue').click()
+    await popup.getByRole('button', { name: 'Continue' }).click()
+
     // - Proposal
-    await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Proposal/)
+    await expect(popup).toHaveTitle(/Proposal/)
     await popup.locator('input[type=radio][value=yes]').click()
     for (const textarea of await popup.locator('[contenteditable]').elementHandles()) {
         await textarea.click()
         await popup.keyboard.type(faker.lorem.sentence())
     }
-    await popup.locator('text=Save and continue').click()
+    await popup.getByRole('button', { name: 'Continue' }).click()
+
     // - Sources of information
-    await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Sources of information/)
-    await popup.locator('input[type=checkbox][value=interviewInformationSource]').click()
-    await popup.locator('text=Save and continue').click()
+    await expect(popup).toHaveTitle(/Sources of information/)
+    await popup.locator('input[type=checkbox][name=interviewInformationSource]').click()
+    await popup.getByRole('button', { name: 'Continue' }).click()
+
     // - Check and sign your report
-    await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Check your report/)
-    await popup.locator('text=Sign your report').click()
-    await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Sign your report/)
+    await expect(popup).toHaveTitle(/Check your report/)
+    await popup.getByRole('button', { name: 'Sign' }).click()
+
+    await expect(popup).toHaveTitle(/Sign your report/)
+    await popup.locator('input[name="reportAuthor"]').fill(faker.person.fullName())
     await popup.locator('input[name="office"]').fill(faker.location.streetAddress())
-    await popup.locator('input[name="officePhoneNumber"]').fill(faker.phone.number())
+    await popup.locator('input[name="courtOfficePhoneNumber"]').fill(faker.phone.number())
     await popup.locator('input[name="counterSignature"]').fill(faker.person.fullName())
-    await popup.locator('text=Submit and view your report').click()
-    await expect(popup).toHaveTitle(/Short Format Pre-Sentence Report - Report completed/)
+    await popup.getByRole('button', { name: 'Submit' }).click()
+    await expect(popup).toHaveTitle(/Report saved/)
     await popup.close()
 
     // Then the document appears in the Delius document list
-    await expect(page.locator('#documentTable\\:0\\:openExternalButton')).toContainText('open in pre-sentence service')
+    await iframe.getByRole('link', { name: 'Back to document list' }).click()
+    await page.locator('#documentTable [id="viewButton"]').click()
 
     // And the PDF appears in non-DRAFT form in the subject access report zip file
     await createSubjectAccessReport(page, crn, `downloads/${crn}-sar.zip`)
     const file = await getFileFromZip(`downloads/${crn}-sar.zip`, /.+\.pdf/)
     const pdfText = await getPdfText(file)
-    expect(pdfText).not.toContain('DRAFT')
+    expect(pdfText).not.toContain('DRAFT') // need to confirm this as report contains 'DRAFTOFFICIAL' text
 })
