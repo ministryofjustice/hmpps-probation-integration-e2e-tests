@@ -98,27 +98,13 @@ export async function reviewCheckinInMPoP(page: Page, crn: string) {
     await searchPersonInMPoP(page, crn, heading)
     await page.getByRole('link', { name: 'Contacts', exact: true }).click()
     await expect(heading).toContainText('Contacts')
-    await refreshUntil(
-        page,
-        async () => {
-            await expect(page.getByText('Online probation check in')).toBeVisible()
-        },
-        options
-    )
-    await page.getByRole('link', { name: 'Update', exact: true }).click()
+    await refreshUntil(page, () => expect(page.getByRole('link', { name: /Manage +Online probation/ })).toBeVisible())
+    await page.getByRole('link', { name: /Manage +Online probation/ }).click()
     await expect(heading).toContainText('Online check in submitted')
     await page.getByRole('radio', { name: 'Yes' }).check()
     await page.getByRole('button', { name: 'Confirm and review responses' }).click()
     await expect(heading).toContainText('Online check in submitted')
     await page.getByRole('button', { name: 'Confirm review' }).click()
-    await expect(page.locator(qa('timeline1Card'))).toContainText('Online probation check in')
-    const checkinCard = page.locator(qa('timeline1Card'), { has: page.getByText('Online probation check in') })
-    await refreshUntil(
-        page,
-        async () => {
-            await expect(checkinCard).toBeVisible()
-            await expect(checkinCard).toContainText(/Check in status:\s*Reviewed/i)
-        },
-        options
-    )
+    await page.getByText('Online probation check in').first().click()
+    await expect(page.getByRole('table')).toContainText('Check in status: Reviewed')
 }

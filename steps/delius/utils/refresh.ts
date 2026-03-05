@@ -1,8 +1,14 @@
 import { expect, type Page } from '@playwright/test'
 
-export const refreshUntil = async (page: Page, expectation: () => Promise<void>, options?) => {
-    await doUntil(async () => page.reload(), expectation, options)
-}
+export const refreshUntil = async (
+    page: Page,
+    expectation: () => Promise<void>,
+    options: { timeout?: number; intervals?: number[]; rollback?: () => Promise<unknown> } = {
+        timeout: 60_000,
+        intervals: [250, 500, 1000, 5000],
+        rollback: null,
+    }
+) => await doUntil(async () => page.reload(), expectation, options)
 
 export const doUntil = async <T>(
     action: () => Promise<T>,
