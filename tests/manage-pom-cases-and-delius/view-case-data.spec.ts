@@ -26,5 +26,7 @@ test('View Delius case data', async ({ page }) => {
     await page.getByLabel('Find a case').fill(nomsNumber)
     await page.locator('#search-button').click()
     await page.locator('td', { hasText: nomsNumber }).first().locator('a').click()
-    await expect(page.locator('tr', { has: page.locator('#com-name') })).toContainText(newManagerName)
+    await expect(
+        page.locator('tr:has(td:text("Community Offender Manager (COM) name")) td:nth-child(2)')
+    ).toContainText(newManagerName)
 })
