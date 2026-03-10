@@ -3,7 +3,13 @@ import { findOffenderByCRN } from '../offender/find-offender'
 
 export const deleteAddresses = async (page: Page, crn: string) => {
     await findOffenderByCRN(page, crn)
+
+    if (await page.locator('#overview-include\\:okButton').isVisible()) {
+        console.log('Modal found: attempting to close modal and continue.')
+        await page.click('#overview-include\\:okButton')
+    }
     await page.getByRole('link', { name: 'Personal Details' }).click()
+
     await page.getByRole('link', { name: 'Addresses' }).click()
     await expect(page.locator('h1')).toContainText('Addresses and Accommodation')
 
