@@ -5,6 +5,7 @@ import { login as mpcLogin } from '../../steps/manage-pom-cases/login'
 import { switchCaseload } from '../../steps/manage-pom-cases/caseload'
 import { execCommand, getPodName } from '../../steps/k8s/k8s-utils'
 import { slow } from '../../steps/common/common'
+import { refreshUntil } from '../../steps/delius/utils/refresh'
 
 test('View Delius case data', async ({ page }) => {
     slow(10)
@@ -26,7 +27,12 @@ test('View Delius case data', async ({ page }) => {
     await page.getByLabel('Find a case').fill(nomsNumber)
     await page.locator('#search-button').click()
     await page.locator('td', { hasText: nomsNumber }).first().locator('a').click()
-    await expect(
-        page.locator('tr:has(td:text("Community Offender Manager (COM) name")) td:nth-child(2)')
-    ).toContainText(newManagerName)
+    await refreshUntil(
+        page,
+        () =>
+            expect(
+                page.locator('tr:has(td:text("Community Offender Manager (COM) name")) td:nth-child(2)')
+            ).toContainText(newManagerName),
+        { timeout: 120_000 }
+    )
 })

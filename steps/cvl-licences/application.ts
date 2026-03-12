@@ -14,7 +14,8 @@ export const createLicence = async (page: Page, crn: string, nomsNumber: string)
     await expect(page).toHaveTitle(
         'Create and vary a licence - Create a licence - Who is the initial appointment with?'
     )
-    await page.getByLabel(/Who is the initial appointment with?/).fill(faker.person.fullName())
+    await page.getByLabel(/Someone else/).check()
+    await page.locator('[id="contactName"]').fill(faker.person.fullName())
     await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveTitle('Create and vary a licence - Create a licence - Where is the initial appointment?')
     await page.getByRole('link', { name: /Enter address manually/ }).click()
