@@ -24,9 +24,6 @@ import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock'
 const nomisIds = []
 
 test('View OASys assessments in Approved Premises service', async ({ page }) => {
-    test.skip()
-    // TODO: Test skipped due to recent OASys breaking changes. Further dev work needed from both AP and prob-int teams. Refactor test once changes are implemented.
-
     slow()
 
     // Given I create new Offender in nDelius
