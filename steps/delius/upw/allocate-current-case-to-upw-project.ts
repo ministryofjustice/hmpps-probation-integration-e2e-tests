@@ -7,13 +7,13 @@ export async function allocateCurrentCaseToUpwProject(
     {
         providerName,
         teamName,
-        projectName,
+        projectName = null,
         day = getCurrentDay(),
         projectType = 'Group Placement - National Project',
     }: {
         providerName: string
         teamName: string
-        projectName: string
+        projectName?: string
         day?: string
         projectType?: string
     }
