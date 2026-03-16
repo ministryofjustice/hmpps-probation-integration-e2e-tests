@@ -10,8 +10,7 @@ import * as fs from 'fs'
 
 const nomisIds: string[] = []
 
-// This test is disabled while the SAR service is being re-worked - see https://mojdt.slack.com/archives/C02S71KUBED/p1728461357616769?thread_ts=1728461119.549699&cid=C02S71KUBED
-test.skip('Verify SAR report correctly includes subject details from Delius using CRN', async ({ page }) => {
+test('Verify SAR report correctly includes subject details from Delius using CRN', async ({ page }) => {
     // Step 1: Log in to Delius and create a new offender
     await deliusLogin(page)
     const person = deliusPerson()

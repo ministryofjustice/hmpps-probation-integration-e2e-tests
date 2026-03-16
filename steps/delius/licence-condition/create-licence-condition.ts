@@ -11,9 +11,7 @@ export const createLicenceCondition = async (page: Page, crn: string, eventNumbe
     await expect(page.locator('h1')).toContainText('Add Licence Conditions')
     await selectOption(page, `#LicenceMainCategory\\:selectOneMenu`)
     await selectOption(page, `#AreaLC\\:selectOneMenu`)
-    const licenceSubCategory = `#licenceSubCategory\\:selectOneMenu`
-    await page.locator(licenceSubCategory).isVisible()
-    await selectOption(page, licenceSubCategory)
+    await selectOption(page, `#licenceSubCategory\\:selectOneMenu`)
     await page.getByRole('button', { name: 'Add' }).click()
     await page.getByRole('button', { name: 'Save' }).click()
     await expect(page.locator('h1')).toContainText('Licence Conditions')

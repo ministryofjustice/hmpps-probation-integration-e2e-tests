@@ -12,10 +12,10 @@ export async function requestSarReportForCrn(page: Page, crn: string) {
     // Enter case reference number
     await page.getByLabel('Case Reference Number').fill(crn)
     await page.getByRole('button', { name: /Confirm/ }).click()
-    await expect(page.locator('#main-content h1')).toHaveText('Select Services')
+    await expect(page.locator('#main-content h1')).toHaveText('Select Products')
 
-    // Select services
-    await page.getByRole('row', { name: 'Select keyworker-api' }).locator('label').click()
+    // Select products
+    await page.getByRole('cell', { name: 'Select Allocate Keyworkers' }).locator('label').check()
     await page.getByRole('button', { name: /Confirm/ }).click()
 
     // Confirm report details
