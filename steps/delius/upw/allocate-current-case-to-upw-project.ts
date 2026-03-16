@@ -9,13 +9,19 @@ export async function allocateCurrentCaseToUpwProject(
         teamName,
         projectName = null,
         day = getCurrentDay(),
+        startTime = '10:00',
+        endTime = '16:00',
         projectType = 'Group Placement - National Project',
+        pickupPoint = null,
     }: {
         providerName: string
         teamName: string
         projectName?: string
         day?: string
+        startTime?: string
+        endTime?: string
         projectType?: string
+        pickupPoint?: string
     }
 ) {
     await expect(page.locator('#content > h1')).toContainText('Personal Details')
@@ -34,6 +40,9 @@ export async function allocateCurrentCaseToUpwProject(
     await selectOption(page, '#team\\:selectOneMenu', teamName)
     await selectOption(page, '#project\\:selectOneMenu', projectName)
     await selectOption(page, '#allocationDay\\:selectOneMenu')
+    await page.locator('#startTime\\:timePicker').fill(startTime)
+    await page.locator('#endTime\\:timePicker').fill(endTime)
+    await selectOption(page, '#pickupPlace\\:selectOneMenu', pickupPoint)
     await page.getByRole('button', { name: 'Add' }).click()
 
     await expect(page.locator('#currentAllocationsTable tbody > tr')).toHaveCount(1)
