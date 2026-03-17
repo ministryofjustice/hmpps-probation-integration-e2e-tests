@@ -23,8 +23,14 @@ export async function registerCaseInMPoP(page: Page, person: Person, crn: string
     // Set up check-ins
     await page.getByRole('link', { name: 'Appointments', exact: true }).click()
     await page.getByRole('link', { name: 'Set up online check ins' }).click()
-    await expect(heading).toContainText('How you can use online check ins')
+    await expect(heading).toContainText(
+        new RegExp(`Check if ${person.firstName} is eligible to use online check ins`, 'i')
+    )
+    await page.getByRole('checkbox', { name: 'None of these apply' }).check()
     await page.getByRole('button', { name: 'Continue' }).click()
+    await expect(heading).toContainText(new RegExp(`${person.firstName} is eligible to use online check ins`, 'i'))
+    await page.getByRole('radio', { name: 'To replace some face-to-face' }).click()
+    await page.getByRole('button', { name: 'Sign up for online check ins' }).click()
     await expect(heading).toContainText(/Set up\s+online check ins/i)
     await page.locator('.moj-js-datepicker-input').fill(uiDueDate)
     await page.getByRole('radio', { name: 'Every 2 weeks' }).check()
