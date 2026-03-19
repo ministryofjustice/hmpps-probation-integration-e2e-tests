@@ -95,6 +95,7 @@ export const temporaryReleasePrisoner = retry(
             data: {
                 toCity: '18248',
                 transferReasonCode: '1',
+                shouldReleaseBed: false,
             },
         })
     })
@@ -150,6 +151,7 @@ export const updateCustodyDates = retry(
                 calculationUuid: randomUUID(),
                 submissionUser: process.env.DPS_USERNAME,
                 keyDates: custodyDates,
+                noDates: false,
             },
         })
     })
