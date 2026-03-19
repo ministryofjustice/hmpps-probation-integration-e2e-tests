@@ -1,10 +1,12 @@
 import { expect, Page } from '@playwright/test'
 import { selectOption } from '../utils/inputs'
 import { getCurrentDay } from '../utils/date-time'
+import { findOffenderByCRN } from '../offender/find-offender'
 
 export async function allocateCurrentCaseToUpwProject(
     page: Page,
     {
+        crn,
         providerName,
         teamName,
         projectName = null,
@@ -14,6 +16,7 @@ export async function allocateCurrentCaseToUpwProject(
         projectType = 'Group Placement - National Project',
         pickupPoint = null,
     }: {
+        crn: string
         providerName: string
         teamName: string
         projectName?: string
@@ -24,8 +27,7 @@ export async function allocateCurrentCaseToUpwProject(
         pickupPoint?: string
     }
 ) {
-    await expect(page.locator('#content > h1')).toContainText('Personal Details')
-    await page.getByRole('button', { name: 'Update' }).click()
+    await findOffenderByCRN(page, crn)
     await page.getByRole('link', { name: 'Event List' }).click()
     await page.getByRole('link', { name: 'view', exact: true }).click()
     await page.locator('a', { hasText: 'Unpaid Work' }).click()
@@ -55,4 +57,28 @@ export async function allocateCurrentCaseToUpwProject(
     await expect(page.locator('#content > h1')).toContainText('View UPW Details')
 
     console.log("Case allocated to UPW project '%s' on %s", projectName, day)
+}
+
+export const setAllocationOutcome = async (
+    page: Page,
+    {
+        crn,
+        contactOutcome = 'Rescheduled - Service Request',
+    }: {
+        crn: string
+        contactOutcome?: string
+    }
+): Promise<void> => {
+    await findOffenderByCRN(page, crn)
+    await page.getByRole('link', { name: 'Event List' }).click()
+    await page.locator('#eventsTable tbody tr').first().locator('a[title="View event"]').click()
+    await page.getByRole('link', { name: 'Unpaid work' }).click()
+    await page.getByRole('button', { name: 'Worksheet Summary' }).click()
+    await page
+        .locator('#appointmentsTable tbody tr')
+        .first()
+        .locator('a[title="Link to update the UPW attendance details."]')
+        .click()
+    await selectOption(page, '#contactOutcome\\:selectOneMenu', contactOutcome)
+    await page.getByRole('button', { name: 'Save' }).click()
 }

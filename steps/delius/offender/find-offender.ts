@@ -2,6 +2,7 @@ import { expect, type Page } from '@playwright/test'
 import { refreshUntil } from '../utils/refresh'
 import { selectOption } from '../utils/inputs'
 import { Allocation } from '../../../test-data/test-data'
+import { Person } from '../utils/person'
 
 export async function findOffenderByName(page: Page, forename: string, surname: string) {
     await page.locator('a', { hasText: 'National search' }).click()
@@ -38,6 +39,26 @@ export async function findOffenderByCRNNoContextCheck(page: Page, crn: string) {
     await page.click('#searchButton')
     await page.locator('tr', { hasText: crn }).locator('a', { hasText: 'View' }).click()
     await expect(page).toHaveTitle(/Case Summary/)
+}
+
+export async function findFirstOffender(page: Page, person: Person, provider: string) {
+    await page.locator('#navigation-include\\:linkNavigation1Search', { hasText: 'National search' }).click()
+    await expect(page).toHaveTitle(/National Search/)
+    await page.fill('#firstName\\:inputText', person.firstName)
+    await page.fill('#lastName\\:inputText', person.lastName)
+    await selectOption(page, '#sex\\:selectOneMenu', person.sex)
+    await selectOption(page, '#provider\\:selectOneMenu', provider)
+    await page.click('#searchButton')
+
+    const noRecordsMessage = page.locator('.noRecordsFound:has-text("No records found")')
+    const offendersTable = page.locator('#offendersTable')
+    await expect(noRecordsMessage.or(offendersTable)).toBeVisible({ timeout: 10000 })
+
+    if (await offendersTable.isVisible()) {
+        return await page.locator('#offendersTable tbody tr:first-child td:first-child').textContent()
+    } else if (await noRecordsMessage.isVisible()) {
+        return null
+    }
 }
 
 export async function findOffenderByNomisId(page: Page, nomisId: string): Promise<string> {
