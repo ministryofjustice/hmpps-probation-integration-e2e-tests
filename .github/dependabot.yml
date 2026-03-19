@@ -4,6 +4,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 3
     groups:
       minor:
         update-types:
@@ -13,9 +15,13 @@ updates:
           - "*"
 
   - package-ecosystem: "github-actions"
-    directory: "/"
+    directories:
+      - "/"
+      - "/.github/actions/*/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 3
     groups:
       minor:
         update-types:
@@ -23,8 +29,3 @@ updates:
           - "patch"
         patterns:
           - "*"
-
-  - package-ecosystem: "github-actions"
-    directory: "/.github/actions/run-tests"
-    schedule:
-      interval: "weekly"
