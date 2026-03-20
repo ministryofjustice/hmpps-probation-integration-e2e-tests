@@ -13,6 +13,33 @@ interface ProjectAvailability {
     startTime?: string
     endTime?: string
 }
+export async function uwpProjectExists(
+    page: Page,
+    { projectName, provider, team }: { projectName: string; provider: string; team: string }
+): Promise<boolean> {
+    await page.getByRole('link', { name: 'UPW Projects' }).click()
+    await expect(page.locator('#content > h1')).toContainText('UPW Projects List')
+    await page.selectOption('#Trust\\:selectOneMenu', provider)
+    await page.selectOption('#Team\\:selectOneMenu', team)
+    await page.getByRole('link', { name: 'Search', exact: true }).click()
+
+    while (true) {
+        const projectCells = page.locator('#resultsTable td')
+        const projectCount = await projectCells.filter({ hasText: projectName }).count()
+
+        if (projectCount > 0) {
+            return true
+        }
+
+        const nextLink = page.locator('a:has-text("Next")')
+        const nextClicked = await nextLink.click({ timeout: 1000 }).catch(() => false)
+
+        if (!nextClicked) {
+            break
+        }
+    }
+    return false
+}
 
 export async function createUpwProject(
     page: Page,
