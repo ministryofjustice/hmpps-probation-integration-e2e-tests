@@ -111,6 +111,6 @@ export async function reviewCheckinInMPoP(page: Page, crn: string) {
     await page.getByRole('button', { name: 'Confirm and review responses' }).click()
     await expect(heading).toContainText('Online check in submitted')
     await page.getByRole('button', { name: 'Confirm review' }).click()
-    await page.getByText('Online probation check in').first().click()
+    await page.getByText('Online check in completed').first().click()
     await expect(page.getByRole('table')).toContainText('Check in status: Reviewed')
 }
