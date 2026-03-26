@@ -35,6 +35,7 @@ test('Create a case with an Unpaid Work Project Allocation', async ({ page }) =>
     await page.locator('a', { hasText: 'Personal Details' }).click()
 
     await allocateCurrentCaseToUpwProject(page, {
+        crn: crn,
         providerName: data.teams.unpaidWorkTestTeam.provider,
         teamName: data.teams.unpaidWorkTestTeam.name,
         projectName: project.projectName,
