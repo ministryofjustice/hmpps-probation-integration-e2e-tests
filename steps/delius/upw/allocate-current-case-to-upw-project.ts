@@ -11,8 +11,8 @@ export async function allocateCurrentCaseToUpwProject(
         teamName,
         projectName = null,
         day = getCurrentDay(),
-        startTime = '10:00',
-        endTime = '16:00',
+        startTime = null,
+        endTime = null,
         projectType = 'Group Placement - National Project',
         pickupPoint = null,
     }: {
@@ -42,8 +42,14 @@ export async function allocateCurrentCaseToUpwProject(
     await selectOption(page, '#team\\:selectOneMenu', teamName)
     await selectOption(page, '#project\\:selectOneMenu', projectName)
     await selectOption(page, '#allocationDay\\:selectOneMenu')
-    await page.locator('#startTime\\:timePicker').fill(startTime)
-    await page.locator('#endTime\\:timePicker').fill(endTime)
+
+    if (startTime) {
+        await page.locator('#startTime\\:timePicker').fill(startTime)
+    }
+
+    if (endTime) {
+        await page.locator('#endTime\\:timePicker').fill(endTime)
+    }
     await selectOption(page, '#pickupPlace\\:selectOneMenu', pickupPoint)
     await page.getByRole('button', { name: 'Add' }).click()
 
