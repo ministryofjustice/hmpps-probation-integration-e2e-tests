@@ -200,6 +200,7 @@ jobs:
           target-folder: ${{ env.report-dir }}
           repository-name: ministryofjustice/hmpps-probation-integration-e2e-test-reports
           token: ${{ steps.app-token.outputs.token }}
+          branch: main
 
       - name: Output HTML report URL
         id: html
