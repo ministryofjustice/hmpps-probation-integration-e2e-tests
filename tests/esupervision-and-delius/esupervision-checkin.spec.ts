@@ -32,5 +32,5 @@ test('Check-in for an e-supervision appointment', async ({ page }) => {
 
     // Then I can see the contact in Delius
     await deliusLogin(page)
-    await verifyContacts(page, crn, [contact('1 - ORA Community Order', 'Online check in completed')])
+    await verifyContacts(page, crn, [contact('1 - SA2020 Community Order', 'Online check in completed')])
 })

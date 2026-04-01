@@ -24,7 +24,7 @@ test('Create a breach notice', async ({ page }) => {
     await createCommunityEvent(page, { crn })
     await createRequirementForEvent(page, { crn })
     await createContact(page, crn, {
-        relatesTo: `Event 1 - ORA Community Order (6 Months)`,
+        relatesTo: `Event 1 - SA2020 Community Order (6 Months)`,
         date: Yesterday.toJSDate(),
         startTime: Yesterday.toJSDate(),
         endTime: new Date(Yesterday.toJSDate().getTime() + 60000),
