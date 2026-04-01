@@ -12,7 +12,7 @@ export const commonData: TestData = {
         },
         community: {
             appearanceType: 'Sentence',
-            outcome: 'ORA Community Order',
+            outcome: 'SA2020 Community Order',
             length: '6',
         },
         appeal: {

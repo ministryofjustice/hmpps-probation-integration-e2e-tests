@@ -351,7 +351,7 @@ test('Perform supplier assessment appointment scheduling with conflicting appoin
     await createContact(page, crn, {
         category: 'All/Always',
         type: 'Other Appointment (Non NS)',
-        relatesTo: 'Event 1 - ORA Community Order (6 Months)',
+        relatesTo: 'Event 1 - SA2020 Community Order (6 Months)',
         date: appointmentDate.toJSDate(),
         startTime: startTime.toJSDate(),
         endTime: endTime.toJSDate(),

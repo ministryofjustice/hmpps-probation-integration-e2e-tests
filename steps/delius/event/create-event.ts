@@ -6,9 +6,13 @@ import { Yesterday } from '../utils/date-time'
 import { Allocation, data, Optional } from '../../../test-data/test-data'
 import { waitForJS } from '../utils/refresh'
 
-const autoAddComponent = ['ORA Community Order']
+const autoAddComponent = ['SA2020 Community Order"']
 const autoAddCourtReport = ['Adjourned - Pre-Sentence Report']
-const requiresAdditionalOutcomeDetails = ['ORA Community Order', 'Adult Custody < 12m', 'CJA - Std Determinate Custody']
+const requiresAdditionalOutcomeDetails = [
+    'SA2020 Community Order',
+    'Adult Custody < 12m',
+    'CJA - Std Determinate Custody',
+]
 
 export interface CreateEvent {
     crn: string
