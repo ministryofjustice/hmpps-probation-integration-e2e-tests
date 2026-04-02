@@ -27,9 +27,9 @@ jobs:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
-      - name: Commit and push
-        uses: dsanders11/github-app-commit-action@2bbcd331016d8c950b05a24b56e7eb9cb50d545e # v2.1.0
-        with:
-          fail-on-no-changes: false
-          message: Formatting changes
-          token: ${{ steps.app-token.outputs.token }}
+      # - name: Commit and push
+      #   uses: dsanders11/github-app-commit-action@2bbcd331016d8c950b05a24b56e7eb9cb50d545e # v2.1.0
+      #   with:
+      #     fail-on-no-changes: false
+      #     message: Formatting changes
+      #     token: ${{ steps.app-token.outputs.token }}

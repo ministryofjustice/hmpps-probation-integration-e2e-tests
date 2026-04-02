@@ -174,13 +174,13 @@ jobs:
         env:
           all_projects: ${{ env.projects }}
 
-      - name: Publish JUnit report
-        if: always()
-        uses: mikepenz/action-junit-report@bccf2e31636835cf0874589931c4116687171386 # v6.4.0
-        id: junit
-        with:
-          check_name: End-to-end test results
-          report_paths: junit.xml
+      # - name: Publish JUnit report
+      #   if: always()
+      #   uses: mikepenz/action-junit-report@bccf2e31636835cf0874589931c4116687171386 # v6.4.0
+      #   id: junit
+      #   with:
+      #     check_name: End-to-end test results
+      #     report_paths: junit.xml
 
       - name: Get token
         if: always()
@@ -192,15 +192,15 @@ jobs:
           owner: ${{ github.repository_owner }}
           repositories: hmpps-probation-integration-e2e-test-reports
 
-      - name: Publish HTML report
-        if: always()
-        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4
-        with:
-          folder: playwright-report
-          target-folder: ${{ env.report-dir }}
-          repository-name: ministryofjustice/hmpps-probation-integration-e2e-test-reports
-          token: ${{ steps.app-token.outputs.token }}
-          branch: main
+      # - name: Publish HTML report
+      #   if: always()
+      #   uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4
+      #   with:
+      #     folder: playwright-report
+      #     target-folder: ${{ env.report-dir }}
+      #     repository-name: ministryofjustice/hmpps-probation-integration-e2e-test-reports
+      #     token: ${{ steps.app-token.outputs.token }}
+      #     branch: main
 
       - name: Output HTML report URL
         id: html
