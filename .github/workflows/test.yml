@@ -44,6 +44,8 @@ env:
 
 jobs:
   test:
+    permissions:
+      contents: read
     runs-on: [ self-hosted, hmpps-github-actions-runner ]
     timeout-minutes: 60
     outputs:
@@ -51,7 +53,7 @@ jobs:
       passed-projects: ${{ steps.json.outputs.passed-projects }}
       report-url: ${{ steps.html.outputs.report-url }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           persist-credentials: false # Remove this line of code which is a work around, once fix is in place as per the - https://github.com/JamesIves/github-pages-deploy-action/issues/1928
 
@@ -78,7 +80,7 @@ jobs:
         env:
           ENV_VARS: ${{ inputs.env }}
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
           cache: npm
           node-version-file: .nvmrc
@@ -174,17 +176,17 @@ jobs:
         env:
           all_projects: ${{ env.projects }}
 
-      - name: Publish JUnit report
-        if: always()
-        uses: mikepenz/action-junit-report@bccf2e31636835cf0874589931c4116687171386 # v6.4.0
-        id: junit
-        with:
-          check_name: End-to-end test results
-          report_paths: junit.xml
+      # - name: Publish JUnit report (Commented out part of security audit APG-2026)
+      #   if: always()
+      #   uses: mikepenz/action-junit-report@bccf2e31636835cf0874589931c4116687171386 # v6.4.0
+      #   id: junit
+      #   with:
+      #     check_name: End-to-end test results
+      #     report_paths: junit.xml
 
       - name: Get token
         if: always()
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -192,15 +194,15 @@ jobs:
           owner: ${{ github.repository_owner }}
           repositories: hmpps-probation-integration-e2e-test-reports
 
-      - name: Publish HTML report
-        if: always()
-        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4
-        with:
-          folder: playwright-report
-          target-folder: ${{ env.report-dir }}
-          repository-name: ministryofjustice/hmpps-probation-integration-e2e-test-reports
-          token: ${{ steps.app-token.outputs.token }}
-          branch: main
+      # - name: Publish HTML report (Commented out part of security audit APG-2026)
+      #   if: always()
+      #   uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4
+      #   with:
+      #     folder: playwright-report
+      #     target-folder: ${{ env.report-dir }}
+      #     repository-name: ministryofjustice/hmpps-probation-integration-e2e-test-reports
+      #     token: ${{ steps.app-token.outputs.token }}
+      #     branch: main
 
       - name: Output HTML report URL
         id: html
