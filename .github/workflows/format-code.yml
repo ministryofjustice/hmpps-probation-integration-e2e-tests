@@ -2,6 +2,9 @@ name: Format code
 
 on: pull_request
 
+permissions:
+  contents: read
+
 jobs:
   fix-formatting:
     runs-on: ubuntu-latest
