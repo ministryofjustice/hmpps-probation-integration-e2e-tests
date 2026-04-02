@@ -15,16 +15,7 @@ export const recommendAPersonForRecall = async (page: Page): Promise<string> => 
     await page.locator('#triggerLeadingToRecall').fill('Test reason - Binge Drinking is the reason for recalling')
     await page.getByRole('button', { name: 'Continue' }).click()
 
-    // How has Person responded to probation so far?
-    await page.getByRole('link', { name: /How has [\w'-]+\s[\w'-]+ responded to probation so far\?/ }).click()
-    await expect(page.locator('#main-content h1')).toContainText(
-        /How has [\w'-]+\s[\w'-]+ responded to probation so far\?/
-    )
-    await page.locator('#responseToProbation').fill('Test Response - Not responded quite well')
-    await page.getByRole('button', { name: 'Continue' }).click()
-
     // What licence conditions has Person breached?
-    await page.getByRole('link', { name: /What licence conditions has [\w'-]+\s[\w'-]+ breached\?/ }).click()
     await expect(page.locator('#main-content h1')).toContainText(
         /What licence conditions has [\w'-]+\s[\w'-]+ breached\?/
     )
@@ -32,20 +23,15 @@ export const recommendAPersonForRecall = async (page: Page): Promise<string> => 
     await page.getByRole('button', { name: 'Continue' }).click()
 
     // What alternatives to recall have been tried already?
-    await page.getByRole('link', { name: 'What alternatives to recall have been tried already?' }).click()
     await expect(page.locator('#main-content h1')).toContainText('What alternatives to recall have been tried already?')
     await page.locator('#alternativesToRecallTried').check()
     await page.getByRole('button', { name: 'Continue' }).click()
 
-    // Is Person on an indeterminate sentence?
-    await page.getByRole('link', { name: /Is [\w'-]+\s[\w'-]+ on an indeterminate sentence\?/ }).click()
-    await expect(page.locator('#main-content h1')).toContainText(/Is [\w'-]+\s[\w'-]+ on an indeterminate sentence\?/)
-    await page.locator('#isIndeterminateSentence-2').check()
-    await page.getByRole('button', { name: 'Continue' }).click()
-
-    // Is Person on an extended sentence?
-    await expect(page.locator('#main-content h1')).toContainText(/Is [\w'-]+\s[\w'-]+ on an extended sentence\?/)
-    await page.locator('#isExtendedSentence-2').check()
+    // Which sentence group does the sentence type fall into?
+    await expect(page.locator('legend')).toContainText(
+        /Which sentence group does [\w'-]+\s[\w'-]+ sentence type fall into\?/
+    )
+    await page.locator('#sentenceGroup').check()
     await page.getByRole('button', { name: 'Continue' }).click()
     await page.getByRole('button', { name: 'Continue' }).click()
 
@@ -58,8 +44,7 @@ export const recommendAPersonForRecall = async (page: Page): Promise<string> => 
 
     // Share this case link with the manager
     await expect(page.locator('#main-content h1')).toContainText('Share this case with your manager')
-    const caseLinkToShareWithManager = await page.locator('pre[data-qa="case-link"]').textContent()
-    return caseLinkToShareWithManager
+    return await page.locator('pre[data-qa="case-link"]').textContent()
 }
 
 export const makeManagementOversightDecision = async (page: Page, caseLinkSharedByPO: string) => {
