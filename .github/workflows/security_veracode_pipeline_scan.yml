@@ -3,6 +3,12 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "30 6 * * MON-FRI"
+
+permissions:
+  contents: read
+  actions: read
+  security-events: write
+
 jobs:
   security-veracode-pipeline-scan:
     name: Security Veracode pipeline scan
