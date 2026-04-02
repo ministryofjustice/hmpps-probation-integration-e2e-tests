@@ -30,7 +30,7 @@ jobs:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
-      # - name: Commit and push
+      # - name: Commit and push (Commented out part of security audit APG-2026)
       #   uses: dsanders11/github-app-commit-action@2bbcd331016d8c950b05a24b56e7eb9cb50d545e # v2.1.0
       #   with:
       #     fail-on-no-changes: false

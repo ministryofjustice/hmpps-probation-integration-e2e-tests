@@ -176,7 +176,7 @@ jobs:
         env:
           all_projects: ${{ env.projects }}
 
-      # - name: Publish JUnit report
+      # - name: Publish JUnit report (Commented out part of security audit APG-2026)
       #   if: always()
       #   uses: mikepenz/action-junit-report@bccf2e31636835cf0874589931c4116687171386 # v6.4.0
       #   id: junit
@@ -194,7 +194,7 @@ jobs:
           owner: ${{ github.repository_owner }}
           repositories: hmpps-probation-integration-e2e-test-reports
 
-      # - name: Publish HTML report
+      # - name: Publish HTML report (Commented out part of security audit APG-2026)
       #   if: always()
       #   uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4
       #   with:
