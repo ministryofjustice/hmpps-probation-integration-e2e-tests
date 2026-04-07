@@ -208,6 +208,8 @@ jobs:
         if: always()
         # language=bash
         run: |
+          git config --global user.name "probation-integration-bot[bot]"
+          git config --global user.email "177347787+probation-integration-bot[bot]@users.noreply.github.com"
           mkdir -p ".report/${target_folder}"
           cp -R "${folder}/." .report/"${target_folder}"
           cd .report
