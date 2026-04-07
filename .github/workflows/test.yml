@@ -215,7 +215,7 @@ jobs:
           cp -R "${folder}/." .report/"${target_folder}"
           cd .report
           git add "${target_folder}"
-          git commit -m "Publish to GitHub Pages: ${{ github.sha }}" && git push origin gh-pages --force-with-lease || echo "Nothing to commit"
+          git commit -m "Publish to GitHub Pages: ${{ github.sha }}" && git push origin main --force-with-lease || echo "Nothing to commit"
         env:
           folder: playwright-report
           target_folder: ${{ env.report-dir }}
