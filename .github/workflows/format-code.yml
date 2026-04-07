@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor != 'dependabot[bot]'
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           cache: npm
           node-version-file: .nvmrc
@@ -24,15 +24,15 @@ jobs:
           npx eslint . --fix
           git add .
 
-      - uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3
+      - uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
-      # - name: Commit and push (Commented out part of security audit APG-2026)
-      #   uses: dsanders11/github-app-commit-action@2bbcd331016d8c950b05a24b56e7eb9cb50d545e # v2.1.0
-      #   with:
-      #     fail-on-no-changes: false
-      #     message: Formatting changes
-      #     token: ${{ steps.app-token.outputs.token }}
+      - name: Commit and push
+        uses: step-security/github-api-commit-action@7f410c8d8804b8a52bed57a9a4ce22ccaf117154 # v1.0.0
+        with:
+          success-if-no-changes: true
+          commit-message: Formatting changes
+          token: ${{ steps.app-token.outputs.token }}
