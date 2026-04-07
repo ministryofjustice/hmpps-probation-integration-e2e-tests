@@ -53,7 +53,7 @@ jobs:
       passed-projects: ${{ steps.json.outputs.passed-projects }}
       report-url: ${{ steps.html.outputs.report-url }}
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false # Remove this line of code which is a work around, once fix is in place as per the - https://github.com/JamesIves/github-pages-deploy-action/issues/1928
 
@@ -80,7 +80,7 @@ jobs:
         env:
           ENV_VARS: ${{ inputs.env }}
 
-      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           cache: npm
           node-version-file: .nvmrc
@@ -176,17 +176,18 @@ jobs:
         env:
           all_projects: ${{ env.projects }}
 
-      # - name: Publish JUnit report (Commented out part of security audit APG-2026)
-      #   if: always()
-      #   uses: mikepenz/action-junit-report@bccf2e31636835cf0874589931c4116687171386 # v6.4.0
-      #   id: junit
-      #   with:
-      #     check_name: End-to-end test results
-      #     report_paths: junit.xml
+      - name: Publish JUnit report
+        id: junit
+        uses: dorny/test-reporter@a43b3a5f7366b97d083190328d2c652e1a8b6aa2 # v3.0.0
+        if: always()
+        with:
+          name: End-to-end test results
+          path: junit.xml
+          reporter: java-junit
 
       - name: Get token
         if: always()
-        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -194,15 +195,30 @@ jobs:
           owner: ${{ github.repository_owner }}
           repositories: hmpps-probation-integration-e2e-test-reports
 
-      # - name: Publish HTML report (Commented out part of security audit APG-2026)
-      #   if: always()
-      #   uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4
-      #   with:
-      #     folder: playwright-report
-      #     target-folder: ${{ env.report-dir }}
-      #     repository-name: ministryofjustice/hmpps-probation-integration-e2e-test-reports
-      #     token: ${{ steps.app-token.outputs.token }}
-      #     branch: main
+      - name: Checkout reports repository
+        if: always()
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          repository: ministryofjustice/hmpps-probation-integration-e2e-test-reports
+          ref: main
+          path: .report
+          token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
+
+      - name: Publish HTML report
+        if: always()
+        # language=bash
+        run: |
+          git config --global user.name "probation-integration-bot[bot]"
+          git config --global user.email "177347787+probation-integration-bot[bot]@users.noreply.github.com"
+          mkdir -p ".report/${target_folder}"
+          cp -R "${folder}/." .report/"${target_folder}"
+          cd .report
+          git add "${target_folder}"
+          git commit -m "Publish to GitHub Pages: ${{ github.sha }}" && git push origin main --force-with-lease || echo "Nothing to commit"
+        env:
+          folder: playwright-report
+          target_folder: ${{ env.report-dir }}
 
       - name: Output HTML report URL
         id: html
@@ -234,7 +250,7 @@ jobs:
                   "elements": [
                     {
                       "type": "mrkdwn",
-                      "text": ">${{ steps.junit.outputs.total }} tests run, ${{ steps.junit.outputs.passed }} passed, ${{ steps.junit.outputs.skipped }} skipped, ${{ steps.junit.outputs.failed }} failed."
+                      "text": ">${{ steps.junit.outputs.passed }} passed, ${{ steps.junit.outputs.skipped }} skipped, ${{ steps.junit.outputs.failed }} failed."
                     }
                   ]
                 },
