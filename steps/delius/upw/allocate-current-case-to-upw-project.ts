@@ -45,8 +45,8 @@ export async function allocateCurrentCaseToUpwProject(
     await selectOption(page, '#project\\:selectOneMenu', projectName)
     let allocationDay = day
     if (allocationDay != null) {
-      const options = await getOptions(page, '#allocationDay')
-      allocationDay = options.find(option => option.includes(allocationDay))
+        const options = await getOptions(page, '#allocationDay')
+        allocationDay = options.find(option => option.includes(allocationDay))
     }
 
     await selectOption(page, '#allocationDay\\:selectOneMenu', allocationDay)
