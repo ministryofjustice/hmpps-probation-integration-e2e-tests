@@ -1,5 +1,5 @@
 import { expect, Page } from '@playwright/test'
-import { selectOption } from '../utils/inputs'
+import { getOptions, selectOption } from '../utils/inputs'
 import { getCurrentDay } from '../utils/date-time'
 import { findOffenderByCRN } from '../offender/find-offender'
 
@@ -15,6 +15,7 @@ export async function allocateCurrentCaseToUpwProject(
         endTime = null,
         projectType = 'Group Placement - National Project',
         pickupPoint = null,
+        frequency = null,
     }: {
         crn: string
         providerName: string
@@ -25,6 +26,7 @@ export async function allocateCurrentCaseToUpwProject(
         endTime?: string
         projectType?: string
         pickupPoint?: string
+        frequency?: string
     }
 ) {
     await findOffenderByCRN(page, crn)
@@ -41,7 +43,14 @@ export async function allocateCurrentCaseToUpwProject(
     await selectOption(page, '#projectType\\:selectOneMenu', projectType)
     await selectOption(page, '#team\\:selectOneMenu', teamName)
     await selectOption(page, '#project\\:selectOneMenu', projectName)
-    await selectOption(page, '#allocationDay\\:selectOneMenu')
+    let allocationDay = day
+    if (allocationDay != null) {
+      const options = await getOptions(page, '#allocationDay')
+      allocationDay = options.find(option => option.includes(allocationDay))
+    }
+
+    await selectOption(page, '#allocationDay\\:selectOneMenu', allocationDay)
+    await selectOption(page, '#frequency\\:selectOneMenu', frequency)
 
     if (startTime) {
         await page.locator('#startTime\\:timePicker').fill(startTime)
