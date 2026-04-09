@@ -16,7 +16,8 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
 
     await selectOption(page, '#RelatedTo\\:selectOneMenu', options.relatesTo)
     await selectOption(page, '#ContactCategory\\:selectOneMenu', options.category)
-    await selectOption(page, '#ContactType\\:selectOneMenu', options.type)
+    await page.locator('[id="ContactType:selectOneMenu-autocomplete"]').fill(options.type)
+    await page.getByRole('option', { name: options.type }).click()
     await selectOption(page, '#TransferToTrust\\:selectOneMenu', options.allocation?.team?.provider)
     await selectOption(page, '#TransferToTeam\\:selectOneMenu', options.allocation?.team?.name)
 

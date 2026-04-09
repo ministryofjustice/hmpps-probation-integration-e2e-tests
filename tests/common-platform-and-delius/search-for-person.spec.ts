@@ -7,9 +7,7 @@ import { hearingData } from '../../steps/court-case/hearing-data'
 import { buildAddress } from '../../steps/delius/address/create-address'
 import { randomUUID } from 'crypto'
 
-test.skip('Create and search for a person', async ({ page }) => {
-    // TODO: Test skipped due to the person created taking a while to show up in Delius & incorrect user being selected. Needs further investigation.
-
+test('Create and search for a person', async ({ page }) => {
     const person = deliusPerson()
     const address = buildAddress()
     await runPod(
