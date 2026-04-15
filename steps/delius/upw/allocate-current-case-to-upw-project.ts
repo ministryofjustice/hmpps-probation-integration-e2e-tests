@@ -1,5 +1,5 @@
 import { expect, Page } from '@playwright/test'
-import { getOptions, selectOption } from '../utils/inputs'
+import { fillDate, getOptions, selectOption } from '../utils/inputs'
 import { getCurrentDay } from '../utils/date-time'
 import { findOffenderByCRN } from '../offender/find-offender'
 
@@ -16,6 +16,7 @@ export async function allocateCurrentCaseToUpwProject(
         projectType = 'Group Placement - National Project',
         pickupPoint = null,
         frequency = null,
+        startDate = null,
     }: {
         crn: string
         providerName: string
@@ -27,6 +28,7 @@ export async function allocateCurrentCaseToUpwProject(
         projectType?: string
         pickupPoint?: string
         frequency?: string
+        startDate?: Date
     }
 ) {
     await findOffenderByCRN(page, crn)
@@ -38,19 +40,23 @@ export async function allocateCurrentCaseToUpwProject(
     await page.getByRole('button', { name: 'Allocations' }).click()
     await expect(page.locator('#content > h1')).toContainText('Schedule UPW Appointments')
 
+    if (startDate) {
+        await fillDate(page, '#startDate\\:datePicker', startDate)
+    }
     await selectOption(page, '#area\\:selectOneMenu', providerName)
     await selectOption(page, '#selectionDay\\:selectOneMenu', day)
     await selectOption(page, '#projectType\\:selectOneMenu', projectType)
     await selectOption(page, '#team\\:selectOneMenu', teamName)
     await selectOption(page, '#project\\:selectOneMenu', projectName)
+    await selectOption(page, '#frequency\\:selectOneMenu', frequency)
+
     let allocationDay = day
     if (allocationDay != null) {
-        const options = await getOptions(page, '#allocationDay')
+        const options = await getOptions(page, '#allocationDay\\:selectOneMenu')
         allocationDay = options.find(option => option.includes(allocationDay))
     }
 
     await selectOption(page, '#allocationDay\\:selectOneMenu', allocationDay)
-    await selectOption(page, '#frequency\\:selectOneMenu', frequency)
 
     if (startTime) {
         await page.locator('#startTime\\:timePicker').fill(startTime)
