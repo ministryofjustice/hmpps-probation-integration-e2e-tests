@@ -16,10 +16,7 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
 
     await selectOption(page, '#RelatedTo\\:selectOneMenu', options.relatesTo)
     await selectOption(page, '#ContactCategory\\:selectOneMenu', options.category)
-    const contactTypeDropdown = page.locator('[id="ContactType:selectOneMenu-autocomplete"]')
-    await contactTypeDropdown.click()
-    await contactTypeDropdown.fill(options.type)
-    await page.locator('li[id="ContactType:selectOneMenu-autocomplete__option--0"]', { hasText: options.type }).click()
+    await page.locator('[id="ContactType:selectOneMenu-autocomplete"]').fill(options.type)
     await selectOption(page, '#TransferToTrust\\:selectOneMenu', options.allocation?.team?.provider)
     await selectOption(page, '#TransferToTeam\\:selectOneMenu', options.allocation?.team?.name)
 
