@@ -2,7 +2,7 @@ import { expect, type Page } from '@playwright/test'
 import { findContactsByCRN } from './find-contacts'
 import { fillDate, fillTime, selectOption } from '../utils/inputs'
 import { Contact, data, Team } from '../../../test-data/test-data'
-import { doUntil } from '../utils/refresh'
+import { doUntil, waitForAjax } from '../utils/refresh'
 import { Tomorrow } from '../utils/date-time'
 import { findOffenderByCRNNoContextCheck } from '../offender/find-offender'
 
@@ -16,6 +16,7 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
 
     await selectOption(page, '#RelatedTo\\:selectOneMenu', options.relatesTo)
     await selectOption(page, '#ContactCategory\\:selectOneMenu', options.category)
+    await waitForAjax(page)
     const contactTypeDropdown = page.locator('[id="ContactType:selectOneMenu-autocomplete"]')
     await contactTypeDropdown.click()
     await contactTypeDropdown.fill(options.type)
