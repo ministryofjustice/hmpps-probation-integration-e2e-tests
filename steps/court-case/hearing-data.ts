@@ -14,96 +14,95 @@ export const hearingData = (
     address = buildAddress(),
     court = OXFORD_MAGISTRATE_COURT,
     caseId: string = randomUUID()
-) => ({
-    hearing: {
-        id: randomUUID(),
-        hearingDays: [
+) => {
+    const offence = {
+        id: '0c932f0c-282b-418e-b294-8966498b1eef',
+        offenceLegislation: 'Contrary to section 47 of the Offences Against the Person Act 1861.',
+        offenceTitle: 'Assault a person thereby occasioning them actual bodily harm',
+        wording: 'On 25/11/2023 at Oxford,  you assaulted John Smith, thereby occasioning him, actual bodily harm',
+        listingNumber: 3,
+        offenceDefinitionId: 'a86115ce-b611-38e3-8300-1d3d653f5b3a',
+        offenceCode: 'OF61102',
+        plea: {
+            pleaValue: 'not guilty',
+        },
+        verdict: {
+            verdictType: {
+                description: 'verdict',
+            },
+        },
+        judicialResults: [
             {
-                listedDurationMinutes: 60,
-                sittingDay: DateTime.now().toUTC().toString(),
+                label: 'Remanded in custody',
+                resultText: 'resultText',
+                isConvictedResult: true,
+                judicialResultTypeId: 'id',
             },
         ],
-        type: {
-            id: '5ae4c090-0f70-4694-b4fc-707633d2b430',
-            description: 'Sentence',
-        },
-        courtCentre: {
-            id: '9b583616-049b-30f9-a14f-028a53b7cfe8',
-            code: court.code,
-            roomId: '7cb09222-49e1-3622-a5a6-ad253d2b3c39',
-            roomName: '01',
-            name: court.description,
-        },
-        jurisdictionType: 'MAGISTRATES',
-        prosecutionCases: [
+    }
+    const prosecutionCase = {
+        id: caseId,
+        defendants: [
             {
-                id: caseId,
-                defendants: [
-                    {
-                        id: randomUUID(),
-                        pncId: person.pnc,
-                        prosecutionCaseId: caseId,
-                        personDefendant: {
-                            personDetails: {
-                                address: {
-                                    address1: address.streetAddress,
-                                    address2: address.cityName,
-                                    address3: address.county,
-                                    address5: address.country,
-                                    postcode: address.zipCode,
-                                },
-                                contact: {
-                                    email: faker.internet.exampleEmail(),
-                                    home: faker.phone.number(),
-                                    work: faker.phone.number(),
-                                    mobile: faker.phone.number(),
-                                },
-                                dateOfBirth: DateTime.fromJSDate(person.dob).toISODate(),
-                                firstName: person.firstName,
-                                gender: person.sex.toUpperCase(),
-                                lastName: person.lastName,
-                                title: person.sex.toUpperCase() === 'Male' ? 'Mr' : 'Ms',
-                            },
+                id: randomUUID(),
+                pncId: person.pnc,
+                prosecutionCaseId: caseId,
+                personDefendant: {
+                    personDetails: {
+                        address: {
+                            address1: address.streetAddress,
+                            address2: address.cityName,
+                            address3: address.county,
+                            address5: address.country,
+                            postcode: address.zipCode,
                         },
-                        offences: [
-                            {
-                                id: '0c932f0c-282b-418e-b294-8966498b1eef',
-                                offenceLegislation:
-                                    'Contrary to section 47 of the Offences Against the Person Act 1861.',
-                                offenceTitle: 'Assault a person thereby occasioning them actual bodily harm',
-                                wording:
-                                    'On 25/11/2023 at Oxford,  you assaulted John Smith, thereby occasioning him, actual bodily harm',
-                                listingNumber: 3,
-                                offenceDefinitionId: 'a86115ce-b611-38e3-8300-1d3d653f5b3a',
-                                offenceCode: 'OF61102',
-                                plea: {
-                                    pleaValue: 'not guilty',
-                                },
-                                verdict: {
-                                    verdictType: {
-                                        description: 'verdict',
-                                    },
-                                },
-                                judicialResults: [
-                                    {
-                                        label: 'Remanded in custody',
-                                        resultText: 'resultText',
-                                        isConvictedResult: true,
-                                        judicialResultTypeId: 'id',
-                                    },
-                                ],
-                            },
-                        ],
+                        contact: {
+                            email: faker.internet.exampleEmail(),
+                            home: faker.phone.number(),
+                            work: faker.phone.number(),
+                            mobile: faker.phone.number(),
+                        },
+                        dateOfBirth: DateTime.fromJSDate(person.dob).toISODate(),
+                        firstName: person.firstName,
+                        gender: person.sex.toUpperCase(),
+                        lastName: person.lastName,
+                        title: person.sex.toUpperCase() === 'Male' ? 'Mr' : 'Ms',
                     },
-                ],
-                initiationCode: 'C',
-                prosecutionCaseIdentifier: {
-                    prosecutionAuthorityCode: 'CPS',
-                    prosecutionAuthorityId: '52b27284-0686-4894-b1c7-7d4b634cacdb',
-                    caseURN: '25GD34377719',
                 },
-                caseMarkers: [{ markerTypeDescription: 'marker' }],
+                offences: new Array(1000).fill(offence),
             },
         ],
-    },
-})
+        initiationCode: 'C',
+        prosecutionCaseIdentifier: {
+            prosecutionAuthorityCode: 'CPS',
+            prosecutionAuthorityId: '52b27284-0686-4894-b1c7-7d4b634cacdb',
+            caseURN: '25GD34377719',
+        },
+        caseMarkers: [{ markerTypeDescription: 'marker' }],
+    }
+    return {
+        hearing: {
+            id: randomUUID(),
+            hearingDays: [
+                {
+                    listingSequence: 1,
+                    listedDurationMinutes: 60,
+                    sittingDay: DateTime.now().toUTC().toString(),
+                },
+            ],
+            type: {
+                id: '5ae4c090-0f70-4694-b4fc-707633d2b430',
+                description: 'Sentence',
+            },
+            courtCentre: {
+                id: '9b583616-049b-30f9-a14f-028a53b7cfe8',
+                code: court.code,
+                roomId: '7cb09222-49e1-3622-a5a6-ad253d2b3c39',
+                roomName: '01',
+                name: court.description,
+            },
+            jurisdictionType: 'MAGISTRATES',
+            prosecutionCases: [prosecutionCase],
+        },
+    }
+}
