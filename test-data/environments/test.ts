@@ -49,7 +49,7 @@ export const testEnvironmentData: TestData = {
             name: 'TestUser, SAS (PS - PO)',
             firstName: 'SAS',
             lastName: 'TestUser',
-        }
+        },
     },
     teams: {
         allocationsTestTeam: {
@@ -77,8 +77,8 @@ export const testEnvironmentData: TestData = {
         },
         singleAccommodationTestTeam: {
             name: 'NPS - Wrexham - Team 1',
-            provider: 'Wales'
-        }
+            provider: 'Wales',
+        },
     },
     prisoners: {
         sentencedPrisoner: {
