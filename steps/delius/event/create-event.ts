@@ -33,7 +33,6 @@ export class CreatedEvent {
     court: string
     outcome: string
     provider: string
-    mainOffence: string
 }
 
 export async function createEvent(page: Page, { crn, allocation, event, date }: CreateEvent): Promise<CreatedEvent> {
@@ -48,7 +47,6 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     await fillDate(page, '#ConvictionDate\\:datePicker', _date)
     await waitForJS(page, 1000)
     await selectOption(page, '#MainOffence\\:selectOneMenu', event.mainOffence, option => !option.startsWith('('))
-    createdEvent.mainOffence = event.mainOffence.split(' -')[0]
     if (event.subOffence) {
         await selectOption(page, '#SubOffence\\:selectOneMenu', event.subOffence)
     }

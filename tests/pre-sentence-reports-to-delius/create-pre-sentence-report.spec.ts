@@ -14,7 +14,7 @@ import { buildAddress, createAddress } from '../../steps/delius/address/create-a
 import { selectOption } from '../../steps/delius/utils/inputs'
 
 test('Create a pre-sentence report', async ({ page }) => {
-    // Given a person with an event that has been adjourned for pre-sentence report,
+    // Given a person with an event that has been adjourned for a pre-sentence report,
     // and a court report with a newly created pre-sentence report document
     await hmppsLogin(page)
     await deliusLogin(page)
@@ -56,7 +56,9 @@ test('Create a pre-sentence report', async ({ page }) => {
 
     // - Offence analysis
     await expect(pageTitle).toContainText(/Offence analysis/)
-    await expect(popup.locator('//tbody/tr[@class="govuk-table__row"]/td[1]')).toContainText(event.mainOffence)
+    await expect(popup.locator('//tbody/tr[@class="govuk-table__row"]/td[1]')).toContainText(
+        data.events.adjournedForFastPreSentenceReport.mainOffence.split(' -')[0]
+    )
     await popup.locator('#offencesUnderConsideration').click()
     await popup.keyboard.type(faker.lorem.sentence())
     await popup.locator('#offencesPattern').fill(faker.lorem.sentence())
