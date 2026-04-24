@@ -23,6 +23,7 @@ export const commonData: TestData = {
             appearanceType: 'Trial/Adjournment',
             outcome: 'Adjourned - Pre-Sentence Report',
             reportType: 'Pre-Sentence Report - Fast',
+            mainOffence: 'Stealing by an employee - 04100',
         },
         adjournedForOralPreSentenceReport: {
             appearanceType: 'Trial/Adjournment',

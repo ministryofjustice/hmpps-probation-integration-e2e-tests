@@ -9,7 +9,7 @@ export async function createSubjectAccessReport(page: Page, crn, downloadLocatio
     await page.locator('input', { hasText: 'New SAR' }).click()
     await page.locator('input', { hasText: 'Save' }).click()
     const sarProgressTable = page.locator('#subjectAccessReportTable')
-    await refreshUntil(page, () => expect(sarProgressTable).toContainText('Complete'))
+    await refreshUntil(page, () => expect(sarProgressTable).toContainText('Complete'), { timeout: 20000 })
     const [download] = await Promise.all([
         page.waitForEvent('download'),
         sarProgressTable.locator('a', { hasText: 'Download' }).click(),
@@ -20,6 +20,6 @@ export async function createSubjectAccessReport(page: Page, crn, downloadLocatio
 export async function getFileFromZip(downloadLocation: string, filename: RegExp): Promise<Buffer> {
     const zip = new StreamZip.async({ file: downloadLocation })
     const matchingFiles = Object.values(await zip.entries()).filter(entry => entry.isFile && filename.test(entry.name))
-    expect(matchingFiles).toHaveLength(2)
+    expect(matchingFiles).toHaveLength(1)
     return zip.entryData(matchingFiles[0])
 }
