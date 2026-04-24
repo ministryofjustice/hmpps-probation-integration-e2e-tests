@@ -1,5 +1,6 @@
-import { expect, Locator, Page } from '@playwright/test'
+import { expect, Page } from '@playwright/test'
 import { waitForAjax } from '../utils/refresh'
+import { getRowByContent, getRowCellsByContent } from '../utils/table'
 
 export type CheckAppointmentOptions = {
     teamProvider: string
@@ -14,43 +15,6 @@ export type CheckAppointmentOptions = {
     enforcementAction?: string
     hoursCredited?: string
     outStanding?: string
-}
-
-async function clickNextButton(page: Page) {
-    const nextButtonSelector = 'a.page-link[title="Next"]:not(.disabled)'
-    await page.waitForSelector(nextButtonSelector, { state: 'visible' })
-
-    await page.click(nextButtonSelector)
-    await waitForAjax(page)
-    await page.waitForSelector('#searchResultsTable tbody')
-
-    return true
-}
-
-async function getRowByContent(page: Page, content: string): Promise<Locator> {
-    const row = page.locator(`#searchResultsTable tbody tr:has-text("${content}")`).first()
-    if (await row.isVisible().catch(() => false)) {
-        return row
-    }
-
-    const nextButton = page.locator('a.page-link[title="Next"]:not(.disabled)')
-
-    if ((await nextButton.count()) > 0) {
-        await clickNextButton(page)
-        return getRowByContent(page, content)
-    }
-    throw new Error(`Row with content "${content}" not found`)
-}
-
-async function getCellContents(row: Locator): Promise<string[]> {
-    const cellElements = await row.locator('td').all()
-
-    return await Promise.all(
-        cellElements.map(async td => {
-            const text = await td.innerText()
-            return text.trim()
-        })
-    )
 }
 
 export async function checkAppointmentOnDelius(
@@ -79,18 +43,14 @@ export async function checkAppointmentOnDelius(
     await waitForAjax(page)
     await page.waitForSelector('h2:text-is("Project List")')
 
-    const row = await getRowByContent(page, projectName)
+    const row = await getRowByContent(page, 'searchResultsTable', projectName)
 
     await row.getByRole('link', { name: 'manage' }).click()
     await page.waitForSelector('h2:text-is("Allocated To Attend")')
 
-    const rowByCrn = page
-        .locator('#allocatedOffendersTable tbody tr')
-        .filter({ has: page.locator(`td:first-child:text-is("${popCrn}")`) })
+    const cells = await getRowCellsByContent(page, 'allocatedOffendersTable', popCrn)
 
-    const cells = await getCellContents(rowByCrn)
-
-    expect(cells[0]).toBe(popCrn)
+    expect(cells[0]).toContain(popCrn)
     expect(cells[1]).toBe(popName)
     expect(cells[2]).toBe(startTime)
     expect(cells[3]).toBe(endTime)
