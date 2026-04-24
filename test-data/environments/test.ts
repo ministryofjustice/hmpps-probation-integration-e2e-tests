@@ -5,6 +5,7 @@ export const testEnvironmentData: TestData = {
     documentTemplates: {
         shortFormatPreSentenceReport: 'Nat Short format pre-sentence report pilot',
         oralPreSentenceReport: 'Record of Oral Pre-Sentence Report',
+        adjournedPsr: 'Adjourned PSR',
     },
     contacts: {
         initialAppointment: {

@@ -41,7 +41,15 @@ export interface Contact extends ContactType {
 export class TestData {
     documentTemplates: { [key: string]: string } = {}
     contacts: { [key: string]: ContactType } = {}
-    events: { [key: string]: { appearanceType: string; outcome: string; length?: string; reportType?: string } } = {}
+    events: {
+        [key: string]: {
+            appearanceType: string
+            outcome: string
+            length?: string
+            reportType?: string
+            mainOffence?: string
+        }
+    } = {}
     requirements: { [key: string]: { category: string; subCategory: string; length?: string } } = {}
     staff: { [key: string]: Staff } = {}
     teams: { [key: string]: Team } = {}
