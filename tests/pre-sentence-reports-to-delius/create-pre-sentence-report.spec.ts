@@ -8,10 +8,11 @@ import { data } from '../../test-data/test-data'
 import { faker } from '@faker-js/faker'
 import { findCourtReport } from '../../steps/delius/court-report/find-court-report'
 import { createDocumentFromTemplate } from '../../steps/delius/document/create-document'
-import { createSubjectAccessReport, getFileFromZip } from '../../steps/delius/document/subject-access-report'
 import { getPdfText } from '../../steps/delius/utils/pdf-utils'
 import { buildAddress, createAddress } from '../../steps/delius/address/create-address'
 import { selectOption } from '../../steps/delius/utils/inputs'
+import fs from 'fs'
+import { refreshUntil } from '../../steps/delius/utils/refresh'
 
 test('Create a pre-sentence report', async ({ page }) => {
     // Given a person with an event that has been adjourned for a pre-sentence report,
@@ -103,12 +104,16 @@ test('Create a pre-sentence report', async ({ page }) => {
     await expect(popup).toHaveTitle(/Pre-sentence report completed/)
     await popup.close()
 
-    // Then the document appears in the Delius document list
-    await expect(page.locator('#documentTable\\:0\\:openExternalButton')).toContainText('open in pre-sentence service')
+    // Then the document is updated in Delius
+    await refreshUntil(page, () => expect(page.getByRole('link', { name: 'view', exact: true })).toBeVisible())
+    const [download] = await Promise.all([
+        page.waitForEvent('download'),
+        page.getByRole('link', { name: 'view', exact: true }).click(),
+    ])
+    const filePath = `downloads/${crn}-pre-sentence-report.pdf`
+    await download.saveAs(filePath)
 
-    // And the PDF appears in non-DRAFT form in the subject access report zip file
-    await createSubjectAccessReport(page, crn, `downloads/${crn}-sar.zip`)
-    const file = await getFileFromZip(`downloads/${crn}-sar.zip`, /.+\.pdf/)
-    const pdfText = await getPdfText(file)
-    expect(pdfText).not.toContain('DRAFT')
+    // And the PDF appears in non-DRAFT form in the report file
+    const pdf = await getPdfText(fs.readFileSync(filePath))
+    expect(pdf).not.toContain('DRAFT')
 })
