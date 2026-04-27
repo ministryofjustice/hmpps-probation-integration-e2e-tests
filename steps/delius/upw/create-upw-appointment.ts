@@ -30,8 +30,8 @@ export default async function createUpwAppointment(
         endTime,
         supervisorName = 'Unallocated',
         projectType,
-        allocation
-    }: Options,
+        allocation,
+    }: Options
 ): Promise<void> {
     await findEventByCRN(page, crn, eventNumber)
     await page.click('#navigation-include\\:linkNavigation3UnpaidWork')
