@@ -31,6 +31,11 @@ export async function registerCaseInMPoP(page: Page, person: Person, crn: string
     await expect(heading).toContainText(new RegExp(`${person.firstName} is eligible to use online check ins`, 'i'))
     await page.getByRole('radio', { name: 'To replace some face-to-face' }).click()
     await page.getByRole('button', { name: 'Sign up for online check ins' }).click()
+    await expect(heading).toContainText(
+        new RegExp(`Check you've got approval before you sign ${person.firstName} up`, 'i')
+    )
+    await page.locator('input[value="spo-approval"]').check()
+    await page.getByRole('button', { name: 'Continue' }).click()
     await expect(heading).toContainText(/Set up\s+online check ins/i)
     await page.locator('.moj-js-datepicker-input').fill(uiDueDate)
     await page.getByRole('radio', { name: 'Every 2 weeks' }).check()
@@ -74,10 +79,7 @@ export async function createCheckin(page: Page, uuid: string, person: Person) {
     await page.getByRole('radio', { name: 'Very well' }).check()
     await page.getByRole('button', { name: 'Continue' }).click()
 
-    await page.getByRole('checkbox', { name: 'No, I do not need help' }).check()
-    await page.getByRole('button', { name: 'Continue' }).click()
-
-    await page.getByRole('radio', { name: 'No' }).check()
+    await page.getByRole('checkbox', { name: 'No, I do not need any support' }).check()
     await page.getByRole('button', { name: 'Continue' }).click()
 
     await page.getByRole('button', { name: 'Continue' }).click()
