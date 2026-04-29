@@ -132,6 +132,7 @@ jobs:
           WORKFORCE_URL: https://workforce-management-dev.hmpps.service.justice.gov.uk
           PROBATION_CHECK_IN_URL: https://probation-check-in-dev.hmpps.service.justice.gov.uk
           ESUPERVISION_API: https://esupervision-api-dev.hmpps.service.justice.gov.uk
+          PROBATION_ACCESS_CONTROL_API: https://probation-access-control-dev.hmpps.service.justice.gov.uk
 
           # Credentials
           DELIUS_USERNAME: ${{ secrets.E2E_DELIUS_USERNAME }}
