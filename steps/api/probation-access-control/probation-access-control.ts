@@ -13,6 +13,6 @@ async function getContext(): Promise<APIRequestContext> {
     })
 }
 
-export async function getAccessControlForUserAndPerson(user:string, crn: string) {
+export async function getAccessControlForUserAndPerson(user: string, crn: string) {
     return await (await getContext()).get(`/user/${user}/access/${crn}`)
 }
