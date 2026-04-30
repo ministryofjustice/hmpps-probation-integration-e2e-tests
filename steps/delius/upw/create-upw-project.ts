@@ -71,6 +71,7 @@ export async function createUpwProject(
     await selectOption(page, '#Trust\\:selectOneMenu', providerName)
     await selectOption(page, '#Team\\:selectOneMenu', teamName)
     await page.selectOption('#ProjectType\\:selectOneMenu', projectType)
+    await waitForAjax(page)
     await page.selectOption('#DefaultPickupPoint\\:selectOneMenu', { label: pickupPoint })
     await page.fill('#ProjectCode\\:prependedInputText', projectCode)
     await page.fill('#ProjectName\\:inputText', projectName)
