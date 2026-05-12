@@ -2,16 +2,9 @@ import { expect, Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
 import { Person } from '../delius/utils/person'
 import { selectOption } from '../delius/utils/inputs'
-import { Yesterday } from '../delius/utils/date-time'
 import { DateTime } from 'luxon'
 
-export async function recordAttendanceCompliedOutcome(
-    page: Page,
-    crn: string,
-    // person: Person,
-    startTime?: string,
-    endTime?: string
-) {
+export async function recordAttendanceCompliedOutcome(page: Page, startTime?: string, endTime?: string) {
     // Log attendance
     await page.getByText('Attended - Complied').click()
     await page.locator('#notes').fill(faker.lorem.sentence())
@@ -42,38 +35,26 @@ export async function recordAttendanceCompliedOutcome(
     await page.getByRole('heading', { name: 'Confirm details' }).isVisible()
     await page.locator('input[name="alertPractitioner"][value="no"]').click()
     await page.getByRole('button', { name: 'Confirm' }).click()
-    await page.pause()
-
     await expect(page.getByRole('heading', { name: 'Success' })).toBeVisible()
     await expect(page.locator('.govuk-notification-banner__content h3')).toContainText(/Attendance recorded/)
     await page.getByRole('link', { name: 'Sign out' }).click()
 }
 
-export async function recordUnacceptableAbsenceOutcome(
-    page: Page,
-    crn: string,
-    penaltyTimeHours = '2',
-    penaltyTimeMinutes = '30'
-) {
-    const heading = page.locator('h1.govuk-fieldset__heading')
-
-    await page.pause()
-
+export async function recordUnacceptableAbsenceOutcome(page: Page) {
     await page.getByText('Unacceptable Absence').click()
     await page.locator('#notes').fill(faker.lorem.sentence())
-    // await page.getByRole('radio', { name: 'No, they are not sensitive' }).click()
+    await page.getByRole('radio', { name: 'No, they are not sensitive' }).click()
     await page.getByRole('button', { name: 'Continue' }).click()
-
-    await page.locator('#penaltyTimeHours').fill(penaltyTimeHours)
-    await page.locator('#penaltyTimeMinutes').fill(penaltyTimeMinutes)
-    await page.getByRole('button', { name: 'Continue' }).click()
-
-    await page.pause()
 
     await page.getByRole('heading', { name: 'Confirm details' }).isVisible()
     await expect(page.locator('.moj-alert__content')).toContainText(
         /This outcome will be shared with the practitioner as it requires enforcement action./
     )
+
+    // Confirm details
+    await page.getByRole('button', { name: 'Confirm' }).click()
+    await expect(page.getByRole('heading', { name: 'Success' })).toBeVisible()
+    await expect(page.locator('.govuk-notification-banner__content h3')).toContainText(/Attendance recorded/)
     await page.getByRole('link', { name: 'Sign out' }).click()
 }
 
@@ -104,9 +85,9 @@ export async function findGroupSession(
     await page.getByRole('link', { name: 'Record group session' }).click()
     await selectOption(page, '#provider', provider)
     await selectOption(page, '#team', teamName)
-    await page.locator('#startDate-day').fill(Yesterday.day.toString())
-    await page.locator('#startDate-month').fill(Yesterday.month.toString())
-    await page.locator('#startDate-year').fill(Yesterday.year.toString())
+    await page.locator('#startDate-day').fill(today.day.toString())
+    await page.locator('#startDate-month').fill(today.month.toString())
+    await page.locator('#startDate-year').fill(today.year.toString())
     await page.locator('#endDate-day').fill(today.day.toString())
     await page.locator('#endDate-month').fill(today.month.toString())
     await page.locator('#endDate-year').fill(today.year.toString())
@@ -118,24 +99,50 @@ export async function findGroupSession(
     await page.getByRole('cell', { name: crn }).isVisible()
     await page.getByRole('link', { name: 'Update' }).click()
     await expect(page.locator('.govuk-caption-l')).toContainText(crn)
+    await page.getByRole('button', { name: 'Continue' }).click()
+
+    await expect(page.getByRole('heading', { name: 'Add supervisor details' })).toBeVisible()
     await selectOption(page, '#supervisor', supervisor)
     await page.getByRole('button', { name: 'Continue' }).click()
 }
 
 export async function findPlacementsWithHostPartner(page: Page, provider: string, teamName: string) {
-    await page.pause()
     const supervisor = 'Unallocated Staff'
     await page.getByRole('link', { name: 'Record attendance with host' }).click()
     await selectOption(page, '#provider', provider)
     await selectOption(page, '#team', teamName)
     await page.getByRole('button', { name: 'Apply filters' }).click()
-    await page.getByRole('cell').first().click()
 
+    await page.locator('//tbody/tr[1]/td[1]/a').click()
     await page.getByRole('link', { name: 'Update' }).first().click()
     const crn = await page.locator('.govuk-caption-l').textContent()
-
     await expect(page.locator('h2.govuk-heading-m')).toContainText('Appointment details')
+    await page.getByRole('button', { name: 'Continue' }).click()
+
+    await expect(page.getByRole('heading', { name: 'Add supervisor details' })).toBeVisible()
     await selectOption(page, '#supervisor', supervisor)
     await page.getByRole('button', { name: 'Continue' }).click()
+    return crn
+}
+
+export async function recordSessionAttendance(page: Page, startTime: string, endTime: string) {
+    await expect(page).toHaveTitle(/Record group session attendance/)
+    await page.getByRole('button', { name: 'View details' }).first().click()
+    await page.getByRole('heading', { name: 'Session details' }).isVisible()
+    await page.getByRole('heading', { name: 'Automated UI Tests' }).isVisible()
+    await page.getByRole('link', { name: 'View and update' }).click()
+
+    const crn = await page.locator('.govuk-caption-l').textContent()
+    await page.getByRole('button', { name: 'Arrived' }).click()
+
+    await page.locator('#time').fill(startTime)
+    await page.getByRole('button', { name: 'Confirm and continue' }).click()
+
+    await page.locator('input[name="ableToWork"][value="yes"]').click()
+    await page.getByRole('button', { name: 'Confirm and continue' }).click()
+
+    await page.locator('#time').fill(endTime)
+    await page.getByRole('button', { name: 'Confirm and continue' }).click()
+
     return crn
 }
