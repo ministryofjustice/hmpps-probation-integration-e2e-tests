@@ -59,6 +59,7 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     await selectOption(page, '#AppearanceType\\:selectOneMenu', event.appearanceType)
     await selectOption(page, '#Plea\\:selectOneMenu', event.plea)
     await selectOption(page, '#Outcome\\:selectOneMenu', event.outcome)
+    await selectOption(page, '#jfda\\:selectOneMenu', 'No')
     createdEvent.outcome = event.outcome
     if (requiresAdditionalOutcomeDetails.includes(event.outcome)) {
         await selectOption(page, '#OutcomeArea\\:selectOneMenu', allocation?.team?.provider)

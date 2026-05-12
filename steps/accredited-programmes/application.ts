@@ -1,8 +1,10 @@
 import { expect, Page } from '@playwright/test'
 import { DateTime } from 'luxon'
 import { formatDate } from '../delius/utils/date-time.js'
+import { faker } from '@faker-js/faker'
+import { Person } from '../delius/utils/person'
 
-export async function findProgrammeAndMakeReferral(page: Page, nomisId: string) {
+export async function findProgrammeAndMakeReferral(page: Page, nomisId: string, programmeName?: string) {
     await page.getByRole('link', { name: 'Find a programme and make a referral' }).click()
     await expect(page).toHaveTitle(/Find recommended programmes - Accredited Programmes - DPS/)
     await page
@@ -14,11 +16,21 @@ export async function findProgrammeAndMakeReferral(page: Page, nomisId: string) 
     await expect(page).toHaveTitle(/Accredited Programmes - DPS/)
     await page.getByRole('button', { name: /See all programmes/ }).click()
 
-    await page.getByRole('link', { name: 'Becoming New Me Plus: general violence offence' }).click()
-    await expect(page).toHaveTitle(/Becoming New Me Plus: general violence offence programme description - DPS/)
-    await page.getByRole('cell', { name: 'Moorland (HMP & YOI)' }).getByRole('link').click()
+    if (programmeName == 'Accredited Programme') {
+        await page.getByRole('link', { name: 'Building Choices: moderate' }).click()
+        await expect(page).toHaveTitle(/Accredited Programmes - DPS/)
+        await page.getByRole('radio', { name: 'No' }).click()
+        await page.getByRole('button', { name: 'Continue' }).click()
 
-    await expect(page).toHaveTitle(/Becoming New Me Plus: general violence offence programme/)
+        await page.getByRole('cell', { name: 'Hindley (HMP & YOI)' }).getByRole('link').click()
+        await expect(page).toHaveTitle(/Building Choices: moderate intensity/)
+    } else {
+        await page.getByRole('link', { name: 'Becoming New Me Plus: general violence offence' }).click()
+        await expect(page).toHaveTitle(/Becoming New Me Plus: general violence offence programme description - DPS/)
+        await page.getByRole('cell', { name: 'Moorland (HMP & YOI)' }).getByRole('link').click()
+
+        await expect(page).toHaveTitle(/Becoming New Me Plus: general violence offence programme/)
+    }
 
     await page.getByRole('button', { name: /Make a referral/ }).click()
     await expect(page).toHaveTitle(/Start referral - Accredited Programmes/)
@@ -113,6 +125,44 @@ export async function assertRoSHRiskTable(page: Page, assertions: RoSHRiskAssert
             throw new Error(`Expected "${expectedValue}" but found "${actualValue?.trim()}" for "${key}"`)
         }
     }
+}
+
+export async function updateReferralStatus(page: Page) {
+    await page.getByRole('button', { name: 'Update referral' }).click()
+    await page.getByRole('button', { name: 'Update status' }).click()
+
+    await page.locator('input[name="started-or-completed"][value="yes"]').click()
+    await page.getByRole('button', { name: 'Continue' }).click()
+
+    await page.locator('#more-details').fill(faker.lorem.sentence())
+    await page.getByRole('button', { name: 'Submit' }).click()
+}
+
+export async function updateReferralStatusToAwaitingAllocation(page: Page, person: Person) {
+    await page.getByRole('button', { name: 'Update referral' }).click()
+    await page.getByRole('button', { name: 'Update status' }).click()
+    await page.getByRole('radio', { name: 'Awaiting allocation' }).click()
+    await page.locator('#more-details').fill(faker.lorem.sentence())
+    await page.getByRole('button', { name: 'Submit' }).click()
+    await expect(page.locator('.moj-alert__content')).toContainText(
+        `${person.firstName} ${person.lastName}'s referral status is now Awaiting allocation.`
+    )
+}
+
+export async function updateReferralStatusToOnProgramme(page: Page, person: Person) {
+    await updateReferralStatus(page)
+    await expect(page.locator('.moj-alert__content h2')).toContainText('Referral status updated')
+    await expect(page.locator('.moj-alert__content')).toContainText(
+        `${person.firstName} ${person.lastName}'s referral status is now On programme.`
+    )
+}
+
+export async function updateReferralStatusToComplete(page: Page, person: Person) {
+    await updateReferralStatus(page)
+    await expect(page.locator('.moj-alert__content h2')).toContainText('Referral status updated')
+    await expect(page.locator('.moj-alert__content')).toContainText(
+        `${person.firstName} ${person.lastName}'s referral status is now Programme complete.`
+    )
 }
 
 export const oasysImportDateText = '[data-testid="last-assessment-date-text"]'
