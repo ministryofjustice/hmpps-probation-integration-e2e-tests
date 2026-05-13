@@ -19,9 +19,7 @@ export default async function verifyAdjustment(
     await page.getByRole('button', { name: 'Adjustment' }).click()
     await waitForAjax(page)
 
-    const toVerify = [
-        { columnName: 'Adjustment', cellContent: hoursCredited },
-    ]
+    const toVerify = [{ columnName: 'Adjustment', cellContent: hoursCredited }]
 
     await verifyTableRowByContent(page, 'currentAdjustmentsTable', reason, toVerify)
 }
