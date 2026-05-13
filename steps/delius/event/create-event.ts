@@ -64,6 +64,9 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
         await selectOption(page, '#OutcomeArea\\:selectOneMenu', allocation?.team?.provider)
         await selectOption(page, '#OutcomeTeam\\:selectOneMenu', allocation?.team?.name)
     }
+    if (event.appearanceType === 'Sentence') {
+        await selectOption(page, '#jfda\\:selectOneMenu', 'No')
+    }
     if (event.length) {
         await page.fill('#Length', event.length)
     }
