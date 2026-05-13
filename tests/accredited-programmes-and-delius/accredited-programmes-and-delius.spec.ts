@@ -82,23 +82,10 @@ test('Accredited Programmes termination', async ({ page }) => {
     await page.getByRole('link', { name: 'Event List' }).click()
     await page.getByRole('link', { name: 'view', exact: true }).click()
     await page.pause()
-    // await page.click('#navigation-include\\:linkNavigation3UnpaidWork')
     await page.getByRole('button', { name: 'Requirements' }).click()
     // await expect(page.locator('#appointmentsTable')).toContainText(/Attended - Complied/)
 
-    // await findAccreditedProgrammeAndMakeReferral(page, nomisId)
-
-    // Step 5: Verify OASys assessment data in Accredited Programmes service
-    // await page.getByTestId('search-input').fill(nomisId)
-    // await page.getByRole('button', { name: 'Search', exact: true }).click()
-    // await clickOnOffenderLink(page, 'Date referred', `${person.lastName}, ${person.firstName}`)
-
-    // await clickOnOffenderLink(page, 'Date referred', `Runte, Ginger`)
-    // await expect(page).toHaveTitle(/Status history for referral to Becoming New Me Plus: general violence offence/)
-    // await page.getByRole('link', { name: 'Risks and needs' }).click()
     // await verifyAssessmentDateTextToBe(page, `Assessment completed ${todaysDate}`)
-    // await page.getByRole('link', { name: 'Risks and alerts' }).click()
-    // await page.getByRole('link', { name: 'Section 2 - Offence analysis' }).click()
 })
 
 test.afterAll(async () => {

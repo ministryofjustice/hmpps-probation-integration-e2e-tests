@@ -147,6 +147,9 @@ export async function updateReferralStatusToAwaitingAllocation(page: Page, perso
     await expect(page.locator('.moj-alert__content')).toContainText(
         `${person.firstName} ${person.lastName}'s referral status is now Awaiting allocation.`
     )
+
+    // Add case to group
+    await page.getByLabel('Primary navigation').getByRole('link', { name: 'Groups' }).click()
 }
 
 export async function updateReferralStatusToOnProgramme(page: Page, person: Person) {
