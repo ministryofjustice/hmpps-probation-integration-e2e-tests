@@ -9,6 +9,8 @@ import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessm
 import { login as accreditedProgrammesLogin } from '../../steps/accredited-programmes/login'
 import { login as accreditedProgrammesManageAndDeliverLogin } from '../../steps/accredited-programmes/manageAndDeliverLogin'
 import {
+    addCaseToGroup,
+    findCase,
     findProgrammeAndMakeReferral,
     updateReferralStatusToAwaitingAllocation,
     updateReferralStatusToComplete,
@@ -19,6 +21,8 @@ import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock.j
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement'
 import { data } from '../../test-data/test-data'
 import { findOffenderByCRN } from '../../steps/delius/offender/find-offender'
+import { faker } from '@faker-js/faker'
+import { Yesterday } from '../../steps/delius/utils/date-time'
 
 const nomisIds = []
 
@@ -30,9 +34,11 @@ test('Accredited Programmes termination', async ({ page }) => {
     const person = deliusPerson()
     const crn = await createOffender(page, { person, providerName: data.teams.referAndMonitorTestTeam.provider })
 
-    await createCommunityEvent(page, {
+    const offenceDate = faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() })
+    const event = await createCommunityEvent(page, {
         crn,
         allocation: { team: data.teams.referAndMonitorTestTeam },
+        date: offenceDate,
     })
 
     await createRequirementForEvent(page, {
@@ -58,19 +64,12 @@ test('Accredited Programmes termination', async ({ page }) => {
 
     // Step 5: Update referral in Accredited Programmes Manage and Deliver
     await accreditedProgrammesManageAndDeliverLogin(page)
-    await page.getByLabel('Primary navigation').getByRole('link', { name: 'Case list' }).click()
-    await expect(page.locator('.govuk-heading-xl')).toContainText('Case list')
-    await page.locator('#crnOrPersonName').fill(crn)
-    await page.getByRole('button', { name: 'Apply filters' }).click()
-    await page.pause()
-    await page.locator('a', { hasText: `${person.firstName} ${person.lastName}` }).click()
-    await expect(page.locator('.govuk-heading-xl')).toContainText(
-        `Referral details: ${person.firstName} ${person.lastName}`
-    )
+    await findCase(page, person, crn)
+    await updateReferralStatusToAwaitingAllocation(page, person, crn, event, offenceDate)
+    await addCaseToGroup(page, person)
 
     // Update referral status to On programme
-    await updateReferralStatusToAwaitingAllocation(page, person)
-    await updateReferralStatusToOnProgramme(page, person)
+    await updateReferralStatusToOnProgramme(page, person, crn)
 
     // Update referral status to Completed
     await updateReferralStatusToComplete(page, person)
@@ -81,11 +80,9 @@ test('Accredited Programmes termination', async ({ page }) => {
     await findOffenderByCRN(page, crn)
     await page.getByRole('link', { name: 'Event List' }).click()
     await page.getByRole('link', { name: 'view', exact: true }).click()
-    await page.pause()
     await page.getByRole('button', { name: 'Requirements' }).click()
-    // await expect(page.locator('#appointmentsTable')).toContainText(/Attended - Complied/)
-
-    // await verifyAssessmentDateTextToBe(page, `Assessment completed ${todaysDate}`)
+    await page.getByRole('link', { name: 'view', exact: true }).click()
+    await expect(page.locator('span:right-of(:text("Termination Reason"))')).toContainText('Requirement Completed')
 })
 
 test.afterAll(async () => {

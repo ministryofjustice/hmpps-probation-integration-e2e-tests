@@ -3,6 +3,7 @@ import { DateTime } from 'luxon'
 import { formatDate } from '../delius/utils/date-time.js'
 import { faker } from '@faker-js/faker'
 import { Person } from '../delius/utils/person'
+import { CreatedEvent } from '../delius/event/create-event'
 
 export async function findProgrammeAndMakeReferral(page: Page, nomisId: string, programmeName?: string) {
     await page.getByRole('link', { name: 'Find a programme and make a referral' }).click()
@@ -127,18 +128,70 @@ export async function assertRoSHRiskTable(page: Page, assertions: RoSHRiskAssert
     }
 }
 
-export async function updateReferralStatus(page: Page) {
-    await page.getByRole('button', { name: 'Update referral' }).click()
-    await page.getByRole('button', { name: 'Update status' }).click()
-
-    await page.locator('input[name="started-or-completed"][value="yes"]').click()
-    await page.getByRole('button', { name: 'Continue' }).click()
-
-    await page.locator('#more-details').fill(faker.lorem.sentence())
-    await page.getByRole('button', { name: 'Submit' }).click()
+export async function findCase(page: Page, person: Person, crn: string) {
+    await page.getByLabel('Primary navigation').getByRole('link', { name: 'Case list' }).click()
+    await expect(page.locator('.govuk-heading-xl')).toContainText('Case list')
+    await page.locator('#crnOrPersonName').fill(crn)
+    await page.getByRole('button', { name: 'Apply filters' }).click()
+    await page.locator('a', { hasText: `${person.firstName} ${person.lastName}` }).click()
+    await expect(page.locator('.govuk-heading-xl')).toContainText(
+        `Referral details: ${person.firstName} ${person.lastName}`
+    )
 }
 
-export async function updateReferralStatusToAwaitingAllocation(page: Page, person: Person) {
+export async function addCaseToGroup(page: Page, person: Person) {
+    await page.getByRole('link', { name: 'Groups' }).click()
+    await page.getByRole('link', { name: 'AutoTestGroup' }).click()
+    await page.getByRole('link', { name: 'Allocations and waitlist' }).click()
+    await page.getByRole('link', { name: 'Waitlist (1)' }).click()
+    await page.locator('input[name="add-to-group"]').click()
+    await page.getByRole('button', { name: 'Add to group' }).click()
+
+    await expect(page.locator('h1.govuk-fieldset__heading')).toContainText(
+        `Add ${person.firstName} ${person.lastName} to this group?`
+    )
+    await page.locator('input[name="add-to-group"][value="yes"]').click()
+    await page.getByRole('button', { name: 'Continue' }).click()
+    await expect(page.locator('h1.govuk-heading-l')).toContainText(
+        `${person.firstName} ${person.lastName}'s referral status will change to Scheduled`
+    )
+    await page.locator('#additional-details').fill(faker.lorem.sentence())
+    await page.getByRole('button', { name: 'Submit' }).click()
+    await expect(page.locator('.moj-alert__content')).toContainText(
+        `${person.firstName} ${person.lastName} was added to this group. Their referral status is now Scheduled.`
+    )
+}
+
+export async function updateReferralStatusToAwaitingAllocation(
+    page: Page,
+    person: Person,
+    crn: string,
+    event: CreatedEvent,
+    date: Date
+) {
+    await expect(page.locator('p:right-of(:text("Programme Name"))').first()).toContainText('Building Choices')
+
+    // Personal details
+    await expect(page.locator('p:right-of(:text("Name"))').first()).toContainText(
+        person.firstName + ' ' + person.lastName
+    )
+    await expect(page.locator('p:right-of(:text("CRN"))').first()).toContainText(crn)
+    await expect(page.locator('p:right-of(:text("Date of birth"))').first()).toContainText(
+        DateTime.fromJSDate(person.dob).setLocale('en-gb').toLocaleString(DateTime.DATE_FULL)
+    )
+    await expect(page.locator('p:right-of(:text("Sex"))').first()).toContainText(person.sex)
+
+    // Offence History
+    await page.locator('a', { hasText: 'Offence History' }).click()
+    await expect(page.locator('p:right-of(:text("Offence date"))').first()).toContainText(
+        date.toLocaleString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+    )
+
+    // Sentence Information
+    await page.locator('a', { hasText: 'Sentence Information' }).click()
+    await expect(page.locator('p:right-of(:text("Sentence type"))').first()).toContainText(event.outcome)
+
+    // Update referral
     await page.getByRole('button', { name: 'Update referral' }).click()
     await page.getByRole('button', { name: 'Update status' }).click()
     await page.getByRole('radio', { name: 'Awaiting allocation' }).click()
@@ -147,17 +200,28 @@ export async function updateReferralStatusToAwaitingAllocation(page: Page, perso
     await expect(page.locator('.moj-alert__content')).toContainText(
         `${person.firstName} ${person.lastName}'s referral status is now Awaiting allocation.`
     )
-
-    // Add case to group
-    await page.getByLabel('Primary navigation').getByRole('link', { name: 'Groups' }).click()
+    await expect(page.getByRole('heading', { name: 'Awaiting allocation' })).toBeVisible()
 }
 
-export async function updateReferralStatusToOnProgramme(page: Page, person: Person) {
+export async function updateReferralStatus(page: Page) {
+    await page.getByRole('button', { name: 'Update referral' }).click()
+    await page.getByRole('button', { name: 'Update status' }).click()
+
+    await page.locator('#started-or-completed').click()
+    await page.getByRole('button', { name: 'Continue' }).click()
+
+    await page.locator('#more-details').fill(faker.lorem.sentence())
+    await page.getByRole('button', { name: 'Submit' }).click()
+}
+
+export async function updateReferralStatusToOnProgramme(page: Page, person: Person, crn: string) {
+    await findCase(page, person, crn)
     await updateReferralStatus(page)
     await expect(page.locator('.moj-alert__content h2')).toContainText('Referral status updated')
     await expect(page.locator('.moj-alert__content')).toContainText(
         `${person.firstName} ${person.lastName}'s referral status is now On programme.`
     )
+    await expect(page.getByRole('heading', { name: 'On programme' })).toBeVisible()
 }
 
 export async function updateReferralStatusToComplete(page: Page, person: Person) {
@@ -166,6 +230,7 @@ export async function updateReferralStatusToComplete(page: Page, person: Person)
     await expect(page.locator('.moj-alert__content')).toContainText(
         `${person.firstName} ${person.lastName}'s referral status is now Programme complete.`
     )
+    await expect(page.getByRole('heading', { name: 'Programme complete' })).toBeVisible()
 }
 
 export const oasysImportDateText = '[data-testid="last-assessment-date-text"]'
