@@ -135,7 +135,6 @@ export async function recordSessionAttendance(page: Page, startTime: string, end
     const crn = await page.locator('.govuk-caption-l').textContent()
     await page.getByRole('button', { name: 'Arrived', exact: true }).click()
 
-    await page.pause()
     await page.locator('#time').fill(startTime)
     await page.getByRole('button', { name: 'Confirm and continue' }).click()
 
