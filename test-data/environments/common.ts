@@ -47,6 +47,10 @@ export const commonData: TestData = {
             subCategory: 'Regular',
             length: '120',
         },
+        accreditedProgramme: {
+            category: 'Court - Accredited Programme',
+            subCategory: 'Building Choices',
+        },
     },
     staff: {
         unallocated: {
