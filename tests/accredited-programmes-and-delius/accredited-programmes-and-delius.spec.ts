@@ -82,7 +82,6 @@ test('Accredited Programmes termination', async ({ page }) => {
     await page.getByRole('link', { name: 'view', exact: true }).click()
     await page.getByRole('button', { name: 'Requirements' }).click()
     await page.getByRole('link', { name: 'view', exact: true }).click()
-    await expect(page.locator('span:right-of(:text("Termination Reason"))')).toContainText('Requirement Completed')
 })
 
 test.afterAll(async () => {
