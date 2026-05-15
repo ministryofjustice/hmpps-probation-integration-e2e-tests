@@ -5,56 +5,33 @@ import { createOffender } from '../../steps/delius/offender/create-offender'
 import { createCommunityEvent } from '../../steps/delius/event/create-event'
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement'
 import { data } from '../../test-data/test-data'
-import { selectOption } from '../../steps/delius/utils/inputs'
 import { createUpwProject } from '../../steps/delius/upw/create-upw-project'
 import { allocateCurrentCaseToUpwProject } from '../../steps/delius/upw/allocate-current-case-to-upw-project'
 import { caseAdminLogin } from '../../steps/community-payback/case-admin-login'
 import {
     adjustTravelTime,
     findGroupSession,
-    findPlacementsWithHostPartner,
+    findAnIndividualPlacement,
     recordAttendanceCompliedOutcome,
     recordUnacceptableAbsenceOutcome,
+    findAnAppointment,
 } from '../../steps/community-payback/record-outcome'
 import { findOffenderByCRN } from '../../steps/delius/offender/find-offender'
 
 test('Find a group session and update record as Attendance Complied', async ({ page }) => {
     // Given I create a new Offender in nDelius
-    await deliusLogin(page)
-    const project = await createUpwProject(page, {
-        providerName: data.teams.unpaidWorkTestTeam.provider,
-        teamName: data.teams.unpaidWorkTestTeam.name,
-    })
+    const testData = await createOffenderAndUpwProject(page)
 
-    const person = deliusPerson()
-    const crn: string = await createOffender(page, {
-        person,
-        providerName: data.teams.unpaidWorkTestTeam.provider,
-    })
+    // And I create a new event and allocate the case to the project
+    await createEventAndAllocateCaseToProject(page, testData.crn, testData.project.projectName)
 
-    const event = await createCommunityEvent(page, { crn, allocation: { team: data.teams.unpaidWorkTestTeam } })
-
-    await createRequirementForEvent(page, {
-        crn,
-        requirement: data.requirements.unpaidWork,
-        team: data.teams.unpaidWorkTestTeam,
-    })
-
-    await page.locator('a', { hasText: 'Personal Details' }).click()
-
-    await allocateCurrentCaseToUpwProject(page, {
-        crn: crn,
-        providerName: data.teams.unpaidWorkTestTeam.provider,
-        teamName: data.teams.unpaidWorkTestTeam.name,
-        projectName: project.projectName,
-    })
-
+    // Find a group session and update the record as Attendance Complied
     await caseAdminLogin(page)
     await findGroupSession(
         page,
-        crn,
-        person,
-        project.projectName,
+        testData.crn,
+        testData.person,
+        testData.project.projectName,
         data.teams.unpaidWorkTestTeam.provider,
         data.teams.unpaidWorkTestTeam.name
     )
@@ -62,48 +39,25 @@ test('Find a group session and update record as Attendance Complied', async ({ p
 
     // Log in to Delius to confirm record has been updated correctly
     await deliusLogin(page)
-    await navigateToUnpaidWork(page, crn)
+    await navigateToUnpaidWork(page, testData.crn)
     await page.getByRole('button', { name: 'Worksheet summary' }).click()
     await expect(page.locator('#appointmentsTable')).toContainText(/Attended - Complied/)
 })
 
 test('Find a group session and update record as Unacceptable Absence', async ({ page }) => {
     // Given I create a new Offender in nDelius
-    await deliusLogin(page)
-    const project = await createUpwProject(page, {
-        providerName: data.teams.unpaidWorkTestTeam.provider,
-        teamName: data.teams.unpaidWorkTestTeam.name,
-    })
+    const testData = await createOffenderAndUpwProject(page)
 
-    const person = deliusPerson()
-    const crn: string = await createOffender(page, {
-        person,
-        providerName: data.teams.unpaidWorkTestTeam.provider,
-    })
+    // And I create a new event and allocate the case to the project
+    await createEventAndAllocateCaseToProject(page, testData.crn, testData.project.projectName)
 
-    const event = await createCommunityEvent(page, { crn, allocation: { team: data.teams.unpaidWorkTestTeam } })
-
-    await createRequirementForEvent(page, {
-        crn,
-        requirement: data.requirements.unpaidWork,
-        team: data.teams.unpaidWorkTestTeam,
-    })
-
-    await page.locator('a', { hasText: 'Personal Details' }).click()
-
-    await allocateCurrentCaseToUpwProject(page, {
-        crn: crn,
-        providerName: data.teams.unpaidWorkTestTeam.provider,
-        teamName: data.teams.unpaidWorkTestTeam.name,
-        projectName: project.projectName,
-    })
-
+    // Find a group session and update the record as Unacceptable Absence
     await caseAdminLogin(page)
     await findGroupSession(
         page,
-        crn,
-        person,
-        project.projectName,
+        testData.crn,
+        testData.person,
+        testData.project.projectName,
         data.teams.unpaidWorkTestTeam.provider,
         data.teams.unpaidWorkTestTeam.name
     )
@@ -111,7 +65,7 @@ test('Find a group session and update record as Unacceptable Absence', async ({ 
 
     // Log in to Delius to confirm the record has been updated correctly
     await deliusLogin(page)
-    await navigateToUnpaidWork(page, crn)
+    await navigateToUnpaidWork(page, testData.crn)
     await page.getByRole('button', { name: 'Worksheet summary' }).click()
     await expect(page.locator('#appointmentsTable')).toContainText(/Unacceptable Absence/)
 })
@@ -119,12 +73,13 @@ test('Find a group session and update record as Unacceptable Absence', async ({ 
 test('Find individual and group placements with a host partner and update record as Attendance Complied', async ({
     page,
 }) => {
+    // Find individual & group placements with a host partner and update the record as Attendance Complied
     await caseAdminLogin(page)
     const teamName = 'CPB Manual Test Team'
-    const crn = await findPlacementsWithHostPartner(page, data.teams.unpaidWorkTestTeam.provider, teamName)
+    const crn = await findAnIndividualPlacement(page, data.teams.unpaidWorkTestTeam.provider, teamName)
     await recordAttendanceCompliedOutcome(page)
 
-    // Log in to Delius to confirm record has been updated correctly
+    // Log in to Delius to confirm the record has been updated correctly
     await deliusLogin(page)
     await navigateToUnpaidWork(page, crn)
     await page.getByRole('button', { name: 'Worksheet summary' }).click()
@@ -132,12 +87,9 @@ test('Find individual and group placements with a host partner and update record
 })
 
 test('Adjust travel time hours', async ({ page }) => {
+    // Adjust travel time hours for a case
     await caseAdminLogin(page)
-    await page.getByRole('link', { name: 'Adjust travel time hours' }).click()
-    await selectOption(page, '#provider', 'East of England')
-    await page.getByRole('button', { name: 'Apply filters' }).click()
-    const crn = await page.locator('//tbody/tr[1]/td[2]').textContent()
-    await page.getByRole('link', { name: 'Update' }).first().click() // person update button
+    const crn = await findAnAppointment(page, data.teams.unpaidWorkTestTeam.provider)
 
     const hours = '2'
     const minutes = '30'
@@ -149,6 +101,40 @@ test('Adjust travel time hours', async ({ page }) => {
     await page.getByRole('button', { name: 'Adjustment' }).click()
     await expect(page.locator('#currentAdjustmentsTable')).toContainText(RegExp(`-${hours}:${minutes}`, 'i'))
 })
+
+const createOffenderAndUpwProject = async (page: Page) => {
+    await deliusLogin(page)
+    const project = await createUpwProject(page, {
+        providerName: data.teams.unpaidWorkTestTeam.provider,
+        teamName: data.teams.unpaidWorkTestTeam.name,
+    })
+
+    const person = deliusPerson()
+    const crn: string = await createOffender(page, {
+        person,
+        providerName: data.teams.unpaidWorkTestTeam.provider,
+    })
+    return { crn, project, person }
+}
+
+const createEventAndAllocateCaseToProject = async (page: Page, crn: string, projectName: string) => {
+    await createCommunityEvent(page, { crn, allocation: { team: data.teams.unpaidWorkTestTeam } })
+
+    await createRequirementForEvent(page, {
+        crn,
+        requirement: data.requirements.unpaidWork,
+        team: data.teams.unpaidWorkTestTeam,
+    })
+
+    await page.locator('a', { hasText: 'Personal Details' }).click()
+
+    await allocateCurrentCaseToUpwProject(page, {
+        crn: crn,
+        providerName: data.teams.unpaidWorkTestTeam.provider,
+        teamName: data.teams.unpaidWorkTestTeam.name,
+        projectName: projectName,
+    })
+}
 
 const navigateToUnpaidWork = async (page: Page, crn: string) => {
     await findOffenderByCRN(page, crn)

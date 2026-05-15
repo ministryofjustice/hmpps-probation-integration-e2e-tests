@@ -106,7 +106,7 @@ export async function findGroupSession(
     await page.getByRole('button', { name: 'Continue' }).click()
 }
 
-export async function findPlacementsWithHostPartner(page: Page, provider: string, teamName: string) {
+export async function findAnIndividualPlacement(page: Page, provider: string, teamName: string) {
     const supervisor = 'Unallocated Staff'
     await page.getByRole('link', { name: 'Record attendance with host' }).click()
     await selectOption(page, '#provider', provider)
@@ -122,6 +122,15 @@ export async function findPlacementsWithHostPartner(page: Page, provider: string
     await expect(page.getByRole('heading', { name: 'Add supervisor details' })).toBeVisible()
     await selectOption(page, '#supervisor', supervisor)
     await page.getByRole('button', { name: 'Continue' }).click()
+    return crn
+}
+
+export async function findAnAppointment(page: Page, provider: string) {
+    await page.getByRole('link', { name: 'Adjust travel time hours' }).click()
+    await selectOption(page, '#provider', provider)
+    await page.getByRole('button', { name: 'Apply filters' }).click()
+    const crn = await page.locator('//tbody/tr[1]/td[2]').textContent()
+    await page.getByRole('link', { name: 'Update' }).first().click()
     return crn
 }
 
