@@ -97,9 +97,9 @@ export async function findGroupSession(
     await expect(page.locator('h1.govuk-heading-l')).toContainText(projectName)
     await page.getByRole('cell', { name: person.firstName + person.lastName }).isVisible()
     await page.getByRole('cell', { name: crn }).isVisible()
-    await page.getByRole('link', { name: 'Update' }).click()
+    await page.getByRole('link', { name: 'Update' }).first().click()
     await expect(page.locator('.govuk-caption-l')).toContainText(crn)
-    await page.getByRole('button', { name: 'Continue' }).click()
+    await page.getByRole('button', { name: 'Update appointment' }).click()
 
     await expect(page.getByRole('heading', { name: 'Add supervisor details' })).toBeVisible()
     await selectOption(page, '#supervisor', supervisor)
@@ -117,7 +117,7 @@ export async function findPlacementsWithHostPartner(page: Page, provider: string
     await page.getByRole('link', { name: 'Update' }).first().click()
     const crn = await page.locator('.govuk-caption-l').textContent()
     await expect(page.locator('h2.govuk-heading-m')).toContainText('Appointment details')
-    await page.getByRole('button', { name: 'Continue' }).click()
+    await page.getByRole('button', { name: 'Update appointment' }).click()
 
     await expect(page.getByRole('heading', { name: 'Add supervisor details' })).toBeVisible()
     await selectOption(page, '#supervisor', supervisor)
