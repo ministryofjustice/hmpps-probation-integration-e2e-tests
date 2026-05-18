@@ -21,6 +21,7 @@ export const hearingData = (
             {
                 listedDurationMinutes: 60,
                 sittingDay: DateTime.now().toUTC().toString(),
+                listingSequence: 1,
             },
         ],
         type: {
