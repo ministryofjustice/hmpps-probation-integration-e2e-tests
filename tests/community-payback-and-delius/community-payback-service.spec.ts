@@ -7,7 +7,7 @@ import { createRequirementForEvent } from '../../steps/delius/requirement/create
 import { data } from '../../test-data/test-data'
 import { createUpwProject } from '../../steps/delius/upw/create-upw-project'
 import { allocateCurrentCaseToUpwProject } from '../../steps/delius/upw/allocate-current-case-to-upw-project'
-import { caseAdminLogin } from '../../steps/community-payback/case-admin-login'
+import { caseAdminLogin } from '../../steps/community-payback/login'
 import {
     adjustTravelTime,
     findGroupSession,
