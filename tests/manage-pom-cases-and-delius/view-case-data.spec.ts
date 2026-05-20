@@ -18,7 +18,7 @@ test('View Delius case data', async ({ page }) => {
     const namespace = 'offender-management-staging'
     const deploymentName = 'offender-management'
     const podName = await getPodName(namespace, deploymentName)
-    await execCommand(namespace, podName, deploymentName, ['sh', '-c', 'rake community_api:import'])
+    await execCommand(namespace, podName, deploymentName, ['sh', '-c', 'bundle exec rake community_api:import'])
 
     // Then I can see the updated data
     await mpcLogin(page)
