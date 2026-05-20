@@ -1,12 +1,13 @@
 import { expect, Page } from '@playwright/test'
 import { Person } from '../delius/utils/person'
-import { getWorkingDayForEsupervision, options, uiDateToIso } from '../delius/utils/date-time'
+import { getWorkingDayForEsupervision, uiDateToIso } from '../delius/utils/date-time'
 import { DateTime } from 'luxon'
 import { login as managePeopleOnProbationLogin } from '../manage-a-supervision/login'
 import { refreshUntil } from '../delius/utils/refresh'
 import { qa } from '../common/common'
 import { createOffenderCheckin } from '../api/esupervision/esupervision'
 import { searchPersonInMPoP } from './application'
+import { faker } from '@faker-js/faker'
 
 export async function registerCaseInMPoP(page: Page, person: Person, crn: string) {
     const uiDueDate = getWorkingDayForEsupervision(1)
@@ -112,7 +113,10 @@ export async function reviewCheckinInMPoP(page: Page, crn: string) {
     await page.getByRole('radio', { name: 'Yes' }).check()
     await page.getByRole('button', { name: 'Confirm and review responses' }).click()
     await expect(heading).toContainText('Online check in submitted')
-    await page.getByRole('button', { name: 'Confirm review' }).click()
+    await page.locator('textarea.govuk-textarea').fill(faker.lorem.sentence())
+    await page.getByRole('radio', { name: 'No, it is not sensitive' }).click()
+    await page.getByRole('radio', { name: 'No', exact: true }).click()
+    await page.getByRole('button', { name: 'Complete review' }).click()
     await page.getByText('Online check in completed').first().click()
     await expect(page.getByRole('table')).toContainText('Check in status: Reviewed')
 }
