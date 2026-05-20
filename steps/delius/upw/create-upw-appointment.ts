@@ -14,7 +14,7 @@ interface Options {
     endTime?: string
     supervisorName?: string
     projectType: string
-    allocation: string
+    allocation?: string
 }
 
 export default async function createUpwAppointment(
@@ -47,7 +47,9 @@ export default async function createUpwAppointment(
     await selectOption(page, '#projectTeamList\\:selectOneMenu', teamName)
     await selectOption(page, '#project\\:selectOneMenu', projectName)
     await selectOption(page, '#projectType\\:selectOneMenu', projectType)
-    await selectOption(page, '#projectAvailability\\:selectOneMenu', allocation)
+    if (allocation) {
+        await selectOption(page, '#projectAvailability\\:selectOneMenu', allocation)
+    }
     await waitForAjax(page)
 
     if (startTime) {
