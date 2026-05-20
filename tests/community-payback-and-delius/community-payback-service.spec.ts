@@ -7,7 +7,7 @@ import { createRequirementForEvent } from '../../steps/delius/requirement/create
 import { data } from '../../test-data/test-data'
 import { createUpwProject } from '../../steps/delius/upw/create-upw-project'
 import { allocateCurrentCaseToUpwProject } from '../../steps/delius/upw/allocate-current-case-to-upw-project'
-import { caseAdminLogin } from '../../steps/community-payback/case-admin-login'
+import { loginAsCaseAdmin } from '../../steps/community-payback/login'
 import {
     adjustTravelTime,
     findGroupSession,
@@ -26,7 +26,7 @@ test('Find a group session and update record as Attendance Complied', async ({ p
     await createEventAndAllocateCaseToProject(page, testData.crn, testData.project.projectName)
 
     // Find a group session and update the record as Attendance Complied
-    await caseAdminLogin(page)
+    await loginAsCaseAdmin(page)
     await findGroupSession(
         page,
         testData.crn,
@@ -52,7 +52,7 @@ test('Find a group session and update record as Unacceptable Absence', async ({ 
     await createEventAndAllocateCaseToProject(page, testData.crn, testData.project.projectName)
 
     // Find a group session and update the record as Unacceptable Absence
-    await caseAdminLogin(page)
+    await loginAsCaseAdmin(page)
     await findGroupSession(
         page,
         testData.crn,
@@ -74,7 +74,7 @@ test('Find individual and group placements with a host partner and update record
     page,
 }) => {
     // Find individual & group placements with a host partner and update the record as Attendance Complied
-    await caseAdminLogin(page)
+    await loginAsCaseAdmin(page)
     const teamName = 'CPB Manual Test Team'
     const crn = await findAnIndividualPlacement(page, data.teams.unpaidWorkTestTeam.provider, teamName)
     await recordAttendanceCompliedOutcome(page)
@@ -88,7 +88,7 @@ test('Find individual and group placements with a host partner and update record
 
 test('Adjust travel time hours', async ({ page }) => {
     // Adjust travel time hours for a case
-    await caseAdminLogin(page)
+    await loginAsCaseAdmin(page)
     const crn = await findAnAppointment(page, data.teams.unpaidWorkTestTeam.provider)
 
     const hours = '2'

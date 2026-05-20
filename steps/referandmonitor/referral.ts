@@ -19,7 +19,7 @@ export const makeReferral = async (page: Page, crn: string) => {
     await page.getByRole('link', { name: 'Find a CRS intervention and make a referral' }).click()
 
     // Find Intervention
-    await page.locator('text=Accommodation Services for East of England').click()
+    await page.locator('text=Personal Wellbeing Services in Cheshire').click()
 
     // Navigate to Make a referral page
     await page.locator('text=Make a referral').click()
@@ -70,24 +70,26 @@ export const makeReferral = async (page: Page, crn: string) => {
     await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/\/referrals\/.*\/form/)
 
+    // Select service types
+    await page.locator('text=Select service types for the Personal wellbeing referral').click()
+    await page.locator('#service-category-ids').check()
+    await page.locator('text=Save and continue').click()
+    await expect(page).toHaveURL(/\/referrals\/.*\/form/)
+
     // Confirm the relevant sentence
-    await page.locator('text=Confirm the relevant sentence for the Accommodation referral').click()
+    await page.locator('text=Confirm the relevant sentence for the Personal wellbeing referral').click()
     await expect(page).toHaveURL(/referrals\/.*\/relevant-sentence/)
     await page.locator('input[name="relevant-sentence-id"]').first().check()
     await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/referrals\/.*\/service-category\/.*\/desired-outcomes/)
 
     // Desired outcomes
-    await page.locator('#desired-outcomes-ids-2').check()
+    await page.locator('#desired-outcomes-ids').check()
     await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/referrals\/.*\/service-category\/.*\/complexity-level/)
 
     // Complexity level
-    await page
-        .locator(
-            'text=Medium complexity Service user is at risk of homelessness/is homeless, or will b >> input[name="complexity-level-id"]'
-        )
-        .check()
+    await page.getByRole('radio', { name: 'Medium complexity' }).click()
     await page.locator('text=Save and continue').click()
     await expect(page).toHaveURL(/referrals\/.*\/enforceable-days/)
 

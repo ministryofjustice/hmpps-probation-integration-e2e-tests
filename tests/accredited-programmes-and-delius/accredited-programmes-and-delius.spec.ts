@@ -6,8 +6,7 @@ import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createCommunityEvent } from '../../steps/delius/event/create-event'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
-import { login as accreditedProgrammesLogin } from '../../steps/accredited-programmes/login'
-import { login as accreditedProgrammesManageAndDeliverLogin } from '../../steps/accredited-programmes/manageAndDeliverLogin'
+import { login as accreditedProgrammesLogin, manageAndDeliverLogin } from '../../steps/accredited-programmes/login'
 import {
     addCaseToGroup,
     findCase,
@@ -63,7 +62,7 @@ test('Accredited Programmes termination', async ({ page }) => {
     await page.getByText('Sign out').click()
 
     // Step 5: Update referral in Accredited Programmes Manage and Deliver
-    await accreditedProgrammesManageAndDeliverLogin(page)
+    await manageAndDeliverLogin(page)
     await findCase(page, person, crn)
     await updateReferralStatusToAwaitingAllocation(page, person, crn, event, offenceDate)
     await addCaseToGroup(page, person)
