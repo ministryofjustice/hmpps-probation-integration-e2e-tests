@@ -113,7 +113,7 @@ export async function findAnIndividualPlacement(page: Page, provider: string, te
     await selectOption(page, '#team', teamName)
     await page.getByRole('button', { name: 'Apply filters' }).click()
 
-    await page.locator('//tbody/tr[1]/td[1]/a').click()
+    await page.getByRole('link', { name: 'Heartline Research Northfield' }).click()
     await page.getByRole('link', { name: 'Update' }).first().click()
     const crn = await page.locator('.govuk-caption-l').textContent()
     await expect(page.locator('h2.govuk-heading-m')).toContainText('Appointment details')
@@ -129,8 +129,8 @@ export async function findAnAppointment(page: Page, provider: string) {
     await page.getByRole('link', { name: 'Adjust travel time hours' }).click()
     await selectOption(page, '#provider', provider)
     await page.getByRole('button', { name: 'Apply filters' }).click()
-    const crn = await page.locator('//tbody/tr[1]/td[2]').textContent()
-    await page.getByRole('link', { name: 'Update' }).first().click()
+    const crn = await page.locator('//tbody/tr[4]/td[2]').textContent()
+    await page.getByRole('link', { name: 'Update' }).nth(3).click()
     return crn
 }
 
