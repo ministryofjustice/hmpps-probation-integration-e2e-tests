@@ -91,7 +91,7 @@ test('Adjust travel time hours', async ({ page }) => {
     await loginAsCaseAdmin(page)
     const crn = await findAnAppointment(page, data.teams.unpaidWorkTestTeam.provider)
 
-    const hours = '2'
+    const hours = '1'
     const minutes = '30'
     await adjustTravelTime(page, hours, minutes)
 
