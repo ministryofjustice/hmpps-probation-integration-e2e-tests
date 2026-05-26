@@ -27,7 +27,7 @@ export async function recordAttendanceCompliedOutcome(page: Page, startTime?: st
     // Log compliance
     await page.locator('input[name="hiVis"][value="yes"]').click()
     await page.locator('input[name="workedIntensively"][value="yes"]').click()
-    await page.locator('input[name="workQuality"][value="GOOD"]').click()
+    await page.locator('input[name="workQuality"][value="EXCELLENT"]').click()
     await page.locator('input[name="behaviour"][value="GOOD"]').click()
     await page.getByRole('button', { name: 'Continue' }).click()
 
@@ -59,6 +59,10 @@ export async function recordUnacceptableAbsenceOutcome(page: Page) {
 }
 
 export async function adjustTravelTime(page: Page, hours: string, minutes: string) {
+    const today = DateTime.now()
+    await page.locator('#date-day').fill(today.day.toString())
+    await page.locator('#date-month').fill(today.month.toString())
+    await page.locator('#date-year').fill(today.year.toString())
     await page.locator('#hours').fill(hours)
     await page.locator('#minutes').fill(minutes)
     await page.getByRole('button', { name: 'Credit travel time' }).click()
@@ -99,11 +103,8 @@ export async function findGroupSession(
     await page.getByRole('cell', { name: crn }).isVisible()
     await page.getByRole('link', { name: 'Update' }).first().click()
     await expect(page.locator('.govuk-caption-l')).toContainText(crn)
-    await page.getByRole('button', { name: 'Update appointment' }).click()
 
-    await expect(page.getByRole('heading', { name: 'Add supervisor details' })).toBeVisible()
-    await selectOption(page, '#supervisor', supervisor)
-    await page.getByRole('button', { name: 'Continue' }).click()
+    await addSupervisorDetails(page, teamName, supervisor)
 }
 
 export async function findAnIndividualPlacement(page: Page, provider: string, teamName: string) {
@@ -117,11 +118,8 @@ export async function findAnIndividualPlacement(page: Page, provider: string, te
     await page.getByRole('link', { name: 'Update' }).first().click()
     const crn = await page.locator('.govuk-caption-l').textContent()
     await expect(page.locator('h2.govuk-heading-m')).toContainText('Appointment details')
-    await page.getByRole('button', { name: 'Update appointment' }).click()
 
-    await expect(page.getByRole('heading', { name: 'Add supervisor details' })).toBeVisible()
-    await selectOption(page, '#supervisor', supervisor)
-    await page.getByRole('button', { name: 'Continue' }).click()
+    await addSupervisorDetails(page, teamName, supervisor)
     return crn
 }
 
@@ -132,6 +130,15 @@ export async function findAnAppointment(page: Page, provider: string) {
     const crn = await page.locator('//tbody/tr[4]/td[2]').textContent()
     await page.getByRole('link', { name: 'Update' }).nth(3).click()
     return crn
+}
+
+export async function addSupervisorDetails(page: Page, teamName: string, supervisor: string) {
+    await page.getByRole('button', { name: 'Update appointment' }).click()
+    await expect(page.getByRole('heading', { name: 'Add supervisor details' })).toBeVisible()
+    await selectOption(page, '#team', teamName)
+    await page.getByRole('button', { name: 'Select team' }).click()
+    await selectOption(page, '#supervisor', supervisor)
+    await page.getByRole('button', { name: 'Continue' }).click()
 }
 
 export async function recordSessionAttendance(page: Page, startTime: string, endTime: string) {
