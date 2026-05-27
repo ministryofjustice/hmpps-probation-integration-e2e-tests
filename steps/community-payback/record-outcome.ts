@@ -69,7 +69,7 @@ export async function adjustTravelTime(page: Page, hours: string, minutes: strin
 
     await expect(page.locator('#success-title-1')).toContainText(/Success/)
     const hoursString = hours === '1' ? 'hour' : 'hours'
-    const minutesString = hours === '1' ? 'minute' : 'minutes'
+    const minutesString = minutes === '1' ? 'minute' : 'minutes'
     await expect(page.locator('.govuk-notification-banner__content h3')).toContainText(
         RegExp(` has been adjusted for ${hours} ${hoursString} ${minutes} ${minutesString} of travel time.`, 'i')
     )
