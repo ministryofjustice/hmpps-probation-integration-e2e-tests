@@ -70,7 +70,7 @@ test('Find a group session and update record as Unacceptable Absence', async ({ 
     await expect(page.locator('#appointmentsTable')).toContainText(/Unacceptable Absence/)
 })
 
-test('Find individual and group placements with a host partner and update record as Attendance Complied', async ({
+test('Find individual & group placements with a host partner and update record as Attendance Complied', async ({
     page,
 }) => {
     // Find individual & group placements with a host partner and update the record as Attendance Complied

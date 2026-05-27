@@ -110,7 +110,7 @@ export async function reviewCheckinInMPoP(page: Page, crn: string) {
     await refreshUntil(page, () => expect(page.getByRole('link', { name: /Manage +Online probation/ })).toBeVisible())
     await page.getByRole('link', { name: /Manage +Online probation/ }).click()
     await expect(heading).toContainText('Online check in submitted')
-    await page.getByRole('radio', { name: 'Yes' }).check()
+    await page.getByRole('radio', { name: 'Yes, and there is nothing' }).click()
     await page.getByRole('button', { name: 'Confirm and review responses' }).click()
     await expect(heading).toContainText('Online check in submitted')
     await page.locator('textarea.govuk-textarea').fill(faker.lorem.sentence())
