@@ -91,8 +91,8 @@ test('Adjust travel time hours', async ({ page }) => {
     await loginAsCaseAdmin(page)
     const crn = await findAnAppointment(page, data.teams.unpaidWorkTestTeam.provider)
 
-    const hours = '1'
-    const minutes = '30'
+    const hours = 1
+    const minutes = 30
     await adjustTravelTime(page, hours, minutes)
 
     // Log in to Delius to confirm the travel time adjustment has been updated correctly

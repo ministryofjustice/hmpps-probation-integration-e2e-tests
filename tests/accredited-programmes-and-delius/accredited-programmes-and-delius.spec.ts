@@ -9,8 +9,10 @@ import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessm
 import { login as accreditedProgrammesLogin, manageAndDeliverLogin } from '../../steps/accredited-programmes/login'
 import {
     addCaseToGroup,
+    createPostProgrammeReviewSession,
     findCase,
     findProgrammeAndMakeReferral,
+    recordPostProgrammeSessionAttendance,
     updateReferralStatusToAwaitingAllocation,
     updateReferralStatusToComplete,
     updateReferralStatusToOnProgramme,
@@ -20,7 +22,6 @@ import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock.j
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement'
 import { data } from '../../test-data/test-data'
 import { findOffenderByCRN } from '../../steps/delius/offender/find-offender'
-import { faker } from '@faker-js/faker'
 import { Yesterday } from '../../steps/delius/utils/date-time'
 
 const nomisIds = []
@@ -31,19 +32,19 @@ test('Accredited Programmes termination', async ({ page }) => {
     // Step 1: Create a new Offender & event in nDelius
     await deliusLogin(page)
     const person = deliusPerson()
-    const crn = await createOffender(page, { person, providerName: data.teams.referAndMonitorTestTeam.provider })
+    const crn = await createOffender(page, { person, providerName: data.teams.accreditedProgrammesTestTeam.provider })
 
-    const offenceDate = faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() })
+    const offenceDate = Yesterday.toJSDate()
     const event = await createCommunityEvent(page, {
         crn,
-        allocation: { team: data.teams.referAndMonitorTestTeam },
+        allocation: { team: data.teams.accreditedProgrammesTestTeam },
         date: offenceDate,
     })
 
     await createRequirementForEvent(page, {
         crn,
         requirement: data.requirements.accreditedProgramme,
-        team: data.teams.referAndMonitorTestTeam,
+        team: data.teams.accreditedProgrammesTestTeam,
     })
 
     // Step 2: Create an entry in NOMIS (a corresponding person and booking in NOMIS)
@@ -67,21 +68,25 @@ test('Accredited Programmes termination', async ({ page }) => {
     await updateReferralStatusToAwaitingAllocation(page, person, crn, event, offenceDate)
     await addCaseToGroup(page, person)
 
+    // Create a Post-programme Review Session
+    await createPostProgrammeReviewSession(page, person)
+    await recordPostProgrammeSessionAttendance(page, person)
+
     // Update referral status to On programme
     await updateReferralStatusToOnProgramme(page, person, crn)
 
     // Update referral status to Completed
-    await updateReferralStatusToComplete(page, person)
+    await updateReferralStatusToComplete(page, person, crn)
     await page.getByRole('link', { name: 'Sign out' }).click()
 
-    // Log in to Delius to confirm the record has been updated correctly
+    // Step 6: Log in to Delius to confirm the record has been updated correctly
     await deliusLogin(page)
     await findOffenderByCRN(page, crn)
     await page.getByRole('link', { name: 'Event List' }).click()
     await page.getByRole('link', { name: 'view', exact: true }).click()
     await page.getByRole('button', { name: 'Requirements' }).click()
     await page.getByRole('link', { name: 'view', exact: true }).click()
-    await expect(page.locator('span:right-of(:text("Termination Reason"))')).toContainText('Requirement Completed')
+    await expect(page.locator('#componentTermimationReason\\:outputText')).toContainText('Requirement Completed')
 })
 
 test.afterAll(async () => {
