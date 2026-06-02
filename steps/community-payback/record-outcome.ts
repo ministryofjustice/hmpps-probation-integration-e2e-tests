@@ -58,20 +58,26 @@ export async function recordUnacceptableAbsenceOutcome(page: Page) {
     await page.getByRole('link', { name: 'Sign out' }).click()
 }
 
-export async function adjustTravelTime(page: Page, hours: string, minutes: string) {
+export async function adjustTravelTime(page: Page, hours: number, minutes: number) {
     const today = DateTime.now()
     await page.locator('#date-day').fill(today.day.toString())
     await page.locator('#date-month').fill(today.month.toString())
     await page.locator('#date-year').fill(today.year.toString())
-    await page.locator('#hours').fill(hours)
-    await page.locator('#minutes').fill(minutes)
+    await page.locator('#hours').fill(hours.toString())
+    await page.locator('#minutes').fill(minutes.toString())
     await page.getByRole('button', { name: 'Credit travel time' }).click()
 
     await expect(page.locator('#success-title-1')).toContainText(/Success/)
-    const hoursString = hours === '1' ? 'hour' : 'hours'
-    const minutesString = minutes === '1' ? 'minute' : 'minutes'
+    let hoursString = ''
+    let minutesString = ''
+    if (hours > 0) {
+        hoursString = hours === 1 ? ' 1 hour' : ` ${hours} hours`
+    }
+    if (minutes > 0) {
+        minutesString = minutes === 1 ? ' 1 minute' : ` ${minutes} minutes`
+    }
     await expect(page.locator('.govuk-notification-banner__content h3')).toContainText(
-        RegExp(` has been adjusted for ${hours} ${hoursString} ${minutes} ${minutesString} of travel time.`, 'i')
+        RegExp(` has been adjusted for${hoursString}${minutesString} of travel time.`, 'i')
     )
     await page.getByRole('link', { name: 'Sign out' }).click()
 }

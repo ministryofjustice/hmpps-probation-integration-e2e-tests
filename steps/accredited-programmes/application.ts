@@ -4,6 +4,7 @@ import { formatDate } from '../delius/utils/date-time.js'
 import { faker } from '@faker-js/faker'
 import { Person } from '../delius/utils/person'
 import { CreatedEvent } from '../delius/event/create-event'
+import { selectOption } from '../delius/utils/inputs'
 
 export async function findProgrammeAndMakeReferral(page: Page, nomisId: string, programmeName?: string) {
     await page.getByRole('link', { name: 'Find a programme and make a referral' }).click()
@@ -143,10 +144,9 @@ export async function addCaseToGroup(page: Page, person: Person) {
     await page.getByRole('link', { name: 'Groups' }).click()
     await page.getByRole('link', { name: 'AutoTestGroup' }).click()
     await page.getByRole('link', { name: 'Allocations and waitlist' }).click()
-    await page.getByRole('link', { name: 'Waitlist (1)' }).click()
+    await page.getByRole('link', { name: /Waitlist/ }).click()
     await page.locator('input[name="add-to-group"]').click()
     await page.getByRole('button', { name: 'Add to group' }).click()
-
     await expect(page.locator('h1.govuk-fieldset__heading')).toContainText(
         `Add ${person.firstName} ${person.lastName} to this group?`
     )
@@ -159,6 +159,58 @@ export async function addCaseToGroup(page: Page, person: Person) {
     await page.getByRole('button', { name: 'Submit' }).click()
     await expect(page.locator('.moj-alert__content')).toContainText(
         `${person.firstName} ${person.lastName} was added to this group. Their referral status is now Scheduled.`
+    )
+}
+
+export async function createPostProgrammeReviewSession(page: Page, person: Person) {
+    await page.getByRole('link', { name: 'Sessions and attendance' }).click()
+    await page.getByRole('button', { name: /Post-programme reviews/ }).click()
+    await page.getByRole('link', { name: 'Schedule a post-programme review' }).click()
+    await expect(page.locator('.govuk-caption-l')).toContainText('Schedule a post-programme review')
+    await page.getByRole('radio', { name: 'Post-programme review', exact: true }).click()
+    await page.getByRole('button', { name: 'Continue' }).click()
+
+    // Session details
+    const sessionDate = DateTime.now().setLocale('en-gb').toLocaleString()
+    await page.getByRole('heading', { name: 'Add session details' }).isVisible()
+    await page.locator('.moj-js-datepicker-input').fill(sessionDate)
+    await page.locator('#session-details-start-time-hour').fill('09')
+    await page.locator('#session-details-start-time-minute').fill('30')
+    await selectOption(page, '#session-details-start-time-part-of-day', 'am')
+    await page.locator('#session-details-end-time-hour').fill('09')
+    await page.locator('#session-details-end-time-minute').fill('40')
+    await selectOption(page, '#session-details-end-time-part-of-day', 'am')
+    await page.getByRole('radio', { name: `${person.firstName} ${person.lastName}` }).click()
+    await page.locator('#session-details-facilitator').fill('AccreditedProgrammes TestUser')
+    await page.locator('#session-details-facilitator__option--0').click()
+    await page.getByRole('button', { name: 'Continue' }).click()
+    await expect(page.locator('h1.govuk-heading-l')).toContainText('Review your session details')
+    await page.getByRole('button', { name: 'Create session' }).click()
+    await expect(page.locator('.moj-alert__content')).toContainText(
+        `Post-programme review for ${person.firstName} ${person.lastName} has been added.`
+    )
+}
+
+export async function recordPostProgrammeSessionAttendance(page: Page, person: Person) {
+    await page.getByRole('link', { name: 'Groups' }).click()
+    await page.getByRole('link', { name: 'AutoTestGroup' }).click()
+    await page.getByRole('link', { name: 'Sessions and attendance', exact: true }).click()
+    await page.getByRole('button', { name: /Post-programme reviews/ }).click()
+    await page.getByRole('link', { name: `${person.firstName} ${person.lastName}` }).click()
+    await expect(page.locator('h1.govuk-fieldset__heading')).toContainText(
+        `${person.firstName} ${person.lastName}: Post programme review`
+    )
+    await page.getByRole('button', { name: 'Update attendance and notes' }).click()
+    await expect(page.locator('.govuk-caption-l')).toContainText('Record attendance and progress')
+    await expect(page.locator('h1.govuk-heading-l')).toContainText(
+        `Did ${person.firstName} ${person.lastName} attend Post-programme review?`
+    )
+    await page.getByRole('radio', { name: 'Yes - attended' }).click()
+    await page.getByRole('button', { name: 'Continue' }).click()
+    await page.locator('#record-session-attendance-notes').fill(faker.lorem.sentence())
+    await page.getByRole('button', { name: 'Submit' }).click()
+    await expect(page.locator('.moj-alert__content')).toContainText(
+        `Attendance recorded for ${person.firstName} ${person.lastName}`
     )
 }
 
@@ -224,7 +276,8 @@ export async function updateReferralStatusToOnProgramme(page: Page, person: Pers
     await expect(page.getByRole('heading', { name: 'On programme' })).toBeVisible()
 }
 
-export async function updateReferralStatusToComplete(page: Page, person: Person) {
+export async function updateReferralStatusToComplete(page: Page, person: Person, crn: string) {
+    await findCase(page, person, crn)
     await updateReferralStatus(page)
     await expect(page.locator('.moj-alert__content h2')).toContainText('Referral status updated')
     await expect(page.locator('.moj-alert__content')).toContainText(
