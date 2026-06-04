@@ -92,14 +92,15 @@ test('Adjust travel time hours', async ({ page }) => {
     const crn = await findAnAppointment(page, data.teams.unpaidWorkTestTeam.provider)
 
     const hours = 1
-    const minutes = 30
+    const minutes = 0
     await adjustTravelTime(page, hours, minutes)
 
     // Log in to Delius to confirm the travel time adjustment has been updated correctly
     await deliusLogin(page)
     await navigateToUnpaidWork(page, crn)
     await page.getByRole('button', { name: 'Adjustment' }).click()
-    await expect(page.locator('#currentAdjustmentsTable')).toContainText(RegExp(`-${hours}:${minutes}`, 'i'))
+    const minutesText = minutes === 0 ? '00' : minutes
+    await expect(page.locator('#currentAdjustmentsTable')).toContainText(RegExp(`-${hours}:${minutesText}`, 'i'))
 })
 
 const createOffenderAndUpwProject = async (page: Page) => {
