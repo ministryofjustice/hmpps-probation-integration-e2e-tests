@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, Page, test } from '@playwright/test'
 import { data } from '../../test-data/test-data'
 import { randomiseCommunityManagerName } from '../../steps/delius/staff/community-manager'
 import { login as mpcLogin } from '../../steps/manage-pom-cases/login'
@@ -24,10 +24,9 @@ test('View Delius case data', async ({ page }) => {
     await mpcLogin(page)
     await switchCaseload(page, 'Moorland (HMP & YOI)')
     await page.getByRole('link', { name: 'All allocated cases' }).click()
-    await page.getByLabel('Find a case').isVisible()
-    await page.getByLabel('Find a case').fill(nomsNumber)
-    await page.locator('#search-button').click()
-    await page.locator('td', { hasText: nomsNumber }).first().locator('a').click()
+    await refreshUntil(page, () => searchForCase(page, nomsNumber), {
+        timeout: 120_000,
+    })
     await refreshUntil(
         page,
         () =>
@@ -37,3 +36,10 @@ test('View Delius case data', async ({ page }) => {
         { timeout: 120_000 }
     )
 })
+
+const searchForCase = async (page: Page, nomsNumber: string) => {
+    await page.getByLabel('Find a case').isVisible()
+    await page.getByLabel('Find a case').fill(nomsNumber)
+    await page.locator('#search-button').click()
+    await page.locator('td', { hasText: nomsNumber }).first().locator('a').click()
+}
