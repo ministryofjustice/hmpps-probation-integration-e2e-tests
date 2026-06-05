@@ -192,12 +192,9 @@ export async function createPostProgrammeReviewSession(page: Page, person: Perso
 }
 
 export async function recordPostProgrammeSessionAttendance(page: Page, person: Person) {
-    await page.getByRole('link', { name: 'Groups' }).click()
-    await page.getByRole('link', { name: 'AutoTestGroup' }).click()
-    await page.getByRole('link', { name: 'Sessions and attendance', exact: true }).click()
     await page.getByRole('link', { name: `${person.firstName} ${person.lastName}` }).click()
-    await expect(page.locator('h1.govuk-fieldset__heading')).toContainText(
-        `${person.firstName} ${person.lastName}: Post programme review`
+    await expect(page.locator('h1.govuk-heading-l')).toContainText(
+        `${person.firstName} ${person.lastName}: Post-programme review`
     )
     await page.getByRole('button', { name: 'Update attendance and notes' }).click()
     await expect(page.locator('.govuk-caption-l')).toContainText('Record attendance and progress')

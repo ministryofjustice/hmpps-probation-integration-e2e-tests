@@ -22,7 +22,7 @@ import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock.j
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement'
 import { data } from '../../test-data/test-data'
 import { findOffenderByCRN } from '../../steps/delius/offender/find-offender'
-import { Yesterday } from '../../steps/delius/utils/date-time'
+import { LastMonth } from '../../steps/delius/utils/date-time'
 
 const nomisIds = []
 
@@ -34,7 +34,7 @@ test('Accredited Programmes termination', async ({ page }) => {
     const person = deliusPerson()
     const crn = await createOffender(page, { person, providerName: data.teams.accreditedProgrammesTestTeam.provider })
 
-    const offenceDate = Yesterday.toJSDate()
+    const offenceDate = LastMonth.toJSDate()
     const event = await createCommunityEvent(page, {
         crn,
         allocation: { team: data.teams.accreditedProgrammesTestTeam },
