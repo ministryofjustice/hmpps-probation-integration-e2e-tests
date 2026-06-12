@@ -42,8 +42,9 @@ export const allocateCase = async (page: Page, crn: string, allocation: Allocati
     await page.getByRole('button', { name: 'Continue' }).click()
 
     // Save Notes as an oversight contact and allocate case
-    await expect(page).toHaveURL(/spo-oversight-contact-option$/)
-    await page.getByRole('button', { name: 'Save my notes without editing' }).click()
+    await page.getByRole('button', { name: 'Allocate case' }).click()
+    await expect(page).toHaveURL(/allocation-complete$/)
+    await expect(page.locator('h1.govuk-panel__title ')).toContainText('Case allocated')
 }
 
 export const selectTeam = async (page: Page, team: Team) => {
