@@ -1,11 +1,12 @@
-import { expect, test } from '@playwright/test'
+import { expect, Page, test } from '@playwright/test'
 import { login as deliusLogin } from '../../steps/delius/login'
-import { deliusPerson } from '../../steps/delius/utils/person'
+import { deliusPerson, Person } from '../../steps/delius/utils/person'
 import { runPod } from '../../steps/k8s/k8s-utils'
 import { DateTime } from 'luxon'
 import { hearingData } from '../../steps/court-case/hearing-data'
 import { buildAddress } from '../../steps/delius/address/create-address'
 import { randomUUID } from 'crypto'
+import { refreshUntil } from '../../steps/delius/utils/refresh'
 
 test('Create and search for a person', async ({ page }) => {
     const person = deliusPerson()
@@ -37,10 +38,9 @@ test('Create and search for a person', async ({ page }) => {
     await page.getByRole('link', { name: 'National Search' }).click()
     await page.getByLabel('First Name or Preferred Name:').fill(person.firstName)
     await page.getByLabel('Last Name:').fill(person.lastName)
-    await page.getByRole('button', { name: 'Search', exact: true }).click()
-    await expect(
-        page.getByRole('cell', { name: person.lastName + ', ' + person.firstName, exact: true }).first()
-    ).toBeVisible()
+    await refreshUntil(page, () => searchForPerson(page, person), {
+        timeout: 120_000,
+    })
     await page.getByRole('link', { name: 'View' }).nth(2).click()
 
     // Check personal details screen information is correct
@@ -84,3 +84,10 @@ test('Create and search for a person', async ({ page }) => {
     await expect(page.locator('tbody')).toContainText('Court Appearance')
     await expect(page.locator('tbody')).toContainText('1 - Not Sentenced')
 })
+
+const searchForPerson = async (page: Page, person: Person) => {
+    await page.getByRole('button', { name: 'Search', exact: true }).click()
+    await expect(
+        page.getByRole('cell', { name: person.lastName + ', ' + person.firstName, exact: true }).first()
+    ).toBeVisible()
+}
