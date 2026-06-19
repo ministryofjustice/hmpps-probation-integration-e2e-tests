@@ -23,6 +23,26 @@ on:
         type: boolean
         default: false
         required: true
+      owning_provider:
+        description: Owning Provider (eg, London)
+        type: string
+        required: false
+        default: ""
+      team:
+        description: Team  (eg, OMU B)
+        type: string
+        required: false
+        default: ""
+      first_name:
+        description: First name
+        type: string
+        required: false
+        default: ""
+      last_name:
+        description: Last name
+        type: string
+        required: false
+        default: ""
       project:
         description: Or, create data for a specific project
         type: choice
@@ -51,7 +71,11 @@ jobs:
           "CREATE_DELIUS_RECORD": "${{ inputs.create_delius }}",
           "CREATE_NOMIS_RECORD": "${{ inputs.create_nomis }}",
           "CREATE_OASYS_ASSESSMENT": "${{ inputs.create_assessment }}",
-          "CREATE_COURT_HEARING": "${{ inputs.create_hearing }}"
+          "CREATE_COURT_HEARING": "${{ inputs.create_hearing }}",
+          "OWNING_PROVIDER": "${{ inputs.owning_provider }}",
+          "TEAM": "${{ inputs.team }}",
+          "FIRST_NAME": "${{ inputs.first_name }}",
+          "LAST_NAME": "${{ inputs.last_name }}"
         }
     secrets: inherit
 
