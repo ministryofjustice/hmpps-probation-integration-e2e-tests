@@ -23,6 +23,14 @@ on:
         type: boolean
         default: false
         required: true
+      owning_provider:
+        description: Specify an owning provider?
+        type: choice
+        required: true
+        options:
+          - none
+          - London
+          - North East Region
       project:
         description: Or, create data for a specific project
         type: choice
