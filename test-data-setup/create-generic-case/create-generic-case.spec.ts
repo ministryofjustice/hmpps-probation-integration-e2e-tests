@@ -14,6 +14,7 @@ import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/cr
 import { addCourtHearing } from '../../steps/api/court-case/court-case-api'
 import { hearingData } from '../../steps/court-case/hearing-data'
 import { slow } from '../../steps/common/common'
+import { transferToDeliusUser } from '../../steps/delius/transfer/internal-transfer'
 
 test('Create a case in multiple systems', async ({ page }) => {
     slow()
@@ -21,8 +22,8 @@ test('Create a case in multiple systems', async ({ page }) => {
 
     if (process.env.CREATE_DELIUS_RECORD === 'true') {
         await loginDelius(page)
+
         const owningProvider = process.env.OWNING_PROVIDER !== 'default' ? process.env.OWNING_PROVIDER : null
-        console.log(`Creating case in ${process.env.OWNING_PROVIDER} region`)
         const crn = await createOffender(page, { person, providerName: owningProvider })
         if (process.env.CREATE_NOMIS_RECORD === 'true') {
             await createCustodialEvent(page, { crn })
@@ -35,6 +36,13 @@ test('Create a case in multiple systems', async ({ page }) => {
             await oasysLogin(page, UserType.Booking)
             await createLayer3CompleteAssessment(page, crn, person)
             await addLayer3AssessmentNeeds(page)
+        }
+
+        if (owningProvider != null && process.env.TEAM !== '' && process.env.FIRST_NAME !== '' && process.env.LAST_NAME !== '') {
+            const team = process.env.TEAM
+            const firstName = process.env.FIRST_NAME
+            const lastName = process.env.LAST_NAME
+            transferToDeliusUser(page, { crn, provider: owningProvider, team, firstName, lastName })
         }
     } else {
         if (process.env.CREATE_NOMIS_RECORD === 'true') {

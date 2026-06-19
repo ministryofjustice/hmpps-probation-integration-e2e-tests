@@ -33,6 +33,21 @@ on:
           - North East Region
           - North West Region
           - Wales
+      team:
+        description: assign to which team?
+        type: string
+        required: false
+        default: ""
+      first_name:
+        description: First name
+        type: string
+        required: false
+        default: ""
+      last_name:
+        description: Last name
+        type: string
+        required: false
+        default: ""
       project:
         description: Or, create data for a specific project
         type: choice
@@ -62,7 +77,10 @@ jobs:
           "CREATE_NOMIS_RECORD": "${{ inputs.create_nomis }}",
           "CREATE_OASYS_ASSESSMENT": "${{ inputs.create_assessment }}",
           "CREATE_COURT_HEARING": "${{ inputs.create_hearing }}",
-          "OWNING_PROVIDER": "${{ inputs.owning_provider }}"
+          "OWNING_PROVIDER": "${{ inputs.owning_provider }}",
+          "TEAM": "${{ inputs.team }}",
+          "FIRST_NAME": "${{ inputs.first_name }}",
+          "LAST_NAME": "${{ inputs.last_name }}",
         }
     secrets: inherit
 
