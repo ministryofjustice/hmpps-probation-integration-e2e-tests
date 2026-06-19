@@ -80,7 +80,7 @@ jobs:
           "OWNING_PROVIDER": "${{ inputs.owning_provider }}",
           "TEAM": "${{ inputs.team }}",
           "FIRST_NAME": "${{ inputs.first_name }}",
-          "LAST_NAME": "${{ inputs.last_name }}",
+          "LAST_NAME": "${{ inputs.last_name }}"
         }
     secrets: inherit
 
