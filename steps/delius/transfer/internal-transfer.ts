@@ -52,16 +52,23 @@ export async function transferToDeliusUser(
     }
 ) {
     await findOffenderByCRN(page, crn)
+    console.log('found offender')
     await page.locator('input', { hasText: 'Transfers' }).click({ timeout: 5000 })
+
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
+    console.log('on transfer request page')
     await selectOption(page, '#Trust\\:selectOneMenu', provider)
+    console.log(`selected ${provider}`)
     await selectOption(page, '#Team\\:selectOneMenu', team)
+    console.log(`selected ${team}`)
     await selectOption(
         page,
         '#Staff\\:selectOneMenu',
         undefined,
-        s => s.includes(firstName) && s.includes(lastName)
+        s => s.toLowerCase().includes(firstName.toLowerCase()) && s.toLowerCase().includes(lastName.toLowerCase())
     )
+
+    console.log(`selected ${firstName}`)
 
     const count = await page.locator('#offenderTransferRequestTable select').count()
     for (let i = 0; i < count; i++) {

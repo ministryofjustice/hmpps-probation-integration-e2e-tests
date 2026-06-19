@@ -42,7 +42,7 @@ test('Create a case in multiple systems', async ({ page }) => {
             const team = process.env.TEAM
             const firstName = process.env.FIRST_NAME
             const lastName = process.env.LAST_NAME
-            transferToDeliusUser(page, { crn, provider: owningProvider, team, firstName, lastName })
+            await transferToDeliusUser(page, { crn, provider: owningProvider, team, firstName, lastName })
         }
     } else {
         if (process.env.CREATE_NOMIS_RECORD === 'true') {
