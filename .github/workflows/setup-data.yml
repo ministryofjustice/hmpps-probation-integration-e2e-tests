@@ -28,9 +28,11 @@ on:
         type: choice
         required: true
         options:
-          - none
+          - default
           - London
           - North East Region
+          - North West Region
+          - Wales
       project:
         description: Or, create data for a specific project
         type: choice
@@ -59,7 +61,8 @@ jobs:
           "CREATE_DELIUS_RECORD": "${{ inputs.create_delius }}",
           "CREATE_NOMIS_RECORD": "${{ inputs.create_nomis }}",
           "CREATE_OASYS_ASSESSMENT": "${{ inputs.create_assessment }}",
-          "CREATE_COURT_HEARING": "${{ inputs.create_hearing }}"
+          "CREATE_COURT_HEARING": "${{ inputs.create_hearing }}",
+          "OWNING_PROVIDER": "${{ inputs.owning_provider }}"
         }
     secrets: inherit
 

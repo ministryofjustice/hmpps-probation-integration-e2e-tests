@@ -21,7 +21,9 @@ test('Create a case in multiple systems', async ({ page }) => {
 
     if (process.env.CREATE_DELIUS_RECORD === 'true') {
         await loginDelius(page)
-        const crn = await createOffender(page, { person })
+        const owningProvider = process.env.OWNING_PROVIDER !== 'default' ? process.env.OWNING_PROVIDER : null
+        console.log(`Creating case in ${process.env.OWNING_PROVIDER} region`)
+        const crn = await createOffender(page, { person, providerName: owningProvider })
         if (process.env.CREATE_NOMIS_RECORD === 'true') {
             await createCustodialEvent(page, { crn })
             const { nomisId } = await createAndBookPrisoner(page, crn, person)
