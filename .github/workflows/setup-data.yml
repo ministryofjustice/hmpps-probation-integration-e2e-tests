@@ -29,22 +29,22 @@ on:
         default: false
         required: false
       allocation_provider:
-        description: Owning Provider (eg, London)
+        description: Allocation - Provider (eg, London)
         type: string
         required: false
         default: ""
       allocation_team:
-        description: Team  (eg, OMU B)
+        description: Allocation - Team  (eg, OMU B)
         type: string
         required: false
         default: ""
       allocation_first_name:
-        description: First name
+        description: Allocation - Officer's forename
         type: string
         required: false
         default: ""
       allocation_last_name:
-        description: Last name
+        description: Allocation - Officer's surname
         type: string
         required: false
         default: ""
