@@ -71,5 +71,5 @@ export async function transferToDeliusUser(
 
     await page.locator('input', { hasText: 'Transfer' }).click()
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
-    console.log(`Allocated Case to ${firstName} ${lastName}`)
+    console.log(`Case has been allocated to user.`)
 }
