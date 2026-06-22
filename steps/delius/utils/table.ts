@@ -10,11 +10,28 @@ export async function getRowByContent(page: Page, tableId: string, content: stri
         await expect(row).toBeVisible()
         return row
     } catch {
-        const nextPageButtonLocator = page.getByRole('link', { name: 'Next' })
-        await expect(nextPageButtonLocator, `Expected - ${content} - not found, try next page`).toBeVisible()
-        await nextPageButtonLocator.click()
+        // If there are multiple pages, our project is more likely to be closer to the last page
+        const lastPageLocator = page.getByRole('link', { name: 'Last' })
+        await expect(lastPageLocator, `Expected - ${content} - not found.`).toBeVisible()
+        await lastPageLocator.click()
         await waitForAjax(page)
-        return getRowByContent(page, tableId, content)
+        // Now check for content or navigate back
+        return getRowByContentPaginatedFromLast(page, tableLocator, content)
+    }
+}
+
+async function getRowByContentPaginatedFromLast(page: Page, tableLocator: Locator, content: string): Promise<Locator> {
+    const row = tableLocator.getByRole('row').filter({ hasText: content })
+
+    try {
+        await expect(row).toBeVisible()
+        return row
+    } catch {
+        const previousPageLocator = page.getByRole('link', { name: 'Previous' })
+        await expect(previousPageLocator, `Expected - ${content} - not found.`).toBeVisible()
+        await previousPageLocator.click()
+        await waitForAjax(page)
+        return getRowByContentPaginatedFromLast(page, tableLocator, content)
     }
 }
 
