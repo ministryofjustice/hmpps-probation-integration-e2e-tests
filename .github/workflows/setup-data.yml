@@ -23,6 +23,31 @@ on:
         type: boolean
         default: false
         required: true
+      allocate_to_user:
+        description: Allocate to specific user? (Provide details below)
+        type: boolean
+        default: false
+        required: false
+      allocation_provider:
+        description: Allocation - Provider (eg, London)
+        type: string
+        required: false
+        default: ""
+      allocation_team:
+        description: Allocation - Team  (eg, OMU B)
+        type: string
+        required: false
+        default: ""
+      allocation_first_name:
+        description: Allocation - Officer's forename
+        type: string
+        required: false
+        default: ""
+      allocation_last_name:
+        description: Allocation - Officer's surname
+        type: string
+        required: false
+        default: ""
       project:
         description: Or, create data for a specific project
         type: choice
@@ -51,7 +76,12 @@ jobs:
           "CREATE_DELIUS_RECORD": "${{ inputs.create_delius }}",
           "CREATE_NOMIS_RECORD": "${{ inputs.create_nomis }}",
           "CREATE_OASYS_ASSESSMENT": "${{ inputs.create_assessment }}",
-          "CREATE_COURT_HEARING": "${{ inputs.create_hearing }}"
+          "CREATE_COURT_HEARING": "${{ inputs.create_hearing }}",
+          "ALLOCATE_TO_USER": "${{ inputs.allocate_to_user }}",
+          "ALLOCATION_PROVIDER": "${{ inputs.allocation_provider }}",
+          "ALLOCATION_TEAM": "${{ inputs.allocation_team }}",
+          "ALLOCATION_FIRST_NAME": "${{ inputs.allocation_first_name }}",
+          "ALLOCATION_LAST_NAME": "${{ inputs.allocation_last_name }}"
         }
     secrets: inherit
 

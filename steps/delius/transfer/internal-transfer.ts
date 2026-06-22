@@ -32,3 +32,44 @@ export async function internalTransfer(
 
     return selectedStaff
 }
+
+export async function transferToDeliusUser(
+    page: Page,
+    {
+        crn,
+        provider,
+        team,
+        firstName,
+        lastName,
+        reason = 'Initial Allocation',
+    }: {
+        crn: string
+        provider: string
+        team: string
+        firstName: string
+        lastName: string
+        reason?: string
+    }
+) {
+    await findOffenderByCRN(page, crn)
+    await page.locator('input', { hasText: 'Transfers' }).click({ timeout: 5000 })
+
+    await expect(page).toHaveTitle(/Consolidated Transfer Request/)
+    await selectOption(page, '#Trust\\:selectOneMenu', provider)
+    await selectOption(page, '#Team\\:selectOneMenu', team)
+    await selectOption(
+        page,
+        '#Staff\\:selectOneMenu',
+        undefined,
+        s => s.toLowerCase().includes(firstName.toLowerCase()) && s.toLowerCase().includes(lastName.toLowerCase())
+    )
+
+    const count = await page.locator('#offenderTransferRequestTable select').count()
+    for (let i = 0; i < count; i++) {
+        await selectOption(page, `:nth-match(#offenderTransferRequestTable select, ${i + 1})`, reason)
+    }
+
+    await page.locator('input', { hasText: 'Transfer' }).click()
+    await expect(page).toHaveTitle(/Consolidated Transfer Request/)
+    console.log(`Allocated Case to ${firstName} ${lastName}`)
+}
