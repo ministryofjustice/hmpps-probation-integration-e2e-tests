@@ -23,7 +23,7 @@ test('Create a case in multiple systems', async ({ page }) => {
     if (process.env.CREATE_DELIUS_RECORD === 'true') {
         await loginDelius(page)
 
-        const owningProvider = process.env.OWNING_PROVIDER !== '' ? process.env.OWNING_PROVIDER : null
+        const owningProvider = process.env.ALLOCATION_PROVIDER !== '' ? process.env.ALLOCATION_PROVIDER : null
         const crn = await createOffender(page, { person, providerName: owningProvider })
         if (process.env.CREATE_NOMIS_RECORD === 'true') {
             await createCustodialEvent(page, { crn })
@@ -32,14 +32,9 @@ test('Create a case in multiple systems', async ({ page }) => {
         } else {
             await createCommunityEvent(page, { crn })
         }
-        if (
-            owningProvider != null &&
-            process.env.TEAM !== '' &&
-            process.env.FIRST_NAME !== '' &&
-            process.env.LAST_NAME !== ''
-        ) {
+        if (process.env.ALLOCATE_TO_USER) {
             const team = process.env.TEAM
-            const firstName = process.env.FIRST_NAME
+            const firstName = process.env.ALLOCATION_FIRST_NAME
             const lastName = process.env.LAST_NAME
             await transferToDeliusUser(page, { crn, provider: owningProvider, team, firstName, lastName })
         }

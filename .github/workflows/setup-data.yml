@@ -23,22 +23,27 @@ on:
         type: boolean
         default: false
         required: true
-      owning_provider:
+      allocate_to_user:
+        description: Allocate to specific user? (Provide details below)
+        type: boolean
+        default: false
+        required: false
+      allocation_provider:
         description: Owning Provider (eg, London)
         type: string
         required: false
         default: ""
-      team:
+      allocation_team:
         description: Team  (eg, OMU B)
         type: string
         required: false
         default: ""
-      first_name:
+      allocation_first_name:
         description: First name
         type: string
         required: false
         default: ""
-      last_name:
+      allocation_last_name:
         description: Last name
         type: string
         required: false
@@ -72,10 +77,11 @@ jobs:
           "CREATE_NOMIS_RECORD": "${{ inputs.create_nomis }}",
           "CREATE_OASYS_ASSESSMENT": "${{ inputs.create_assessment }}",
           "CREATE_COURT_HEARING": "${{ inputs.create_hearing }}",
-          "OWNING_PROVIDER": "${{ inputs.owning_provider }}",
-          "TEAM": "${{ inputs.team }}",
-          "FIRST_NAME": "${{ inputs.first_name }}",
-          "LAST_NAME": "${{ inputs.last_name }}"
+          "ALLOCATE_TO_USER": "${{ inputs.allocate_to_user }}",
+          "ALLOCATION_PROVIDER": "${{ inputs.allocation_provider }}",
+          "ALLOCATION_TEAM": "${{ inputs.allocation_team }}",
+          "ALLOCATION_FIRST_NAME": "${{ inputs.allocation_first_name }}",
+          "ALLOCATION_LAST_NAME": "${{ inputs.allocation_last_name }}"
         }
     secrets: inherit
 
