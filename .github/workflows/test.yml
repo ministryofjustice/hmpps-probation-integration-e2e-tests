@@ -74,6 +74,11 @@ jobs:
         env:
           REF: ${{ github.ref_name }}
 
+      - name: Mask inputs
+        run: |
+          echo "::add-mask::${{ inputs.allocation_first_name }}"
+          echo "::add-mask::${{ inputs.allocation_last_name }}"
+
       - name: Parse environment variables
         if: inputs.env != ''
         run: echo "$ENV_VARS" | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' | tee -a "$GITHUB_ENV"
