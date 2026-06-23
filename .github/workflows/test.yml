@@ -53,6 +53,13 @@ jobs:
       passed-projects: ${{ steps.json.outputs.passed-projects }}
       report-url: ${{ steps.html.outputs.report-url }}
     steps:
+      - name: Mask inputs
+        run: |
+          echo "::add-mask::${{ inputs.allocation_provider }}"
+          echo "::add-mask::${{ inputs.allocation_team }}"
+          echo "::add-mask::${{ inputs.allocation_first_name }}"
+          echo "::add-mask::${{ inputs.allocation_last_name }}"
+
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false # Remove this line of code which is a work around, once fix is in place as per the - https://github.com/JamesIves/github-pages-deploy-action/issues/1928
@@ -73,11 +80,6 @@ jobs:
         run: echo "report-dir=playwright-report/test/$REF/$(date '+%Y-%m-%d')/${{ github.sha }}/${{ github.run_id }}/${{ github.run_attempt }}" | tee -a "$GITHUB_ENV"
         env:
           REF: ${{ github.ref_name }}
-
-      - name: Mask inputs
-        run: |
-          echo "::add-mask::${{ inputs.allocation_first_name }}"
-          echo "::add-mask::${{ inputs.allocation_last_name }}"
 
       - name: Parse environment variables
         if: inputs.env != ''
