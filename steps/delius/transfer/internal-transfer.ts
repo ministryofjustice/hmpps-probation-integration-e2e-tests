@@ -55,8 +55,8 @@ export async function transferToDeliusUser(
     await page.locator('input', { hasText: 'Transfers' }).click({ timeout: 5000 })
 
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
+    await page.waitForTimeout(2)
     await selectOption(page, '#Trust\\:selectOneMenu', provider)
-
     await page.waitForTimeout(2)
     await selectOption(page, '#Team\\:selectOneMenu', team)
     await page.waitForTimeout(2)
@@ -71,8 +71,8 @@ export async function transferToDeliusUser(
     for (let i = 0; i < count; i++) {
         await selectOption(page, `:nth-match(#offenderTransferRequestTable select, ${i + 1})`, reason)
     }
-
     await page.locator('input', { hasText: 'Transfer' }).click()
+    await expect(page.locator('.prompt.prompt-error')).toHaveCount(0)
     await page
         .locator('tr')
         .filter({ hasText: `Person` })
