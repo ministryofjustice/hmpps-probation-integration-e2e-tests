@@ -70,6 +70,13 @@ export async function transferToDeliusUser(
     }
 
     await page.locator('input', { hasText: 'Transfer' }).click()
+    await page
+        .locator('tr')
+        .filter({ hasText: `Person` })
+        .filter({ hasText: firstName })
+        .filter({ hasText: lastName })
+        .waitFor({ timeout: 7500 })
+
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
     console.log(`Case has been allocated to user.`)
 }
