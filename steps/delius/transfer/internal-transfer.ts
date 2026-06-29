@@ -2,6 +2,7 @@ import { expect, type Page } from '@playwright/test'
 import { selectOption } from '../utils/inputs'
 import { findOffenderByCRN } from '../offender/find-offender'
 import { Allocation, Optional } from '../../../test-data/test-data'
+import { waitForAjax } from '../utils/refresh'
 
 export async function internalTransfer(
     page: Page,
@@ -55,11 +56,12 @@ export async function transferToDeliusUser(
     await page.locator('input', { hasText: 'Transfers' }).click({ timeout: 5000 })
 
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
-    await page.waitForTimeout(2)
+    await waitForAjax(page)
     await selectOption(page, '#Trust\\:selectOneMenu', provider)
-    await page.waitForTimeout(2)
+    await waitForAjax(page)
+    await waitForAjax(page)
     await selectOption(page, '#Team\\:selectOneMenu', team)
-    await page.waitForTimeout(2)
+    await waitForAjax(page)
     await selectOption(
         page,
         '#Staff\\:selectOneMenu',
