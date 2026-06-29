@@ -56,7 +56,10 @@ export async function transferToDeliusUser(
 
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
     await selectOption(page, '#Trust\\:selectOneMenu', provider)
+
+    await page.waitForTimeout(2)
     await selectOption(page, '#Team\\:selectOneMenu', team)
+    await page.waitForTimeout(2)
     await selectOption(
         page,
         '#Staff\\:selectOneMenu',
