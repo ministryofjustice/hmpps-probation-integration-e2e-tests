@@ -56,11 +56,14 @@ export async function transferToDeliusUser(
     await page.locator('input', { hasText: 'Transfers' }).click({ timeout: 5000 })
 
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
-    await waitForAjax(page)
-    await selectOption(page, '#Trust\\:selectOneMenu', provider)
-    await waitForAjax(page)
+    // await waitForAjax(page)
+    // await selectOption(page, '#Trust\\:selectOneMenu', provider)
     await waitForAjax(page)
     await selectOption(page, '#Team\\:selectOneMenu', team)
+    await waitForAjax(page)
+    if (await page.locator('.prompt.prompt-error').isVisible()) {
+        await selectOption(page, '#Team\\:selectOneMenu', team)
+    }
     await waitForAjax(page)
     await selectOption(
         page,
@@ -68,6 +71,16 @@ export async function transferToDeliusUser(
         undefined,
         s => s.toLowerCase().includes(firstName.toLowerCase()) && s.toLowerCase().includes(lastName.toLowerCase())
     )
+
+    await waitForAjax(page)
+    if (await page.locator('.prompt.prompt-error').isVisible()) {
+        await selectOption(
+            page,
+            '#Staff\\:selectOneMenu',
+            undefined,
+            s => s.toLowerCase().includes(firstName.toLowerCase()) && s.toLowerCase().includes(lastName.toLowerCase())
+        )
+    }
 
     const count = await page.locator('#offenderTransferRequestTable select').count()
     for (let i = 0; i < count; i++) {
@@ -80,7 +93,7 @@ export async function transferToDeliusUser(
         .filter({ hasText: `Person` })
         .filter({ hasText: firstName })
         .filter({ hasText: lastName })
-        .waitFor({ timeout: 7500 })
+        .waitFor({ timeout: 10000 })
 
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
     console.log(`Case has been allocated to user.`)
