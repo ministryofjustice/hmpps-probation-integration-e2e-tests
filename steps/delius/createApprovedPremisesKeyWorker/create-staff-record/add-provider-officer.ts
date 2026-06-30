@@ -1,9 +1,10 @@
 import { expect, type Page } from '@playwright/test'
 import { deliusPerson } from '../../utils/person'
-import { format, subDays } from 'date-fns'
+import { DateTime } from 'luxon'
+import { formatDate, subDays } from '../../utils/date-time'
 
 export const addProviderOfficerDetails = async (page: Page) => {
-    const pastDate = format(subDays(new Date(), 30), 'dd/MM/yyyy')
+    const pastDate = formatDate(subDays(DateTime.now(), 30), 'dd/MM/yyyy')
     const person = deliusPerson()
     await page.getByLabel('Title:').selectOption({ label: 'Mr' })
     await page.getByLabel('Surname:').fill(person.lastName)

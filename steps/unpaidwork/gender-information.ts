@@ -8,6 +8,6 @@ export const completeGenderInformationSection = async (page: Page) => {
     await page.locator('#transgender').check()
     await page.locator('#placement_preference_by_gender_complete').click()
     await page.getByRole('button', { name: 'Save' }).click()
-    await expect(page.locator('li:has-text("Gender information")').first()).toContainText('COMPLETED'.toLowerCase())
+    await expect(page.locator('li:has-text("Gender information")').first()).toContainText('Completed')
     await expect(page.locator('#main-content h1')).toHaveText('Community payback assessment')
 }

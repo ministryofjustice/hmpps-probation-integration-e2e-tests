@@ -2,16 +2,12 @@ import { expect, test } from '@playwright/test'
 import { login as deliusLogin } from '../../steps/delius/login'
 import { login as dpsLogin } from '../../steps/dps/login'
 import { createAndBookPrisoner, releasePrisoner, updateCustodyDates } from '../../steps/api/dps/prison-api'
-import { NextMonth, Yesterday } from '../../steps/delius/utils/date-time'
-import { format } from 'date-fns'
+import { formatDate, NextMonth, Yesterday } from '../../steps/delius/utils/date-time'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { createOffender } from '../../steps/delius/offender/create-offender'
-import * as dotenv from 'dotenv'
 import { internalTransfer } from '../../steps/delius/transfer/internal-transfer'
 import { data } from '../../test-data/test-data'
 import { switchCaseload } from '../../steps/dps/caseload'
-
-dotenv.config() // read environment variables into process.env
 
 const nomisIds = []
 const bookingIds = []
@@ -22,16 +18,18 @@ test('View Community manager details', async ({ page }) => {
     const person = deliusPerson()
     const crn = await createOffender(page, { person, providerName: data.teams.genericTeam.provider })
     const { nomisId, bookingId } = await createAndBookPrisoner(page, crn, person)
-    await updateCustodyDates(bookingId, { conditionalReleaseDate: format(NextMonth, 'yyyy-MM-dd') })
+    await updateCustodyDates(bookingId, { conditionalReleaseDate: formatDate(NextMonth.toJSDate(), 'yyyy-MM-dd') })
     nomisIds.push(nomisId)
     bookingIds.push(bookingId)
 
     // When I allocate them to a Community Manager
     await internalTransfer(page, { crn, allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff } })
 
-    // Then the Community Manager details appear in the Get Someone Ready To Work service
+    // Then the Community Manager details appear in the Work after release service
     await dpsLogin(page)
     await switchCaseload(page, 'SWI')
+    await page.getByRole('link', { name: 'Work after leaving prison' }).first().click()
+    await expect(page.locator(' #main-content h1')).toContainText('Work after leaving prison')
     await page.getByRole('link', { name: 'Get someone ready to work' }).first().click()
     await page.getByLabel(`Profile link for ${person.lastName}, ${person.firstName}`).click()
     await page.getByRole('link', { name: 'Contacts' }).click()
@@ -41,7 +39,7 @@ test('View Community manager details', async ({ page }) => {
 
 test.afterAll(async () => {
     for (const bookingId of bookingIds) {
-        await updateCustodyDates(bookingId, { conditionalReleaseDate: format(Yesterday, 'yyyy-MM-dd') })
+        await updateCustodyDates(bookingId, { conditionalReleaseDate: formatDate(Yesterday.toJSDate(), 'yyyy-MM-dd') })
     }
     for (const nomsId of nomisIds) {
         await releasePrisoner(nomsId)

@@ -1,24 +1,30 @@
 import { expect, type Page } from '@playwright/test'
 import { findContactsByCRN } from './find-contacts'
-import { fillDate, fillTime, selectOption, selectOptionAndWait } from '../utils/inputs'
+import { fillDate, fillTime, selectOption } from '../utils/inputs'
 import { Contact, data, Team } from '../../../test-data/test-data'
-import { doUntil } from '../utils/refresh'
+import { doUntil, waitForAjax } from '../utils/refresh'
 import { Tomorrow } from '../utils/date-time'
-import { findOffenderByCRNNoContextCheck } from '../offender/find-offender.js'
+import { findOffenderByCRNNoContextCheck } from '../offender/find-offender'
 
 export const createContact = async (page: Page, crn: string, options: Contact) => {
     await findContactsByCRN(page, crn)
     await page.locator('input.btn', { hasText: 'Add Contact' }).first().click()
-    await expect(page).toHaveTitle('Add Contact Details')
+    await expect(page).toHaveTitle('Add Contact Details', { timeout: 10000 })
     if (options.date) {
         await fillDate(page, '#StartDate\\:datePicker', options.date as Date)
     }
 
-    await selectOptionAndWait(page, '#RelatedTo\\:selectOneMenu', options.relatesTo)
-    await selectOptionAndWait(page, '#ContactCategory\\:selectOneMenu', options.category)
-    await selectOptionAndWait(page, '#ContactType\\:selectOneMenu', options.type)
-    await selectOptionAndWait(page, '#TransferToTrust\\:selectOneMenu', options.allocation?.team?.provider)
-    await selectOptionAndWait(page, '#TransferToTeam\\:selectOneMenu', options.allocation?.team?.name)
+    await selectOption(page, '#RelatedTo\\:selectOneMenu', options.relatesTo)
+    await selectOption(page, '#ContactCategory\\:selectOneMenu', options.category)
+    await waitForAjax(page)
+    const contactTypeDropdown = page.locator('[id="ContactType:selectOneMenu-autocomplete"]')
+    await contactTypeDropdown.click()
+    await contactTypeDropdown.fill(options.type)
+    await page.locator('li[id="ContactType:selectOneMenu-autocomplete__option--0"]', { hasText: options.type }).click()
+    await selectOption(page, '#TransferToTrust\\:selectOneMenu', options.allocation?.team?.provider)
+    await selectOption(page, '#TransferToTeam\\:selectOneMenu', options.allocation?.team?.name)
+
+    await selectOption(page, '#alert\\:selectOneMenu', options.alert ? 'Yes' : 'No')
 
     if (options.allocation?.team?.location) {
         await selectOption(page, '#Location\\:selectOneMenu', options.allocation?.team?.location)
@@ -29,7 +35,17 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
     if (options.endTime) {
         await fillTime(page, '#EndTime\\:timePicker', options.endTime)
     }
+    if (options.outcome) {
+        await selectOption(page, '#contactOutcome\\:selectOneMenu', options.outcome)
+    }
+    if (options.enforcementAction) {
+        await selectOption(page, '#enforcementAction\\:selectOneMenu', options.enforcementAction)
+    }
     await selectOption(page, '#TransferToOfficer\\:selectOneMenu', options.allocation?.staff?.name)
+
+    if (options.note) {
+        await page.fill(`#Notes\\:notesField`, options.note)
+    }
 
     try {
         // Attempt to create contact
@@ -55,12 +71,12 @@ export const createContact = async (page: Page, crn: string, options: Contact) =
     }
 }
 
-export const createInitialAppointment = async (page: Page, crn: string, eventNumber: string, team: Team = null) =>
+export const createInitialAppointment = async (page: Page, crn: string, eventNumber: number, team: Team = null) =>
     createContact(page, crn, {
-        relatesTo: `Event ${eventNumber} - ORA Community Order (6 Months)`,
+        relatesTo: `Event ${eventNumber} - SA2020 Community Order (6 Months)`,
         allocation: { team: team },
-        date: Tomorrow,
-        startTime: Tomorrow,
-        endTime: new Date(Tomorrow.getTime() + 60000),
+        date: Tomorrow.toJSDate(),
+        startTime: Tomorrow.toJSDate(),
+        endTime: new Date(Tomorrow.toJSDate().getTime() + 60000),
         ...data.contacts.initialAppointment,
     })

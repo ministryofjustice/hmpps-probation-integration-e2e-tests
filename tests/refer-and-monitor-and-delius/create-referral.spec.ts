@@ -20,8 +20,8 @@ test('Create a referral and nsi is created in delius', async ({ page }) => {
     await logoutRandM(page)
     await loginDelius(page)
     await verifyContacts(page, crn, [
-        contact('1 - CRS Accommodation', 'In Progress'),
-        contact('1 - CRS Accommodation', 'NSI Commenced'),
-        contact('1 - CRS Accommodation', 'NSI Referral'),
+        contact('1 - CRS Personal Wellbeing', 'In Progress'),
+        contact('1 - CRS Personal Wellbeing', 'NSI Commenced'),
+        contact('1 - CRS Personal Wellbeing', 'NSI Referral'),
     ])
 })

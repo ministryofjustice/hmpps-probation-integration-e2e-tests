@@ -1,6 +1,6 @@
 import { type Page, expect } from '@playwright/test'
 
-export const completeAccommodationSection = async (page: Page) => {
+export const complete3AccommodationSection = async (page: Page) => {
     await page.getByLabel('Currently of no fixed abode or in transient accommodation').selectOption({ label: 'No' })
     await page.getByLabel('Suitability of accommodation').selectOption({ label: '0-No problems' })
     await page.getByLabel('Permanence of accommodation').selectOption({ label: '0-No problems' })
@@ -18,7 +18,7 @@ export const completeAccommodationSection = async (page: Page) => {
     await page.click('input[value="Next"]')
     await expect(page.locator('#contextleft > h3')).toHaveText('4 - Education, Training and Employability (Layer 3)')
 }
-export const completeAccommodationSectionYes = async (page: Page) => {
+export const complete3AccommodationSectionYes = async (page: Page) => {
     await page.getByLabel('Currently of no fixed abode or in transient accommodation').selectOption({ label: 'Yes' })
     await page.getByLabel('Suitability of accommodation').selectOption({ label: '0-No problems' })
     await page.getByLabel('Permanence of accommodation').selectOption({ label: '1-Some problems' })

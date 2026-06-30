@@ -2,6 +2,7 @@ import { expect, type Page } from '@playwright/test'
 import { refreshUntil } from '../utils/refresh'
 import { selectOption } from '../utils/inputs'
 import { Allocation } from '../../../test-data/test-data'
+import { Person } from '../utils/person'
 
 export async function findOffenderByName(page: Page, forename: string, surname: string) {
     await page.locator('a', { hasText: 'National search' }).click()
@@ -14,6 +15,7 @@ export async function findOffenderByName(page: Page, forename: string, surname: 
 export async function findOffenderByCRN(page: Page, crn: string) {
     if (await isInOffenderContext(page, crn)) {
         // Already in offender context, go to case summary
+        await dismissModals(page)
         await page.locator('a', { hasText: 'Case Management' }).click()
     } else {
         // Search for offender
@@ -23,14 +25,9 @@ export async function findOffenderByCRN(page: Page, crn: string) {
         await selectOption(page, '#otherIdentifier', '[Not Selected]')
         await page.click('#searchButton')
         await page.locator('tr', { hasText: crn }).locator('a', { hasText: 'View' }).click()
+        await dismissModals(page)
     }
-    // Check for the pop-up and handle if it appears
-    const warningPopup = await page.locator('#j_idt638\\:screenWarningPrompt')
-    if (warningPopup && (await warningPopup.isVisible())) {
-        await page.click('[title="Save Court Appearance & Close this screen"]')
-    }
-
-    await expect(page).toHaveTitle(/Case Summary/)
+    await expect(page.getByRole('heading', { name: 'Case Summary' })).toBeVisible({ timeout: 20000 })
 }
 
 export async function findOffenderByCRNNoContextCheck(page: Page, crn: string) {
@@ -42,6 +39,26 @@ export async function findOffenderByCRNNoContextCheck(page: Page, crn: string) {
     await page.click('#searchButton')
     await page.locator('tr', { hasText: crn }).locator('a', { hasText: 'View' }).click()
     await expect(page).toHaveTitle(/Case Summary/)
+}
+
+export async function findFirstOffender(page: Page, person: Person, provider: string) {
+    await page.locator('#navigation-include\\:linkNavigation1Search', { hasText: 'National search' }).click()
+    await expect(page).toHaveTitle(/National Search/)
+    await page.fill('#firstName\\:inputText', person.firstName)
+    await page.fill('#lastName\\:inputText', person.lastName)
+    await selectOption(page, '#sex\\:selectOneMenu', person.sex)
+    await selectOption(page, '#provider\\:selectOneMenu', provider)
+    await page.click('#searchButton')
+
+    const noRecordsMessage = page.locator('.noRecordsFound:has-text("No records found")')
+    const offendersTable = page.locator('#offendersTable')
+    await expect(noRecordsMessage.or(offendersTable)).toBeVisible({ timeout: 10000 })
+
+    if (await offendersTable.isVisible()) {
+        return await page.locator('#offendersTable tbody tr:first-child td:first-child').textContent()
+    } else if (await noRecordsMessage.isVisible()) {
+        return null
+    }
 }
 
 export async function findOffenderByNomisId(page: Page, nomisId: string): Promise<string> {
@@ -77,6 +94,22 @@ export async function verifyAllocation(page: Page, args: { allocation: Allocatio
 }
 
 export async function isInOffenderContext(page: Page, crn: string): Promise<boolean> {
-    const crnLocator = page.locator('#offender-overview a[title*="Case Reference Number"]')
-    return (await crnLocator.count()) > 0 && (await crnLocator.first().textContent()) === crn
+    try {
+        await expect(page.locator('#offender-overview')).toContainText(crn, { timeout: 5000 })
+        return true
+    } catch (_) {
+        return false
+    }
+}
+
+export async function dismissModals(page: Page) {
+    if (await page.locator('#j_idt638\\:screenWarningPrompt').isVisible()) {
+        await page.click('[title="Save Court Appearance & Close this screen"]')
+    }
+
+    try {
+        await page.getByRole('button', { name: 'OK' }).click({ timeout: 5000 })
+    } catch (_) {
+        //Modal did not disappear within the timeout, continuing...'
+    }
 }

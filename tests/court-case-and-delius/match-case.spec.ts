@@ -1,24 +1,25 @@
 import { expect, test } from '@playwright/test'
-import { addCourtHearing } from '../../steps/court-case/add-court-hearing'
 import { deliusPerson } from '../../steps/delius/utils/person'
-import { login as deliusLogin } from '../../steps/delius/login.js'
-import { createOffender } from '../../steps/delius/offender/create-offender.js'
-import { prepareCaseForSentenceLogin } from '../../steps/court-case/prepare-case-for-sentence/login.js'
+import { login as deliusLogin } from '../../steps/delius/login'
+import { createOffender } from '../../steps/delius/offender/create-offender'
+import { prepareCaseForSentenceLogin } from '../../steps/court-case/prepare-case-for-sentence/login'
 import {
     addCourtToUser,
     extractProbationRecordDetails,
     extractRegistrationDetails,
     formatDateToPrepareCase,
     searchAndClickDefendantAndGetHeader,
-} from '../../steps/court-case/prepare-case-for-sentence/application.js'
-import { createCustodialEvent } from '../../steps/delius/event/create-event.js'
-import { data } from '../../test-data/test-data.js'
-import { createRegistration } from '../../steps/delius/registration/create-registration.js'
+} from '../../steps/court-case/prepare-case-for-sentence/application'
+import { createCustodialEvent } from '../../steps/delius/event/create-event'
+import { data } from '../../test-data/test-data'
+import { createRegistration } from '../../steps/delius/registration/create-registration'
+import { addCourtHearing } from '../../steps/api/court-case/court-case-api'
+import { hearingData } from '../../steps/court-case/hearing-data'
 
 test('Match Delius case with Court Case Hearing', async ({ page }) => {
     // Given a person with hearing in the Court Case Service
     const person = deliusPerson()
-    await addCourtHearing(person)
+    await addCourtHearing(hearingData(person))
     console.log('Added court hearing for', person)
 
     // When I create the person's record in Delius
@@ -38,7 +39,7 @@ test('Match Delius case with Court Case Hearing', async ({ page }) => {
 
     // Then the CRN is matched with the hearing and added to the court case service
     await prepareCaseForSentenceLogin(page)
-    await addCourtToUser(page, "Sheffield Magistrates' Court")
+    await addCourtToUser(page, "Oxford and Southern Oxfordshire Magistrates' Court")
     const prepareCaseHeader = await searchAndClickDefendantAndGetHeader(page, person.firstName, person.lastName, crn)
     await expect(prepareCaseHeader).toContainText(crn)
     await expect(prepareCaseHeader).toContainText(person.pnc)
@@ -46,7 +47,7 @@ test('Match Delius case with Court Case Hearing', async ({ page }) => {
 
     // And I verify that "Probation record" details are same as Delius
     const { outcome: outcomeInPrepareCase, offence: offenceInPrepareCase } = await extractProbationRecordDetails(page)
-    expect(event.subOffence).toContain(offenceInPrepareCase)
+    expect(offenceInPrepareCase).toContain(event.subOffence)
     expect(outcomeInPrepareCase).toContain(createdEvent.outcome)
 
     // And I verify that "Risk register" details are same as Delius

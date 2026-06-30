@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test'
-import { selectOption, selectOptionAndWait } from '../utils/inputs'
+import { selectOption } from '../utils/inputs'
 import { findOffenderByCRN } from '../offender/find-offender'
 import { doUntil } from '../utils/refresh'
 
@@ -17,15 +17,22 @@ export async function createRegistration(
     await expect(page).toHaveTitle('Add Registration')
 
     if (registrationType === 'Integrated Offender Management') {
-        await selectOptionAndWait(page, '#Trust\\:selectOneMenu', registeringOfficerProvider)
-        await selectOptionAndWait(page, '#RegisterType\\:selectOneMenu', registrationType)
-        await selectOptionAndWait(page, '#Team\\:selectOneMenu')
-        await selectOptionAndWait(page, '#Staff\\:selectOneMenu')
-        await selectOptionAndWait(page, '#Category\\:selectOneMenu', 'IOM - Fixed')
+        await selectOption(page, '#Trust\\:selectOneMenu', registeringOfficerProvider)
+        await selectOption(page, '#RegisterType\\:selectOneMenu', registrationType)
+        await selectOption(page, '#Team\\:selectOneMenu')
+        await selectOption(page, '#Staff\\:selectOneMenu')
+        await selectOption(page, '#Category\\:selectOneMenu', 'IOM - Fixed')
+    } else if (registrationType === 'MAPPA') {
+        await selectOption(page, '#Trust\\:selectOneMenu', registeringOfficerProvider)
+        await selectOption(page, '#RegisterType\\:selectOneMenu', registrationType)
+        await selectOption(page, '#Category\\:selectOneMenu', 'MAPPA Cat 1')
+        await selectOption(page, '#Level\\:selectOneMenu', 'MAPPA Level 3')
+        await selectOption(page, '#Team\\:selectOneMenu')
+        await selectOption(page, '#Staff\\:selectOneMenu')
     } else {
-        await selectOptionAndWait(page, '#Trust\\:selectOneMenu')
-        await selectOptionAndWait(page, '#RegisterType\\:selectOneMenu', registrationType)
-        await selectOptionAndWait(page, '#Team\\:selectOneMenu')
+        await selectOption(page, '#Trust\\:selectOneMenu')
+        await selectOption(page, '#RegisterType\\:selectOneMenu', registrationType)
+        await selectOption(page, '#Team\\:selectOneMenu')
         await selectOption(page, '#Staff\\:selectOneMenu')
     }
 
@@ -41,8 +48,8 @@ export async function createRegistration(
     // Extract text from the first row
     const [deliusRegtype, deliusRegDate, deliusRegNextReviewDate] = await Promise.all(
         [
-            tableRows[0].$('td:nth-child(3)'), // Selecting the Type column (3rd td)
-            tableRows[0].$('td:nth-child(4)'), // Selecting the Date column (4th td)
+            tableRows[0].$('td:nth-child(2)'), // Selecting the Type column (2nd td)
+            tableRows[0].$('td:nth-child(3)'), // Selecting the Date column (3rd td)
             tableRows[0].$('td:nth-child(5)'), // Selecting the Next Review column (5th td)
         ].map(async cell => {
             return cell ? await (await cell).innerText() : '' // Extract inner text of the cell if it exists, otherwise return an empty string

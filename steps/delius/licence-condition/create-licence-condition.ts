@@ -1,27 +1,36 @@
 import { expect, type Page } from '@playwright/test'
 import { selectOption } from '../utils/inputs'
 import { findEventByCRN } from '../event/find-events'
+import { doUntil } from '../utils/refresh'
 
 export const createLicenceCondition = async (page: Page, crn: string, eventNumber = 1): Promise<string> => {
     await findEventByCRN(page, crn, eventNumber)
     await page.getByRole('link', { name: 'Licence Conditions' }).click()
-    await expect(page.locator('h1')).toHaveText('Licence Conditions')
+    await expect(page.locator('h1')).toContainText('Licence Conditions')
     await page.getByRole('button', { name: 'Add Licence Conditions' }).click()
-    await expect(page.locator('h1')).toHaveText('Add Licence Conditions')
+    await expect(page.locator('h1')).toContainText('Add Licence Conditions')
     await selectOption(page, `#LicenceMainCategory\\:selectOneMenu`)
     //just allow the ui to catchup
     await page.waitForTimeout(1000);
-    await selectOption(page, `#licenceSubCategory\\:selectOneMenu`)
     await selectOption(page, `#AreaLC\\:selectOneMenu`)
+    await selectOption(page, `#licenceSubCategory\\:selectOneMenu`)
     await page.getByRole('button', { name: 'Add' }).click()
     await page.getByRole('button', { name: 'Save' }).click()
-    await expect(page.locator('h1')).toHaveText('Licence Conditions')
+    await expect(page.locator('h1')).toContainText('Licence Conditions')
     return await page.locator('table tr:first-child td:nth-child(2)').textContent()
 }
 
 export const navigateToLicenceConditions = async (page: Page, crn: string, eventNumber = 1): Promise<void> => {
     await findEventByCRN(page, crn, eventNumber)
-    await page.getByRole('link', { name: 'Licence conditions' }).click()
+    await doUntil(
+        () => page.getByRole('link', { name: 'Licence Conditions' }).click(),
+        () => expect(page.locator('h1')).toContainText('Licence Conditions'),
+        {
+            rollback: async () => {
+                if ((await page.title()) === 'Error Page') await page.goBack()
+            },
+        }
+    )
 }
 
 export const deliusLicenceCondition = 'table tr:first-child td:nth-child(2)'

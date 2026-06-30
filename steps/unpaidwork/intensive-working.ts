@@ -8,6 +8,6 @@ export const completeIntensiveWorkingSection = async (page: Page) => {
     await page.locator('#eligibility_intensive_working_complete').click()
     await page.locator('#eligibility_intensive_working_complete').click()
     await page.getByRole('button', { name: 'Save' }).click()
-    await expect(page.locator('li:has-text("Intensive working")').first()).toContainText('COMPLETED'.toLowerCase())
+    await expect(page.locator('li:has-text("Intensive working")').first()).toContainText('Completed')
     await expect(page.locator('#main-content h1')).toHaveText('Community payback assessment')
 }

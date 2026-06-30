@@ -1,5 +1,5 @@
 import { expect, Page } from '@playwright/test'
-import { selectOption, selectOptionAndWait } from '../utils/inputs'
+import { selectOption } from '../utils/inputs'
 
 export async function createRestrictions(page: Page, args: { crn: string; users: string[] }) {
     await page.click('#navigation-include\\:linkNavigation1DataMaintenance')
@@ -15,8 +15,8 @@ export async function createRestrictions(page: Page, args: { crn: string; users:
         await page.fill('#search\\:inputText', username)
         await page.getByTitle('Select to locate the user').click()
         await selectOption(page, '#restrictionReason\\:selectOneMenu', 'Other')
-        await selectOptionAndWait(page, '#transferToTrust\\:selectOneMenu', 'North East Region')
-        await selectOptionAndWait(page, '#restrictionStartTeam\\:selectOneMenu', 'Automated Allocation Team')
+        await selectOption(page, '#transferToTrust\\:selectOneMenu', 'North East Region')
+        await selectOption(page, '#restrictionStartTeam\\:selectOneMenu', 'Automated Allocation Team')
         await selectOption(page, '#restrictionStartOfficer\\:selectOneMenu', 'Handover, Calculation')
         await page.click('input.btn-primary')
         await page.locator('div.prompt-warning').isVisible()

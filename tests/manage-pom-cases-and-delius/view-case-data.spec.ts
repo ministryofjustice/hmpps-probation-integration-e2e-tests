@@ -1,12 +1,14 @@
-import { expect, test } from '@playwright/test'
+import { expect, Page, test } from '@playwright/test'
 import { data } from '../../test-data/test-data'
 import { randomiseCommunityManagerName } from '../../steps/delius/staff/community-manager'
 import { login as mpcLogin } from '../../steps/manage-pom-cases/login'
 import { switchCaseload } from '../../steps/manage-pom-cases/caseload'
 import { execCommand, getPodName } from '../../steps/k8s/k8s-utils'
+import { slow } from '../../steps/common/common'
+import { refreshUntil } from '../../steps/delius/utils/refresh'
 
 test('View Delius case data', async ({ page }) => {
-    test.slow() // extend the timeout - the import job can take a few minutes
+    slow(10)
 
     // Given a prisoner's information has changed
     const { nomsNumber } = data.prisoners.allocatedPrisoner
@@ -16,14 +18,28 @@ test('View Delius case data', async ({ page }) => {
     const namespace = 'offender-management-staging'
     const deploymentName = 'offender-management'
     const podName = await getPodName(namespace, deploymentName)
-    await execCommand(namespace, podName, deploymentName, ['sh', '-c', 'rake community_api:import'])
+    await execCommand(namespace, podName, deploymentName, ['sh', '-c', 'bundle exec rake community_api:import'])
 
     // Then I can see the updated data
     await mpcLogin(page)
     await switchCaseload(page, 'Moorland (HMP & YOI)')
     await page.getByRole('link', { name: 'All allocated cases' }).click()
+    await refreshUntil(page, () => searchForCase(page, nomsNumber), {
+        timeout: 120_000,
+    })
+    await refreshUntil(
+        page,
+        () =>
+            expect(
+                page.locator('tr:has(td:text("Community Offender Manager (COM) name")) td:nth-child(2)')
+            ).toContainText(newManagerName),
+        { timeout: 120_000 }
+    )
+})
+
+const searchForCase = async (page: Page, nomsNumber: string) => {
+    await page.getByLabel('Find a case').isVisible()
     await page.getByLabel('Find a case').fill(nomsNumber)
     await page.locator('#search-button').click()
     await page.locator('td', { hasText: nomsNumber }).first().locator('a').click()
-    await expect(page.locator('tr', { has: page.locator('#com-name') })).toContainText(newManagerName)
-})
+}

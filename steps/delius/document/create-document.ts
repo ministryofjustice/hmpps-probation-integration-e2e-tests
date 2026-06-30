@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test'
 import { selectOption } from '../utils/inputs'
-import { refreshUntil } from '../utils/refresh.js'
+import { refreshUntil } from '../utils/refresh'
 
 export async function createDocumentFromTemplate(page: Page, template: string | null = null) {
     await page.locator('input', { hasText: 'Document' }).click()

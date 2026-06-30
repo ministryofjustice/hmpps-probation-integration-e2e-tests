@@ -19,6 +19,7 @@ export const loginAsSupervisor = async (page: Page) => {
 }
 
 export const logout = async (page: Page) => {
-    await page.locator('a', { hasText: 'Sign out' }).click()
+    await page.getByRole('button', { name: 'Account' }).click()
+    await page.getByRole('link', { name: 'Sign out' }).click()
     await expect(page).toHaveTitle(/HMPPS Digital Services - Sign in/)
 }

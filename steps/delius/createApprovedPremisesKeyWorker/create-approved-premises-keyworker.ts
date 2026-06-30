@@ -1,6 +1,4 @@
-// import {Page} from '@playwright/test'
 import { type Page } from '@playwright/test'
-import * as dotenv from 'dotenv'
 import { clickReferenceData } from './create-staff-record/delius-home'
 import { clickLocalReferenceRecords } from './create-staff-record/reference-data'
 import { clickStaffButton } from './create-staff-record/local-reference-data'
@@ -13,8 +11,6 @@ import { addProviderOfficerDetails } from './create-staff-record/add-provider-of
 import { addProviderOfficersApprovedPremises } from './create-staff-record/update-provider-officer'
 import { searchApprovedPremises } from './Keyworker/approved-premises-keyworker'
 import { addKeyWorker } from './Keyworker/add-keyworker'
-
-dotenv.config() // read environment variables into process.env
 
 export const createApprovedPremisesKeyWorker = async (page: Page) => {
     // Given I am on the NDelius Home Page and click on "Reference Data" Button

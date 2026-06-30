@@ -24,6 +24,6 @@ export const completeManagingRiskSection = async (page: Page) => {
     await page.locator('#alcohol_drug_issues_details').fill('Entering Text related to alcohol & drug issues')
     await page.locator('#managing_risk_complete').click()
     await page.getByRole('button', { name: 'Save' }).click()
-    await expect(page.locator('li:has-text("Managing risk")').first()).toContainText('COMPLETED'.toLowerCase())
+    await expect(page.locator('li:has-text("Managing risk")').first()).toContainText('Completed')
     await expect(page.locator('#main-content h1')).toHaveText('Community payback assessment')
 }

@@ -19,11 +19,11 @@ const sexOf = (str: string): SexType => {
     }
 }
 
-export const deliusPerson = (person?: Partial<Person>): Person => {
+export function deliusPerson(person?: Partial<Person>): Person {
     const sex = person?.sex ? sexOf(person.sex) : faker.person.sexType()
     const firstName = person?.firstName ? person.firstName : faker.person.firstName(sex)
     const lastName = person?.lastName ? person.lastName : faker.person.lastName(sex)
-    const dob = person?.dob || faker.date.birthdate({ min: 18, max: 69, mode: 'age' })
+    const dob = person?.dob ? person.dob : faker.date.birthdate({ min: 18, max: 69, mode: 'age' })
     const pnc = person?.pnc ? person.pnc : createPnc(dob)
     const ethnicity = person?.ethnicity ? person.ethnicity : "W1"
     const croNumber = person?.croNumber ? person.croNumber : createCroNumber()

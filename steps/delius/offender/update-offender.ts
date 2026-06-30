@@ -23,7 +23,7 @@ export async function setNomisId(page: Page, crn: string, nomisId: string) {
 
     try {
         await expect(page).toHaveTitle(/Personal Details/)
-    } catch (e) {
+    } catch {
         // Sometimes clicking Save can fail with this error, if it does then try again
         const ole = await page
             .locator('span.text-danger', {
@@ -54,7 +54,7 @@ export async function removeNomisId(page: Page, crn: string) {
 
     try {
         await expect(page).toHaveTitle(/Personal Details/)
-    } catch (e) {
+    } catch {
         // Sometimes clicking Save can fail with this error, if it does then try again
         const ole = await page
             .locator('span.text-danger', {

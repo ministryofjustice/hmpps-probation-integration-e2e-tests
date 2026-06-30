@@ -19,7 +19,7 @@ test('View community manager in HDC', async ({ page }) => {
     // When I navigate to the case in HDC licences
     await hdcLogin(page)
     await page.getByRole('link', { name: 'Search all offenders' }).click()
-    await page.getByLabel(/Enter prisoner name or ID/).fill(nomisId)
+    await page.getByLabel(/Enter name or prison number/).fill(nomisId)
     await page.getByRole('button', { name: 'Search' }).click()
     const [newPage] = await Promise.all([
         page.waitForEvent('popup'),

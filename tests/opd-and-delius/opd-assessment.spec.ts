@@ -4,16 +4,15 @@ import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
-import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { createEvent } from '../../steps/delius/event/create-event'
 import { faker } from '@faker-js/faker'
-import * as dotenv from 'dotenv'
 import { navigateToNSIDetailsFromPersonalDetails } from '../../steps/delius/contact/find-contacts'
-
-dotenv.config() // read environment variables into process.env
+import { slow } from '../../steps/common/common'
+import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock.js'
 
 test('OPD assessment creates an event in Delius', async ({ page }) => {
-    test.slow()
+    slow()
+
     await loginDelius(page)
     const dob = faker.date.birthdate({ min: 20, max: 30, mode: 'age' })
     const person = deliusPerson({ sex: 'Male', dob: dob })
@@ -31,8 +30,8 @@ test('OPD assessment creates an event in Delius', async ({ page }) => {
     })
 
     await oasysLogin(page, UserType.OPD)
-    await createLayer3CompleteAssessment(page, crn, person)
-    await addLayer3AssessmentNeeds(page)
+    await createLayer3CompleteAssessment(page, crn, person, 'Yes', undefined, true)
+    await signAndlock(page)
 
     await loginDelius(page)
     await navigateToNSIDetailsFromPersonalDetails(page, crn)
@@ -48,7 +47,7 @@ test('OPD assessment creates an event in Delius', async ({ page }) => {
         .getByRole('row', { name: /OPD Status - Pending Consultation Unallocated/ })
         .getByTitle('Link to view the contact details.')
         .click()
-    await expect(page.locator('#content > h1')).toHaveText('Contact Details')
+    await expect(page.locator('#content > h1')).toContainText('Contact Details')
     await expect(page.locator('span:right-of(:text("Contact Type"))').first()).toContainText(
         'OPD Status - Pending Consultation'
     )

@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test'
-import { selectOption, selectOptionAndWait } from '../utils/inputs'
+import { selectOption } from '../utils/inputs'
 import { findOffenderByCRN } from '../offender/find-offender'
 import { Allocation, Optional } from '../../../test-data/test-data'
 
@@ -16,21 +16,60 @@ export async function internalTransfer(
     }
 ) {
     await findOffenderByCRN(page, crn)
-    await page.locator('input', { hasText: 'Transfers' }).click()
+    await page.locator('input', { hasText: 'Transfers' }).click({ timeout: 5000 })
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
-    await selectOptionAndWait(page, '#Trust\\:selectOneMenu', allocation?.team?.provider)
-    await selectOptionAndWait(page, '#Team\\:selectOneMenu', allocation?.team?.name)
+    await selectOption(page, '#Trust\\:selectOneMenu', allocation?.team?.provider)
+    await selectOption(page, '#Team\\:selectOneMenu', allocation?.team?.name)
     const selectedStaff = await selectOption(page, '#Staff\\:selectOneMenu', allocation?.staff?.name)
 
-    const options = await page.locator('#offenderTransferRequestTable').locator('select')
-
-    const count = await options.count()
+    const count = await page.locator('#offenderTransferRequestTable select').count()
     for (let i = 0; i < count; i++) {
-        await options.nth(i).selectOption({ label: reason })
+        await selectOption(page, `:nth-match(#offenderTransferRequestTable select, ${i + 1})`, reason)
     }
 
     await page.locator('input', { hasText: 'Transfer' }).click()
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
 
     return selectedStaff
+}
+
+export async function transferToDeliusUser(
+    page: Page,
+    {
+        crn,
+        provider,
+        team,
+        firstName,
+        lastName,
+        reason = 'Initial Allocation',
+    }: {
+        crn: string
+        provider: string
+        team: string
+        firstName: string
+        lastName: string
+        reason?: string
+    }
+) {
+    await findOffenderByCRN(page, crn)
+    await page.locator('input', { hasText: 'Transfers' }).click({ timeout: 5000 })
+
+    await expect(page).toHaveTitle(/Consolidated Transfer Request/)
+    await selectOption(page, '#Trust\\:selectOneMenu', provider)
+    await selectOption(page, '#Team\\:selectOneMenu', team)
+    await selectOption(
+        page,
+        '#Staff\\:selectOneMenu',
+        undefined,
+        s => s.toLowerCase().includes(firstName.toLowerCase()) && s.toLowerCase().includes(lastName.toLowerCase())
+    )
+
+    const count = await page.locator('#offenderTransferRequestTable select').count()
+    for (let i = 0; i < count; i++) {
+        await selectOption(page, `:nth-match(#offenderTransferRequestTable select, ${i + 1})`, reason)
+    }
+
+    await page.locator('input', { hasText: 'Transfer' }).click()
+    await expect(page).toHaveTitle(/Consolidated Transfer Request/)
+    console.log(`Allocated Case to ${firstName} ${lastName}`)
 }

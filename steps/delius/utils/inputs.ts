@@ -2,7 +2,7 @@ import { type Page } from '@playwright/test'
 import { DeliusDateFormatter, DeliusTimeFormatter, OasysDateFormatter } from './date-time'
 import { waitForAjax } from './refresh'
 
-const getOptions = async (page: Page, selector: string, filter: (s: string) => boolean = null) => {
+export const getOptions = async (page: Page, selector: string, filter: (s: string) => boolean = null) => {
     return (await page.$$eval(`${selector} > option`, opts => opts.map(option => option.textContent)))
         .filter(option => option !== '[Please Select]')
         .filter(filter ? filter : () => true)
@@ -21,29 +21,24 @@ export const selectOption = async (
     page: Page,
     selector: string,
     option: string = null,
-    filter: (s: string) => boolean = null
+    filter: (s: string) => boolean = null,
+    attempts = 3
 ): Promise<string> => {
-    if (option == null) {
-        option = await getRandomOption(page, selector, 2, filter)
+    // Delius has lots of dynamic drop-down fields that are populated based on previous actions, so wait for any
+    // asynchronous requests to complete before attempting to select an option.
+    await waitForAjax(page)
+    const optionToSelect = option != null ? option : await getRandomOption(page, selector, 2, filter)
+    try {
+        await page.selectOption(selector, { label: optionToSelect }, { timeout: 5000 })
+        return optionToSelect
+    } catch (e) {
+        if (option == null && attempts > 0) {
+            // Sometimes the options change even after we've waited for asynchronous requests to complete, so retry with
+            // a new random option after 5 seconds
+            return await selectOption(page, selector, option, filter, attempts - 1)
+        } else throw e
     }
-    await page.selectOption(selector, { label: option })
-    return option
 }
-
-/**
- * Selects an option, then waits for any asynchronous JS requests to complete. Use this for drop-downs that cause other
- * fields on the page to be re-rendered.  For other drop-downs, you should use the normal "selectOption" method.
- * @param page
- * @param selector
- * @param option
- * @param filter
- */
-export const selectOptionAndWait = async (
-    page: Page,
-    selector: string,
-    option: string = null,
-    filter: (s: string) => boolean = null
-): Promise<string> => (await Promise.all([selectOption(page, selector, option, filter), waitForAjax(page)]))[0]
 
 export const fillDate = async (page: Page, selector: string, date: Date) => {
     await page.fill(selector, DeliusDateFormatter(date))

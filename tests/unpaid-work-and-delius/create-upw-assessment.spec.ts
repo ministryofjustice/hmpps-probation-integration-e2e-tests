@@ -1,6 +1,4 @@
 import { expect, test } from '@playwright/test'
-import * as dotenv from 'dotenv'
-dotenv.config() // read environment variables into process.env
 import { login as deliusLogin } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
@@ -12,14 +10,13 @@ import { startUPWAssessmentFromDelius } from '../../steps/delius/upw/start-upw-a
 import { login as unpaidWorkLogin } from '../../steps/unpaidwork/login'
 import { submitUPWAssessment } from '../../steps/unpaidwork/task-list'
 import { completeAllUPWSections } from '../../steps/unpaidwork/complete-all-upw-sections'
-import { format } from 'date-fns'
 import { doUntil } from '../../steps/delius/utils/refresh'
 import * as fs from 'fs'
 import { getPdfText } from '../../steps/delius/utils/pdf-utils'
+import { formatDate } from '../../steps/delius/utils/date-time'
 
 const nomisIds = []
 test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to Delius', async ({ page }) => {
-    test.slow()
     // Given I create new Offender in nDelius
     await deliusLogin(page)
     const person = deliusPerson()
@@ -55,7 +52,7 @@ test('Create a UPW-Assessment from Delius and verify the Pdf is uploaded back to
         () => expect(page.locator('table')).toContainText('CP/UPW Assessment')
     )
 
-    await expect(page.locator('#documentDrawerTable > tbody > tr')).toContainText(format(new Date(), 'dd/MM/yyyy'))
+    await expect(page.locator('#documentDrawerTable > tbody > tr')).toContainText(formatDate(new Date(), 'dd/MM/yyyy'))
     await expect(page.getByRole('link', { name: 'view document' })).toBeEnabled()
 
     // And I verify the content in the PDF (CRN)

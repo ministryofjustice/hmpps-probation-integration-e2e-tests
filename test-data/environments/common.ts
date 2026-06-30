@@ -12,7 +12,7 @@ export const commonData: TestData = {
         },
         community: {
             appearanceType: 'Sentence',
-            outcome: 'ORA Community Order',
+            outcome: 'SA2020 Community Order',
             length: '6',
         },
         appeal: {
@@ -23,6 +23,7 @@ export const commonData: TestData = {
             appearanceType: 'Trial/Adjournment',
             outcome: 'Adjourned - Pre-Sentence Report',
             reportType: 'Pre-Sentence Report - Fast',
+            mainOffence: 'Stealing by an employee - 04100',
         },
         adjournedForOralPreSentenceReport: {
             appearanceType: 'Trial/Adjournment',
@@ -45,6 +46,10 @@ export const commonData: TestData = {
             category: 'Unpaid Work',
             subCategory: 'Regular',
             length: '120',
+        },
+        accreditedProgramme: {
+            category: 'Court - Accredited Programme',
+            subCategory: 'Building Choices',
         },
     },
     staff: {

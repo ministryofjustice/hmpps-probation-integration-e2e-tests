@@ -19,14 +19,13 @@ export const completeRiskHarmCommunitySection = async (page: Page) => {
     await page.locator('#high_profile_person_details').fill('Entering Text related to hate-based attitudes')
     await page.locator('#history_of_hate_based_behaviour').click()
     await page.locator('#history_of_hate_based_behaviour_details').fill('Entering Text related to hate-based attitudes')
+    await page.locator('#risks_history_of_offending_against_vulnerable_adults-2').first().click()
     await page.locator('#high_profile_person').click()
     await page.locator('#high_profile_person_details').fill(' Entering Text related to high-profile person')
     await page.locator('#additional_rosh_info').click()
     await page.locator('#additional_rosh_info_details').fill('Entering Text related to Additional information ')
     await page.locator('#rosh_community_complete').click()
     await page.getByRole('button', { name: 'Save' }).click()
-    await expect(page.locator('li:has-text("Risk of harm in the community")').first()).toContainText(
-        'COMPLETED'.toLowerCase()
-    )
+    await expect(page.locator('li:has-text("Risk of harm in the community")').first()).toContainText('Completed')
     await expect(page.locator('#main-content h1')).toHaveText('Community payback assessment')
 }

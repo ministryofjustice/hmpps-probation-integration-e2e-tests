@@ -8,5 +8,5 @@ export const login = async (page: Page) => {
     await page.click('#submit')
     await expect(page).toHaveTitle(/HMPPS Digital Services - Home/)
     await page.getByRole('link', { name: 'Manage SOC Cases' }).click()
-    await expect(page).toHaveTitle(/Manage SOC Cases/)
+    await expect(page).toHaveTitle(/Manage SOC cases/)
 }

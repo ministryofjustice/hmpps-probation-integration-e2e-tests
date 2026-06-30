@@ -17,6 +17,6 @@ export const completeGPDetails = async (page: Page) => {
     await expect(page.locator('.govuk-heading-xl')).toContainText('GP Details')
     await page.locator('#gp_details_complete').click()
     await page.getByRole('button', { name: 'Save' }).click()
-    await expect(page.locator('li:has-text("GP Details")').first()).toContainText('COMPLETED'.toLowerCase())
+    await expect(page.locator('li:has-text("GP Details")').first()).toContainText('Completed')
     await expect(page.locator('#main-content h1')).toHaveText('Community payback assessment')
 }

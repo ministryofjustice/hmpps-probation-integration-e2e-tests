@@ -1,5 +1,4 @@
 import { test } from '@playwright/test'
-import * as dotenv from 'dotenv'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { login as cas3Login } from '../../steps/cas3-transitional-accommodation/login'
 import { login as deliusLogin } from '../../steps/delius/login'
@@ -9,12 +8,13 @@ import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { submitCAS3Referral } from '../../steps/cas3-transitional-accommodation/application'
 import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { contact } from '../../steps/delius/utils/contact'
-
-dotenv.config() // read environment variables into process.env
+import { slow } from '../../steps/common/common'
 
 const nomisIds = []
 
 test('Submit a Transitional Accommodation CAS3 referral', async ({ page }) => {
+    slow()
+
     // Step 1: Log in to Delius
     await deliusLogin(page)
 

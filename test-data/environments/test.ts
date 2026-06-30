@@ -1,9 +1,11 @@
 import { type TestData } from '../test-data'
 
+// Static / well-known data that is unique to the test environment
 export const testEnvironmentData: TestData = {
     documentTemplates: {
         shortFormatPreSentenceReport: 'Nat Short format pre-sentence report pilot',
         oralPreSentenceReport: 'Record of Oral Pre-Sentence Report',
+        adjournedPsr: 'Adjourned PSR',
     },
     contacts: {
         initialAppointment: {
@@ -61,9 +63,17 @@ export const testEnvironmentData: TestData = {
             name: 'The Crescent',
             provider: 'North East Region',
         },
+        unpaidWorkTestTeam: {
+            name: 'Default Designated Transfer Team',
+            provider: 'East of England',
+        },
+        accreditedProgrammesTestTeam: {
+            name: 'CPB Automated Test Team',
+            provider: 'London',
+        },
         genericTeam: {
-            name: 'OMU A',
-            provider: 'NPS North East',
+            name: 'Vale - Team',
+            provider: 'Wales',
         },
     },
     prisoners: {

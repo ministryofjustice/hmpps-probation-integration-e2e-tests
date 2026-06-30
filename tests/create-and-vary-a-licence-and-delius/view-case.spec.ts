@@ -1,18 +1,15 @@
 import { expect, test } from '@playwright/test'
-import * as dotenv from 'dotenv'
 import { data } from '../../test-data/test-data'
-import { login as deliusLogin } from '../../steps/delius/login.js'
-import { recallPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api.js'
-import { discardAllLicences } from '../../steps/api/cvl/cvl-api.js'
-import { deleteLicenceConditions } from '../../steps/delius/licence-condition/delete-licence-condition.js'
-import { refreshUntil } from '../../steps/delius/utils/refresh.js'
-import { approveLicence, createLicence } from '../../steps/cvl-licences/application.js'
+import { login as deliusLogin } from '../../steps/delius/login'
+import { recallPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
+import { discardAllLicences } from '../../steps/api/cvl/cvl-api'
+import { deleteLicenceConditions } from '../../steps/delius/licence-condition/delete-licence-condition'
+import { refreshUntil } from '../../steps/delius/utils/refresh'
+import { approveLicence, createLicence } from '../../steps/cvl-licences/application'
 import {
     deliusLicenceCondition,
     navigateToLicenceConditions,
-} from '../../steps/delius/licence-condition/create-licence-condition.js'
-
-dotenv.config() // read environment variables into process.env
+} from '../../steps/delius/licence-condition/create-licence-condition'
 
 test('View case in Create and Vary a Licence', async ({ page }) => {
     const { crn, nomsNumber } = data.prisoners.sentencedPrisonerWithReleaseDate
@@ -27,7 +24,7 @@ test('View case in Create and Vary a Licence', async ({ page }) => {
 
     // Create a licence in CVL and approve it.
     await createLicence(page, crn, nomsNumber)
-    await approveLicence(page, crn, nomsNumber)
+    await approveLicence(page, nomsNumber, 'Swansea (HMP)')
 
     // Release the prisoner to apply the licence conditions.
     await releasePrisoner(nomsNumber)
@@ -46,7 +43,7 @@ const resetLicenceCase = async () => {
     //Recall the prisoner and discard all the existing licences
     try {
         await recallPrisoner(data.prisoners.sentencedPrisonerWithReleaseDate.nomsNumber)
-    } catch (e) {
+    } catch {
         console.log('Recall Failed, Likely to be already in the prison')
     }
     await discardAllLicences(data.prisoners.sentencedPrisonerWithReleaseDate.crn)

@@ -1,13 +1,14 @@
 import { expect, Locator, Page } from '@playwright/test'
-import { format, parse } from 'date-fns'
+import { DateTime } from 'luxon'
 
 export async function addCourtToUser(page: Page, court: string) {
     await page.getByRole('button', { name: /Accept analytics cookies/ }).click()
+    await page.getByRole('link', { name: 'Edit my courts' }).click()
     await page.focus('#pac-select-court')
     await page.keyboard.type(court)
     await page.keyboard.press('Enter')
     await page.getByRole('button', { name: 'Add' }).click()
-    await page.locator('[href="?save=true"]', { hasText: 'Save  and continue' }).click()
+    await page.locator('[href="?save=true"]', { hasText: 'Save list and continue' }).click()
     await expect(page).toHaveTitle('My courts - Prepare a case for sentence')
     await page.getByRole('link', { name: court }).click()
     await expect(page).toHaveTitle('Case list - Prepare a case for sentence')
@@ -29,10 +30,15 @@ export async function searchAndClickDefendantAndGetHeader(
 
 export async function formatDateToPrepareCase(dateString: string): Promise<string> {
     // Parse the date string in the format 'DD/MM/YYYY'
-    const parsedDate = parse(dateString, 'dd/MM/yyyy', new Date())
+    const parsedDate = DateTime.fromFormat(dateString, 'dd/MM/yyyy')
+
+    // Check if the date is valid
+    if (!parsedDate.isValid) {
+        throw new Error('Invalid date format')
+    }
 
     // Format the parsed date to 'D MMM YYYY'
-    return format(parsedDate, 'd MMM yyyy')
+    return parsedDate.toFormat('d MMM yyyy')
 }
 
 export async function extractRegistrationDetails(page: Page) {
@@ -60,7 +66,7 @@ export async function extractRegistrationDetails(page: Page) {
 export async function extractProbationRecordDetails(page: Page): Promise<{ outcome: string; offence: string }> {
     await page.getByRole('link', { name: 'Probation record' }).click()
     await expect(page).toHaveTitle('Probation record - Prepare a case for sentence')
-    const outcome = await page.locator('[href^="record/"]').innerText()
-    const offence = await page.locator('p:nth-of-type(2)').first().innerText()
+    const outcome = await page.locator('.govuk-summary-card__title').innerText()
+    const offence = await page.locator('dd p.govuk-body').first().innerText()
     return { outcome, offence }
 }

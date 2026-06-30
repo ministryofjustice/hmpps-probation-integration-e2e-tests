@@ -18,6 +18,7 @@ export enum UserType {
     OPD,
     ApprovedPSORole,
     AccreditedProgrammesAssessment,
+    ManageAndDeliver,
 }
 
 const oasysUserConfig = (userType: UserType) => {
@@ -41,6 +42,11 @@ const oasysUserConfig = (userType: UserType) => {
             return {
                 username: process.env.OASYS_USERNAME_ACCREDITED_PROGRAMMES,
                 password: process.env.OASYS_PASSWORD_ACCREDITED_PROGRAMMES,
+            }
+        case UserType.ManageAndDeliver:
+            return {
+                username: process.env.OASYS_USERNAME_MANAGE_AND_DELIVER,
+                password: process.env.OASYS_PASSWORD_MANAGE_AND_DELIVER,
             }
     }
 }

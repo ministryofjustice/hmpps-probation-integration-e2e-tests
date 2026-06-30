@@ -19,7 +19,7 @@ import {
     selfAssessmentForm,
 } from '../create-assessment'
 import { completeRoSHSection1MarkAllNo } from '../section-1'
-import { clickSection2To4, clickSection2To4NextButton } from '../section-2-4'
+import { clickSection2To4, clickSection2To4NextButton, clickSection2To4RoshYes } from '../section-2-4'
 import { completeRoSHSection5FullAnalysis, completeRoSHSection5FullAnalysisYes } from '../section-5'
 import { completeRoSHSection10RoSHSummary } from '../section-10'
 import { completeRiskManagementPlan } from '../risk-management-plan'
@@ -27,10 +27,20 @@ import { completeOffenceAnalysis, completeOffenceAnalysisYes } from '../analysis
 import { Person } from '../../../delius/utils/person'
 import { completeRoSHSection9RoSHSummary } from './section-9'
 import { completeReviewSentencePlan } from './review-sentenceplan'
-import { addYears } from 'date-fns'
+import { DateTime } from 'luxon'
 import { completeRoSHFullSec8RisksToIndvdl } from '../rosh-full-analysis-section8'
+import { completeRoSHSection8FullAnalysisYes } from '../section-8'
 
-export const createLayer3CompleteAssessment = async (page: Page, crn: string, person: Person, nomisId?: string) => {
+type Needs = 'Yes' | 'No'
+
+export const createLayer3CompleteAssessment = async (
+    page: Page,
+    crn: string,
+    person: Person,
+    needs: Needs = 'No',
+    nomisId?: string,
+    highRoshScore: boolean = false
+) => {
     let providerEstablishmentPageExists = false
 
     try {
@@ -38,9 +48,8 @@ export const createLayer3CompleteAssessment = async (page: Page, crn: string, pe
         await page.waitForSelector('#loginbodyheader > h2', { timeout: 5000 })
         providerEstablishmentPageExists =
             (await page.locator('#loginbodyheader > h2').innerText()) === 'Provider/Establishment'
-    } catch (error) {
+    } catch {
         // If the element is not found within the timeout, set providerEstablishmentPageExists to false
-        console.error('Provider/Establishment page element not found within timeout.')
         providerEstablishmentPageExists = false
     }
 
@@ -71,24 +80,41 @@ export const createLayer3CompleteAssessment = async (page: Page, crn: string, pe
     // And I start creating Layer 3 Assessment
     await createLayer3Assessment(page)
     // And I complete section 1
-    await clickSection1(page, addYears(person.dob, 15))
+    await clickSection1(page, DateTime.fromJSDate(person.dob).plus({ years: 15 }).toJSDate())
     // And I complete section 2 to 13
-    await clickSection2to13(page)
+    await clickSection2to13(page, needs)
     // And I Click on "RoSH Screening" Section
     await selfAssessmentForm(page)
     await clickRoSHScreeningSection1(page)
     // And I complete RoSH Screening Section 1 and Click Save & Next
     await completeRoSHSection1MarkAllNo(page)
-    // And I Click on "RoSH Screening" - Section 2 to 4 & and Click Next without selecting/entering anything
-    await clickSection2To4(page, person)
-    // And I complete "RoSH Screening" Section 5 and Click Save & Next
-    await completeRoSHSection5FullAnalysis(page)
-    // And I Click on "RoSH Summary" Section
-    await clickRoSHSummary(page)
-    // And I complete "RoSH Summary - R9" Questions
-    await completeRoSHSection9RoSHSummary(page)
-    // And I complete "RoSH Summary - R10" Questions
-    await completeRoSHSection10RoSHSummary(page)
+
+    if (highRoshScore) {
+        console.log('High RoSH Score is true')
+        // And I Click on "RoSH Screening" - Section 2 to 4 & and Click Next without selecting/entering anything
+        await clickSection2To4RoshYes(page, person)
+        // // And I complete "RoSH Screening" Section 5 and Click Save & Next
+        await completeRoSHSection5FullAnalysis(page)
+        // And I complete "'R8 Risks to the individual - full analysis'" Section 5 and Click Save & Next
+        await completeRoSHSection8FullAnalysisYes(page)
+        // And I complete "RoSH Summary - R9" Questions
+        await completeRoSHSection9RoSHSummary(page)
+        // And I complete "RoSH Summary - R10" Questions
+        await completeRoSHSection10RoSHSummary(page, highRoshScore)
+    } else {
+        console.log('High RoSH Score is false')
+        // And I Click on "RoSH Screening" - Section 2 to 4 & and Click Next without selecting/entering anything
+        await clickSection2To4(page, person)
+        // // And I complete "RoSH Screening" Section 5 and Click Save & Next
+        await completeRoSHSection5FullAnalysis(page)
+        // And I Click on "RoSH Summary" Section
+        await clickRoSHSummary(page)
+        // And I complete "RoSH Summary - R9" Questions
+        await completeRoSHSection9RoSHSummary(page)
+        // And I complete "RoSH Summary - R10" Questions
+        await completeRoSHSection10RoSHSummary(page)
+    }
+
     // And I Click on "Risk Management Plan" Section
     await clickRiskManagementPlan(page)
     // And I complete "Risk Management Plan" Questions
@@ -100,7 +126,7 @@ export const createLayer3CompleteAssessment = async (page: Page, crn: string, pe
     // And I complete Offence Analysis Plan Questions
     await completeOffenceAnalysisYes(page)
 }
-export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string) => {
+export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string, highRoshScore: boolean = false) => {
     // And I select "Warwickshire" from Choose Provider Establishment
     await selectRegion(page)
     // And I click on the Search button from the top menu
@@ -130,7 +156,7 @@ export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string
     // And I Click on "RoSH Summary" Section
     await clickRoSHSummary(page)
     // And I complete "RoSH Summary - R10" Questions
-    await completeRoSHSection10RoSHSummary(page)
+    await completeRoSHSection10RoSHSummary(page, highRoshScore)
     // And I Click on "Risk Management Plan" Section
     await clickRiskManagementPlan(page)
     // And I complete "Risk Management Plan" Questions

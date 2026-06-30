@@ -1,3 +1,4 @@
 self-hosted-runner:
   labels:
-    - moj-cloud-platform
+    - hmpps-github-actions-runner
+    - self-hosted

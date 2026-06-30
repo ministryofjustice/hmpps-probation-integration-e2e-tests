@@ -1,6 +1,4 @@
 import { expect, test } from '@playwright/test'
-import * as dotenv from 'dotenv'
-dotenv.config() // read environment variables into process.env
 import { login as deliusLogin } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
@@ -8,22 +6,23 @@ import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
-import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
-import { login as accreditedProgrammesLogin } from '../../steps/accredited-programmes/login.js'
+import { login as accreditedProgrammesLogin } from '../../steps/accredited-programmes/login'
 import {
+    apFormattedTodayDate as todaysDate,
     assertRoSHRiskTable,
     briefOffenceDetailsSummaryCard,
     clickOnOffenderLink,
     findProgrammeAndMakeReferral,
-    oasysImportDateText,
-} from '../../steps/accredited-programmes/application.js'
-
-import { apFormattedTodayDate as todaysDate } from '../../steps/accredited-programmes/application.js'
+    verifyAssessmentDateTextToBe,
+} from '../../steps/accredited-programmes/application'
+import { slow } from '../../steps/common/common'
+import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock.js'
 
 const nomisIds = []
 
 test('View OASys assessments in Accredited Programmes service', async ({ page }) => {
-    test.slow()
+    slow()
+
     // Step 1: Create new Offender & event in nDelius
     await deliusLogin(page)
     const person = deliusPerson()
@@ -36,25 +35,29 @@ test('View OASys assessments in Accredited Programmes service', async ({ page })
 
     // Step 3: Create a Layer 3 Assessment in OASys
     await oasysLogin(page, UserType.AccreditedProgrammesAssessment)
-    await createLayer3CompleteAssessment(page, crn, person, nomisId)
-    await addLayer3AssessmentNeeds(page)
+    await createLayer3CompleteAssessment(page, crn, person, 'Yes', nomisId, true)
+    await signAndlock(page)
 
     // Step 4: Make referral in Accredited Programmes
     await accreditedProgrammesLogin(page)
     await findProgrammeAndMakeReferral(page, nomisId)
 
     // Step 5: Verify OASys assessment data in Accredited Programmes service
-    await clickOnOffenderLink(page, 'Date referred', `${person.firstName} ${person.lastName}`)
-    await expect(page).toHaveTitle(/HMPPS Accredited Programmes - Referral to Becoming New Me Plus: sexual offence/)
+    await page.getByTestId('search-input').fill(nomisId)
+    await page.getByRole('button', { name: 'Search', exact: true }).click()
+    await clickOnOffenderLink(page, 'Date referred', `${person.lastName}, ${person.firstName}`)
+
+    // await clickOnOffenderLink(page, 'Date referred', `Runte, Ginger`)
+    await expect(page).toHaveTitle(/Status history for referral to Becoming New Me Plus: general violence offence/)
     await page.getByRole('link', { name: 'Risks and needs' }).click()
-    await expect(page.locator(oasysImportDateText)).toHaveText(`Imported from OASys on ${todaysDate}.`)
+    await verifyAssessmentDateTextToBe(page, `Assessment completed ${todaysDate}`)
     await page.getByRole('link', { name: 'Risks and alerts' }).click()
     await assertRoSHRiskTable(page, {
         riskToChildren: 'Very high',
         riskToPublic: 'Medium',
         riskToKnownAdult: 'High',
         riskToStaff: 'Medium',
-        riskToPrisoners: 'Not applicable',
+        riskToPrisoners: 'N/A',
     })
     await page.getByRole('link', { name: 'Section 2 - Offence analysis' }).click()
     await expect(page.locator(briefOffenceDetailsSummaryCard)).toContainText(

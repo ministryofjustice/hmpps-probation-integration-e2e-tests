@@ -3,8 +3,8 @@ import { login as deliusLogin } from '../../steps/delius/login'
 import { login as hmppsLogin } from '../../steps/hmpps-auth/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
-import { createRestrictions } from '../../steps/delius/restriction/create-restrictions.js'
-import { getRisksFromArns } from '../../steps/api/arns/arns-api.js'
+import { createRestrictions } from '../../steps/delius/restriction/create-restrictions'
+import { getRisksFromArns } from '../../steps/api/arns/arns-api'
 
 test('Verify ARNS endpoint returns 403 for restricted Delius case', async ({ page }) => {
     // Login to NDelius and create an offender

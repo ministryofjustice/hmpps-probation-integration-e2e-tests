@@ -32,45 +32,8 @@ jobs:
       passed-projects: ${{ steps.run.outputs.passed-projects }}
       report-url: ${{ steps.run.outputs.report-url }}
     steps:
-      - uses: actions/checkout@v4
-      - name: Run tests
-        id: run
-        run: |
-          # Start workflow run
-          gh workflow run test.yml --repo "$repo" -f "projects=$projects" && sleep 10 || exit 1
-          run_id=$(gh run list --workflow=test.yml --repo "$repo" -L1 --json databaseId --jq '.[0].databaseId')
-          echo "Workflow started, follow the logs here: https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests/actions/runs/$run_id"
-          
-          # Wait for it to complete
-          gh run watch "$run_id" --repo "$repo" --interval 60
-          
-          # Print any failure logs
-          gh run view "$run_id" --repo "$repo" --log-failed
-          
-          # Parse GitHub outputs from log
-          log=$(gh run view "$run_id" --repo "$repo" --log)
-          echo "$log" | sed -n '/ passed-projects=/s/.* //p' | tee -a "$GITHUB_OUTPUT"
-          echo "$log" | sed -n '/ failed-projects=/s/.* //p' | tee -a "$GITHUB_OUTPUT"
-          echo "$log" | sed -n '/ report-url=/s/.* //p' | tee -a "$GITHUB_OUTPUT"
-          
-          # Check status
-          conclusion=$(gh run view "$run_id" --repo "$repo" --json conclusion --jq '.conclusion')
-          echo "Workflow conclusion: $conclusion"
-          if [ "$conclusion" != "success" ]; then exit 1; fi
-        env:
-          repo: ministryofjustice/hmpps-probation-integration-e2e-tests
+      - id: run
+        uses: ./.github/actions/run-tests
+        with:
           projects: ${{ inputs.projects }}
-          GITHUB_TOKEN: ${{ secrets.token }}
-
-      - name: Add test summary
-        if: always()
-        run: |
-          passed_count=$(echo "$passed_projects" | jq '. | length')
-          failed_count=$(echo "$failed_projects" | jq '. | length')
-          total_count=$(( passed_count + failed_count ))
-          echo -e "<table><tr><th><th>Tests</th><th>Passed ✅</th><th>Failed ❌</th></tr><tr><td>End-to-end test results</td><td>$total_count ran</td><td>$passed_count passed</td><td>$failed_count failed</td></tr></table>\n" | tee -a "$GITHUB_STEP_SUMMARY"
-          echo "[🎭 Playwright HTML Report]($report_url)" | tee -a "$GITHUB_STEP_SUMMARY"
-        env:
-          passed_projects: ${{ steps.run.outputs.passed-projects }}
-          failed_projects: ${{ steps.run.outputs.failed-projects }}
-          report_url: ${{ steps.run.outputs.report-url }}
+          token: ${{ secrets.token }}

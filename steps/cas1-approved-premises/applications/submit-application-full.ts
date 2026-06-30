@@ -1,7 +1,5 @@
 import { expect, type Page } from '@playwright/test'
 import { enterCRN } from './enter-crn'
-import { clickSaveAndContinue } from './confirm-details'
-import { clickExceptionalCaseYes } from './application-not-eligible'
 import { selectSentenceType } from './select-sentence-type'
 import { selectSituationOption } from './select-situation-option'
 import { selectReleaseDateKnownStatus } from './release-date-known-status'
@@ -20,7 +18,6 @@ import {
     clickTypeOfAPRequiredLink,
 } from './task-list'
 import { selectTypeOfAPRequired } from './select-type-ap-required'
-import { addExemptionDetails } from './add-exemption-details'
 import { addRisksNeedsDetails } from './add-details-managing-risks-needs'
 import { reviewPrisoninformation } from './review-prison-information'
 import { addLocationFactors } from './location-factors'
@@ -31,17 +28,15 @@ import { attachReqrdDocuments } from './attach-required-documents'
 import { checkYourAnswers } from './check-your-answers'
 import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status'
 import { confirmYourDetails } from './confirm-your-details'
-import { applicationOutsideNSTimescales } from './application-outside-national-standards.js'
+import { applicationOutsideNSTimescales } from './application-outside-national-standards'
+import { selectOffence } from './select-offence'
+import { selectAPPlacingReason } from './select-ap-placing-reason'
 
 export const submitAPApplication = async (page: Page, crn: string) => {
     // And I enter the CRN & Submit
     await enterCRN(page, crn)
-    // And I click on Save and Continue confirming the offender's details
-    await clickSaveAndContinue(page)
-    // And I say this an exceptional case
-    await clickExceptionalCaseYes(page)
-    // And I say add the agreed date and exception details
-    await addExemptionDetails(page)
+    // And I select the offence
+    await selectOffence(page)
     // And I confirm the user's details
     await confirmYourDetails(page)
     // And I select their transgender status
@@ -50,8 +45,8 @@ export const submitAPApplication = async (page: Page, crn: string) => {
     await enterSedLedPssDates(page)
     // And I select Sentence Type and click on Submit
     await selectSentenceType(page)
-    // And I select "Referral for risk management" Option that describes the situation
-    await selectSituationOption(page)
+    // I select Approved Premises Placing reason
+    await selectAPPlacingReason(page)
     // And I select that I know release date
     await selectReleaseDateKnownStatus(page)
     // And I confirm short notice application status

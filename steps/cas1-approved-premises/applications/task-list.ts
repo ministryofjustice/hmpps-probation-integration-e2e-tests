@@ -1,9 +1,6 @@
 import { type Page, expect } from '@playwright/test'
 import { login as approvedPremisesLogin, navigateToApplications } from '../login'
 import { enterCRN } from './enter-crn'
-import { clickSaveAndContinue } from './confirm-details'
-import { clickExceptionalCaseYes } from './application-not-eligible'
-import { addExemptionDetails } from './add-exemption-details'
 import { selectSentenceType } from './select-sentence-type'
 import { selectSituationOption } from './select-situation-option'
 import { selectReleaseDateKnownStatus } from './release-date-known-status'
@@ -13,6 +10,7 @@ import { selectTypeOfAPRequired } from './select-type-ap-required'
 import { enterSedLedPssDates, selectTransgenderStatus } from './select-transgender-status'
 import { confirmYourDetails } from './confirm-your-details'
 import { applicationOutsideNSTimescales } from './application-outside-national-standards'
+import { selectOffence } from './select-offence'
 
 export const clickTypeOfAPRequiredLink = async (page: Page) => {
     await page.locator('a', { hasText: 'Type of AP required' }).click()
@@ -62,7 +60,7 @@ export const clickAddMoveOnInfoLink = async (page: Page) => {
 export const clickAttachRqrdDocumentsLink = async (page: Page) => {
     await page.locator('a', { hasText: 'Attach required documents' }).click()
     await expect(page.locator('#main-content h1')).toContainText(
-        'Select any additional documents that are required to support your application'
+        'Select any relevant documents to support your application'
     )
 }
 
@@ -72,6 +70,7 @@ export const clickCheckYourAnswersLink = async (page: Page) => {
 }
 
 export const verifyRoshScoresAreAsPerOasys = async (page: Page) => {
+    await expect(page.locator('.govuk-heading-l')).toHaveText('RoSH summary')
     await expect(page.locator(`td:right-of(:text-is("Children"))`).first()).toHaveText('Very high')
     await expect(page.locator(`td:right-of(:text-is("Public"))`).first()).toHaveText('Medium')
     await expect(page.locator(`td:right-of(:text-is("Known adult"))`).first()).toHaveText('High')
@@ -81,52 +80,32 @@ export const verifyRoshScoresAreAsPerOasys = async (page: Page) => {
 export const navigateToTaskListPage = async (page: Page, crn: string) => {
     // When I login in to Approved Premises
     await approvedPremisesLogin(page)
-
     // And I navigate to AP Applications
     await navigateToApplications(page)
-
     // And I enter the CRN & Submit
     await enterCRN(page, crn)
-
     // And I click on Save and Continue confirming the offender's details
-    await clickSaveAndContinue(page)
-
-    // And I say this an exceptional case
-    await clickExceptionalCaseYes(page)
-
-    // And I say add the agreed date and exception details
-    await addExemptionDetails(page)
-
-    // And I confirm the user's details
+    await selectOffence(page)
+    // And I confirm my details
     await confirmYourDetails(page)
-
     // And I say there no transgender history
     await selectTransgenderStatus(page)
-
     // And I enter Sentence end date (SED), Licence end date (LED), Post-sentence supervision (PSS)
     await enterSedLedPssDates(page)
-
     // And I select Sentence Type and click on Submit
     await selectSentenceType(page)
-
     // And I select "Referral for risk management" Option that describes the situation
     await selectSituationOption(page)
-
     // And I select that I know release date
     await selectReleaseDateKnownStatus(page)
-
     // And I confirm placement start date is same as release date
     await confirmPlacementStartdate(page)
-
     // And I select the reason for application being submitted outside of National Standards timescales
     await applicationOutsideNSTimescales(page)
-
     // And I select "Public protection" as the purpose of the Approved Premises (AP) placement
     await selectAPPlacementPurpose(page)
-
     // And I click on Type Of AP Required Link
     await clickTypeOfAPRequiredLink(page)
-
     // And I select Type Of Approved Premises Required and Click on Submit
     await selectTypeOfAPRequired(page)
 }

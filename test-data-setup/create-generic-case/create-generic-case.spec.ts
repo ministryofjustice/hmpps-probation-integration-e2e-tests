@@ -2,7 +2,7 @@ import { test } from '@playwright/test'
 import { login as loginDelius } from '../../steps/delius/login'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { createOffender } from '../../steps/delius/offender/create-offender'
-import { createCustodialEvent } from '../../steps/delius/event/create-event'
+import { createCommunityEvent, createCustodialEvent } from '../../steps/delius/event/create-event'
 import {
     createAndBookPrisoner,
     createAndBookPrisonerWithoutDeliusLink,
@@ -11,20 +11,34 @@ import {
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
-import { addCourtHearing } from '../../steps/court-case/add-court-hearing'
+import { addCourtHearing } from '../../steps/api/court-case/court-case-api'
+import { hearingData } from '../../steps/court-case/hearing-data'
+import { slow } from '../../steps/common/common'
+import { transferToDeliusUser } from '../../steps/delius/transfer/internal-transfer'
 
 test('Create a case in multiple systems', async ({ page }) => {
-    test.slow()
+    slow()
     const person = deliusPerson()
 
     if (process.env.CREATE_DELIUS_RECORD === 'true') {
         await loginDelius(page)
-        const crn = await createOffender(page, { person })
+
+        const owningProvider = process.env.ALLOCATION_PROVIDER !== '' ? process.env.ALLOCATION_PROVIDER : null
+        const crn = await createOffender(page, { person, providerName: owningProvider })
         if (process.env.CREATE_NOMIS_RECORD === 'true') {
             await createCustodialEvent(page, { crn })
             const { nomisId } = await createAndBookPrisoner(page, crn, person)
             await releasePrisoner(nomisId)
+        } else {
+            await createCommunityEvent(page, { crn })
         }
+        if (process.env.ALLOCATE_TO_USER) {
+            const team = process.env.TEAM
+            const firstName = process.env.ALLOCATION_FIRST_NAME
+            const lastName = process.env.ALLOCATION_LAST_NAME
+            await transferToDeliusUser(page, { crn, provider: owningProvider, team, firstName, lastName })
+        }
+
         if (process.env.CREATE_OASYS_ASSESSMENT === 'true') {
             await oasysLogin(page, UserType.Booking)
             await createLayer3CompleteAssessment(page, crn, person)
@@ -40,6 +54,6 @@ test('Create a case in multiple systems', async ({ page }) => {
         }
     }
     if (process.env.CREATE_COURT_HEARING === 'true') {
-        await addCourtHearing(person)
+        await addCourtHearing(hearingData(person))
     }
 })

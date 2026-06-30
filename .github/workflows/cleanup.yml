@@ -1,0 +1,70 @@
+name: Cleanup
+
+on:
+  # Every weekday at 09:00 UTC
+  schedule:
+    - cron: "0 9 * * MON-FRI"
+  # Run manually via GitHub API
+  workflow_dispatch:
+
+jobs:
+  allocate-cases:
+    runs-on: [ self-hosted, hmpps-github-actions-runner ]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npx playwright install
+
+      - name: Run Playwright script
+        id: tests
+        run: npx playwright test -g 'Allocate unallocated workforce crns in delius'
+        env:
+          TZ: Europe/London
+          ENV: test
+          TEST_DIR: test-data-setup
+          # URLs
+          DELIUS_URL: https://ndelius.test.probation.service.justice.gov.uk
+          WORKFORCE_URL: https://workforce-management-dev.hmpps.service.justice.gov.uk
+          # Credentials
+          DELIUS_USERNAME: ${{ secrets.E2E_DELIUS_USERNAME }}
+          DELIUS_PASSWORD: ${{ secrets.E2E_DELIUS_PASSWORD }}
+
+  delete-addresses:
+    runs-on: [ self-hosted, hmpps-github-actions-runner ]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npx playwright install
+
+      - name: Run Playwright script
+        id: tests
+        run: npx playwright test -g 'Delete previous addresses for a given offender'
+        env:
+          TZ: Europe/London
+          ENV: test
+          TEST_DIR: test-data-setup
+          # URLs
+          DELIUS_URL: https://ndelius.test.probation.service.justice.gov.uk
+          # Credentials
+          DELIUS_USERNAME: ${{ secrets.E2E_DELIUS_USERNAME }}
+          DELIUS_PASSWORD: ${{ secrets.E2E_DELIUS_PASSWORD }}
+          # Inputs
+          OFFENDER_CRN: X371199

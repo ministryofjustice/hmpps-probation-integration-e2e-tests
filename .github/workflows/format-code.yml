@@ -1,35 +1,38 @@
 name: Format code
 
-on:
-  pull_request:
-    types: [ opened, edited, reopened, synchronize ]
+on: pull_request
+
+permissions:
+  contents: read
 
 jobs:
   fix-formatting:
     runs-on: ubuntu-latest
     if: github.actor != 'dependabot[bot]'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           cache: npm
+          node-version-file: .nvmrc
 
-      - run: npm ci
+      - run: |
+          npm ci
+          npx eslint . --fix
+          git add .
 
-      - run: npx eslint . --fix
-
-      - name: Setup GPG commit verification
-        uses: crazy-max/ghaction-import-gpg@01dd5d3ca463c7f10f7f4f7b4f177225ac661ee4 # v6.1.0
+      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        id: app-token
         with:
-          gpg_private_key: ${{ secrets.BOT_GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.BOT_GPG_PASSPHRASE }}
-          git_user_signingkey: true
-          git_commit_gpgsign: true
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
-      - uses: stefanzweifel/git-auto-commit-action@8621497c8c39c72f3e2a999a26b4ca1b5058a842 # v5.0.1
+      - name: Commit and push
+        uses: grafana/github-api-commit-action@b1d81091e8480dd11fcea8bc1f0ab977a0376ca5 # v1.0.0
         with:
-          commit_message: Formatting changes
-          commit_user_name: probation-integration-bot
-          commit_user_email: probation-integration-team@digital.justice.gov.uk
-          commit_author: probation-integration-bot <probation-integration-team@digital.justice.gov.uk>
+          success-if-no-changes: true
+          commit-message: Formatting changes
+          token: ${{ steps.app-token.outputs.token }}

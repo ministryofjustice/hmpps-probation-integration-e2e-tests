@@ -3,10 +3,8 @@ import { login as deliusLogin } from '../../steps/delius/login'
 import { login as pathfinderLogin } from '../../steps/pathfinder/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
-import { pathfinderDateFormatter, referToPathfinder } from '../../steps/pathfinder/refer-to-pathfinder'
-import * as dotenv from 'dotenv'
-
-dotenv.config()
+import { referToPathfinder } from '../../steps/pathfinder/refer-to-pathfinder'
+import { DeliusDateFormatter } from '../../steps/delius/utils/date-time'
 
 test('Refer a community case to pathfinder', async ({ page }) => {
     // Given a new person in Delius
@@ -20,5 +18,5 @@ test('Refer a community case to pathfinder', async ({ page }) => {
 
     // Then I can see their Delius details
     await page.getByRole('button', { name: 'View summary' }).click()
-    await expect(page.locator('[data-qa=dob]')).toContainText(pathfinderDateFormatter(person.dob))
+    await expect(page.locator('[data-qa=dob]')).toContainText(DeliusDateFormatter(person.dob))
 })

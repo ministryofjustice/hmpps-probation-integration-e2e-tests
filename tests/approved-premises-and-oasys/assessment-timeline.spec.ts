@@ -1,6 +1,4 @@
 import { test } from '@playwright/test'
-import * as dotenv from 'dotenv'
-dotenv.config() // read environment variables into process.env
 import { login as deliusLogin } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
@@ -19,13 +17,15 @@ import { verifyRMPInfoIsAsPerOASys } from '../../steps/cas1-approved-premises/ap
 import { verifyOffenceAnalysisIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-offence-analysis'
 import { verifyRiskToSelfIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-risk-to-self'
 import { verifySupportingInfoIsAsPerOASys } from '../../steps/cas1-approved-premises/applications/edit-risk-information-supporting-info'
-import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
-import { addLayer3AssessmentNeedsReview } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
+import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
+import { slow } from '../../steps/common/common'
+import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock'
 
 const nomisIds = []
 
 test('View OASys assessments in Approved Premises service', async ({ page }) => {
-    test.slow() // increase the timeout - Delius/OASys/AP Applications can take a few minutes
+    slow()
+
     // Given I create new Offender in nDelius
     await deliusLogin(page)
     const person = deliusPerson()
@@ -40,20 +40,20 @@ test('View OASys assessments in Approved Premises service', async ({ page }) => 
 
     // And I create a Layer 3 Assessment with Needs in OASys
     await oasysLogin(page, UserType.Timeline)
-    await createLayer3AssessmentWithoutNeeds(page, crn)
-    await addLayer3AssessmentNeedsReview(page)
+    await createLayer3CompleteAssessment(page, crn, person, 'Yes', nomisId, true)
+    await signAndlock(page)
 
     // When I login in to Approved Premises and navigate to Applications Task-list page
     await navigateToTaskListPage(page, crn)
-
-    // And I Verify that the "RoSH Risk scores" in the RoSH Widget are as per OASys
-    await verifyRoshScoresAreAsPerOasys(page)
 
     // And I click on "Choose sections of OASys to import" link
     await clickChooseSectionsOfOASysToImportLink(page)
 
     // And I select the "Needs" related to the offender
     await selectNeedsAndSubmit(page)
+
+    // And I Verify that the "RoSH Risk scores" in the RoSH Widget are as per OASys
+    await verifyRoshScoresAreAsPerOasys(page)
 
     // Then I verify that "RoSH Summary", "Risk Management Plan", "Offence Analysis", "Risk to Self" information &  "Supporting Information"  is as per the OASys
     await verifyRoSHSummaryIsAsPerOASys(page)

@@ -1,20 +1,27 @@
-import { format } from 'date-fns'
-import { v4 } from 'uuid'
+import { DateTime } from 'luxon'
+import { randomUUID } from 'crypto'
 import { Person } from '../delius/utils/person'
 import { faker } from '@faker-js/faker'
+import { buildAddress } from '../delius/address/create-address'
 
-export const SHEFFIELD_COURT = {
-    code: 'B14LO',
-    description: 'Sheffield Magistrates Court',
+export const OXFORD_MAGISTRATE_COURT = {
+    code: 'B43KB00',
+    description: 'Oxford Magistrates Court',
 }
 
-export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.code, caseId: string = v4()) => ({
+export const hearingData = (
+    person: Person,
+    address = buildAddress(),
+    court = OXFORD_MAGISTRATE_COURT,
+    caseId: string = randomUUID()
+) => ({
     hearing: {
-        id: v4(),
+        id: randomUUID(),
         hearingDays: [
             {
                 listedDurationMinutes: 60,
-                sittingDay: `${format(new Date(), 'yyyy-MM-dd')}T09:00:00.000Z`,
+                sittingDay: DateTime.now().toUTC().toString(),
+                listingSequence: 1,
             },
         ],
         type: {
@@ -23,9 +30,10 @@ export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.
         },
         courtCentre: {
             id: '9b583616-049b-30f9-a14f-028a53b7cfe8',
-            code: courtCode,
+            code: court.code,
             roomId: '7cb09222-49e1-3622-a5a6-ad253d2b3c39',
             roomName: '01',
+            name: court.description,
         },
         jurisdictionType: 'MAGISTRATES',
         prosecutionCases: [
@@ -33,17 +41,17 @@ export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.
                 id: caseId,
                 defendants: [
                     {
-                        id: v4(),
+                        id: randomUUID(),
                         pncId: person.pnc,
                         prosecutionCaseId: caseId,
                         personDefendant: {
                             personDetails: {
                                 address: {
-                                    address1: faker.location.streetAddress(),
-                                    address2: faker.location.city(),
-                                    address3: faker.location.county(),
-                                    address5: faker.location.country(),
-                                    postcode: faker.location.zipCode(),
+                                    address1: address.streetAddress,
+                                    address2: address.cityName,
+                                    address3: address.county,
+                                    address5: address.country,
+                                    postcode: address.zipCode,
                                 },
                                 contact: {
                                     email: faker.internet.exampleEmail(),
@@ -51,7 +59,7 @@ export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.
                                     work: faker.phone.number(),
                                     mobile: faker.phone.number(),
                                 },
-                                dateOfBirth: format(person.dob, 'yyyy-MM-dd'),
+                                dateOfBirth: DateTime.fromJSDate(person.dob).toISODate(),
                                 firstName: person.firstName,
                                 gender: person.sex.toUpperCase(),
                                 lastName: person.lastName,
@@ -62,13 +70,13 @@ export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.
                             {
                                 id: '0c932f0c-282b-418e-b294-8966498b1eef',
                                 offenceLegislation:
-                                    'Contrary to section 20 of the Offences Against the Person Act 1861.',
-                                offenceTitle: 'Wound / inflict grievous bodily harm without intent',
+                                    'Contrary to section 47 of the Offences Against the Person Act 1861.',
+                                offenceTitle: 'Assault a person thereby occasioning them actual bodily harm',
                                 wording:
-                                    'on 01/08/2009 at  the County public house, unlawfully and maliciously wounded, John Smith',
+                                    'On 25/11/2023 at Oxford,  you assaulted John Smith, thereby occasioning him, actual bodily harm',
                                 listingNumber: 3,
-                                offenceDefinitionId: '1136fd5e-d9d3-4df6-a6a6-a79c8530379f',
-                                offenceCode: 'CJO3523',
+                                offenceDefinitionId: 'a86115ce-b611-38e3-8300-1d3d653f5b3a',
+                                offenceCode: 'OF61102',
                                 plea: {
                                     pleaValue: 'not guilty',
                                 },
@@ -79,9 +87,9 @@ export const hearingData = (person: Person, courtCode: string = SHEFFIELD_COURT.
                                 },
                                 judicialResults: [
                                     {
-                                        label: 'label',
+                                        label: 'Remanded in custody',
                                         resultText: 'resultText',
-                                        isConvictedResult: false,
+                                        isConvictedResult: true,
                                         judicialResultTypeId: 'id',
                                     },
                                 ],

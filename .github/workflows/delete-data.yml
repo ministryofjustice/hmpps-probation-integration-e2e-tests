@@ -1,0 +1,39 @@
+name: Delete test data
+
+on:
+  workflow_call:
+    inputs:
+      project:
+        description: Delete data for a specific offender
+        type: string
+        required: true
+      crn:
+        description: Offender's CRN
+        type: string
+        required: true
+  workflow_dispatch:
+    inputs:
+      project:
+        description: Delete data for a specific offender
+        type: choice
+        required: true
+        options:
+          - delete-previous-addresses-for-offender
+      crn:
+        description: Offender's CRN
+        type: string
+        required: true
+
+jobs:
+  delete-for-project:
+    uses: ./.github/workflows/test.yml
+    if: inputs.project == 'delete-previous-addresses-for-offender'
+    with:
+      directory: test-data-setup
+      projects: '["${{ inputs.project }}"]'
+      env: |
+        {
+          "OFFENDER_CRN": "${{ inputs.crn }}"
+        }
+      workers: 1
+    secrets: inherit

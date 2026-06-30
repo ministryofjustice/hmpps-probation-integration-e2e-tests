@@ -1,10 +1,13 @@
 import { expect, type Page } from '@playwright/test'
 import { findOffenderByName } from './find-offender'
 import { deliusPerson, type Person } from '../utils/person'
-import { fillDate, selectOption, selectOptionAndWait } from '../utils/inputs'
+import { fillDate, selectOption } from '../utils/inputs'
 import { doUntil } from '../utils/refresh'
 
-export async function createOffender(page: Page, args: { person?: Person; providerName?: string }): Promise<string> {
+export async function createOffender(
+    page: Page,
+    args: { person?: Person; providerName?: string } = {}
+): Promise<string> {
     try {
         const person = deliusPerson(args.person)
         await findOffenderByName(page, person.firstName, person.lastName)
@@ -15,7 +18,7 @@ export async function createOffender(page: Page, args: { person?: Person; provid
         await page.fill('#surname\\:inputText', person.lastName)
         await selectOption(page, '#sex\\:selectOneMenu', person.sex)
         await fillDate(page, '#dateOfBirth\\:datePicker', person.dob)
-        await selectOptionAndWait(page, '#identifierType\\:selectOneMenu', 'PNC')
+        await selectOption(page, '#identifierType\\:selectOneMenu', 'PNC')
         await page.fill('#identifierValue\\:inputText', person.pnc)
         await page.locator('input', { hasText: 'Add/Update' }).click()
         await doUntil(
@@ -34,7 +37,7 @@ export async function createOffender(page: Page, args: { person?: Person; provid
         console.log('Person details:', person)
         console.log('CRN:', crn)
         return crn
-    } catch (e) {
+    } catch {
         if ((await page.title()) === 'Error Page') {
             return await createOffender(page, args)
         }

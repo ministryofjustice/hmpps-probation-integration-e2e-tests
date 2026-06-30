@@ -1,6 +1,7 @@
 import { expect, Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
-import { getDate, getYear, subMonths } from 'date-fns'
+import { DateTime } from 'luxon'
+import { addMonths, getDate, getMonth, getYear, subMonths } from '../delius/utils/date-time'
 
 export async function submitApplication(page: Page, nomisId: string) {
     await startApplication(page)
@@ -24,7 +25,7 @@ export async function submitApplication(page: Page, nomisId: string) {
 
 async function startApplication(page: Page) {
     await page.getByRole('link', { name: 'Start a new application' }).click()
-    await expect(page).toHaveTitle('Home - Short-Term Accommodation (CAS-2)')
+    await expect(page).toHaveTitle('Home - CAS2 for HDC')
     await page.getByRole('button', { name: 'Start now' }).click()
     await expect(page).toHaveTitle(/Enter the person's prison number/)
 }
@@ -45,27 +46,36 @@ async function confirmEligibilityAndConsent(page: Page) {
     await page.getByLabel(/Yes/).check()
     await fillDateInput(page, 'When did they give consent?')
     await page.getByRole('button', { name: 'Save and continue' }).click()
-    await expect(page).toHaveTitle(
-        "The person's Home Detention Curfew (HDC) licence dates - Short-Term Accommodation (CAS-2)"
-    )
-    await fillDateInput(page, 'HDC eligibility date', 2) // Set HDC eligibility date before the conditional release date
-    await fillDateInput(page, 'conditional release date')
+    await expect(page).toHaveTitle("The person's Home Detention Curfew (HDC) licence dates - CAS2 for HDC")
+    // Fill HDC eligibility date 1 month in the future and ensure it is before the conditional release date
+    const hdcEligibilityDate = await fillDateInput(page, 'HDC eligibility date', 1)
+
+    // Fill conditional release date 2 months in the future from today
+    const conditionalReleaseDate = await fillDateInput(page, 'conditional release date', 2)
+
+    // Ensure the HDC eligibility date is before the conditional release date
+    if (hdcEligibilityDate >= conditionalReleaseDate) {
+        throw new Error('HDC eligibility date must be before the conditional release date.')
+    }
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(/Task list/)
 }
 
 async function fillDateInput(page: Page, label: string, offsetMonths: number = 0) {
-    const currentDate = new Date()
-    const date = subMonths(currentDate, offsetMonths) // Subtract months based on offset
+    // Calculate the target date
+    const currentDate = DateTime.now()
+    const targetDate =
+        offsetMonths >= 0 ? addMonths(currentDate, offsetMonths) : subMonths(currentDate, Math.abs(offsetMonths))
 
-    await page.getByRole('group', { name: label }).getByLabel('Day').fill(getDate(date).toString())
-    await page
-        .getByRole('group', { name: label })
-        .getByLabel('Month')
-        .fill((date.getMonth() + 3).toString()) // Add 3 to month because months are zero-based
-    await page.getByRole('group', { name: label }).getByLabel('Year').fill(getYear(date).toString())
+    // Ensure the day is valid for the target month
+    const validDate = targetDate.startOf('month').set({ day: Math.min(getDate(targetDate), targetDate.daysInMonth) })
 
-    return date
+    // Fill the date input fields
+    await page.getByRole('group', { name: label }).getByLabel('Day').fill(getDate(validDate).toString())
+    await page.getByRole('group', { name: label }).getByLabel('Month').fill(getMonth(validDate).toString())
+    await page.getByRole('group', { name: label }).getByLabel('Year').fill(getYear(validDate).toString())
+
+    return validDate.toJSDate()
 }
 
 async function addReferrerDetails(page: Page) {
@@ -202,11 +212,7 @@ async function riskToSelf(page: Page) {
     await page.getByRole('textbox').fill(faker.lorem.words())
     await page.getByText('I confirm this information is relevant and up to date.').click()
     await page.getByRole('button', { name: 'Save and continue' }).click()
-    await expect(page).toHaveTitle(/The person's current risks/)
-    await page.getByRole('textbox').fill(faker.lorem.words())
-    await page.getByText('I confirm this information is relevant and up to date.').click()
-    await page.getByRole('button', { name: 'Save and continue' }).click()
-    await expect(page).toHaveTitle(/The person's historical risks/)
+    await expect(page).toHaveTitle(/risks/)
     await page.getByRole('textbox').fill(faker.lorem.words())
     await page.getByText('I confirm this information is relevant and up to date.').click()
     await page.getByRole('button', { name: 'Save and continue' }).click()
@@ -225,14 +231,16 @@ async function riskToOthers(page: Page) {
     await expect(page).toHaveTitle(/Does the person have an older OASys with risk of serious harm \(RoSH\) information/)
     await page.getByLabel('No').check()
     await page.getByRole('button', { name: 'Save and continue' }).click()
+    await expect(page).toHaveTitle(/Create a RoSH summary for this person - CAS2 for HDC/)
+    await page.getByRole('group', { name: 'What risk do they pose to children?' }).getByLabel('Low').check()
+    await page.getByRole('group', { name: 'What risk do they pose to the public?' }).getByLabel('Medium').check()
+    await page.getByRole('group', { name: 'What risk do they pose to a known adult?' }).getByLabel('Medium').check()
+    await page.getByRole('group', { name: 'What risk do they pose to staff?' }).getByLabel('Low').check()
+    await page.getByRole('group', { name: 'What’s the overall risk?' }).getByLabel('Medium').check()
+    await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(/Risk to others for the person/)
     await page.getByLabel('Who is at risk?').fill(faker.person.fullName())
     await page.getByLabel('What is the nature of the risk?').fill(faker.lorem.words())
-    await page.getByText('I confirm this information is relevant and up to date.').click()
-    await page.getByRole('button', { name: 'Save and continue' }).click()
-    await expect(page).toHaveTitle(/Risk factors for the person/)
-    await page.getByLabel('What circumstances are likely to increase risk?').fill(faker.lorem.words())
-    await page.getByLabel('When is the risk likely to be greatest?').fill(faker.lorem.words())
     await page.getByText('I confirm this information is relevant and up to date.').click()
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(/Risk management arrangements/)
@@ -274,7 +282,7 @@ async function hdcDetails(page: Page) {
     await expect(page).toHaveTitle(/Who is the person's Community Probation Practitioner \(CPP\)/)
     await page.getByLabel('Full name').fill(faker.person.fullName())
     await page.getByLabel('Probation region').fill('London')
-    await page.getByLabel('Contact email address').fill(faker.internet.exampleEmail())
+    await page.getByLabel('Contact email address').fill('example@example.gov.uk')
     await page.getByLabel('Contact number').fill('123')
     await page.getByRole('button', { name: 'Save and continue' }).click()
     await expect(page).toHaveTitle(/Does the person have any non-standard licence conditions/)

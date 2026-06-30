@@ -32,17 +32,15 @@ export const approveActionPlan = async (page: Page, referralRef: string) => {
 
     try {
         await referralLinkLocator.click()
-    } catch (error) {
+    } catch {
         await dateSentHeaderLocator.click()
         await referralLinkLocator.click()
     }
 
     await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/progress/)
     await page.locator('a.govuk-link', { hasText: 'View action plan' }).click()
-    await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/action-plan/)
-    await page.locator('label.govuk-checkboxes__label').click()
-    await page.locator('button.govuk-button').click()
-    await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/action-plan\/approved/)
-    await page.locator('a.govuk-button').click()
+    await expect(page).toHaveURL(/probation-practitioner\/action-plan\/.*/)
+    await expect(page.locator('#action-plan-status')).toContainText(/Approved/)
+    await page.locator('.govuk-back-link').click()
     await expect(page).toHaveURL(/probation-practitioner\/referrals\/.*\/progress/)
 }

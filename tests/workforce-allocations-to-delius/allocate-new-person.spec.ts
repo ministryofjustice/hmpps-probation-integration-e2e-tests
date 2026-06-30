@@ -12,6 +12,7 @@ import { contact } from '../../steps/delius/utils/contact'
 import { Allocation, data } from '../../test-data/test-data'
 import { chromium, test } from '@playwright/test'
 import { createInitialAppointment } from '../../steps/delius/contact/create-contact'
+import { slow } from '../../steps/common/common'
 
 test.beforeEach(async ({ page }) => {
     await login(page)
@@ -35,7 +36,8 @@ const successful = async (crn: string): Promise<void> => {
 }
 
 test('Allocate new person', async ({ page }) => {
-    test.slow()
+    slow()
+
     // Given a new person in Delius, with an unallocated event and requirement in the allocations testing team
     const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.provider })
     crns.push(crn)
@@ -47,7 +49,7 @@ test('Allocate new person', async ({ page }) => {
         },
     })
     await createRequirementForEvent(page, { crn, team: data.teams.allocationsTestTeam })
-    await createInitialAppointment(page, crn, '1', data.teams.allocationsTestTeam)
+    await createInitialAppointment(page, crn, 1, data.teams.allocationsTestTeam)
 
     // When I allocate the person to a practitioner in Manage A Workforce
     await workforceLogin(page)
@@ -59,23 +61,27 @@ test('Allocate new person', async ({ page }) => {
         contact('Person', 'Community Practitioner Transfer', practitioner),
         contact('Person', 'Responsible Officer Change', practitioner),
         contact('1 - Curfew (Police Checks Only) (Curfew) (6 Weeks)', 'Sentence Component Transfer', practitioner),
-        contact('1 - ORA Community Order', 'Order Supervisor Transfer', practitioner),
-        contact('1 - ORA Community Order', 'Case Allocation: SPO Oversight', spo),
+        contact('1 - SA2020 Community Order', 'Order Supervisor Transfer', practitioner),
+        contact('1 - SA2020 Community Order', 'Case Allocation: SPO Oversight', spo),
     ])
     await successful(crn)
 })
 
 test('Allocate currently-managed person', async ({ page }) => {
-    test.slow()
+    slow()
+
     // Given an existing person in Delius, with a currently allocated un-sentenced event
     const crn = await createOffender(page, { providerName: anotherPractitioner.team.provider })
     crns.push(crn)
     await createEvent(page, { crn, event: data.events.appeal, allocation: { team: data.teams.allocationsTestTeam } })
-    await internalTransfer(page, { crn, allocation: { team: data.teams.allocationsTestTeam } })
+    await internalTransfer(page, {
+        crn,
+        allocation: { team: data.teams.allocationsTestTeam },
+    })
 
     // And a new unallocated event
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.allocationsTestTeam } })
-    await createInitialAppointment(page, crn, '2', data.teams.allocationsTestTeam)
+    await createInitialAppointment(page, crn, 2, data.teams.allocationsTestTeam)
 
     // When I allocate the person to a practitioner in Manage A Workforce
     await workforceLogin(page)
@@ -86,14 +92,15 @@ test('Allocate currently-managed person', async ({ page }) => {
     await verifyContacts(page, crn, [
         contact('Person', 'Community Practitioner Transfer', practitioner),
         contact('Person', 'Responsible Officer Change', practitioner),
-        contact('2 - ORA Community Order', 'Order Supervisor Transfer', practitioner),
-        contact('2 - ORA Community Order', 'Case Allocation: SPO Oversight', spo),
+        contact('2 - SA2020 Community Order', 'Order Supervisor Transfer', practitioner),
+        contact('2 - SA2020 Community Order', 'Case Allocation: SPO Oversight', spo),
     ])
     await successful(crn)
 })
 
 test('Allocate previously-managed person', async ({ page }) => {
-    test.slow()
+    slow()
+
     // Given an existing person in Delius, with a previously allocated (now terminated) community event
     const crn = await createOffender(page, { providerName: data.teams.allocationsTestTeam.provider })
     crns.push(crn)
@@ -104,7 +111,7 @@ test('Allocate previously-managed person', async ({ page }) => {
     // And a new unallocated event and requirement
     await createCommunityEvent(page, { crn, allocation: { team: data.teams.allocationsTestTeam } })
     await createRequirementForEvent(page, { crn, eventNumber: 2, team: data.teams.allocationsTestTeam })
-    await createInitialAppointment(page, crn, '2', data.teams.allocationsTestTeam)
+    await createInitialAppointment(page, crn, 2, data.teams.allocationsTestTeam)
 
     // When I allocate the person to a practitioner in Manage A Workforce
     await workforceLogin(page)
@@ -116,14 +123,13 @@ test('Allocate previously-managed person', async ({ page }) => {
         contact('Person', 'Community Practitioner Transfer', practitioner),
         contact('Person', 'Responsible Officer Change', practitioner),
         contact('2 - Curfew (Police Checks Only) (Curfew) (6 Weeks)', 'Sentence Component Transfer', practitioner),
-        contact('2 - ORA Community Order', 'Order Supervisor Transfer', practitioner),
+        contact('2 - SA2020 Community Order', 'Order Supervisor Transfer', practitioner),
     ])
     await successful(crn)
 })
 
 //If any test fails, allocate in Delius to prevent allocations lists continually build up
 test.afterAll(async () => {
-    test.slow()
     if (crns.length > 0) {
         const browser = await chromium.launch()
         const page = await browser.newPage()

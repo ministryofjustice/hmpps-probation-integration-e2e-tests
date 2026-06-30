@@ -1,22 +1,28 @@
 import { expect, type Page } from '@playwright/test'
-import { selectOption, selectOptionAndWait } from '../utils/inputs'
+import { selectOption } from '../utils/inputs'
 import { findOffenderByCRN } from '../offender/find-offender'
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/en_GB'
 
 export interface Address {
+    type: string
     buildingNumber: string
     street: string
+    streetAddress: string
     cityName: string
     county: string
+    country: string
     zipCode: string
 }
 
-export const buildAddress = (): Address => {
+export const buildAddress = (type: string = 'Main'): Address => {
     return {
+        type,
         buildingNumber: faker.location.buildingNumber(),
         street: faker.location.street(),
+        streetAddress: faker.location.streetAddress(),
         cityName: faker.location.city(),
         county: faker.location.county(),
+        country: faker.location.country(),
         zipCode: faker.location.zipCode(),
     }
 }
@@ -25,17 +31,27 @@ export const createAddress = async (page: Page, crn: string, options: Address) =
     await findOffenderByCRN(page, crn)
     await page.getByRole('link', { name: 'Personal Details' }).click()
     await page.getByRole('link', { name: 'Addresses' }).click()
-    await expect(page.locator('h1')).toHaveText('Addresses and Accommodation')
+    await expect(page.locator('h1')).toContainText('Addresses and Accommodation')
     await page.getByRole('button', { name: 'Add Address' }).click()
-    await expect(page.locator('h1')).toHaveText('Add Address')
+    await expect(page.locator('h1')).toContainText('Add Address')
+    try {
+        await page.getByRole('link', { name: /Click here to enter it manually/ }).click({ timeout: 5000 })
+    } catch {
+        // Ignore if the link is not present, the address search feature may be disabled
+    }
     await page.getByLabel(/House Number/).fill(options.buildingNumber)
     await page.getByLabel(/Street Name/).fill(options.street)
     await page.getByLabel(/City/).fill(options.cityName)
     await page.getByLabel(/County/).fill(options.county)
     await page.getByLabel(/Postcode/).fill(options.zipCode)
-    await selectOptionAndWait(page, '#addressStatus\\:selectOneMenu', 'Main')
+    await selectOption(page, '#addressStatus\\:selectOneMenu', options.type)
     await selectOption(page, '#addressType\\:selectOneMenu', null, option => option !== 'Awaiting Assessment')
     await page.getByLabel(/Type Verified/).selectOption('Yes')
+    await page.locator('#newNotes\\:notesField').fill(`Notes added for ${options.type} address`)
     await page.getByRole('button', { name: 'Save' }).click()
-    await expect(page.locator('h1')).toHaveText('Addresses and Accommodation')
+    if (await page.locator('#j_idt686\\:screenWarningPrompt').isVisible()) {
+        await page.locator('input', { hasText: 'Confirm' }).click()
+    }
+
+    await expect(page.locator('h1')).toContainText('Addresses and Accommodation')
 }

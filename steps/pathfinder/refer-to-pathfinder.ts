@@ -1,11 +1,14 @@
 import { expect, type Page } from '@playwright/test'
-import { format } from 'date-fns'
+import { doUntil } from '../delius/utils/refresh'
 
 export const referToPathfinder = async (page: Page, crn: string) => {
     // Search for CRN
     await page.getByRole('link', { name: 'Refer from the community' }).click()
     await page.getByLabel('CRN').fill(crn)
-    await page.getByRole('button', { name: 'Search' }).click()
+    await doUntil(
+        () => page.getByRole('button', { name: 'Search' }).click(),
+        () => expect(page.getByRole('link', { name: 'Refer to Pathfinder' })).toBeVisible()
+    )
     await page.getByRole('link', { name: 'Refer to Pathfinder' }).click()
     // Accept non-custodial case
     await page.getByLabel('Yes').check()
@@ -15,9 +18,4 @@ export const referToPathfinder = async (page: Page, crn: string) => {
     await page.getByRole('button', { name: 'Save and continue' }).click()
     // Check referral was successful
     await expect(page.getByRole('heading', { name: 'Referral successful' })).toBeVisible()
-}
-
-export const pathfinderDateFormatter = (date: Date | string): string => {
-    const parsedDate = typeof date === 'string' ? new Date(date) : date
-    return format(parsedDate, 'd MMM yyyy')
 }

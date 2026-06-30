@@ -1,7 +1,5 @@
 import { commonData } from './environments/common'
 import { testEnvironmentData } from './environments/test'
-import { preProdEnvironmentData } from './environments/pre-prod'
-import * as dotenv from 'dotenv'
 
 export type Optional<T> = { [K in keyof T]?: T[K] }
 export interface Team {
@@ -31,28 +29,37 @@ export interface Contact extends ContactType {
     allocation?: Optional<Allocation>
     startTime?: Date
     endTime?: Date
+    location?: string
     outcome?: string
+    enforcementAction?: string
     attended?: string
     complied?: string
+    alert?: boolean
+    note?: string
 }
 
 export class TestData {
     documentTemplates: { [key: string]: string } = {}
     contacts: { [key: string]: ContactType } = {}
-    events: { [key: string]: { appearanceType: string; outcome: string; length?: string; reportType?: string } } = {}
+    events: {
+        [key: string]: {
+            appearanceType: string
+            outcome: string
+            length?: string
+            reportType?: string
+            mainOffence?: string
+        }
+    } = {}
     requirements: { [key: string]: { category: string; subCategory: string; length?: string } } = {}
     staff: { [key: string]: Staff } = {}
     teams: { [key: string]: Team } = {}
     prisoners: { [key: string]: { crn: string; nomsNumber: string; bookingId?: number } } = {}
 }
 
-dotenv.config() // read environment variables into process.env
-
 // Merge environment config with common config and export single `data` object
 export const data: TestData = new TestData()
 const environmentData: TestData =
-    (process.env.ENV == 'test' && testEnvironmentData) ||
-    (process.env.ENV == 'pre-prod' && preProdEnvironmentData) ||
+    ((!process.env.ENV || process.env.ENV == 'test') && testEnvironmentData) ||
     (() => {
         throw new Error(`Unexpected environment: ${process.env.ENV}. Make sure you set the ENV variable correctly.`)
     })()

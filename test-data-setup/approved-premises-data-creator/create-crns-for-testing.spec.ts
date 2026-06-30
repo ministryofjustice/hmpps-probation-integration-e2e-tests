@@ -9,6 +9,7 @@ import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
 import { createRestrictions } from '../../steps/delius/restriction/create-restrictions'
+import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock.js'
 
 test.beforeEach(async ({ page }) => {
     await loginDelius(page)
@@ -26,8 +27,8 @@ test('Create a crn with a single event', async ({ page }) => {
     await createAndBookPrisoner(page, crn, person)
 
     await oasysLogin(page, UserType.Booking)
-    await createLayer3CompleteAssessment(page, crn, person)
-    await addLayer3AssessmentNeeds(page)
+    await createLayer3CompleteAssessment(page, crn, person, 'Yes')
+    await signAndlock(page)
 })
 
 test('Create a crn without noms data', async ({ page }) => {
@@ -40,8 +41,8 @@ test('Create a crn without noms data', async ({ page }) => {
     await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
 
     await oasysLogin(page, UserType.Booking)
-    await createLayer3CompleteAssessment(page, crn, person)
-    await addLayer3AssessmentNeeds(page)
+    await createLayer3CompleteAssessment(page, crn, person, 'Yes')
+    await signAndlock(page)
 })
 
 test('Create a crn without oasys data', async ({ page }) => {

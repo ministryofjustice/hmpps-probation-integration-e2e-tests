@@ -1,5 +1,4 @@
 import { test } from '@playwright/test'
-import * as dotenv from 'dotenv'
 import { login as deliusLogin } from '../../steps/delius/login'
 import { login as hmppsLogin } from '../../steps/hmpps-auth/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
@@ -8,7 +7,7 @@ import { deliusPerson } from '../../steps/delius/utils/person'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
-import { createLayer3AssessmentWithoutNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
+import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { verifyContacts } from '../../steps/delius/contact/find-contacts'
 import { contact } from '../../steps/delius/utils/contact'
 import { findOffenderByCRN } from '../../steps/delius/offender/find-offender'
@@ -16,13 +15,15 @@ import { login as approvedPremisesLogin, navigateToApplications } from '../../st
 import { submitAPApplication } from '../../steps/cas1-approved-premises/applications/submit-application-full'
 import { reallocateApplication } from '../../steps/cas1-approved-premises/applications/reallocate'
 import { assessApplication } from '../../steps/cas1-approved-premises/applications/assess-application'
-
-dotenv.config() // read environment variables into process.env
+import { slow } from '../../steps/common/common'
+import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock'
+import { createRegistration } from '../../steps/delius/registration/create-registration'
 
 const nomisIds = []
 
 test('Create an approved premises application', async ({ page }) => {
-    test.slow() // increase the timeout - Delius/OASys/AP Applications can take a few minutes
+    slow()
+
     // Given I login in to NDelius
     await hmppsLogin(page)
     await deliusLogin(page)
@@ -34,23 +35,26 @@ test('Create an approved premises application', async ({ page }) => {
     })
     // And I create an event in nDelius
     await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
+
+    // And I create a registration
+    await createRegistration(page, crn, 'MAPPA')
+
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
 
-    // And I login to OASys T2
+    // And I login to OASys T2 and create a Layer 3 Assessment with Needs in OASys
     await oasysLogin(page, UserType.Booking)
-    // And I create a Layer 3 Assessment without Needs
-    await createLayer3AssessmentWithoutNeeds(page, crn)
+    await createLayer3CompleteAssessment(page, crn, person, 'Yes', nomisId, true)
+    await signAndlock(page)
 
-    // When I login to Approved Premises
+    // When I login to Approved Premises and submit an application
     await approvedPremisesLogin(page)
-    // And I submit an application
     await navigateToApplications(page)
     await submitAPApplication(page, crn)
 
     // And I approve the application
-    await reallocateApplication(page, `${person.firstName} ${person.lastName}`)
+    await reallocateApplication(page, person)
     await assessApplication(page, `${person.firstName} ${person.lastName}`)
 
     // And login to nDelius

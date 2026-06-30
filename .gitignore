@@ -3,6 +3,8 @@ node_modules/
 /playwright-report/
 /playwright/.cache/
 /downloads/
+/dist/
+*.tgz
 
 ### IntelliJ IDEA ###
 .idea/**/*
