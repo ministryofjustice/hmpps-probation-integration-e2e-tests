@@ -60,17 +60,26 @@ export async function transferToDeliusUser(
     // await selectOption(page, '#Trust\\:selectOneMenu', provider)
     await waitForAjax(page)
     await selectOption(page, '#Team\\:selectOneMenu', team)
+    console.log('selected option is:')
+    console.log(page.locator('#Team\\:selectOneMenu').inputValue())
     await waitForAjax(page)
     if (await page.locator('.prompt.prompt-error').isVisible()) {
         await selectOption(page, '#Team\\:selectOneMenu', team)
     }
+    console.log("retrying team select: selected option is:")
+    console.log(page.locator('#Team\\:selectOneMenu').inputValue())
     await waitForAjax(page)
+
+
     await selectOption(
         page,
         '#Staff\\:selectOneMenu',
         undefined,
         s => s.toLowerCase().includes(firstName.toLowerCase()) && s.toLowerCase().includes(lastName.toLowerCase())
     )
+
+    console.log('selected staff option is:')
+    console.log(page.locator('#Staff\\:selectOneMenu').inputValue())
 
     await waitForAjax(page)
     if (await page.locator('.prompt.prompt-error').isVisible()) {
@@ -80,6 +89,8 @@ export async function transferToDeliusUser(
             undefined,
             s => s.toLowerCase().includes(firstName.toLowerCase()) && s.toLowerCase().includes(lastName.toLowerCase())
         )
+        console.log('retrying staff select: selected staff option is:')
+        console.log(page.locator('#Staff\\:selectOneMenu').inputValue())
     }
 
     const count = await page.locator('#offenderTransferRequestTable select').count()
