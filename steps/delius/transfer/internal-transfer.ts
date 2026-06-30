@@ -62,13 +62,11 @@ export async function transferToDeliusUser(
     await selectOption(page, '#Team\\:selectOneMenu', team)
     console.log('selected option is:')
     console.log(page.locator('#Team\\:selectOneMenu').inputValue())
-    await waitForAjax(page)
     if (await page.locator('.prompt.prompt-error').isVisible()) {
+        console.log('retrying team select: selected option is:')
+        console.log(page.locator('#Team\\:selectOneMenu').inputValue())
         await selectOption(page, '#Team\\:selectOneMenu', team)
     }
-    console.log("retrying team select: selected option is:")
-    console.log(page.locator('#Team\\:selectOneMenu').inputValue())
-    await waitForAjax(page)
 
 
     await selectOption(
