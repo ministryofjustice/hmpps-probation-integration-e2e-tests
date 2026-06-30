@@ -29,9 +29,11 @@ test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     await releasePrisoner(nomisId)
 
+/* OASys not quite working yet
     await oasysLogin(page, UserType.Booking)
     await createLayer3CompleteAssessment(page, crn, person)
     await addLayer3AssessmentNeeds(page)
+    */
 
     await loginDelius(page)
     // And I create an Address
