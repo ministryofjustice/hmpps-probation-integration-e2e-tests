@@ -29,11 +29,9 @@ test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     await releasePrisoner(nomisId)
 
-/* OASys not quite working yet
     await oasysLogin(page, UserType.Booking)
     await createLayer3CompleteAssessment(page, crn, person)
     await addLayer3AssessmentNeeds(page)
-    */
 
     await loginDelius(page)
     // And I create an Address
@@ -50,7 +48,7 @@ test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
     await createContact(page, crn, contactDetails)
 
     // And I create a Release
-    //await createRelease(page, crn)
+    await createRelease(page, crn)
 
     // And I create a Licence Condition
     const licenceCondition = await createLicenceCondition(page, crn)
