@@ -43,7 +43,7 @@ test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
         category: 'Community Management',
         type: 'Other Contact',
         relatesTo: `Person - ${person.firstName} ${person.lastName}`,
-        date: Yesterday,
+        date: Yesterday.toJSDate(),
     }
     await createContact(page, crn, contactDetails)
 
