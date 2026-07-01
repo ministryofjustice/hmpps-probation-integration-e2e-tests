@@ -10,6 +10,8 @@ export const createLicenceCondition = async (page: Page, crn: string, eventNumbe
     await page.getByRole('button', { name: 'Add Licence Conditions' }).click()
     await expect(page.locator('h1')).toContainText('Add Licence Conditions')
     await selectOption(page, `#LicenceMainCategory\\:selectOneMenu`)
+    //just allow the ui to catchup
+    await page.waitForTimeout(1000)
     await selectOption(page, `#AreaLC\\:selectOneMenu`)
     await selectOption(page, `#licenceSubCategory\\:selectOneMenu`)
     await page.getByRole('button', { name: 'Add' }).click()
