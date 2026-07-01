@@ -20,21 +20,28 @@ import { Yesterday } from '../../steps/delius/utils/date-time'
 
 test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
     test.slow()
+
+    //Here's our person
     const person = deliusPerson()
 
+    // Create the offender in NDelius
     await loginDelius(page)
     const crn = await createOffender(page, { person })
 
+    // Add a custodial event
     await createCustodialEvent(page, { crn })
+
+    // Book the prisoner into a prison and then release them
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     await releasePrisoner(nomisId)
 
+    // Login to OASys and create a layer 3 assessment
     await oasysLogin(page, UserType.Booking)
     await createLayer3CompleteAssessment(page, crn, person)
     await addLayer3AssessmentNeeds(page)
 
+    // Login to NDelius, give them an address, contact details and license conditions
     await loginDelius(page)
-    // And I create an Address
     const address = buildAddress()
     await createAddress(page, crn, address)
 
@@ -46,9 +53,6 @@ test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
         date: Yesterday.toJSDate(),
     }
     await createContact(page, crn, contactDetails)
-
-    // And I create a Release
-    //await createRelease(page, crn)
 
     // And I create a Licence Condition
     const licenceCondition = await createLicenceCondition(page, crn)
