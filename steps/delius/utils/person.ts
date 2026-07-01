@@ -25,7 +25,7 @@ export function deliusPerson(person?: Partial<Person>): Person {
     const lastName = person?.lastName ? person.lastName : faker.person.lastName(sex)
     const dob = person?.dob ? person.dob : faker.date.birthdate({ min: 18, max: 69, mode: 'age' })
     const pnc = person?.pnc ? person.pnc : createPnc(dob)
-    const ethnicity = person?.ethnicity ? person.ethnicity : "W1"
+    const ethnicity = person?.ethnicity ? person.ethnicity : 'W1'
     const croNumber = person?.croNumber ? person.croNumber : createCroNumber()
     return {
         firstName,
@@ -34,7 +34,7 @@ export function deliusPerson(person?: Partial<Person>): Person {
         dob,
         pnc,
         ethnicity,
-        croNumber
+        croNumber,
     }
 }
 
