@@ -18,11 +18,11 @@ export async function createOffender(
         await page.fill('#surname\\:inputText', person.lastName)
         await selectOption(page, '#sex\\:selectOneMenu', person.sex)
         await fillDate(page, '#dateOfBirth\\:datePicker', person.dob)
-        await selectOption(page, '#identifierType\\:selectOneMenu', 'PNC')
-        await page.fill('#identifierValue\\:inputText', person.pnc)
-        await page.locator('input', { hasText: 'Add/Update' }).click()
         await selectOption(page, '#identifierType\\:selectOneMenu', 'CRO')
         await page.fill('#identifierValue\\:inputText', person.croNumber)
+        await page.locator('input', { hasText: 'Add/Update' }).click()
+        await selectOption(page, '#identifierType\\:selectOneMenu', 'PNC')
+        await page.fill('#identifierValue\\:inputText', person.pnc)
         await page.locator('input', { hasText: 'Add/Update' }).click()
         await doUntil(
             () => page.locator('input', { hasText: 'Save' }).click(),
