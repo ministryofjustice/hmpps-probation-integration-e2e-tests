@@ -47,11 +47,26 @@ export function createPnc(date: Date): string {
     return year + '/' + padded + character
 }
 
+//Format is AANN/NNNNNNA
 export function createCroNumber(): string {
-    const chars = 'ZABCDEFGHJKLMNPQRTUVWXY'
-    const year = faker.number.int({ min: 39, max: 95 }).toString()
-    const randomNumber = faker.number.int({ min: 0, max: 9999999 })
-    const padded = randomNumber.toString().padStart(7, '0')
-    const character = chars.charAt(+(year.substring(2) + padded) % 23)
-    return year + '/' + padded + character
+    const alphanumeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numeric = '0123456789';
+
+    const randomChar = chars =>
+        chars[Math.floor(Math.random() * chars.length)];
+
+    return (
+        randomChar(alphanumeric) +
+        randomChar(alphanumeric) +
+        randomChar(numeric) +
+        randomChar(numeric) +
+        '/' +
+        randomChar(numeric) +
+        randomChar(numeric) +
+        randomChar(numeric) +
+        randomChar(numeric) +
+        randomChar(numeric) +
+        randomChar(numeric) +
+        randomChar(alphanumeric)
+    );
 }
