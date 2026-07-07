@@ -34,7 +34,7 @@ export function deliusPerson(person?: Partial<Person>): Person {
         dob,
         pnc,
         ethnicity,
-        croNumber
+        croNumber,
     }
 }
 
@@ -49,11 +49,10 @@ export function createPnc(date: Date): string {
 
 //Format is AANN/NNNNNNA
 export function createCroNumber(): string {
-    const alphanumeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const numeric = '0123456789';
+    const alphanumeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    const numeric = '0123456789'
 
-    const randomChar = chars =>
-        chars[Math.floor(Math.random() * chars.length)];
+    const randomChar = chars => chars[Math.floor(Math.random() * chars.length)]
 
     return (
         randomChar(alphanumeric) +
@@ -68,5 +67,5 @@ export function createCroNumber(): string {
         randomChar(numeric) +
         randomChar(numeric) +
         randomChar(alphanumeric)
-    );
+    )
 }
