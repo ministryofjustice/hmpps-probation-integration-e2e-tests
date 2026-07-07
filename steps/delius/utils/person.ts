@@ -48,13 +48,11 @@ export function createPnc(date: Date): string {
 }
 
 export function createCroNumber(): string {
-    const chars = 'ZABCDEFGHJKLMNPQRTUVWXY';
-    const year = faker.number.int({ min: 39, max: 95 }).toString().padStart(2, '0');
-    const randomNumber = faker.number.int({ min: 1, max: 999999 });
-    const padded = randomNumber.toString().padStart(6, '0');
-    const character = chars.charAt(Number(year + padded) % 23);
+    const chars = 'ZABCDEFGHJKLMNPQRTUVWXY'
+    const year = faker.number.int({ min: 39, max: 95 }).toString().padStart(2, '0')
+    const randomNumber = faker.number.int({ min: 1, max: 999999 })
+    const padded = randomNumber.toString().padStart(6, '0')
+    const character = chars.charAt(Number(year + padded) % 23)
 
-    return randomNumber + '/' + year + character;
+    return randomNumber + '/' + year + character
 }
-
-
