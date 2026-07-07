@@ -4,10 +4,7 @@ import { deliusPerson } from '../../steps/delius/utils/person'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { data } from '../../test-data/test-data'
 import { createCommunityEvent, createCustodialEvent } from '../../steps/delius/event/create-event'
-import {
-    createAndBookPrisoner,
-    releasePrisoner,
-} from '../../steps/api/dps/prison-api'
+import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
 import { addLayer3AssessmentNeeds } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/add-layer3-needs'
