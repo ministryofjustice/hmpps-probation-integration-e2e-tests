@@ -56,5 +56,4 @@ test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
 
     // And I create a Licence Condition
     const licenceCondition = await createLicenceCondition(page, crn)
-
 })
