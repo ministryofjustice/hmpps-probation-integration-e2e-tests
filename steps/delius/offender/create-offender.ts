@@ -22,7 +22,7 @@ export async function createOffender(
         await page.screenshot({ path: 'cro1.png' });
         await page.fill('#identifierValue\\:inputText', person.croNumber)
         await page.screenshot({ path: 'cro2.png' });
-        await page.locator('input', { hasTe2xt: 'Add/Update' }).click()
+        await page.locator('input', { hasText: 'Add/Update' }).click()
         await page.screenshot({ path: 'cro3.png' });
 
         //even with this removed, it still doesn't save a CRO Y019171
