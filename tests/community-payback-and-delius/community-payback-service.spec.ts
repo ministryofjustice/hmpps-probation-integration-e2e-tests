@@ -44,6 +44,22 @@ test('Find a group session and update record as Attendance Complied', async ({ p
     await expect(page.locator('#appointmentsTable')).toContainText(/Attended - Complied/)
 })
 
+test('Find individual & group placements with a host partner and update record as Attendance Complied', async ({
+    page,
+}) => {
+    // Find individual & group placements with a host partner and update the record as Attendance Complied
+    await loginAsCaseAdmin(page)
+    const teamName = 'CPB Manual Test Team'
+    const crn = await findAnIndividualPlacement(page, data.teams.unpaidWorkTestTeam.provider, teamName)
+    await recordAttendanceCompliedOutcome(page)
+
+    // Log in to Delius to confirm the record has been updated correctly
+    await deliusLogin(page)
+    await navigateToUnpaidWork(page, crn)
+    await page.getByRole('button', { name: 'Worksheet summary' }).click()
+    await expect(page.locator('#appointmentsTable')).toContainText(/Attended - Complied/)
+})
+
 test('Find a group session and update record as Unacceptable Absence', async ({ page }) => {
     // Given I create a new Offender in nDelius
     const testData = await createOffenderAndUpwProject(page)
@@ -68,22 +84,6 @@ test('Find a group session and update record as Unacceptable Absence', async ({ 
     await navigateToUnpaidWork(page, testData.crn)
     await page.getByRole('button', { name: 'Worksheet summary' }).click()
     await expect(page.locator('#appointmentsTable')).toContainText(/Unacceptable Absence/)
-})
-
-test('Find individual & group placements with a host partner and update record as Attendance Complied', async ({
-    page,
-}) => {
-    // Find individual & group placements with a host partner and update the record as Attendance Complied
-    await loginAsCaseAdmin(page)
-    const teamName = 'CPB Manual Test Team'
-    const crn = await findAnIndividualPlacement(page, data.teams.unpaidWorkTestTeam.provider, teamName)
-    await recordAttendanceCompliedOutcome(page)
-
-    // Log in to Delius to confirm the record has been updated correctly
-    await deliusLogin(page)
-    await navigateToUnpaidWork(page, crn)
-    await page.getByRole('button', { name: 'Worksheet summary' }).click()
-    await expect(page.locator('#appointmentsTable')).toContainText(/Attended - Complied/)
 })
 
 test('Adjust travel time hours', async ({ page }) => {

@@ -59,7 +59,7 @@ test('Create and search for contacts', async ({ page }) => {
     // will have the four contacts above plus tier calculation
     await doUntil(
         () => page.click('#textSearchButton'),
-        () => expect(page.locator('tbody > tr')).toHaveCount(4)
+        () => expect(page.locator('tbody > tr')).toHaveCount(5)
     )
 
     await page.fill('#searchContents\\:notesField', 'CV')
