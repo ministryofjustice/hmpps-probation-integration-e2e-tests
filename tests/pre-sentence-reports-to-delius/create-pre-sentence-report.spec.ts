@@ -66,15 +66,13 @@ test('Create a pre-sentence report', async ({ page }) => {
     await expect(popup.locator('//tbody/tr[@class="govuk-table__row"]/td[2]')).toContainText(
         offenceDate.toLocaleDateString('en-GB')
     )
-    for (const textarea of await popup.locator('[contenteditable]').elementHandles()) {
-        await textarea.click()
-        await popup.keyboard.type(faker.lorem.sentence())
-    }
+    await popup.locator('#offencesUnderConsideration').fill(faker.lorem.sentence())
+    await popup.locator('#offencesPattern').fill(faker.lorem.sentence())
     await popup.locator('text=Save and continue').click()
 
     // - Defendant behaviour and lifestyle assessment
     await popup.getByRole('heading', { name: 'Defendant behaviour and lifestyle assessment' }).isVisible()
-    await popup.locator('[contenteditable]').fill(faker.lorem.sentence())
+    await popup.locator('#defendantBehaviour').fill(faker.lorem.sentence())
     await popup.locator('text=Save and continue').click()
 
     // - Risk analysis
@@ -83,20 +81,15 @@ test('Create a pre-sentence report', async ({ page }) => {
     await selectOption(popup, '#risk-to-public', 'Low risk')
     await selectOption(popup, '#risk-to-known-adults', 'High risk')
     await selectOption(popup, '#risk-to-staff', 'Low risk')
-    for (const textarea of await popup.locator('[contenteditable]').elementHandles()) {
-        await textarea.click()
-        await popup.keyboard.type(faker.lorem.sentence())
-    }
+    await popup.locator('#risk-predictors').fill(faker.lorem.sentence())
+    await popup.locator('#risk-riskAndHarmFactors').fill(faker.lorem.sentence())
     await popup.locator('text=Save and continue').click()
 
     // - Sentencing proposal
     await popup.getByRole('heading', { name: 'Sentencing proposal' }).isVisible()
-    for (const textarea of await popup.locator('[contenteditable]').elementHandles()) {
-        if (await textarea.isVisible()) {
-            await textarea.click()
-            await popup.keyboard.type(faker.lorem.sentence())
-        }
-    }
+    await popup.locator('#proposedSentence').fill(faker.lorem.sentence())
+    await popup.locator('#proposedSentenceRationale').fill(faker.lorem.sentence())
+    await popup.locator('#alternativeSentencingOptions').fill(faker.lorem.sentence())
     await popup.locator('#custodial-sentence-not-threshold').click()
     await popup.locator('text=Save and continue').click()
 
