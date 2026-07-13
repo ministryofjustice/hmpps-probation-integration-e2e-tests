@@ -27,10 +27,6 @@ test('returns expected person details, sentences and past appointments for a sta
         },
     })
 
-    // Let Delius settle before next operation
-    await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(1000)
-
     await createRequirementForEvent(page, {
         crn,
         team: data.teams.genericTeam,
