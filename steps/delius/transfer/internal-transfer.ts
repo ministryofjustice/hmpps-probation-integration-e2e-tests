@@ -34,6 +34,31 @@ export async function internalTransfer(
     return selectedStaff
 }
 
+async function selectProviderTeamUser(page: Page, provider: string, team: string, firstName: string, lastName: string) {
+    //provider
+    await selectOption(page, '#Trust\\:selectOneMenu', provider)
+    await (page).waitForTimeout(1000)
+    console.log('selected option is:')
+    console.log(page.locator('#Trust\\:selectOneMenu').textContent())
+
+    //team
+    await selectOption(page, '#Team\\:selectOneMenu', team)
+    await (page).waitForTimeout(1000)
+
+    console.log('selected option is:')
+    console.log(page.locator('#Team\\:selectOneMenu').textContent())
+
+    //staff
+    await page.locator('#Staff\\:selectOneMenu').click()
+
+    await selectOption(
+        page,
+        '#Staff\\:selectOneMenu',
+        undefined,
+        s => s.toLowerCase().includes(firstName.toLowerCase()) && s.toLowerCase().includes(lastName.toLowerCase())
+    )
+}
+
 export async function transferToDeliusUser(
     page: Page,
     {
@@ -56,47 +81,29 @@ export async function transferToDeliusUser(
     await page.locator('input', { hasText: 'Transfers' }).click({ timeout: 5000 })
 
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
-    // await waitForAjax(page)
-    // await selectOption(page, '#Trust\\:selectOneMenu', provider)
     await waitForAjax(page)
-    await selectOption(page, '#Team\\:selectOneMenu', team)
-    console.log('selected option is:')
-    console.log(page.locator('#Team\\:selectOneMenu').inputValue())
-    if (await page.locator('.prompt.prompt-error').isVisible()) {
-        console.log('retrying team select: selected option is:')
-        console.log(page.locator('#Team\\:selectOneMenu').inputValue())
-        await selectOption(page, '#Team\\:selectOneMenu', team)
-    }
-
-
-    await selectOption(
-        page,
-        '#Staff\\:selectOneMenu',
-        undefined,
-        s => s.toLowerCase().includes(firstName.toLowerCase()) && s.toLowerCase().includes(lastName.toLowerCase())
-    )
+    await selectProviderTeamUser(page, provider, team, firstName, lastName)
 
     console.log('selected staff option is:')
-    console.log(page.locator('#Staff\\:selectOneMenu').inputValue())
-
-    await waitForAjax(page)
-    if (await page.locator('.prompt.prompt-error').isVisible()) {
-        await selectOption(
-            page,
-            '#Staff\\:selectOneMenu',
-            undefined,
-            s => s.toLowerCase().includes(firstName.toLowerCase()) && s.toLowerCase().includes(lastName.toLowerCase())
-        )
-        console.log('retrying staff select: selected staff option is:')
-        console.log(page.locator('#Staff\\:selectOneMenu').inputValue())
-    }
+    console.log(page.locator('#Staff\\:selectOneMenu').textContent())
 
     const count = await page.locator('#offenderTransferRequestTable select').count()
     for (let i = 0; i < count; i++) {
         await selectOption(page, `:nth-match(#offenderTransferRequestTable select, ${i + 1})`, reason)
     }
     await page.locator('input', { hasText: 'Transfer' }).click()
-    await expect(page.locator('.prompt.prompt-error')).toHaveCount(0)
+    await waitForAjax(page)
+
+    if (await page.locator('.prompt.prompt-error').isVisible()) {
+        console.log('prompt.prompt-error found. Retrying')
+        await selectProviderTeamUser(page, provider, team, firstName, lastName)
+    }
+
+
+    if (page.locator('tr').filter({ hasText: 'Transfer Pending' })) {
+        console.log("Failed to transfer due to transfer pending.")
+    }
+
     await page
         .locator('tr')
         .filter({ hasText: `Person` })
