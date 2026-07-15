@@ -75,7 +75,7 @@ jobs:
           "ALLOCATE_TO_USER": "${{ inputs.allocate_to_user }}",
           "ALLOCATION_PROVIDER": "${{ inputs.allocation_provider }}",
           "ALLOCATION_TEAM": "${{ inputs.allocation_team }}",
-          "ALLOCATION_DISPLAY_NAME": "${{ inputs.allocation_display_name }}",
+          "ALLOCATION_DISPLAY_NAME": "${{ inputs.allocation_display_name }}"
         }
     secrets: inherit
 
