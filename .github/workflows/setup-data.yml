@@ -38,13 +38,8 @@ on:
         type: string
         required: false
         default: ""
-      allocation_first_name:
-        description: Allocation - Officer's forename
-        type: string
-        required: false
-        default: ""
-      allocation_last_name:
-        description: Allocation - Officer's surname
+      allocation_display_name:
+        description: Allocation - Officer's display name (eg `TestUser, SAS (PS - PO)`)
         type: string
         required: false
         default: ""
@@ -80,8 +75,7 @@ jobs:
           "ALLOCATE_TO_USER": "${{ inputs.allocate_to_user }}",
           "ALLOCATION_PROVIDER": "${{ inputs.allocation_provider }}",
           "ALLOCATION_TEAM": "${{ inputs.allocation_team }}",
-          "ALLOCATION_FIRST_NAME": "${{ inputs.allocation_first_name }}",
-          "ALLOCATION_LAST_NAME": "${{ inputs.allocation_last_name }}"
+          "ALLOCATION_DISPLAY_NAME": "${{ inputs.allocation_display_name }}",
         }
     secrets: inherit
 

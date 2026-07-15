@@ -34,9 +34,8 @@ test('Create a case in multiple systems', async ({ page }) => {
         }
         if (process.env.ALLOCATE_TO_USER) {
             const team = process.env.TEAM
-            const firstName = process.env.ALLOCATION_FIRST_NAME
-            const lastName = process.env.ALLOCATION_LAST_NAME
-            await transferToDeliusUser(page, { crn, provider: owningProvider, team, firstName, lastName })
+            const displayName = process.env.ALLOCATION_DISPLAY_NAME
+            await transferToDeliusUser(page, { crn, provider: owningProvider, team, displayName })
         }
 
         if (process.env.CREATE_OASYS_ASSESSMENT === 'true') {
