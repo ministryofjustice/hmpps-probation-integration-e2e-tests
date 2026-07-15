@@ -141,10 +141,11 @@ export async function findCase(page: Page, person: Person, crn: string) {
 }
 
 export async function addCaseToGroup(page: Page, person: Person, crn: string) {
+    const groupCode = 'AutoTestGroup'
     await page.getByRole('link', { name: 'Groups' }).click()
-    await page.locator('#groupCode').fill('AutoTestGroup')
+    await page.locator('#groupCode').fill(groupCode)
     await page.locator('[data-test-id="submit-button"]').click()
-    await page.getByRole('link', { name: 'AutoTestGroup' }).click()
+    await page.getByRole('link', { name: groupCode }).click()
     await page.getByRole('link', { name: 'Allocations and waitlist' }).click()
     await page.getByRole('link', { name: /Waitlist/ }).click()
     await page.locator('#nameOrCRN').fill(crn)
