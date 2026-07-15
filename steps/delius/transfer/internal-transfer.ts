@@ -39,14 +39,14 @@ async function selectProviderTeamUser(page: Page, provider: string, team: string
     await selectOption(page, '#Trust\\:selectOneMenu', provider)
     await (page).waitForTimeout(1000)
     console.log('selected option is:')
-    console.log(page.locator('#Trust\\:selectOneMenu').textContent())
+    console.log(await page.locator('#Trust\\:selectOneMenu').textContent())
 
     //team
     await selectOption(page, '#Team\\:selectOneMenu', team)
     await (page).waitForTimeout(1000)
 
     console.log('selected option is:')
-    console.log(page.locator('#Team\\:selectOneMenu').textContent())
+    console.log(await page.locator('#Team\\:selectOneMenu').textContent())
 
     //staff
     await page.locator('#Staff\\:selectOneMenu').click()
@@ -57,6 +57,9 @@ async function selectProviderTeamUser(page: Page, provider: string, team: string
         undefined,
         s => s.toLowerCase().includes(firstName.toLowerCase()) && s.toLowerCase().includes(lastName.toLowerCase())
     )
+
+    console.log('selected staff is:')
+    console.log(await page.locator('#Staff\\:selectOneMenu').textContent())
 }
 
 export async function transferToDeliusUser(
