@@ -36,8 +36,6 @@ test('Create and search for a person', async ({ page }) => {
     await deliusLogin(page)
     // Search for created person record via national search screen
     await page.getByRole('link', { name: 'National Search' }).click()
-    await page.getByLabel('First Name or Preferred Name:').fill(person.firstName)
-    await page.getByLabel('Last Name:').fill(person.lastName)
     await refreshUntil(page, () => searchForPerson(page, person), {
         timeout: 120_000,
     })
@@ -86,6 +84,8 @@ test('Create and search for a person', async ({ page }) => {
 })
 
 const searchForPerson = async (page: Page, person: Person) => {
+    await page.getByLabel('First Name or Preferred Name:').fill(person.firstName)
+    await page.getByLabel('Last Name:').fill(person.lastName)
     await page.getByRole('button', { name: 'Search', exact: true }).click()
     await expect(
         page.getByRole('cell', { name: person.lastName + ', ' + person.firstName, exact: true }).first()
