@@ -66,7 +66,7 @@ test('Accredited Programmes termination', async ({ page }) => {
     await manageAndDeliverLogin(page)
     await findCase(page, person, crn)
     await updateReferralStatusToAwaitingAllocation(page, person, crn, event, offenceDate)
-    await addCaseToGroup(page, person)
+    await addCaseToGroup(page, person, crn)
 
     // Create a Post-programme Review Session
     await createPostProgrammeReviewSession(page, person)

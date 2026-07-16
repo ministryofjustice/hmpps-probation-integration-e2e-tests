@@ -133,18 +133,23 @@ export async function findCase(page: Page, person: Person, crn: string) {
     await page.getByLabel('Primary navigation').getByRole('link', { name: 'Case list' }).click()
     await expect(page.locator('.govuk-heading-xl')).toContainText('Case list')
     await page.locator('#crnOrPersonName').fill(crn)
-    await page.getByRole('button', { name: 'Apply filters' }).click()
+    await page.locator('[data-test-id="submit-button"]').click()
     await page.locator('a', { hasText: `${person.firstName} ${person.lastName}` }).click()
     await expect(page.locator('.govuk-heading-xl')).toContainText(
         `Referral details: ${person.firstName} ${person.lastName}`
     )
 }
 
-export async function addCaseToGroup(page: Page, person: Person) {
+export async function addCaseToGroup(page: Page, person: Person, crn: string) {
+    const groupCode = 'AutoTestGroup'
     await page.getByRole('link', { name: 'Groups' }).click()
-    await page.getByRole('link', { name: 'AutoTestGroup' }).click()
+    await page.locator('#groupCode').fill(groupCode)
+    await page.locator('[data-test-id="submit-button"]').click()
+    await page.getByRole('link', { name: groupCode }).click()
     await page.getByRole('link', { name: 'Allocations and waitlist' }).click()
     await page.getByRole('link', { name: /Waitlist/ }).click()
+    await page.locator('#nameOrCRN').fill(crn)
+    await page.locator('[data-test-id="submit-button"]').click()
     await page.locator('input[name="add-to-group"]').click()
     await page.getByRole('button', { name: 'Add to group' }).click()
     await expect(page.locator('h1.govuk-fieldset__heading')).toContainText(
@@ -248,7 +253,7 @@ export async function updateReferralStatusToAwaitingAllocation(
     await expect(page.locator('.moj-alert__content')).toContainText(
         `${person.firstName} ${person.lastName}'s referral status is now Awaiting allocation.`
     )
-    await expect(page.getByRole('heading', { name: 'Awaiting allocation' })).toBeVisible()
+    await expect(page.locator('.moj-timeline__description').first()).toContainText('Awaiting allocation')
 }
 
 export async function updateReferralStatus(page: Page) {
@@ -269,7 +274,7 @@ export async function updateReferralStatusToOnProgramme(page: Page, person: Pers
     await expect(page.locator('.moj-alert__content')).toContainText(
         `${person.firstName} ${person.lastName}'s referral status is now On programme.`
     )
-    await expect(page.getByRole('heading', { name: 'On programme' })).toBeVisible()
+    await expect(page.locator('.moj-timeline__description').first()).toContainText('On programme')
 }
 
 export async function updateReferralStatusToComplete(page: Page, person: Person, crn: string) {
@@ -279,7 +284,7 @@ export async function updateReferralStatusToComplete(page: Page, person: Person,
     await expect(page.locator('.moj-alert__content')).toContainText(
         `${person.firstName} ${person.lastName}'s referral status is now Programme complete.`
     )
-    await expect(page.getByRole('heading', { name: 'Programme complete' })).toBeVisible()
+    await expect(page.locator('.moj-timeline__description').first()).toContainText('Programme complete')
 }
 
 export const oasysImportDateText = '[data-testid="last-assessment-date-text"]'
