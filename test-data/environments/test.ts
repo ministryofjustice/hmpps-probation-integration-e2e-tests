@@ -81,8 +81,8 @@ export const testEnvironmentData: TestData = {
             provider: 'Wales',
         },
         singleAccommodationTestTeam: {
-            name: 'NPS - Wrexham - Team 1',
-            provider: 'Wales'
+            name: 'Community Accommodation Test Team',
+            provider: 'London'
         }
     },
     prisoners: {
