@@ -52,6 +52,7 @@ jobs:
       failed-projects: ${{ steps.json.outputs.failed-projects }}
       passed-projects: ${{ steps.json.outputs.passed-projects }}
       report-url: ${{ steps.html.outputs.report-url }}
+      output-data: ${{ steps.output-data.outputs.data }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
@@ -182,6 +183,12 @@ jobs:
           echo "passed-projects=${passed_projects:-'[]'}" | tee -a "$GITHUB_OUTPUT"
         env:
           all_projects: ${{ env.projects }}
+
+      - name: Parse output data file to output
+        id: output-data
+        if: always()
+        run: |
+          [ -f OUTPUT.txt ] && echo "data=$(cat OUTPUT.txt)" >> "$GITHUB_OUTPUT" || true
 
       - name: Publish JUnit report
         id: junit

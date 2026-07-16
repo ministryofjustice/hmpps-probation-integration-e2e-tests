@@ -10,6 +10,7 @@ import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessm
 import { signAndlock } from '../../steps/oasys/layer3-assessment/sign-and-lock'
 import { internalTransfer } from '../../steps/delius/transfer/internal-transfer'
 import { formatDate, NextMonth } from '../../steps/delius/utils/date-time'
+import saveOutput from '../../utils/saveOutput'
 
 test.describe(() => {
     test.describe.configure({ retries: 0 })
@@ -23,6 +24,8 @@ test.describe(() => {
             person,
             providerName: data.teams.singleAccommodationTestTeam.provider,
         })
+        console.log('Saving offender output data...')
+        saveOutput('BASE_CASE_NAME', `${person.firstName} ${person.lastName}`)
         console.log('OK \n----------')
 
         console.log('Creating custodial event...')
