@@ -33,7 +33,7 @@ test('Create a case in multiple systems', async ({ page }) => {
             await createCommunityEvent(page, { crn })
         }
         if (process.env.ALLOCATE_TO_USER) {
-            const team = process.env.TEAM
+            const team = process.env.ALLOCATION_TEAM
             const firstName = process.env.ALLOCATION_FIRST_NAME
             const lastName = process.env.ALLOCATION_LAST_NAME
             await transferToDeliusUser(page, { crn, provider: owningProvider, team, firstName, lastName })
