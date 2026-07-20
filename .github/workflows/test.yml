@@ -56,6 +56,10 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
+          # Repository is specified to run the workflow from other repositories
+          repository: 'ministryofjustice/hmpps-probation-integration-e2e-tests'
+          # TODO: remove specific branch once merged
+          ref: 'SAS-68-setup-data'
           persist-credentials: false # Remove this line of code which is a work around, once fix is in place as per the - https://github.com/JamesIves/github-pages-deploy-action/issues/1928
 
       - name: Get tests to run - all tests
