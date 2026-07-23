@@ -62,19 +62,24 @@ export const clickSection1 = async (
     if (isSexualOffenceDropdownEnabled) {
         await sexualOffenceDropdown.selectOption('1.30~YES')
         await page.getByLabel('Does the current offence have a sexual motivation?').selectOption('1.41~YES')
-    } else {
-        const contactOffenceDropdown = page.getByLabel(
-            'Does the current offence involve actual/attempted direct contact against a victim who was a stranger?'
-        )
-        await contactOffenceDropdown.waitFor({ state: 'visible' })
-        await contactOffenceDropdown.selectOption('1.44~YES')
     }
+
+    const contactOffenceDropdown = page.getByLabel(
+        'Does the current offence involve actual/attempted direct contact against a victim who was a stranger?'
+    )
+    await contactOffenceDropdown.waitFor({ state: 'visible' })
+    await contactOffenceDropdown.selectOption('1.44~YES')
 
     await page.getByLabel('Date of most recent sanction involving a sexual/sexually motivated offence').click()
     await fillDateOasys(page, '#itm_1_33', _date)
     await page
         .getByLabel('Number of previous/current sanctions involving contact adult sexual/sexually motivated offences')
         .fill('1')
+    await page
+        .getByLabel(
+            'Number of previous/current sanctions involving direct contact child sexual/sexually motivated offences'
+        )
+        .fill('0')
     await page
         .getByLabel(
             'Number of previous/current sanctions involving indecent child image or indirect child contact sexual/sexually motivated offences'
@@ -85,9 +90,7 @@ export const clickSection1 = async (
             'Number of previous/current sanctions involving other non-contact sexual/sexually motivated offences'
         )
         .fill('0')
-    await page
-        .getByLabel('Date of commencement of community sentence or earliest possible release from custody')
-        .click()
+    await page.getByLabel('Date of commencement of community sentence').click()
     await fillDateOasys(page, '#itm_1_38', _date)
     await page.locator('#B6737316531953403').click()
 }
