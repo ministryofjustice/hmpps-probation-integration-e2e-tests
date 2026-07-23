@@ -137,6 +137,7 @@ jobs:
           ESUPERVISION_API: https://esupervision-api-dev.hmpps.service.justice.gov.uk
           PROBATION_ACCESS_CONTROL_API: https://probation-access-control-dev.hmpps.service.justice.gov.uk
           MANAGE_MY_COMMUNITY_SENTENCE_API: https://manage-my-community-sentence-and-delius-dev.hmpps.service.justice.gov.uk
+          SINGLE_ACCOMMODATION_SERVICE_URL: https://single-accommodation-service-dev.hmpps.service.justice.gov.uk
 
           # Credentials
           DELIUS_USERNAME: ${{ secrets.E2E_DELIUS_USERNAME }}
