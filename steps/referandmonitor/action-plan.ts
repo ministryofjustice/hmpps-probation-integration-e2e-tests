@@ -25,7 +25,8 @@ export const createActionPlan = async (page: Page, numberOfSessions = 1) => {
 }
 
 export const approveActionPlan = async (page: Page, referralRef: string) => {
-    await page.locator('a.moj-sub-navigation__link', { hasText: 'Open cases' }).click()
+    await page.getByRole('link', { name: 'View referrals' }).click()
+    await page.getByRole('link', { name: 'Open cases' }).click()
     await expect(page).toHaveURL(/probation-practitioner\/dashboard\/open-cases/)
     const referralLinkLocator = page.locator('tr', { hasText: referralRef }).locator('a', { hasText: 'View' })
     const dateSentHeaderLocator = page.locator('.govuk-table__header', { hasText: 'Date sent' })
