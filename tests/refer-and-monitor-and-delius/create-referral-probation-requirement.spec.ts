@@ -50,11 +50,17 @@ test('Create and complete referral for a case with a probation requirement', asy
         contact('1 - CRS Personal Wellbeing', 'NSI Referral'),
         contact('1 - CRS Personal Wellbeing', 'In Progress'),
         contact('1 - CRS Personal Wellbeing', 'Completed'),
-        contact('1 - CRS Personal Wellbeing', 'Appointment with CRS Provider (NS)', null, 'Attended - Complied', 'Y', 'Y'),
+        contact(
+            '1 - CRS Personal Wellbeing',
+            'Appointment with CRS Provider (NS)',
+            null,
+            'Attended - Complied',
+            'Y',
+            'Y'
+        ),
         contact('1 - CRS Personal Wellbeing', 'Notification from CRS Provider'),
         contact('1 - CRS Personal Wellbeing', 'NSI Terminated'),
     ])
 
     await navigateToNSIDetails(page, crn, true)
 })
-
