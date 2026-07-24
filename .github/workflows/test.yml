@@ -52,9 +52,14 @@ jobs:
       failed-projects: ${{ steps.json.outputs.failed-projects }}
       passed-projects: ${{ steps.json.outputs.passed-projects }}
       report-url: ${{ steps.html.outputs.report-url }}
+      output-data: ${{ steps.output-data.outputs.data }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          # Repository is specified to run the workflow from other repositories
+          repository: 'ministryofjustice/hmpps-probation-integration-e2e-tests'
+          # TODO: remove specific branch once merged
+          ref: 'SAS-68-setup-data'
           persist-credentials: false # Remove this line of code which is a work around, once fix is in place as per the - https://github.com/JamesIves/github-pages-deploy-action/issues/1928
 
       - name: Get tests to run - all tests
@@ -182,6 +187,12 @@ jobs:
           echo "passed-projects=${passed_projects:-'[]'}" | tee -a "$GITHUB_OUTPUT"
         env:
           all_projects: ${{ env.projects }}
+
+      - name: Parse output data file to output
+        id: output-data
+        if: always()
+        run: |
+          [ -f OUTPUT.txt ] && echo "data=$(cat OUTPUT.txt)" >> "$GITHUB_OUTPUT" || true
 
       - name: Publish JUnit report
         id: junit

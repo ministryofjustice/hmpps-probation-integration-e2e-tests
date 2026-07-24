@@ -46,6 +46,11 @@ export const testEnvironmentData: TestData = {
             firstName: 'AutomatedTestUser',
             lastName: 'AutomatedTestUser',
         },
+        singleAccommodationTestUser: {
+            name: 'TestUser, SAS (PS - PO)',
+            firstName: 'SAS',
+            lastName: 'TestUser',
+        },
     },
     teams: {
         allocationsTestTeam: {
@@ -74,6 +79,10 @@ export const testEnvironmentData: TestData = {
         genericTeam: {
             name: 'Vale - Team',
             provider: 'Wales',
+        },
+        singleAccommodationTestTeam: {
+            name: 'Community Accommodation Test Team',
+            provider: 'London',
         },
     },
     prisoners: {
