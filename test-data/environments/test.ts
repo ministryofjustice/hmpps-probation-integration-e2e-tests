@@ -42,7 +42,7 @@ export const testEnvironmentData: TestData = {
             lastName: 'AutomatedTestUser',
         },
         automatedTestUser: {
-            name: 'AutomatedTestUser, AutomatedTestUser (NPS - PO)',
+            name: 'AutomatedTestUser, AutomatedTestUser (PS - PSO)',
             firstName: 'AutomatedTestUser',
             lastName: 'AutomatedTestUser',
         },
