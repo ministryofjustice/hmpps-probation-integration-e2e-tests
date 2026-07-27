@@ -27,7 +27,7 @@ test('Create person and check the record is updated on SAS', async ({ page }) =>
         reason: 'Case Allocated to NPS',
     })
 
-    // Login to SAS to check offender address details
+    // Login to SAS to check offender details
     await sasLogin(page)
     await searchForPerson(page, crn, person)
     const addressLocator = page.locator('//tbody/tr/td[3]')
