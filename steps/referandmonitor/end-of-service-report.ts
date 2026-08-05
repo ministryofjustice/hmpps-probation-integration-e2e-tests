@@ -5,6 +5,7 @@ export const createEndOfServiceReport = async (page: Page) => {
     await page.waitForURL(/service-provider\/end-of-service-report\/.*\/outcomes\/.*/)
 
     await page.click('input[value="ACHIEVED"]')
+    await page.fill('#progression-comments', 'Made good progress on this outcome.')
     await page.click('button.govuk-button')
     await page.waitForURL(/service-provider\/end-of-service-report\/.*\/further-information/)
     await page.click('button.govuk-button')

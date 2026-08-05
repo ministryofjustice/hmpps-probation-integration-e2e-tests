@@ -32,7 +32,7 @@ test('Create a case in multiple systems', async ({ page }) => {
         } else {
             await createCommunityEvent(page, { crn })
         }
-        if (process.env.ALLOCATE_TO_USER) {
+        if (process.env.ALLOCATE_TO_USER === 'true') {
             const team = process.env.ALLOCATION_TEAM
             const firstName = process.env.ALLOCATION_FIRST_NAME
             const lastName = process.env.ALLOCATION_LAST_NAME

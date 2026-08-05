@@ -77,6 +77,10 @@ export const editSessions = async (
     sessionDetails: SessionDetail[] = [{ number: 1, attended: true, notifyOm: false, date: new Date() }]
 ) => {
     await referralProgress(page, referralRef)
+
+    await page.locator('[href$="progress"]', { hasText: 'Progress' }).click()
+    await page.waitForURL(/service-provider\/referrals\/.*\/progress/)
+
     for (const detail of sessionDetails) {
         await editSession(page, referralRef, detail)
     }
@@ -128,7 +132,11 @@ const editSession = async (page: Page, referralRef: string, detail: SessionDetai
         await page.fill('#session-response', 'A description of the response from the person')
 
         // Did anything concern you about the person
-        await page.locator('#notify-probation-practitioner-2').check()
+        await page.locator('#noNotifyPPCheckbox').check()
+
+        // Was the person late?
+        await page.locator('#wasLateNoRadio').check()
+
         await page.click('button.govuk-button')
     }
 

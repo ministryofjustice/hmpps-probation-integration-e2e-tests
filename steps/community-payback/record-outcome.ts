@@ -98,7 +98,7 @@ export async function findGroupSession(
 
 export async function findAnIndividualPlacement(page: Page, provider: string, teamName: string) {
     const supervisor = 'Unallocated Staff'
-    const projectName = 'Heartline Research Northfield'
+    const projectName = 'Helping Hands Trust'
     await page.getByRole('link', { name: 'Record attendance at a host' }).click()
     await selectOption(page, '#provider', provider)
     await selectOption(page, '#team', teamName)
