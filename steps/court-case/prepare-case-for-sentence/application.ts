@@ -11,7 +11,7 @@ export async function addCourtToUser(page: Page, court: string) {
     await page.locator('[href="?save=true"]', { hasText: 'Save list and continue' }).click()
     await expect(page).toHaveTitle('My courts - Prepare a case for sentence')
     await page.getByRole('link', { name: court }).click()
-    await expect(page).toHaveTitle('Case list - Prepare a case for sentence')
+    await expect(page).toHaveTitle('Cases - Hearing outcome still to be added - Prepare a case for sentence')
 }
 
 export async function searchAndClickDefendantAndGetHeader(
@@ -65,7 +65,7 @@ export async function extractRegistrationDetails(page: Page) {
 
 export async function extractProbationRecordDetails(page: Page): Promise<{ outcome: string; offence: string }> {
     await page.getByRole('link', { name: 'Probation record' }).click()
-    await expect(page).toHaveTitle('Probation record - Prepare a case for sentence')
+    await expect(page.locator('h2.govuk-heading-l')).toContainText('Probation record')
     const outcome = await page.locator('.govuk-summary-card__title').innerText()
     const offence = await page.locator('dd p.govuk-body').first().innerText()
     return { outcome, offence }
