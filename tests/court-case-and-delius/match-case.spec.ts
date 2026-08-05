@@ -52,7 +52,9 @@ test('Match Delius case with Court Case Hearing', async ({ page }) => {
 
     // And I verify that "Risk register" details are same as Delius
     await page.getByRole('link', { name: 'Risk register' }).click()
-    await expect(page).toHaveTitle('Risk register - Prepare a case for sentence')
+    await expect(page).toHaveTitle(
+        RegExp(`${person.firstName} ${person.lastName} - Risk register - Prepare a case for sentence`, 'i')
+    )
     const { registrationType, registeredDate, nextReviewDate } = await extractRegistrationDetails(page)
     expect(createdRegistration.deliusRegtype).toContain(registrationType)
     expect(await formatDateToPrepareCase(createdRegistration.deliusRegDate)).toContain(registeredDate)

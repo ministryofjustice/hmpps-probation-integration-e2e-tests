@@ -3,6 +3,7 @@ import { refreshUntil } from '../utils/refresh'
 import { selectOption } from '../utils/inputs'
 import { Allocation } from '../../../test-data/test-data'
 import { Person } from '../utils/person'
+import { login as deliusLogin } from '../login'
 
 export async function findOffenderByName(page: Page, forename: string, surname: string) {
     await page.locator('a', { hasText: 'National search' }).click()
@@ -73,11 +74,10 @@ export async function findOffenderByNomisId(page: Page, nomisId: string): Promis
 }
 
 export async function verifyAllocation(page: Page, args: { allocation: Allocation; crn: string }) {
-    await page.goto(process.env.DELIUS_URL)
-
+    await deliusLogin(page)
     await findOffenderByCRN(page, args.crn)
 
-    const locator = await page
+    const locator = page
         .locator("a:right-of(:text('Community Manager:'))", {
             hasText: `${args.allocation.staff.lastName}, ${args.allocation.staff.firstName}`,
         })
@@ -85,9 +85,7 @@ export async function verifyAllocation(page: Page, args: { allocation: Allocatio
 
     await refreshUntil(page, () => expect(locator).not.toHaveCount(0))
 
-    await expect(await locator.textContent()).toEqual(
-        `${args.allocation.staff.lastName}, ${args.allocation.staff.firstName}`
-    )
+    expect(await locator.textContent()).toEqual(`${args.allocation.staff.lastName}, ${args.allocation.staff.firstName}`)
     await page.locator('a', { hasText: 'Community Supervisor' }).click()
     await expect(page.locator('#provider\\:outputText')).toHaveText(args.allocation.team.provider)
     await expect(page.locator('#supervisorCommunityTeam\\:outputText')).toHaveText(args.allocation.team.name)
