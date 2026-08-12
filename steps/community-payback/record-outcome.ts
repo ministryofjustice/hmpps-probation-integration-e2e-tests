@@ -40,6 +40,8 @@ export async function recordUnacceptableAbsenceOutcome(page: Page) {
     await expect(page.locator('.moj-alert__content')).toContainText(
         /This outcome will be shared with the practitioner as it requires enforcement action./
     )
+    await page.locator('input[name="alertPractitioner"][value="no"]').click()
+    await page.getByRole('button', { name: 'Confirm' }).click()
 
     // Confirm details
     await confirmDetails(page)
