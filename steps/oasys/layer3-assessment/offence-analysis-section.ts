@@ -1,10 +1,10 @@
 import { type Page } from '@playwright/test'
 
-export const complete2OffenceAnalysisSection = async (page: Page) => {
+export const complete2OffenceAnalysisSection = async (page: Page, sexualMotivation: boolean = true) => {
     await page
         .getByRole('row', { name: 'Sexual motivation' })
         .getByLabel('Sexual motivation')
-        .selectOption('2.9_V2_SEXUAL~YES')
+        .selectOption(sexualMotivation ? '2.9_V2_SEXUAL~YES' : '2.9_V2_SEXUAL~NO')
     await page
         .getByRole('row', { name: 'Financial motivation' })
         .getByLabel('Financial motivation')

@@ -29,6 +29,14 @@ export const createLayer3AssessmentReview = async (page: Page) => {
     await expect(page.locator('#contextleft > h3')).toHaveText('Case ID - Offender Information (Layer 3)')
 }
 
+export const createLayer1AssessmentReview = async (page: Page) => {
+    await page.locator('#P10_PURPOSE_ASSESSMENT_ELM').selectOption({ label: 'Review' })
+    await page.pause()
+    await page.locator('#P10_ASSESSMENT_TYPE_ELM').selectOption({ label: 'Basic (Layer 1)' })
+    await page.click('#B3730320750239994')
+    // await expect(page.locator('#contextleft > h3')).toHaveText('Case ID - Offender Information (Layer 3)')
+}
+
 export const clickRoSHScreeningSection1 = async (page: Page) => {
     await page.locator('a', { hasText: 'RoSH Screening' }).click()
     await page.locator('a[href *= "ROSHA1"]', { hasText: 'Section 1' }).click()
@@ -112,7 +120,10 @@ export const clickSection2to13 = async (page: Page, needs: 'Yes' | 'No' = 'No') 
         await complete11ThinkingAndBehaviourSection(page)
         await complete12AttitudesSection(page)
     } else {
-        await page.getByRole('link', { name: '5 - Finance' }).click()
+        await saveAndNavigate(page)
+        // await page.getByRole('link', { name: '5 - Finance' }).click()
+        await complete3AccommodationSection(page)
+        await complete4ETESection(page)
         await complete5FinanceSection(page)
         await saveAndNavigate(page)
         await complete7LifestyleSection(page)
@@ -122,6 +133,29 @@ export const clickSection2to13 = async (page: Page, needs: 'Yes' | 'No' = 'No') 
         await complete11ThinkingAndBehaviourSection(page)
         await complete12AttitudesSection(page)
     }
+}
+
+export const completeOffenceAnalysisAndPredictorQuestions = async (page: Page) => {
+    await page.pause()
+    await page.getByRole('link', { name: '2 - Offence Analysis' }).click()
+    await complete2OffenceAnalysisSection(page, false)
+    await saveAndNavigate(page)
+    await page.getByLabel('Is the offender living in suitable accommodation').selectOption({ label: '0-No problems' })
+    await page
+        .getByLabel('Is the person unemployed, or will be unemployed on release')
+        .selectOption({ label: '0 - No' })
+    await page.getByLabel('Current relationship with partner').selectOption({ label: '2-Significant problems' })
+    await page.getByLabel('Is there evidence of current or previous domestic abuse?').selectOption({ label: 'No' })
+    await page.getByLabel('Current relationship status').selectOption({ label: 'In a relationship living together' })
+    await page.getByLabel('Regular activities encourage offending').selectOption({ label: '0-No problems' })
+    await page.getByLabel('Drugs ever misused (in custody or community)').selectOption('8.1~NO')
+    await page.getByLabel("Is the person's current use of alcohol a problem").selectOption({ label: '0-No problems' })
+    await page
+        .getByLabel('Is there evidence of binge drinking or excessive use of alcohol in the last 6 months')
+        .selectOption({ label: '0-No problems' })
+    await page.getByLabel('Impulsivity').selectOption('11.2~0')
+    await page.getByLabel('Temper control').selectOption('11.4~0')
+    await page.getByLabel('Pro-criminal attitudes').selectOption('12.1~0')
 }
 
 export const selfAssessmentForm = async (page: Page) => {

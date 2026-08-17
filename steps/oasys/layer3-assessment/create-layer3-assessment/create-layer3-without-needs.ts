@@ -14,8 +14,10 @@ import {
     clickRoSHSummary,
     clickSection1,
     clickSection2to13,
+    createLayer1AssessmentReview,
     createLayer3Assessment,
     createLayer3AssessmentReview,
+    completeOffenceAnalysisAndPredictorQuestions,
     selfAssessmentForm,
 } from '../create-assessment'
 import { completeRoSHSection1MarkAllNo } from '../section-1'
@@ -126,6 +128,102 @@ export const createLayer3CompleteAssessment = async (
     // And I complete Offence Analysis Plan Questions
     await completeOffenceAnalysisYes(page)
 }
+
+export const createLayer1CompleteAssessment = async (
+    page: Page,
+    crn: string,
+    person: Person,
+    needs: Needs = 'No',
+    nomisId?: string,
+    highRoshScore: boolean = false
+) => {
+    let providerEstablishmentPageExists = false
+
+    try {
+        // Check if the 'Provider/Establishment' page exists within a timeout of 5000 milliseconds (5 seconds)
+        await page.waitForSelector('#loginbodyheader > h2', { timeout: 5000 })
+        providerEstablishmentPageExists =
+            (await page.locator('#loginbodyheader > h2').innerText()) === 'Provider/Establishment'
+    } catch {
+        // If the element is not found within the timeout, set providerEstablishmentPageExists to false
+        providerEstablishmentPageExists = false
+    }
+
+    // If the 'Provider/Establishment' page exists, select "Warwickshire" from Choose Provider Establishment
+    if (providerEstablishmentPageExists) {
+        await selectRegion(page)
+    }
+
+    // And I click on the Search button from the top menu
+    await clickSearch(page)
+    // And I enter the crn number and search
+    await crnSearch(page, crn)
+    // And I click on Create Offender button
+    await clickCreateOffenderButton(page)
+    if (nomisId !== undefined) {
+        // Check if nomisId is provided
+        await page.locator('#P10_CMS_PRIS_NUMBER').fill(nomisId)
+        await page.locator('#B2777914628851790', { hasText: 'Save' }).click()
+    }
+    // And I click on Create Assessment Button
+    await clickCreateAssessmentButton(page)
+    // And I say OK for CRN Amendment
+    await clickOKForCRNAmendment(page)
+    // And I click on CMS Record
+    await clickCMSRecord(page)
+    // And I update the offender
+    await clickUpdateOffenderButton(page)
+    // And I start creating Layer 1 Assessment
+    await createLayer1AssessmentReview(page)
+    // And I complete section 1
+    await clickSection1(page, DateTime.fromJSDate(person.dob).plus({ years: 15 }).toJSDate())
+    // And I complete section 2 to 13
+    // await clickSection2to13(page, needs)
+    await completeOffenceAnalysisAndPredictorQuestions(page)
+    // And I Click on "RoSH Screening" Section
+    await selfAssessmentForm(page)
+    await clickRoSHScreeningSection1(page)
+    // And I complete RoSH Screening Section 1 and Click Save & Next
+    await completeRoSHSection1MarkAllNo(page)
+
+    if (highRoshScore) {
+        console.log('High RoSH Score is true')
+        // And I Click on "RoSH Screening" - Section 2 to 4 & and Click Next without selecting/entering anything
+        await clickSection2To4RoshYes(page, person)
+        // // And I complete "RoSH Screening" Section 5 and Click Save & Next
+        await completeRoSHSection5FullAnalysis(page)
+        // And I complete "'R8 Risks to the individual - full analysis'" Section 5 and Click Save & Next
+        await completeRoSHSection8FullAnalysisYes(page)
+        // And I complete "RoSH Summary - R9" Questions
+        await completeRoSHSection9RoSHSummary(page)
+        // And I complete "RoSH Summary - R10" Questions
+        await completeRoSHSection10RoSHSummary(page, highRoshScore)
+    } else {
+        console.log('High RoSH Score is false')
+        // And I Click on "RoSH Screening" - Section 2 to 4 & and Click Next without selecting/entering anything
+        await clickSection2To4(page, person)
+        // // And I complete "RoSH Screening" Section 5 and Click Save & Next
+        await completeRoSHSection5FullAnalysis(page)
+        // And I Click on "RoSH Summary" Section
+        await clickRoSHSummary(page)
+        // And I complete "RoSH Summary - R9" Questions
+        await completeRoSHSection9RoSHSummary(page)
+        // And I complete "RoSH Summary - R10" Questions
+        await completeRoSHSection10RoSHSummary(page)
+    }
+
+    // And I Click on "Risk Management Plan" Section
+    await clickRiskManagementPlan(page)
+    // And I complete "Risk Management Plan" Questions
+    await completeRiskManagementPlan(page)
+    // And I complete "Review Sentence Plan" Questions
+    await completeReviewSentencePlan(page)
+    // And I click on "Section 2 to 13" & "2 - Offence Analysis"
+    await clickOffenceAnalysis(page)
+    // And I complete Offence Analysis Plan Questions
+    await completeOffenceAnalysisYes(page)
+}
+
 export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string, highRoshScore: boolean = false) => {
     // And I select "Warwickshire" from Choose Provider Establishment
     await selectRegion(page)
