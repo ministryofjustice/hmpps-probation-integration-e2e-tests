@@ -3,7 +3,7 @@ import { login as deliusLogin } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
-import { createCustodialEvent } from '../../steps/delius/event/create-event'
+import { createDeterminateCustodyEvent } from '../../steps/delius/event/create-event'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import {
     clickChooseSectionsOfOASysToImportLink,
@@ -32,7 +32,7 @@ test('View OASys assessments in Approved Premises service', async ({ page }) => 
     const crn = await createOffender(page, { person })
 
     // And I create an event in nDelius
-    await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
+    await createDeterminateCustodyEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
 
     // And I create an entry in NOMIS (a corresponding person and booking in NOMIS)
     const { nomisId } = await createAndBookPrisoner(page, crn, person)

@@ -117,3 +117,22 @@ export async function createCommunityEvent(
 ): Promise<CreatedEvent> {
     return createEvent(page, { crn, allocation, event, date })
 }
+
+export async function createDeterminateCustodyEvent(
+    page: Page,
+    {
+        crn,
+        allocation,
+        event = {
+            outcome: 'CJA - Std Determinate Custody',
+            length: '12',
+            mainOffence: 'Rape - 01900',
+            subOffence: 'Rape of a female aged 16 or over - 01908',
+            plea: 'Guilty',
+            appearanceType: 'Sentence',
+        },
+        date,
+    }: CreateEvent
+): Promise<CreatedEvent> {
+    return createEvent(page, { crn, allocation, event, date })
+}
