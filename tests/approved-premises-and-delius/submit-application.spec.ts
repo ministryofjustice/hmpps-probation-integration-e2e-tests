@@ -4,7 +4,7 @@ import { login as hmppsLogin } from '../../steps/hmpps-auth/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { data } from '../../test-data/test-data'
 import { deliusPerson } from '../../steps/delius/utils/person'
-import { createCustodialEvent } from '../../steps/delius/event/create-event'
+import { createDeterminateCustodyEvent } from '../../steps/delius/event/create-event'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { createLayer3CompleteAssessment } from '../../steps/oasys/layer3-assessment/create-layer3-assessment/create-layer3-without-needs'
@@ -34,7 +34,7 @@ test('Create an approved premises application', async ({ page }) => {
         providerName: data.teams.approvedPremisesTestTeam.provider,
     })
     // And I create an event in nDelius
-    await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
+    await createDeterminateCustodyEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
 
     // And I create a registration
     await createRegistration(page, crn, 'MAPPA')
@@ -63,8 +63,8 @@ test('Create an approved premises application', async ({ page }) => {
     await findOffenderByCRN(page, crn)
     // Then I should see a contact in Delius for the approved application
     await verifyContacts(page, crn, [
-        contact('1 - Adult Custody < 12m', 'Approved Premises Application Submitted'),
-        contact('1 - Adult Custody < 12m', 'Approved Premises Application Accepted'),
+        contact('1 - CJA - Std Determinate Custody', 'Approved Premises Application Submitted'),
+        contact('1 - CJA - Std Determinate Custody', 'Approved Premises Application Accepted'),
     ])
 })
 
