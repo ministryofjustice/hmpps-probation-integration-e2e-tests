@@ -13,7 +13,7 @@ import { complete10EmotionalWellbeingSection } from './emotional-well-being-sect
 import { complete11ThinkingAndBehaviourSection } from './thinking-behaviour-section'
 import { complete12AttitudesSection } from './attitudes-section'
 import { complete8DrugMisuseSection } from './drug-misuse-section'
-import { complete2OffenceAnalysisSection } from './offence-analysis-section'
+import { complete2OffenceAnalysisSection, complete2OffenceAnalysisSectionLow } from './offence-analysis-section'
 
 export const createLayer3Assessment = async (page: Page) => {
     await page.locator('#P10_PURPOSE_ASSESSMENT_ELM').selectOption({ label: 'Start custody' })
@@ -31,10 +31,9 @@ export const createLayer3AssessmentReview = async (page: Page) => {
 
 export const createLayer1AssessmentReview = async (page: Page) => {
     await page.locator('#P10_PURPOSE_ASSESSMENT_ELM').selectOption({ label: 'Review' })
-    await page.pause()
     await page.locator('#P10_ASSESSMENT_TYPE_ELM').selectOption({ label: 'Basic (Layer 1)' })
     await page.click('#B3730320750239994')
-    // await expect(page.locator('#contextleft > h3')).toHaveText('Case ID - Offender Information (Layer 3)')
+    await expect(page.locator('#contextleft > h3')).toHaveText('Case ID - Offender Information (Layer 1)')
 }
 
 export const clickRoSHScreeningSection1 = async (page: Page) => {
@@ -58,7 +57,7 @@ export const clickSection1 = async (
     await page.getByLabel('Date of first sanction').click()
     await fillDateOasys(page, '#itm_1_8_2', firstOffenceDate)
     await page.getByLabel('Total number of sanctions for all offences').fill('11')
-    await page.getByLabel('How many of the total number of sanctions involved violent offences?').fill('4')
+    await page.getByLabel('How many of the total number of sanctions involved violent offences').fill('4')
     const _date = faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() })
     await page.getByLabel('Date of current conviction').click()
     await fillDateOasys(page, '#itm_1_29', _date)
@@ -136,17 +135,16 @@ export const clickSection2to13 = async (page: Page, needs: 'Yes' | 'No' = 'No') 
 }
 
 export const completeOffenceAnalysisAndPredictorQuestions = async (page: Page) => {
-    await page.pause()
     await page.getByRole('link', { name: '2 - Offence Analysis' }).click()
-    await complete2OffenceAnalysisSection(page, false)
+    await complete2OffenceAnalysisSectionLow(page)
     await saveAndNavigate(page)
+    // await page.getByRole('link', { name: 'Predictor Questions' }).click()
     await page.getByLabel('Is the offender living in suitable accommodation').selectOption({ label: '0-No problems' })
-    await page
-        .getByLabel('Is the person unemployed, or will be unemployed on release')
-        .selectOption({ label: '0 - No' })
+    await page.getByLabel('Is the person unemployed, or will be unemployed on release').selectOption({ label: '0-No' })
     await page.getByLabel('Current relationship with partner').selectOption({ label: '2-Significant problems' })
     await page.getByLabel('Is there evidence of current or previous domestic abuse?').selectOption({ label: 'No' })
-    await page.getByLabel('Current relationship status').selectOption({ label: 'In a relationship living together' })
+    await page.getByLabel('Current relationship status').selectOption({ label: 'In a relationship, living together' })
+    // await page.getByLabel('Current relationship status').selectOption({ label: 'Not in a relationship' })
     await page.getByLabel('Regular activities encourage offending').selectOption({ label: '0-No problems' })
     await page.getByLabel('Drugs ever misused (in custody or community)').selectOption('8.1~NO')
     await page.getByLabel("Is the person's current use of alcohol a problem").selectOption({ label: '0-No problems' })

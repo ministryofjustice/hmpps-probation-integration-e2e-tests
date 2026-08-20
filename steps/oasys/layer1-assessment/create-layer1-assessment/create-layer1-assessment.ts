@@ -3,43 +3,35 @@ import { setProviderEstablishment as selectRegion } from '../../set-provider-est
 import { clickSearch } from '../../task-manager'
 import { offenderSearchWithCRN as crnSearch } from '../../offender-search'
 import { clickCreateOffenderButton } from '../../cms-offender-details'
-import { clickCreateAssessmentButton, clickUpdateOffenderButton } from '../create-ofender'
-import { clickOKForCRNAmendment } from '../crn-amendment'
-import { clickCMSRecord } from '../cms-search-results'
+import { Person } from '../../../delius/utils/person'
+import { DateTime } from 'luxon'
+import { clickCreateAssessmentButton, clickUpdateOffenderButton } from '../../layer3-assessment/create-ofender'
+import { clickOKForCRNAmendment } from '../../layer3-assessment/crn-amendment'
+import { clickCMSRecord } from '../../layer3-assessment/cms-search-results'
 import {
     clickOffenceAnalysis,
     clickRiskManagementPlan,
-    clickRoshFullRisksToIndividual,
     clickRoSHScreeningSection1,
     clickRoSHSummary,
     clickSection1,
-    clickSection2to13,
-    createLayer1AssessmentReview,
-    createLayer3Assessment,
-    createLayer3AssessmentReview,
     completeOffenceAnalysisAndPredictorQuestions,
+    createLayer1AssessmentReview,
     selfAssessmentForm,
-} from '../create-assessment'
-import { completeRoSHSection1MarkAllNo } from '../section-1'
-import { clickSection2To4, clickSection2To4NextButton, clickSection2To4RoshYes } from '../section-2-4'
-import { completeRoSHSection5FullAnalysis, completeRoSHSection5FullAnalysisYes } from '../section-5'
-import { completeRoSHSection10RoSHSummary } from '../section-10'
-import { completeRiskManagementPlan } from '../risk-management-plan'
-import { completeOffenceAnalysis, completeOffenceAnalysisYes } from '../analysis-of-offences-layer3'
-import { Person } from '../../../delius/utils/person'
-import { completeRoSHSection9RoSHSummary } from './section-9'
-import { completeReviewSentencePlan } from './review-sentenceplan'
-import { DateTime } from 'luxon'
-import { completeRoSHFullSec8RisksToIndvdl } from '../rosh-full-analysis-section8'
-import { completeRoSHSection8FullAnalysisYes } from '../section-8'
+} from '../../layer3-assessment/create-assessment'
+import { completeRoSHSection1MarkAllNo } from '../../layer3-assessment/section-1'
+import { clickSection2To4, clickSection2To4RoshYes } from '../../layer3-assessment/section-2-4'
+import { completeRoSHSection5FullAnalysis } from '../../layer3-assessment/section-5'
+import { completeRoSHSection8FullAnalysisYes } from '../../layer3-assessment/section-8'
+import { completeRoSHSection9RoSHSummary } from '../../layer3-assessment/create-layer3-assessment/section-9'
+import { completeRoSHSection10RoSHSummary } from '../../layer3-assessment/section-10'
+import { completeRiskManagementPlan } from '../../layer3-assessment/risk-management-plan'
+import { completeReviewSentencePlan } from '../../layer3-assessment/create-layer3-assessment/review-sentenceplan'
+import { completeOffenceAnalysisYes } from '../../layer3-assessment/analysis-of-offences-layer3'
 
-type Needs = 'Yes' | 'No'
-
-export const createLayer3CompleteAssessment = async (
+export const createLayer1CompleteAssessment = async (
     page: Page,
     crn: string,
     person: Person,
-    needs: Needs = 'No',
     nomisId?: string,
     highRoshScore: boolean = false
 ) => {
@@ -79,12 +71,12 @@ export const createLayer3CompleteAssessment = async (
     await clickCMSRecord(page)
     // And I update the offender
     await clickUpdateOffenderButton(page)
-    // And I start creating Layer 3 Assessment
-    await createLayer3Assessment(page)
+    // And I start creating Layer 1 Assessment
+    await createLayer1AssessmentReview(page)
     // And I complete section 1
     await clickSection1(page, DateTime.fromJSDate(person.dob).plus({ years: 15 }).toJSDate())
-    // And I complete section 2 to 13
-    await clickSection2to13(page, needs)
+    // And I complete section 2 and predictor questions
+    await completeOffenceAnalysisAndPredictorQuestions(page)
     // And I Click on "RoSH Screening" Section
     await selfAssessmentForm(page)
     await clickRoSHScreeningSection1(page)
@@ -127,50 +119,4 @@ export const createLayer3CompleteAssessment = async (
     await clickOffenceAnalysis(page)
     // And I complete Offence Analysis Plan Questions
     await completeOffenceAnalysisYes(page)
-}
-
-export const createLayer3AssessmentWithoutNeeds = async (page: Page, crn: string, highRoshScore: boolean = false) => {
-    // And I select "Warwickshire" from Choose Provider Establishment
-    await selectRegion(page)
-    // And I click on the Search button from the top menu
-    await clickSearch(page)
-    // And I enter the crn number and search
-    await crnSearch(page, crn)
-    // And I click on Create Offender button
-    await clickCreateOffenderButton(page)
-    // And I click on Create Assessment Button
-    await clickCreateAssessmentButton(page)
-    // And I say OK for CRN Amendment
-    await clickOKForCRNAmendment(page)
-    // And I click on CMS Record
-    await clickCMSRecord(page)
-    // And I update the offender
-    await clickUpdateOffenderButton(page)
-    // And I start creating Layer 3 Assessment
-    await createLayer3AssessmentReview(page)
-    // And I Click on "RoSH Screening" Section
-    await clickRoSHScreeningSection1(page)
-    // And I complete RoSH Screening Section 1 and Click Save & Next
-    await completeRoSHSection1MarkAllNo(page)
-    // And I Click on "RoSH Screening" - Section 2 to 4 & and Click Next without selecting/entering anything
-    await clickSection2To4NextButton(page)
-    // And I complete "RoSH Screening" Section 5 and Click Save & Next
-    await completeRoSHSection5FullAnalysisYes(page)
-    // And I Click on "RoSH Summary" Section
-    await clickRoSHSummary(page)
-    // And I complete "RoSH Summary - R10" Questions
-    await completeRoSHSection10RoSHSummary(page, highRoshScore)
-    // And I Click on "Risk Management Plan" Section
-    await clickRiskManagementPlan(page)
-    // And I complete "Risk Management Plan" Questions
-    await completeRiskManagementPlan(page)
-    // And I click on "Section 2 to 13" & "2 - Offence Analysis"
-    await page.locator('a', { hasText: 'Section 2 to 13' }).click()
-    await clickOffenceAnalysis(page)
-    // And I complete Offence Analysis Plan Questions
-    await completeOffenceAnalysis(page)
-    // And I click on "Section 8" under Rosh Full Analysis
-    await clickRoshFullRisksToIndividual(page)
-    // And I complete "Risks to Individual(Risks to Self)" Section
-    await completeRoSHFullSec8RisksToIndvdl(page)
 }
