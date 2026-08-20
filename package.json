@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^10.0.0",
-    "@kubernetes/client-node": "^1.0.0",
+    "@kubernetes/client-node": "^2.0.0",
     "@playwright/test": "1.62.1",
     "playwright-core": "1.62.1",
     "luxon": "^3.5.0",
