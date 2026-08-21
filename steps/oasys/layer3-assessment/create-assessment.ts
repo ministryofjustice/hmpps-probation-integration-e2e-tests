@@ -143,17 +143,25 @@ export const completeOffenceAnalysisAndPredictorQuestions = async (page: Page) =
     await page.getByLabel('Is the person unemployed, or will be unemployed on release').selectOption({ label: '0-No' })
     await page.getByLabel('Current relationship with partner').selectOption({ label: '2-Significant problems' })
     await page.getByLabel('Is there evidence of current or previous domestic abuse?').selectOption({ label: 'No' })
-    await page.getByLabel('Current relationship status').selectOption({ label: 'In a relationship, living together' })
-    // await page.getByLabel('Current relationship status').selectOption({ label: 'Not in a relationship' })
+    // await page.getByLabel('Current relationship status').selectOption({ label: 'In a relationship, living together' })
+    await page.getByLabel('Current relationship status').selectOption({ label: 'Not in a relationship' })
     await page.getByLabel('Regular activities encourage offending').selectOption({ label: '0-No problems' })
-    await page.getByLabel('Drugs ever misused (in custody or community)').selectOption('8.1~NO')
+    await page.getByLabel('Drugs ever misused (in custody and community)').selectOption('No')
     await page.getByLabel("Is the person's current use of alcohol a problem").selectOption({ label: '0-No problems' })
     await page
-        .getByLabel('Is there evidence of binge drinking or excessive use of alcohol in the last 6 months')
+        .getByLabel('Is there evidence of binge drinking or excessive use of alcohol in last 6 months')
         .selectOption({ label: '0-No problems' })
-    await page.getByLabel('Impulsivity').selectOption('11.2~0')
-    await page.getByLabel('Temper control').selectOption('11.4~0')
-    await page.getByLabel('Pro-criminal attitudes').selectOption('12.1~0')
+    await page.getByLabel('Is impulsivity a problem for the offender').selectOption({ label: '0-No problems' })
+    await page.getByLabel('Is temper control a problem for the offender').selectOption({ label: '0-No problems' })
+    await page.getByLabel('Does the offender have pro-criminal attitudes').selectOption({ label: '0-No problems' })
+    await saveAndNavigate(page)
+    // self assessment
+    await page.getByLabel('Did the offender need help to complete the form').selectOption('No')
+    await page.getByLabel('Date Self Assessment Questionnaire Completed').fill('21-08-2026')
+    await page.getByRole('button', { name: 'Mark unanswered as No' }).click()
+    await page.getByLabel('Do you think you are likely to offend in future').selectOption('Definitely not')
+    await page.getByLabel('Why do you think this').fill('OPD Autotest')
+    await page.locator('#B6737316531953403').click()
 }
 
 export const selfAssessmentForm = async (page: Page) => {

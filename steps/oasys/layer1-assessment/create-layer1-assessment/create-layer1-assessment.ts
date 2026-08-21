@@ -78,8 +78,8 @@ export const createLayer1CompleteAssessment = async (
     // And I complete section 2 and predictor questions
     await completeOffenceAnalysisAndPredictorQuestions(page)
     // And I Click on "RoSH Screening" Section
-    await selfAssessmentForm(page)
-    await clickRoSHScreeningSection1(page)
+    // await selfAssessmentForm(page)
+    // await clickRoSHScreeningSection1(page)
     // And I complete RoSH Screening Section 1 and Click Save & Next
     await completeRoSHSection1MarkAllNo(page)
 
