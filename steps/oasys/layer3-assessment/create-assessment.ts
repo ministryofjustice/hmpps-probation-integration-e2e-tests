@@ -13,7 +13,7 @@ import { complete10EmotionalWellbeingSection } from './emotional-well-being-sect
 import { complete11ThinkingAndBehaviourSection } from './thinking-behaviour-section'
 import { complete12AttitudesSection } from './attitudes-section'
 import { complete8DrugMisuseSection } from './drug-misuse-section'
-import { complete2OffenceAnalysisSection, complete2OffenceAnalysisSectionLow } from './offence-analysis-section'
+import { complete2OffenceAnalysisSection } from './offence-analysis-section'
 
 export const createLayer3Assessment = async (page: Page) => {
     await page.locator('#P10_PURPOSE_ASSESSMENT_ELM').selectOption({ label: 'Start custody' })
@@ -27,13 +27,6 @@ export const createLayer3AssessmentReview = async (page: Page) => {
     await expect(page.locator('#P10_ASSESSMENT_TYPE_ELM')).toContainText('Full (Layer 3)')
     await page.click('#B3730320750239994')
     await expect(page.locator('#contextleft > h3')).toHaveText('Case ID - Offender Information (Layer 3)')
-}
-
-export const createLayer1AssessmentReview = async (page: Page) => {
-    await page.locator('#P10_PURPOSE_ASSESSMENT_ELM').selectOption({ label: 'Review' })
-    await page.locator('#P10_ASSESSMENT_TYPE_ELM').selectOption({ label: 'Basic (Layer 1)' })
-    await page.click('#B3730320750239994')
-    await expect(page.locator('#contextleft > h3')).toHaveText('Case ID - Offender Information (Layer 1)')
 }
 
 export const clickRoSHScreeningSection1 = async (page: Page) => {
@@ -132,36 +125,6 @@ export const clickSection2to13 = async (page: Page, needs: 'Yes' | 'No' = 'No') 
         await complete11ThinkingAndBehaviourSection(page)
         await complete12AttitudesSection(page)
     }
-}
-
-export const completeOffenceAnalysisAndPredictorQuestions = async (page: Page) => {
-    await page.getByRole('link', { name: '2 - Offence Analysis' }).click()
-    await complete2OffenceAnalysisSectionLow(page)
-    await saveAndNavigate(page)
-    // await page.getByRole('link', { name: 'Predictor Questions' }).click()
-    await page.getByLabel('Is the offender living in suitable accommodation').selectOption({ label: '0-No problems' })
-    await page.getByLabel('Is the person unemployed, or will be unemployed on release').selectOption({ label: '0-No' })
-    await page.getByLabel('Current relationship with partner').selectOption({ label: '2-Significant problems' })
-    await page.getByLabel('Is there evidence of current or previous domestic abuse?').selectOption({ label: 'No' })
-    // await page.getByLabel('Current relationship status').selectOption({ label: 'In a relationship, living together' })
-    await page.getByLabel('Current relationship status').selectOption({ label: 'Not in a relationship' })
-    await page.getByLabel('Regular activities encourage offending').selectOption({ label: '0-No problems' })
-    await page.getByLabel('Drugs ever misused (in custody and community)').selectOption('No')
-    await page.getByLabel("Is the person's current use of alcohol a problem").selectOption({ label: '0-No problems' })
-    await page
-        .getByLabel('Is there evidence of binge drinking or excessive use of alcohol in last 6 months')
-        .selectOption({ label: '0-No problems' })
-    await page.getByLabel('Is impulsivity a problem for the offender').selectOption({ label: '0-No problems' })
-    await page.getByLabel('Is temper control a problem for the offender').selectOption({ label: '0-No problems' })
-    await page.getByLabel('Does the offender have pro-criminal attitudes').selectOption({ label: '0-No problems' })
-    await saveAndNavigate(page)
-    // self assessment
-    await page.getByLabel('Did the offender need help to complete the form').selectOption('No')
-    await page.getByLabel('Date Self Assessment Questionnaire Completed').fill('21-08-2026')
-    await page.getByRole('button', { name: 'Mark unanswered as No' }).click()
-    await page.getByLabel('Do you think you are likely to offend in future').selectOption('Definitely not')
-    await page.getByLabel('Why do you think this').fill('OPD Autotest')
-    await page.locator('#B6737316531953403').click()
 }
 
 export const selfAssessmentForm = async (page: Page) => {

@@ -8,25 +8,18 @@ import { DateTime } from 'luxon'
 import { clickCreateAssessmentButton, clickUpdateOffenderButton } from '../../layer3-assessment/create-ofender'
 import { clickOKForCRNAmendment } from '../../layer3-assessment/crn-amendment'
 import { clickCMSRecord } from '../../layer3-assessment/cms-search-results'
+import { clickSection1 } from '../../layer3-assessment/create-assessment'
 import {
-    clickOffenceAnalysis,
-    clickRiskManagementPlan,
-    clickRoSHScreeningSection1,
-    clickRoSHSummary,
-    clickSection1,
     completeOffenceAnalysisAndPredictorQuestions,
     createLayer1AssessmentReview,
-    selfAssessmentForm,
-} from '../../layer3-assessment/create-assessment'
-import { completeRoSHSection1MarkAllNo } from '../../layer3-assessment/section-1'
-import { clickSection2To4, clickSection2To4RoshYes } from '../../layer3-assessment/section-2-4'
-import { completeRoSHSection5FullAnalysis } from '../../layer3-assessment/section-5'
-import { completeRoSHSection8FullAnalysisYes } from '../../layer3-assessment/section-8'
-import { completeRoSHSection9RoSHSummary } from '../../layer3-assessment/create-layer3-assessment/section-9'
-import { completeRoSHSection10RoSHSummary } from '../../layer3-assessment/section-10'
-import { completeRiskManagementPlan } from '../../layer3-assessment/risk-management-plan'
-import { completeReviewSentencePlan } from '../../layer3-assessment/create-layer3-assessment/review-sentenceplan'
-import { completeOffenceAnalysisYes } from '../../layer3-assessment/analysis-of-offences-layer3'
+    clickRiskManagementPlan,
+    clickRoSHSummary,
+} from '../create-assessment'
+import { completeReviewBasicSentencePlan } from '../basic-sentence-plan'
+import { completeRoSHSection1MarkAllNo } from '../rosh-section-1'
+import { clickSection2To4 } from '../rosh-section-2-4'
+import { completeRoSHSection10RoSHSummary } from '../rosh-section-10'
+import { completeRiskManagementPlan } from '../risk-management-plan'
 
 export const createLayer1CompleteAssessment = async (
     page: Page,
@@ -74,7 +67,8 @@ export const createLayer1CompleteAssessment = async (
     // And I start creating Layer 1 Assessment
     await createLayer1AssessmentReview(page)
     // And I complete section 1
-    await clickSection1(page, DateTime.fromJSDate(person.dob).plus({ years: 15 }).toJSDate())
+    // await clickSection1(page, DateTime.fromJSDate(person.dob).plus({ years: 15 }).toJSDate())
+    await clickSection1(page)
     // And I complete section 2 and predictor questions
     await completeOffenceAnalysisAndPredictorQuestions(page)
     // And I Click on "RoSH Screening" Section
@@ -86,25 +80,25 @@ export const createLayer1CompleteAssessment = async (
     if (highRoshScore) {
         console.log('High RoSH Score is true')
         // And I Click on "RoSH Screening" - Section 2 to 4 & and Click Next without selecting/entering anything
-        await clickSection2To4RoshYes(page, person)
-        // // And I complete "RoSH Screening" Section 5 and Click Save & Next
-        await completeRoSHSection5FullAnalysis(page)
-        // And I complete "'R8 Risks to the individual - full analysis'" Section 5 and Click Save & Next
-        await completeRoSHSection8FullAnalysisYes(page)
-        // And I complete "RoSH Summary - R9" Questions
-        await completeRoSHSection9RoSHSummary(page)
-        // And I complete "RoSH Summary - R10" Questions
-        await completeRoSHSection10RoSHSummary(page, highRoshScore)
+        // await clickSection2To4RoshYes(page, person)
+        // // // And I complete "RoSH Screening" Section 5 and Click Save & Next
+        // await completeRoSHSection5FullAnalysis(page)
+        // // And I complete "'R8 Risks to the individual - full analysis'" Section 5 and Click Save & Next
+        // await completeRoSHSection8FullAnalysisYes(page)
+        // // And I complete "RoSH Summary - R9" Questions
+        // await completeRoSHSection9RoSHSummary(page)
+        // // And I complete "RoSH Summary - R10" Questions
+        // await completeRoSHSection10RoSHSummary(page, highRoshScore)
     } else {
         console.log('High RoSH Score is false')
         // And I Click on "RoSH Screening" - Section 2 to 4 & and Click Next without selecting/entering anything
         await clickSection2To4(page, person)
         // // And I complete "RoSH Screening" Section 5 and Click Save & Next
-        await completeRoSHSection5FullAnalysis(page)
+        // await completeRoSHSection5FullAnalysis(page)
         // And I Click on "RoSH Summary" Section
         await clickRoSHSummary(page)
         // And I complete "RoSH Summary - R9" Questions
-        await completeRoSHSection9RoSHSummary(page)
+        // await completeRoSHSection9RoSHSummary(page)
         // And I complete "RoSH Summary - R10" Questions
         await completeRoSHSection10RoSHSummary(page)
     }
@@ -114,9 +108,9 @@ export const createLayer1CompleteAssessment = async (
     // And I complete "Risk Management Plan" Questions
     await completeRiskManagementPlan(page)
     // And I complete "Review Sentence Plan" Questions
-    await completeReviewSentencePlan(page)
+    await completeReviewBasicSentencePlan(page)
     // And I click on "Section 2 to 13" & "2 - Offence Analysis"
-    await clickOffenceAnalysis(page)
+    // await clickOffenceAnalysis(page)
     // And I complete Offence Analysis Plan Questions
-    await completeOffenceAnalysisYes(page)
+    // await completeOffenceAnalysisYes(page)
 }

@@ -1,0 +1,162 @@
+import { expect, type Page } from '@playwright/test'
+import { faker } from '@faker-js/faker'
+import { Yesterday } from '../../delius/utils/date-time'
+import { fillDateOasys } from '../../delius/utils/inputs'
+import { doUntil } from '../../delius/utils/refresh'
+import { complete2OffenceAnalysisSection } from './offence-analysis-section'
+
+export const createLayer1AssessmentReview = async (page: Page) => {
+    await page.locator('#P10_PURPOSE_ASSESSMENT_ELM').selectOption({ label: 'Review' })
+    await page.locator('#P10_ASSESSMENT_TYPE_ELM').selectOption({ label: 'Basic (Layer 1)' })
+    await page.click('#B3730320750239994')
+    await expect(page.locator('#contextleft > h3')).toHaveText('Case ID - Offender Information (Layer 1)')
+}
+
+// export const clickRoSHScreeningSection1 = async (page: Page) => {
+//     await page.locator('a', { hasText: 'RoSH Screening' }).click()
+//     await page.locator('a[href *= "ROSHA1"]', { hasText: 'Section 1' }).click()
+//     await page.getByLabel('Is the individual currently subject to a Civil or Ancillary Order?').selectOption('R1.4~NO')
+//     await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Screening (Layer 1)')
+//     await expect(page.locator('#R2846717162014845 > h6')).toHaveText(
+//         'R1 Information from other sections of OASys and risk of serious harm to others - screening'
+//     )
+// }
+
+export const clickSection1 = async (
+    page: Page,
+    firstOffenceDate: Date = faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() })
+) => {
+    await page.getByRole('link', { name: 'Section 1' }).click()
+    await page.getByRole('link', { name: 'Offending Information' }).click()
+    await page.getByLabel('Count').fill('1')
+    await page.getByRole('link', { name: 'Predictors' }).click()
+    await page.getByLabel('Date of first sanction').click()
+    await fillDateOasys(page, '#itm_1_8_2', firstOffenceDate)
+    await page.getByLabel('Total number of sanctions for all offences').fill('11')
+    await page.getByLabel('How many of the total number of sanctions involved violent offences').fill('4')
+    const _date = faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() })
+    await page.getByLabel('Date of current conviction').click()
+    await fillDateOasys(page, '#itm_1_29', _date)
+
+    // Check if 'Have they ever committed a sexual or sexually motivated offence?' is enabled
+    const sexualOffenceDropdown = page.locator('tr #itm_1_30')
+    const isSexualOffenceDropdownEnabled = await sexualOffenceDropdown.isEnabled()
+
+    if (isSexualOffenceDropdownEnabled) {
+        await sexualOffenceDropdown.selectOption('1.30~YES')
+        await page.getByLabel('Does the current offence have a sexual motivation?').selectOption('1.41~YES')
+    }
+
+    const contactOffenceDropdown = page.getByLabel(
+        'Does the current offence involve actual/attempted direct contact against a victim who was a stranger?'
+    )
+    await contactOffenceDropdown.waitFor({ state: 'visible' })
+    await contactOffenceDropdown.selectOption('1.44~YES')
+
+    await page.getByLabel('Date of most recent sanction involving a sexual/sexually motivated offence').click()
+    await fillDateOasys(page, '#itm_1_33', _date)
+    await page
+        .getByLabel('Number of previous/current sanctions involving contact adult sexual/sexually motivated offences')
+        .fill('1')
+    await page
+        .getByLabel(
+            'Number of previous/current sanctions involving direct contact child sexual/sexually motivated offences'
+        )
+        .fill('0')
+    await page
+        .getByLabel(
+            'Number of previous/current sanctions involving indecent child image or indirect child contact sexual/sexually motivated offences'
+        )
+        .fill('0')
+    await page
+        .getByLabel(
+            'Number of previous/current sanctions involving other non-contact sexual/sexually motivated offences'
+        )
+        .fill('0')
+    await page.getByLabel('Date of commencement of community sentence').click()
+    await fillDateOasys(page, '#itm_1_38', _date)
+    await page.locator('#B6737316531953403').click()
+}
+
+export const completeOffenceAnalysisAndPredictorQuestions = async (page: Page) => {
+    await page.getByRole('link', { name: '2 - Offence Analysis' }).click()
+    await complete2OffenceAnalysisSection(page)
+    await saveAndNavigate(page)
+    // await page.getByRole('link', { name: 'Predictor Questions' }).click()
+    await page.getByLabel('Is the offender living in suitable accommodation').selectOption({ label: '0-No problems' })
+    await page.getByLabel('Is the person unemployed, or will be unemployed on release').selectOption({ label: '0-No' })
+    await page.getByLabel('Current relationship with partner').selectOption({ label: '2-Significant problems' })
+    await page.getByLabel('Is there evidence of current or previous domestic abuse?').selectOption({ label: 'No' })
+    // await page.getByLabel('Current relationship status').selectOption({ label: 'In a relationship, living together' })
+    await page.getByLabel('Current relationship status').selectOption({ label: 'Not in a relationship' })
+    await page.getByLabel('Regular activities encourage offending').selectOption({ label: '0-No problems' })
+    await page.getByLabel('Drugs ever misused (in custody and community)').selectOption('No')
+    await page.getByLabel("Is the person's current use of alcohol a problem").selectOption({ label: '0-No problems' })
+    await page
+        .getByLabel('Is there evidence of binge drinking or excessive use of alcohol in last 6 months')
+        .selectOption({ label: '0-No problems' })
+    await page.getByLabel('Is impulsivity a problem for the offender').selectOption({ label: '0-No problems' })
+    await page.getByLabel('Is temper control a problem for the offender').selectOption({ label: '0-No problems' })
+    await page.getByLabel('Does the offender have pro-criminal attitudes').selectOption({ label: '0-No problems' })
+    await saveAndNavigate(page)
+    // self assessment
+    await page.getByLabel('Did the offender need help to complete the form').selectOption('No')
+    // await page.getByLabel('Date Self Assessment Questionnaire Completed').fill('21-08-2026')
+    await page.pause()
+    await fillDateOasys(page, '#itm_1_8_2', faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() }))
+    await page.getByRole('button', { name: 'Mark unanswered as No' }).click()
+    await page.getByLabel('Do you think you are likely to offend in future').selectOption('Definitely not')
+    await page.getByLabel('Why do you think this').fill('OPD Autotest')
+    await page.locator('#B6737316531953403').click()
+}
+
+// export const selfAssessmentForm = async (page: Page) => {
+//     await page.locator('a', { hasText: 'Self Assessment Form' }).click()
+//     await page
+//         .getByLabel('Please provide a clear rationale for not fully completing the Self Assessment Questionnaire')
+//         .fill('OPD Autotest')
+//     await page.locator('#B6737316531953403').click()
+// }
+
+export const clickRoSHSummary = async (page: Page) => {
+    await page.locator('a', { hasText: 'RoSH Summary' }).click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Summary (Layer 1)')
+}
+
+export const clickRiskManagementPlan = async (page: Page) => {
+    await page.locator('a', { hasText: 'Risk Management Plan' }).click()
+    await expect(page.locator('#contextleft > h3')).toHaveText('Risk Management Plan (Layer 1)')
+}
+
+// export const clickOffenceAnalysis = async (page: Page) => {
+//     await expandSectionIfNeeded(page, 'Section 2 to 13', '2 - Offence Analysis')
+//     await page.locator('a', { hasText: '2 - Offence Analysis' }).click()
+//     await expect(page.locator('#contextleft > h3')).toHaveText('2 - Analysis of Offences (Layer 1)')
+// }
+//
+// export const clickRoshFullRisksToIndividual = async (page: Page) => {
+//     await page.locator('a', { hasText: 'RoSH Full Analysis' }).click()
+//     await page.locator('[href*="ROSHFA6"]', { hasText: 'Section 8' }).click()
+//     await expect(page.locator('#contextleft > h3')).toHaveText('Risk of Serious Harm Summary (Layer 1)')
+//     await expect(page.locator('#R2846717162014845 > h6')).toHaveText('R8 Risks to the individual - full analysis')
+// }
+
+const saveAndNavigate = async (page: Page) => {
+    await page.click('input[value="Save"]')
+    await page.click('input[value="Next"]')
+}
+const expandSectionIfNeeded = async (page: Page, sectionText: string, linkText: string) => {
+    const sectionLocator = page.locator('a', { hasText: sectionText })
+    const linkLocator = page.locator('a', { hasText: linkText })
+
+    // Check if the link is visible
+    if (!(await linkLocator.isVisible())) {
+        // Expand the section
+        await sectionLocator.click()
+        // Wait for the section to expand
+        await page.waitForTimeout(1000)
+    }
+
+    // Verify that the link is visible after expanding
+    await expect(linkLocator).toBeVisible()
+}
