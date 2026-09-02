@@ -1,7 +1,6 @@
 import { type Page, expect } from '@playwright/test'
 
 export const completeRoSHSection10RoSHSummary = async (page: Page, highRoshScore: boolean = false) => {
-    await page.pause()
     await page.fill('#textarea_SUM1', "OASys Question - 'R10.1 Who is at risk.' - Answer Input - 'Child'")
     await page.fill(
         '#textarea_SUM2',
@@ -32,10 +31,10 @@ export const completeRoSHSection10RoSHSummary = async (page: Page, highRoshScore
     } else {
         await page.locator('#itm_SUM6_1_1').selectOption({ label: 'Medium' })
         await page.locator('#itm_SUM6_2_1').selectOption({ label: 'Low' })
-        await page.locator('#itm_SUM6_3_1').selectOption({ label: 'Medium' })
+        await page.locator('#itm_SUM6_3_1').selectOption({ label: 'Low' })
         await page.locator('#itm_SUM6_4_1').selectOption({ label: 'Medium' })
         await page.locator('#itm_SUM6_1_2').selectOption({ label: 'Low' })
-        await page.locator('#itm_SUM6_2_2').selectOption({ label: 'Medium' })
+        await page.locator('#itm_SUM6_2_2').selectOption({ label: 'Low' })
         await page.locator('#itm_SUM6_3_2').selectOption({ label: 'Low' })
         await page.locator('#itm_SUM6_4_2').selectOption({ label: 'Medium' })
         await page.locator('#itm_SUM6_5_2').selectOption({ label: 'Low' })

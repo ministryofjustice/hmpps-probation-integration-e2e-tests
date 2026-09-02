@@ -2,8 +2,8 @@ import { expect, type Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
 import { Yesterday } from '../../delius/utils/date-time'
 import { fillDateOasys } from '../../delius/utils/inputs'
-import { doUntil } from '../../delius/utils/refresh'
 import { complete2OffenceAnalysisSection } from './offence-analysis-section'
+import { DateTime } from 'luxon'
 
 export const createLayer1AssessmentReview = async (page: Page) => {
     await page.locator('#P10_PURPOSE_ASSESSMENT_ELM').selectOption({ label: 'Review' })
@@ -22,12 +22,18 @@ export const createLayer1AssessmentReview = async (page: Page) => {
 //     )
 // }
 
-export const clickSection1 = async (
+export const completeSection1 = async (
     page: Page,
-    firstOffenceDate: Date = faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() })
+    firstOffenceDate: Date = faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() }),
+    offenceCode?: string,
+    offenceSubCode?: string
 ) => {
     await page.getByRole('link', { name: 'Section 1' }).click()
     await page.getByRole('link', { name: 'Offending Information' }).click()
+    if (offenceCode && offenceSubCode) {
+        await page.locator('#P6_CT_OFFENCE_CODE_TEXT').fill(offenceCode)
+        await page.locator('#P6_CT_OFFENCE_SUBCODE_TEXT').fill(offenceSubCode)
+    }
     await page.getByLabel('Count').fill('1')
     await page.getByRole('link', { name: 'Predictors' }).click()
     await page.getByLabel('Date of first sanction').click()
@@ -41,7 +47,6 @@ export const clickSection1 = async (
     // Check if 'Have they ever committed a sexual or sexually motivated offence?' is enabled
     const sexualOffenceDropdown = page.locator('tr #itm_1_30')
     const isSexualOffenceDropdownEnabled = await sexualOffenceDropdown.isEnabled()
-
     if (isSexualOffenceDropdownEnabled) {
         await sexualOffenceDropdown.selectOption('1.30~YES')
         await page.getByLabel('Does the current offence have a sexual motivation?').selectOption('1.41~YES')
@@ -101,22 +106,15 @@ export const completeOffenceAnalysisAndPredictorQuestions = async (page: Page) =
     await saveAndNavigate(page)
     // self assessment
     await page.getByLabel('Did the offender need help to complete the form').selectOption('No')
-    // await page.getByLabel('Date Self Assessment Questionnaire Completed').fill('21-08-2026')
-    await page.pause()
-    await fillDateOasys(page, '#itm_1_8_2', faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() }))
+    const offenceDate = faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() })
+    await page.getByLabel('Date Self Assessment Questionnaire Completed').click()
+    await fillDateOasys(page, '#itm_SAQB.date', offenceDate)
     await page.getByRole('button', { name: 'Mark unanswered as No' }).click()
+    await page.keyboard.down('End')
     await page.getByLabel('Do you think you are likely to offend in future').selectOption('Definitely not')
     await page.getByLabel('Why do you think this').fill('OPD Autotest')
-    await page.locator('#B6737316531953403').click()
+    await saveAndNavigate(page)
 }
-
-// export const selfAssessmentForm = async (page: Page) => {
-//     await page.locator('a', { hasText: 'Self Assessment Form' }).click()
-//     await page
-//         .getByLabel('Please provide a clear rationale for not fully completing the Self Assessment Questionnaire')
-//         .fill('OPD Autotest')
-//     await page.locator('#B6737316531953403').click()
-// }
 
 export const clickRoSHSummary = async (page: Page) => {
     await page.locator('a', { hasText: 'RoSH Summary' }).click()

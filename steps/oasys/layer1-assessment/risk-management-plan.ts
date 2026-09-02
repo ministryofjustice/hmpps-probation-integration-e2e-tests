@@ -1,7 +1,11 @@
 import { type Page, expect } from '@playwright/test'
 
 export const completeRiskManagementPlan = async (page: Page) => {
-    await page.pause()
+    await page.locator('#itm_RM1').selectOption('No')
+    await page.locator('#itm_RM2').selectOption('No')
+    await page.locator('#itm_RM3').selectOption('No')
+    await page.locator('#itm_RM4').selectOption('No')
+
     await page.fill(
         '#textarea_RM28',
         "OASys Question - 'Further Considerations about Current Situation' - Answer Input - 'Currently in Custody at HMP Hewell - Mangement of Case under MAPPA Level 3'"
@@ -30,5 +34,5 @@ export const completeRiskManagementPlan = async (page: Page) => {
     await page.keyboard.down('End')
     await page.click('input[value="Save"]')
     await page.click('input[value="Next"]')
-    await expect(page.locator('#contextleft > h3')).toHaveText('Summary Sheet (Layer 3)')
+    await expect(page.locator('#contextleft > h3')).toHaveText('Basic Sentence Plan (Layer 1)')
 }
