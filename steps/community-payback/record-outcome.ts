@@ -47,12 +47,11 @@ export async function recordUnacceptableAbsenceOutcome(page: Page) {
 }
 
 export async function adjustTravelTime(page: Page, hours: number, minutes: number) {
-    const today = DateTime.now()
-    await page.locator('#date-day').fill(today.day.toString())
-    await page.locator('#date-month').fill(today.month.toString())
-    await page.locator('#date-year').fill(today.year.toString())
-    await page.locator('#hours').fill(hours.toString())
-    await page.locator('#minutes').fill(minutes.toString())
+    if (hours === 1) {
+        await page.locator('#time').click()
+    } else {
+        await page.locator('#time-2').click()
+    }
     await page.getByRole('button', { name: 'Credit travel time' }).click()
 
     await expect(page.locator('#success-title-1')).toContainText(/Success/)
@@ -104,7 +103,7 @@ export async function findAnIndividualPlacement(page: Page, provider: string, te
     await selectOption(page, '#provider', provider)
     await selectOption(page, '#team', teamName)
     await page.getByRole('button', { name: 'Apply filters' }).click()
-
+    await page.getByRole('link', { name: 'Next' }).click()
     await page.getByRole('link', { name: projectName }).click()
     await page.getByRole('link', { name: 'View' }).first().click()
     const crn = await page.locator('.govuk-caption-l').textContent()
