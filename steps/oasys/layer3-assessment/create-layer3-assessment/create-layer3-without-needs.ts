@@ -14,10 +14,8 @@ import {
     clickRoSHSummary,
     clickSection1,
     clickSection2to13,
-    createLayer1AssessmentReview,
     createLayer3Assessment,
     createLayer3AssessmentReview,
-    completeOffenceAnalysisAndPredictorQuestions,
     selfAssessmentForm,
 } from '../create-assessment'
 import { completeRoSHSection1MarkAllNo } from '../section-1'
