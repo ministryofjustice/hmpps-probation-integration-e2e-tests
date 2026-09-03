@@ -9,9 +9,15 @@ import { clickCreateAssessmentButton, clickUpdateOffenderButton } from '../../la
 import { clickOKForCRNAmendment } from '../../layer3-assessment/crn-amendment'
 import { clickCMSRecord } from '../../layer3-assessment/cms-search-results'
 import {
-    completeOffenceAnalysisAndPredictorQuestions,
     createLayer1AssessmentReview,
     completeSection1,
+    completePredictorQuestions,
+    completeSection2OffenceAnalysis,
+    completeSelfAssessmentForm,
+    completeSection1NoSexualOffence,
+    clickSection1,
+    clickRoSHSummary,
+    clickRiskManagementPlan,
 } from '../create-assessment'
 import { completeReviewBasicSentencePlan } from '../basic-sentence-plan'
 import { completeRoSHSection1MarkAllNo } from '../rosh-section-1'
@@ -30,6 +36,7 @@ export const createLayer1CompleteAssessment = async (
     person: Person,
     nomisId?: string,
     highRoshScore: boolean = false,
+    sexualOffence: boolean = false,
     offenceCode?: string,
     offenceSubCode?: string
 ) => {
@@ -72,14 +79,24 @@ export const createLayer1CompleteAssessment = async (
     // And I start creating Layer 1 Assessment
     await createLayer1AssessmentReview(page)
     // And I complete section 1
-    await completeSection1(
-        page,
-        DateTime.fromJSDate(person.dob).plus({ years: 15 }).toJSDate(),
-        offenceCode,
-        offenceSubCode
-    )
-    // And I complete section 2 and predictor questions and Click Save & Next
-    await completeOffenceAnalysisAndPredictorQuestions(page)
+    await clickSection1(page)
+    if (sexualOffence) {
+        await completeSection1(
+            page,
+            DateTime.fromJSDate(person.dob).plus({ years: 15 }).toJSDate(),
+            offenceCode,
+            offenceSubCode
+        )
+    } else {
+        await completeSection1NoSexualOffence(page, DateTime.fromJSDate(person.dob).plus({ years: 15 }).toJSDate())
+    }
+
+    // And I complete section 2 and Click Save & Next
+    await completeSection2OffenceAnalysis(page)
+    // And I complete "Predictor Questions" and Click Save & Next
+    await completePredictorQuestions(page)
+    // And I complete "Self Assessment Form" and Click Save & Next
+    await completeSelfAssessmentForm(page)
     // And I complete RoSH Screening Section 1 and Click Save & Next
     await completeRoSHSection1MarkAllNo(page)
 
@@ -106,10 +123,12 @@ export const createLayer1CompleteAssessment = async (
         // And I complete "RoSH Screening" Section 6 and Click Save & Next
         await completeRoSHSection6(page)
         // And I complete "RoSH Summary - R10" and Click Save & Next
+        await clickRoSHSummary(page)
         await completeRoSHSection10RoSHSummary(page)
     }
 
     // And I complete "Risk Management Plan" Questions
+    await clickRiskManagementPlan(page)
     await completeRiskManagementPlan(page)
     // And I complete "Review Sentence Plan" Questions
     await completeReviewBasicSentencePlan(page)
