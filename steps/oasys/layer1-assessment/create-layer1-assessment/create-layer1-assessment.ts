@@ -88,7 +88,12 @@ export const createLayer1CompleteAssessment = async (
             offenceSubCode
         )
     } else {
-        await completeSection1NoSexualOffence(page, DateTime.fromJSDate(person.dob).plus({ years: 15 }).toJSDate())
+        await completeSection1NoSexualOffence(
+            page,
+            DateTime.fromJSDate(person.dob).plus({ years: 15 }).toJSDate(),
+            offenceCode,
+            offenceSubCode
+        )
     }
 
     // And I complete section 2 and Click Save & Next
