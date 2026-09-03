@@ -3,7 +3,6 @@ import { faker } from '@faker-js/faker'
 import { Yesterday } from '../../delius/utils/date-time'
 import { fillDateOasys } from '../../delius/utils/inputs'
 import { complete2OffenceAnalysisSection } from './offence-analysis-section'
-import { DateTime } from 'luxon'
 
 export const createLayer1AssessmentReview = async (page: Page) => {
     await page.locator('#P10_PURPOSE_ASSESSMENT_ELM').selectOption({ label: 'Review' })
