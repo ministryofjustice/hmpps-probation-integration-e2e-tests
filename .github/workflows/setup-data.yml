@@ -63,6 +63,7 @@ on:
           - create-case-with-unpaid-work-allocation
           - create-unallocated-workforce-cases
           - create-unallocated-case-with-documents
+          - supervision-packages-cases
 
 jobs:
   create-generic-data:

@@ -46,6 +46,11 @@ export const testEnvironmentData: TestData = {
             firstName: 'AutomatedTestUser',
             lastName: 'AutomatedTestUser',
         },
+        unallocated: {
+            name: 'Unallocated',
+            firstName: '',
+            lastName: '',
+        },
     },
     teams: {
         allocationsTestTeam: {
@@ -74,6 +79,10 @@ export const testEnvironmentData: TestData = {
         genericTeam: {
             name: 'Vale - Team',
             provider: 'Wales',
+        },
+        nationalSecurityDivisionTestTeam: {
+            name: 'Unallocated',
+            provider: 'National Security Division',
         },
     },
     prisoners: {
