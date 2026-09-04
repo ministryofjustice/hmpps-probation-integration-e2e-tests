@@ -32,7 +32,7 @@ test('Create a case not eligible for final third', async ({ page }) => {
 })
 
 test('Create an NSD case eligible for final third', async ({ page }) => {
-    const person = deliusPerson({ sex: 'Male', dob: DateTime.now().minus({ years: 25 }).toJSDate() })
+    const person = deliusPerson({ sex: 'Female', dob: DateTime.now().minus({ years: 25 }).toJSDate() })
     const crn = await createOffender(page, { person, providerName: data.teams.genericTeam.provider })
 
     await createEvent(page, {
