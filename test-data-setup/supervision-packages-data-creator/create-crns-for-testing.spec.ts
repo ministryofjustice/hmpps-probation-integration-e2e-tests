@@ -19,7 +19,16 @@ test.beforeEach(async ({ page }) => {
 
 test('Create a case not eligible for final third', async ({ page }) => {
     const person = deliusPerson({ sex: 'Male', dob: DateTime.now().minus({ years: 25 }).toJSDate() })
-    await createOffenderAndCompleteOasysAssessment(page, person)
+    const crn = await createOffender(page, { person, providerName: data.teams.genericTeam.provider })
+
+    await createCommunityEvent(page, { crn })
+
+    const { nomisId } = await createAndBookPrisoner(page, crn, person)
+    nomisIds.push(nomisId)
+
+    await oasysLogin(page, UserType.Booking)
+    await createLayer1CompleteAssessment(page, crn, person, nomisId, true, true)
+    await signAndlock(page)
 })
 
 test('Create an NSD case eligible for final third', async ({ page }) => {
@@ -47,22 +56,9 @@ test('Create an NSD case eligible for final third', async ({ page }) => {
     nomisIds.push(nomisId)
 
     await oasysLogin(page, UserType.Booking)
-    await createLayer1CompleteAssessment(page, crn, person, nomisId, false, false, '041', '00')
+    await createLayer1CompleteAssessment(page, crn, person, nomisId, false, false)
     await signAndlock(page)
 })
-
-const createOffenderAndCompleteOasysAssessment = async (page: Page, person: Person) => {
-    const crn = await createOffender(page, { person, providerName: data.teams.genericTeam.provider })
-
-    await createCommunityEvent(page, { crn })
-
-    const { nomisId } = await createAndBookPrisoner(page, crn, person)
-    nomisIds.push(nomisId)
-
-    await oasysLogin(page, UserType.Booking)
-    await createLayer1CompleteAssessment(page, crn, person, nomisId, true, true)
-    await signAndlock(page)
-}
 
 test.afterAll(async () => {
     for (const nomsId of nomisIds) {
