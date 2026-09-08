@@ -29,7 +29,11 @@ test('Create person and check the record is updated on SAS', async ({ page }) =>
 
     // Login to SAS to check offender details
     await sasLogin(page)
-    await searchForPerson(page, crn, person)
+    await searchForPerson(page, crn)
+
+    const fullName = person.firstName + ' ' + person.lastName
+    await expect(page.locator('//dt[text()="CRN"]/../dd[1]')).toContainText(crn)
+    await expect(page.locator('h1.govuk-heading-l')).toContainText(fullName)
     const addressLocator = page.locator('//tbody/tr/td[3]')
     await expect(addressLocator).toContainText(address.buildingNumber)
     await expect(addressLocator).toContainText(address.street)
