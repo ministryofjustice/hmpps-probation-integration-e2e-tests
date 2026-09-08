@@ -61,7 +61,7 @@ test('Create an NSD case eligible for final third', async ({ page }) => {
 })
 
 test.afterAll(async () => {
-    for (const nomsId of nomisIds) {
-        await releasePrisoner(nomsId)
+    for (const nomisId of nomisIds) {
+        await releasePrisoner(nomisId)
     }
 })
