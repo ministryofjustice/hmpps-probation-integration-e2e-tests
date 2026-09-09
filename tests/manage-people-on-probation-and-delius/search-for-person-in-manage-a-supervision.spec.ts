@@ -20,5 +20,5 @@ test('Search for a person in Manage People on Probation', async ({ page }) => {
     // Then the person appears in the search results and crn & name matches
     await expect(page).toHaveTitle(/Overview/)
     await expect(page.locator('[data-qa="crn"]')).toContainText(crn)
-    await expect(page.locator('[data-qa="name"]')).toContainText(person.firstName + ' ' + person.lastName)
+    await expect(page.locator('[data-qa="personName"]')).toContainText(person.firstName + ' ' + person.lastName)
 })
