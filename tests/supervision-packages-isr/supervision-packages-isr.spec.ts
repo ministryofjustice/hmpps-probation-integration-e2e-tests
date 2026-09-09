@@ -47,13 +47,13 @@ test('Create a supervision package for a case that is not eligible for final thi
 
     // Then the correct supervision package and tier is assigned
     await expect(page.locator(qa('crn'))).toContainText(crn)
-    await expect(page.locator(qa('name'))).toContainText(`${person.firstName} ${person.lastName}`)
+    await expect(page.locator(qa('personName'))).toContainText(`${person.firstName} ${person.lastName}`)
     await expect(page.locator('.supervision-package h3')).toContainText('Supervision package: community sentence')
     await expect(page.locator('.app-tier-header')).toContainText('Tier A')
 })
 
 test.afterAll(async () => {
-    for (const nomsId of nomisIds) {
-        await releasePrisoner(nomsId)
+    for (const nomisId of nomisIds) {
+        await releasePrisoner(nomisId)
     }
 })
