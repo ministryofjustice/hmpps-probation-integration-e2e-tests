@@ -19,7 +19,7 @@ export async function registerCaseInMPoP(page: Page, person: Person, crn: string
     await managePeopleOnProbationLogin(page)
     await searchPersonInMPoP(page, crn, heading)
     await expect(page.locator(qa('crn'))).toContainText(crn)
-    await expect(page.locator(qa('name'))).toContainText(`${person.firstName} ${person.lastName}`)
+    await expect(page.locator(qa('personName'))).toContainText(`${person.firstName} ${person.lastName}`)
 
     // Set up check-ins
     await page.getByRole('link', { name: 'Appointments', exact: true }).click()
@@ -45,14 +45,10 @@ export async function registerCaseInMPoP(page: Page, person: Person, crn: string
     await page.locator('.moj-js-datepicker-input').fill(uiDueDate)
     await page.getByRole('radio', { name: 'Every 2 weeks' }).check()
     await page.getByRole('button', { name: 'Continue' }).click()
-    await expect(heading).toContainText(/Contact preferences/i)
-    await page.getByRole('button', { name: /change\s+email\s+address/i }).click()
-    await expect(heading).toContainText(new RegExp(`Edit contact details for ${person.firstName}`, 'i'))
     const email = `${person.lastName}@service.gov.uk`
-    await page.getByRole('textbox', { name: /Email address/i }).fill(email)
-    await page.getByRole('button', { name: /Save changes/i }).click()
-    await expect(page.locator('.moj-banner__message')).toContainText('Contact details saved')
-    await page.getByRole('radio', { name: 'Email' }).check()
+    await page.getByRole('radio', { name: 'Email' }).click()
+    await page.getByRole('button', { name: 'Continue' }).click()
+    await page.getByRole('textbox', { name: `What is ${person.firstName}'s email` }).fill(email)
     await page.getByRole('button', { name: 'Continue' }).click()
 
     // Photo journey
