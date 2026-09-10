@@ -3,7 +3,6 @@ import { login as deliusLogin } from '../../steps/delius/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { login as managePeopleOnProbationLogin } from '../../steps/manage-a-supervision/login'
-import { doUntil } from '../../steps/delius/utils/refresh'
 import { searchPersonInMPoP } from '../../steps/manage-a-supervision/application'
 
 test('Search for a person in Manage a Supervision', async ({ page }) => {
@@ -21,5 +20,5 @@ test('Search for a person in Manage a Supervision', async ({ page }) => {
     // Then the person appears in the search results and crn & name matches
     await expect(page).toHaveTitle(/Overview/)
     await expect(page.locator('[data-qa="crn"]')).toContainText(crn)
-    await expect(page.locator('[data-qa="name"]')).toContainText(person.firstName + ' ' + person.lastName)
+    await expect(page.locator('[data-qa="personName"]')).toContainText(person.firstName + ' ' + person.lastName)
 })
