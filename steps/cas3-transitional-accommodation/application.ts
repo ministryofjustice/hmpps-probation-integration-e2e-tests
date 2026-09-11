@@ -184,7 +184,10 @@ async function reviewPrisonInformation(page: Page) {
 async function enterPlacementConsiderations(page: Page) {
     await page.getByRole('link', { name: 'Enter placement considerations' }).click()
     await expect(page).toHaveTitle('Accommodation sharing - CAS3')
-    await page.getByRole('radio', { name: 'Yes', exact: true }).check()
+    // Accommodation sharing = Yes
+    await page.locator('#accommodationSharing').check()
+    // Higher risk = No
+    await page.locator('#higherRisk-2').check()
     await page
         .getByRole('textbox', {
             name: "How will you manage the person's risk if they are placed in shared accommodation?",
