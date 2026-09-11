@@ -2,13 +2,7 @@ import { expect, Page } from '@playwright/test'
 import { login as cvlLogin, loginAsPrisonOfficer } from './login'
 import { faker } from '@faker-js/faker/locale/en_GB'
 
-const postcode = faker.helpers.arrayElement([
-    'NE30 1DP',
-    'NE1 6EE',
-    'SW1A 1AA',
-    'M1 1AE',
-    'BS1 5AH',
-])
+const postcode = faker.helpers.arrayElement(['NE30 1DP', 'NE1 6EE', 'SW1A 1AA', 'M1 1AE', 'BS1 5AH'])
 
 export const createLicence = async (page: Page, crn: string, nomsNumber: string) => {
     await cvlLogin(page)
@@ -38,7 +32,8 @@ export const createLicence = async (page: Page, crn: string, nomsNumber: string)
     console.log(faker.location.zipCode())
     await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveTitle(
-        'Create and vary a licence - Create a licence - What is the contact phone number for the initial appointment?')
+        'Create and vary a licence - Create a licence - What is the contact phone number for the initial appointment?'
+    )
     await page.getByLabel('UK phone number').first().fill(cvlFormattedPhoneNumber())
     await page.getByRole('button', { name: 'Continue' }).click()
     await expect(page).toHaveTitle('Create and vary a licence - Create a licence - When is the initial appointment?')
