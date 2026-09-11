@@ -49,7 +49,7 @@ test('Find individual & group placements with a host partner and update record a
 }) => {
     // Find individual & group placements with a host partner and update the record as Attendance Complied
     await loginAsCaseAdmin(page)
-    const teamName = 'CPB Manual Test Team'
+    const teamName = 'CPB Automated Test Team'
     const crn = await findAnIndividualPlacement(page, data.teams.unpaidWorkTestTeam.provider, teamName)
     await recordAttendanceCompliedOutcome(page)
 

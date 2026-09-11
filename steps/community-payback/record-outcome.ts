@@ -98,12 +98,11 @@ export async function findGroupSession(
 
 export async function findAnIndividualPlacement(page: Page, provider: string, teamName: string) {
     const supervisor = 'Unallocated Staff'
-    const projectName = 'Helping Hands Trust'
+    const projectName = 'Brightstars East of England'
     await page.getByRole('link', { name: 'Record attendance at a host' }).click()
     await selectOption(page, '#provider', provider)
     await selectOption(page, '#team', teamName)
     await page.getByRole('button', { name: 'Apply filters' }).click()
-    await page.getByRole('link', { name: 'Next' }).click()
     await page.getByRole('link', { name: projectName }).click()
     await page.getByRole('link', { name: 'View' }).first().click()
     const crn = await page.locator('.govuk-caption-l').textContent()
