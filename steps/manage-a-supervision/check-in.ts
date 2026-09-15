@@ -19,7 +19,7 @@ export async function registerCaseInMPoP(page: Page, person: Person, crn: string
     await managePeopleOnProbationLogin(page)
     await searchPersonInMPoP(page, crn, heading)
     await expect(page.locator(qa('crn'))).toContainText(crn)
-    await expect(page.locator(qa('personName'))).toContainText(`${person.firstName} ${person.lastName}`)
+    await expect(page.locator(qa('name'))).toContainText(`${person.firstName} ${person.lastName}`)
 
     // Set up check-ins
     await page.getByRole('link', { name: 'Appointments', exact: true }).click()
