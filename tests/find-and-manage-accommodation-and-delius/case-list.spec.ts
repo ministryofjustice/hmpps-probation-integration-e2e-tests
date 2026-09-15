@@ -20,7 +20,7 @@ test('Create person and check the record is updated on SAS', async ({ page }) =>
     await createCustodialEvent(page, { crn })
 
     const nomisId = await createAndBookPrisoner(page, crn, person)
-    await releasePrisoner(nomisId)
+    await releasePrisoner(nomisId.nomisId)
 
     await internalTransfer(page, {
         crn,

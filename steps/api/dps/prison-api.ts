@@ -60,6 +60,10 @@ export const createPrisoner = retry(
 
 export const bookPrisoner = retry(
     sanitiseError(async (offenderNo: string) => {
+        // Prison API now requires bookingInTime in the request body
+        const bookingInTime = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+            .replace('Z', '')
+            .split('.')[0]
         const response = await (
             await getContext()
         ).post(`/api/offenders/${offenderNo}/booking`, {
@@ -68,6 +72,7 @@ export const bookPrisoner = retry(
                 movementReasonCode: 'N',
                 prisonId: 'SWI',
                 imprisonmentStatus: 'SENT03',
+                bookingInTime,
             },
         })
         const json = await response.json()
@@ -77,16 +82,20 @@ export const bookPrisoner = retry(
 
 export const releasePrisoner = retry(
     sanitiseError(async (offenderNo: string) => {
-        await (
+        const releaseTime = new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString().replace('Z', '').split('.')[0]
+
+        const response = await (
             await getContext()
         ).put(`/api/offenders/${offenderNo}/release`, {
-            failOnStatusCode: true,
+            failOnStatusCode: false,
             data: {
                 movementReasonCode: 'CR',
+                releaseTime,
             },
         })
     })
 )
+
 
 export const temporaryReleasePrisoner = retry(
     sanitiseError(async (offenderNo: string) => {
