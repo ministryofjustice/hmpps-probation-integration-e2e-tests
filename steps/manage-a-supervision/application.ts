@@ -4,9 +4,11 @@ import { doUntil } from '../delius/utils/refresh'
 export async function searchPersonInMPoP(page: Page, crn: string, heading?: ReturnType<Page['locator']>) {
     await page.getByRole('link', { name: 'Search' }).click()
     await doUntil(
-        // Leaving this commented out as it's not confirmed whether the Search button will be removed
-        // () => page.getByRole('button', { name: 'Search' }).click(),
-        () => page.getByLabel('Find a person on probation').fill(crn),
+        async () => {
+            await page.getByLabel('Find a person on probation').fill(crn)
+            // Comment out this line if the search button gets removed
+            await page.getByRole('button', { name: 'Search' }).click()
+        },
         () => expect(page.locator('#search-results-container')).toContainText(crn)
     )
 
