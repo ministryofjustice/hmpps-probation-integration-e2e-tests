@@ -16,7 +16,7 @@ import { createRelease } from '../../steps/delius/release/create-release'
 import { createLicenceCondition } from '../../steps/delius/licence-condition/create-licence-condition'
 import { slow } from '../../steps/common/common'
 
-const nomisIds: any[] = []
+const nomisIds: string[] = []
 
 test('Release and recall test', async ({ page }) => {
     slow()
