@@ -70,7 +70,7 @@ export const bookPrisoner = retry(
                 movementReasonCode: 'N',
                 prisonId: 'SWI',
                 imprisonmentStatus: 'SENT03',
-                bookingInTime: bookingInTime
+                bookingInTime: bookingInTime,
             },
         })
         const json = await response.json()
@@ -80,15 +80,14 @@ export const bookPrisoner = retry(
 
 export const releasePrisoner = retry(
     sanitiseError(async (offenderNo: string) => {
-        const releaseTime = Yesterday.plus({ hours: 12 }).toISO({ precision: 'seconds', includeOffset: false,
-        })
+        const releaseTime = Yesterday.plus({ hours: 12 }).toISO({ precision: 'seconds', includeOffset: false })
         const response = await (
             await getContext()
         ).put(`/api/offenders/${offenderNo}/release`, {
             failOnStatusCode: true,
             data: {
                 movementReasonCode: 'CR',
-                releaseTime: releaseTime
+                releaseTime: releaseTime,
             },
         })
     })
