@@ -24,22 +24,24 @@ export async function registerCaseInMPoP(page: Page, person: Person, crn: string
     // Set up check-ins
     await page.getByRole('link', { name: 'Appointments', exact: true }).click()
     await page.getByRole('link', { name: 'Set up online check ins' }).click()
-    await expect(heading).toContainText(
-        new RegExp(`Check if ${person.firstName} is eligible to use online check ins`, 'i')
-    )
-    await page.getByRole('checkbox', { name: 'None of these apply' }).check()
+    await expect(heading).toContainText('About online check ins')
     await page.getByRole('button', { name: 'Continue' }).click()
-    await expect(heading).toContainText(new RegExp(`${person.firstName} is eligible to use online check ins`, 'i'))
-    await page.getByRole('radio', { name: 'To replace some face-to-face' }).click()
-    await page.getByRole('button', { name: 'Sign up for online check ins' }).click()
-    await expect(heading).toContainText(
-        new RegExp(`Check you've got approval before you sign ${person.firstName} up`, 'i')
-    )
-    await page.locator('input[value="spo-approval"]').check()
-    await page.getByRole('button', { name: 'Continue' }).click()
-    await expect(heading).toContainText(new RegExp(`Why is ${person.firstName} suitable to use online check ins?`, 'i'))
-    await page.locator('textarea.govuk-textarea').fill(faker.lorem.sentence())
-    await page.getByRole('button', { name: 'Continue' }).click()
+
+    // The below steps appear to have been removed from the user process flow, will leave in just in case they are brought back.
+
+    // await page.getByRole('checkbox', { name: 'None of these apply' }).check()
+    // await page.getByRole('button', { name: 'Continue' }).click()
+    // await expect(heading).toContainText(new RegExp(`${person.firstName} is eligible to use online check ins`, 'i'))
+    // await page.getByRole('radio', { name: 'To replace some face-to-face' }).click()
+    // await page.getByRole('button', { name: 'Sign up for online check ins' }).click()
+    // await expect(heading).toContainText(
+    //     new RegExp(`Check you've got approval before you sign ${person.firstName} up`, 'i')
+    // )
+    // await page.locator('input[value="spo-approval"]').check()
+    // await page.getByRole('button', { name: 'Continue' }).click()
+    // await expect(heading).toContainText(new RegExp(`Why is ${person.firstName} suitable to use online check ins?`, 'i'))
+    // await page.locator('textarea.govuk-textarea').fill(faker.lorem.sentence())
+    // await page.getByRole('button', { name: 'Continue' }).click()
 
     await expect(heading).toContainText(/Set up\s+online check ins/i)
     await page.locator('.moj-js-datepicker-input').fill(uiDueDate)
