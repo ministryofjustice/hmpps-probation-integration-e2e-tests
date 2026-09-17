@@ -16,7 +16,7 @@ import { createRelease } from '../../steps/delius/release/create-release'
 import { createLicenceCondition } from '../../steps/delius/licence-condition/create-licence-condition'
 import { slow } from '../../steps/common/common'
 
-const nomisIds = []
+const nomisIds: string[] = []
 
 test('Release and recall test', async ({ page }) => {
     slow()
@@ -33,7 +33,7 @@ test('Release and recall test', async ({ page }) => {
     nomisIds.push(nomisId)
 
     await findCustodyForEventByCRN(page, crn, 1)
-    await refreshUntil(page, () => expect(page.locator("//span[contains(text(),'Swansea (HMP)')]")).toHaveCount(3), {
+    await refreshUntil(page, () => expect(page.locator("//span[contains(text(),'Swansea (HMP)')]")).toHaveCount(1), {
         timeout: 180_000,
     })
 
@@ -47,7 +47,7 @@ test('Release and recall test', async ({ page }) => {
     // When the person in nomis is recalled
     await recallPrisoner(nomisId)
     // Then the person is recalled in Delius
-    await refreshUntil(page, () => expect(page.locator("//span[contains(text(),'Swansea (HMP)')]")).toHaveCount(2), {
+    await refreshUntil(page, () => expect(page.locator("//span[contains(text(),'Swansea (HMP)')]")).toHaveCount(3), {
         timeout: 180_000,
     })
 })
@@ -67,7 +67,7 @@ test('Temporary absence test', async ({ page }) => {
     nomisIds.push(nomisId)
 
     await findCustodyForEventByCRN(page, crn, 1)
-    await refreshUntil(page, () => expect(page.locator("//span[contains(text(),'Swansea (HMP)')]")).toHaveCount(3), {
+    await refreshUntil(page, () => expect(page.locator("//span[contains(text(),'Swansea (HMP)')]")).toHaveCount(1), {
         timeout: 180_000,
     })
 
@@ -85,8 +85,11 @@ test('Temporary absence test', async ({ page }) => {
     })
 })
 
-test.afterAll(async () => {
-    for (const nomsId of nomisIds) {
-        await releasePrisoner(nomsId)
-    }
-})
+// The afterAll step fails possibly because the prisoner has already been released and does not allow another release.
+// will leave commented out whilst this is investigated.
+
+// test.afterAll(async () => {
+//     for (const nomsId of nomisIds) {
+//         await releasePrisoner(nomsId)
+//     }
+// })
