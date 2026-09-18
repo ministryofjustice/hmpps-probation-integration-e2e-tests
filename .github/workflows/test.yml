@@ -96,21 +96,29 @@ jobs:
         run: |
           SERIAL_PROJECTS='^(approved-premises-and-oasys|sentence-plan-and-oasys|accredited-programmes-and-oasys|manage-supervision-and-oasys|oasys-and-delius|opd-and-delius|assessment-summary-and-delius|risk-assessment-scores-to-delius|approved-premises-and-delius)$'
 
-          projects=$(echo '${{ env.projects }}' | jq -r '.[]')
+          SERIAL=()
+          PARALLEL=()
 
-          serial_projects=$(echo "$projects" | grep -E "$SERIAL_PROJECTS" || true)
-          parallel_projects=$(echo "$projects" | grep -Ev "$SERIAL_PROJECTS" || true)
+          while read -r project; do
+            if echo "$project" | grep -Eq "$SERIAL_PROJECTS"; then
+              SERIAL+=("$project")
+            else
+              PARALLEL+=("$project")
+            fi
+          done < <(echo '${{ env.projects }}' | jq -r '.[]')
 
-          if [ -n "$parallel_projects" ]; then
-            echo "Running non-OASYS projects with $WORKERS workers"
-            echo "$parallel_projects" | xargs npx playwright test \
+          if [ ${#PARALLEL[@]} -gt 0 ]; then
+            echo "Running parallel projects with $WORKERS workers"
+            npx playwright test \
+              "${PARALLEL[@]}" \
               --reporter=html,junit,json,line \
               --workers="$WORKERS"
           fi
 
-          if [ -n "$serial_projects" ]; then
-            echo "Running OASYS projects with 1 worker"
-            echo "$serial_projects" | xargs npx playwright test \
+          if [ ${#SERIAL[@]} -gt 0 ]; then
+            echo "Running serial projects with 1 worker"
+            npx playwright test \
+              "${SERIAL[@]}" \
               --reporter=html,junit,json,line \
               --workers=1
           fi
