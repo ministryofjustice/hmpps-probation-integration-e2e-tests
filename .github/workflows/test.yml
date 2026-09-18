@@ -92,7 +92,28 @@ jobs:
 
       - name: Run Playwright tests
         id: tests
-        run: echo '${{ env.projects }}' | jq -r '.[]' | xargs npx playwright test --reporter=html,junit,json,line --workers="$WORKERS"
+        shell: bash
+        run: |
+          SERIAL_PROJECTS='^(approved-premises-and-oasys|sentence-plan-and-oasys|accredited-programmes-and-oasys|manage-supervision-and-oasys|oasys-and-delius|opd-and-delius|assessment-summary-and-delius|risk-assessment-scores-to-delius|approved-premises-and-delius)$'
+
+          projects=$(echo '${{ env.projects }}' | jq -r '.[]')
+
+          serial_projects=$(echo "$projects" | grep -E "$SERIAL_PROJECTS" || true)
+          parallel_projects=$(echo "$projects" | grep -Ev "$SERIAL_PROJECTS" || true)
+
+          if [ -n "$parallel_projects" ]; then
+            echo "Running non-OASYS projects with $WORKERS workers"
+            echo "$parallel_projects" | xargs npx playwright test \
+              --reporter=html,junit,json,line \
+              --workers="$WORKERS"
+          fi
+
+          if [ -n "$serial_projects" ]; then
+            echo "Running OASYS projects with 1 worker"
+            echo "$serial_projects" | xargs npx playwright test \
+              --reporter=html,junit,json,line \
+              --workers=1
+          fi
         env:
           TZ: Europe/London
           ENV: test
