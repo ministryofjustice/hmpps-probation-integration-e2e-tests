@@ -93,22 +93,23 @@ export async function findGroupSession(
     await page.getByRole('link', { name: 'View' }).first().click()
     await expect(page.locator('.govuk-caption-l')).toContainText(crn)
 
-    await addSupervisorDetails(page, teamName, supervisor, projectName)
+    await addSupervisorDetails(page, teamName, supervisor)
 }
 
 export async function findAnIndividualPlacement(page: Page, provider: string, teamName: string) {
     const supervisor = 'Unallocated Staff'
-    const projectName = 'Brightstars East of England'
     await page.getByRole('link', { name: 'Record attendance at a host' }).click()
     await selectOption(page, '#provider', provider)
     await selectOption(page, '#team', teamName)
     await page.getByRole('button', { name: 'Apply filters' }).click()
-    await page.getByRole('link', { name: projectName }).click()
+    await page.getByRole('link', { name: 'Missing outcomes' }).click()
+    await page.getByRole('link', { name: 'Missing outcomes' }).click()
+    await page.getByRole('cell').first().click()
     await page.getByRole('link', { name: 'View' }).first().click()
     const crn = await page.locator('.govuk-caption-l').textContent()
     await expect(page.locator('h2.govuk-heading-m')).toContainText('Appointment details')
 
-    await addSupervisorDetails(page, teamName, supervisor, projectName)
+    await addSupervisorDetails(page, teamName, supervisor)
     return crn
 }
 
@@ -121,14 +122,13 @@ export async function findAnAppointment(page: Page, provider: string) {
     return crn
 }
 
-export async function addSupervisorDetails(page: Page, teamName: string, supervisor: string, projectName: string) {
+export async function addSupervisorDetails(page: Page, teamName: string, supervisor: string) {
     await page.getByRole('button', { name: 'Update appointment' }).click()
     await expect(page.getByRole('heading', { name: 'Add supervisor details' })).toBeVisible()
     await selectOption(page, '#team', teamName)
     await page.getByRole('button', { name: 'Select team' }).click()
     await selectOption(page, '#supervisor', supervisor)
     await page.getByRole('button', { name: 'Continue' }).click()
-    await selectOption(page, '#project', projectName)
     await page.getByRole('button', { name: 'Continue' }).click()
 }
 
