@@ -104,7 +104,7 @@ export async function findAnIndividualPlacement(page: Page, provider: string, te
     await page.getByRole('button', { name: 'Apply filters' }).click()
     await page.getByRole('link', { name: 'Missing outcomes' }).click()
     await page.getByRole('link', { name: 'Missing outcomes' }).click()
-    await page.getByRole('cell').first().click()
+    await page.locator('//td[@class="govuk-table__cell"]/a').first().click()
     await page.getByRole('link', { name: 'View' }).first().click()
     const crn = await page.locator('.govuk-caption-l').textContent()
     await expect(page.locator('h2.govuk-heading-m')).toContainText('Appointment details')
