@@ -93,6 +93,21 @@ export const releasePrisoner = retry(
     })
 )
 
+export const licenceReleasePrisoner = retry(
+    sanitiseError(async (offenderNo: string) => {
+        const releaseTime = DateTime.local().toISO({ includeOffset: false })
+        const response = await (
+            await getContext()
+        ).put(`/api/offenders/${offenderNo}/release`, {
+            failOnStatusCode: true,
+            data: {
+                movementReasonCode: 'CR',
+                releaseTime: releaseTime,
+            },
+        })
+    })
+)
+
 export const temporaryReleasePrisoner = retry(
     sanitiseError(async (offenderNo: string) => {
         await (
@@ -186,3 +201,4 @@ export const createAnAlert = retry(
         })
     })
 )
+

@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { data } from '../../test-data/test-data'
 import { login as deliusLogin } from '../../steps/delius/login'
-import { recallPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
+import { licenceReleasePrisoner, recallPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { discardAllLicences } from '../../steps/api/cvl/cvl-api'
 import { deleteLicenceConditions } from '../../steps/delius/licence-condition/delete-licence-condition'
 import { refreshUntil } from '../../steps/delius/utils/refresh'
@@ -27,7 +27,7 @@ test('View case in Create and Vary a Licence', async ({ page }) => {
     await approveLicence(page, nomsNumber, 'Swansea (HMP)')
 
     // Release the prisoner to apply the licence conditions.
-    await releasePrisoner(nomsNumber)
+    await licenceReleasePrisoner(nomsNumber)
 
     // Verify that the licence condition appears in Delius.
     await deliusLogin(page)
