@@ -125,6 +125,7 @@ export const completePredictorQuestions = async (page: Page) => {
     await page.getByLabel('Is impulsivity a problem for the offender').selectOption({ label: '0-No problems' })
     await page.getByLabel('Is temper control a problem for the offender').selectOption({ label: '0-No problems' })
     await page.getByLabel('Does the offender have pro-criminal attitudes').selectOption({ label: '0-No problems' })
+    await page.locator('#B200111883325231656CAP').click()
     await saveAndNavigate(page)
 }
 
