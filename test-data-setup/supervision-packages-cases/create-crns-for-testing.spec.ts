@@ -28,7 +28,7 @@ test('Create a case not eligible for final third', async ({ page }) => {
 
     await oasysLogin(page, UserType.Booking)
     await createLayer1CompleteAssessment(page, crn, person, nomisId, true, true)
-    await signAndlock(page)
+    // await signAndlock(page)
 })
 
 test('Create an NSD case eligible for final third', async ({ page }) => {
@@ -57,7 +57,7 @@ test('Create an NSD case eligible for final third', async ({ page }) => {
 
     await oasysLogin(page, UserType.Booking)
     await createLayer1CompleteAssessment(page, crn, person, nomisId, false, false)
-    await signAndlock(page)
+    // await signAndlock(page)
 })
 
 test.afterAll(async () => {

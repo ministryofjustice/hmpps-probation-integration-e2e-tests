@@ -6,6 +6,8 @@ export const complete8DrugMisuseSection = async (page: Page, drugMisuse: boolean
         .selectOption(drugMisuse ? '8.1~YES' : '8.1~NO')
 
     if (drugMisuse) {
+        await page.locator('select#itm_8_2_1_1').selectOption('Weekly')
+        await page.locator('input#itm_8_2_1_4_YES').check()
         await page
             .getByLabel(
                 'Identify drug misuse issues contributing to risks of offending and harm. Please include any positive factors.'
