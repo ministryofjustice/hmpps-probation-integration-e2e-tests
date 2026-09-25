@@ -34,7 +34,9 @@ export async function registerCaseInMPoP(page: Page, person: Person, crn: string
     await page.getByText('Online check ins are optional and the person can decide not to use them').click()
     await page.getByText('They can stop using online check ins at any time').click()
     await page.getByText('They cannot be breached and online check ins are not enforceable').click()
-    await page.getByText('They can ask for more time to make a decision about if they want to use online check ins').click()
+    await page
+        .getByText('They can ask for more time to make a decision about if they want to use online check ins')
+        .click()
     await page.getByRole('button', { name: 'Continue' }).click()
 
     // *** Steps below are commented out because ths journey is not currently implemented in the UI. Uncomment if it is implemented. ***

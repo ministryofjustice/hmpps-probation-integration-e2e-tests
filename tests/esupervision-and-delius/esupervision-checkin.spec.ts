@@ -13,9 +13,7 @@ import { data } from '../../test-data/test-data'
 import { createRegistration } from '../../steps/delius/registration/create-registration'
 import { createAndBookPrisoner } from '../../steps/api/dps/prison-api'
 import { signAndlock } from '../../steps/oasys/layer1-assessment/sign-and-lock'
-import {
-    createLayer1CompleteAssessment
-} from '../../steps/oasys/layer1-assessment/create-layer1-assessment/create-layer1-assessment'
+import { createLayer1CompleteAssessment } from '../../steps/oasys/layer1-assessment/create-layer1-assessment/create-layer1-assessment'
 
 const person = deliusPerson()
 const nomisIds = []
