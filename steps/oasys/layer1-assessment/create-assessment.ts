@@ -124,7 +124,10 @@ export const completePredictorQuestions = async (page: Page) => {
         .selectOption({ label: '0-No problems' })
     await page.getByLabel('Is impulsivity a problem for the offender').selectOption({ label: '0-No problems' })
     await page.getByLabel('Is temper control a problem for the offender').selectOption({ label: '0-No problems' })
-    await page.getByLabel('Does the offender have pro-criminal attitudes').selectOption({ label: '0-No problems' })
+    // Had to change one of the questions to a click and type because the selectOption was not working for this page for every option
+    await page.getByLabel('Does the offender have pro-criminal attitudes').click()
+    await page.keyboard.type('0')
+    await page.keyboard.press('Enter')
     await page.locator('#B200111883325231656CAP').click()
     await saveAndNavigate(page)
 }
