@@ -111,6 +111,9 @@ export const completeSection2OffenceAnalysis = async (page: Page) => {
 }
 
 export const completePredictorQuestions = async (page: Page) => {
+    // This first line is a workaround to do with the way Playwright interacts with select lists,
+    // causing OASys to think that nothing has changed on the page and clearing the values on clicking Save.
+    await page.getByLabel('Is the offender living in suitable accommodation').click()
     await page.getByLabel('Is the offender living in suitable accommodation').selectOption({ label: '0-No problems' })
     await page.getByLabel('Is the person unemployed, or will be unemployed on release').selectOption({ label: '0-No' })
     await page.getByLabel('Current relationship with partner').selectOption({ label: '2-Significant problems' })
@@ -125,7 +128,6 @@ export const completePredictorQuestions = async (page: Page) => {
     await page.getByLabel('Is impulsivity a problem for the offender').selectOption({ label: '0-No problems' })
     await page.getByLabel('Is temper control a problem for the offender').selectOption({ label: '0-No problems' })
     await page.getByLabel('Does the offender have pro-criminal attitudes').selectOption({ label: '0-No problems' })
-    await page.locator('#B200111883325231656CAP').click()
     await saveAndNavigate(page)
 }
 

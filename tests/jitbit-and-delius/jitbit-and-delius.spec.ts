@@ -3,43 +3,22 @@ import { login as deliusLogin } from '../../steps/delius/login'
 import { login as jitbitLogin } from '../../steps/jitbit/login'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { deliusPerson } from '../../steps/delius/utils/person'
-import { buildAddress, createAddress } from '../../steps/delius/address/create-address'
-import { data } from '../../test-data/test-data'
-import { internalTransfer } from '../../steps/delius/transfer/internal-transfer'
-import { searchForPerson } from '../../steps/sas/offender-record'
-import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
+import { searchForPerson } from '../../steps/jitbit/search-for-person'
 
 test('Create person and check the record exists in Jitbit', async ({ page }) => {
-    // Given a new person in Delius
+    // Create a new person in Delius
     await deliusLogin(page)
     const person = deliusPerson()
     const crn = await createOffender(page, { person: person })
-    // const address = buildAddress()
-    // await createAddress(page, crn, address)
     await createCustodialEvent(page, { crn })
 
-    // const nomisId = await createAndBookPrisoner(page, crn, person)
-    // await releasePrisoner(nomisId.nomisId)
-    //
-    // await internalTransfer(page, {
-    //     crn,
-    //     allocation: { team: data.teams.allocationsTestTeam, staff: data.staff.automatedTestUser },
-    // })
-
-    await page.pause()
-    // Login to Jitbit to check offender details
+    // Login to Jitbit to check offender details exist
     await jitbitLogin(page)
-    //Add new ticket
-    await page.getByRole('button', { name: 'New ticket' }).click()
-    // await searchForPerson(page, crn)
+    await searchForPerson(page, crn)
 
-    // const fullName = person.firstName + ' ' + person.lastName
-    // await expect(page.locator('//dt[text()="CRN"]/../dd[1]')).toContainText(crn)
-    // await expect(page.locator('h1.govuk-heading-l')).toContainText(fullName)
-    // const addressLocator = page.locator('//tbody/tr/td[3]')
-    // await expect(addressLocator).toContainText(address.buildingNumber)
-    // await expect(addressLocator).toContainText(address.street)
-    // await expect(addressLocator).toContainText(address.cityName)
-    // await expect(addressLocator).toContainText(address.zipCode)
+    const searchResult = page.locator('.crn-results-content')
+    await expect(searchResult).toContainText(crn)
+    await expect(searchResult).toContainText(person.firstName + ' ' + person.lastName)
+    await page.getByRole('button', { name: 'Populate Selected' }).click()
 })
