@@ -10,7 +10,6 @@ export type CheckWorksheetSummaryAttendanceOptions = {
     appointmentsNotComplied: number
 }
 
-
 export default async function checkWorksheetSummaryAttendance(
     page: Page,
     {
