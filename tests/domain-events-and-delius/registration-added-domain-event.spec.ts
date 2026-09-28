@@ -21,7 +21,7 @@ test('Adding a registration updates the tier', async ({ page }) => {
     expect(page.locator("[data-qa='case-details-header-crn']")).toHaveText(crn)
     expect(page.locator("[data-qa='case-details-header-tier']")).toContainText('Tier: Not supervised')
     await page.getByRole('link', { name: 'Calculation' }).click()
-    await expect(page.locator('tr', { has: page.locator('th', { hasText: 'Risk of Serious Harm (ROSH)' }), }).locator('td')).toHaveText('HIGH')
-
-
+    await expect(
+        page.locator('tr', { has: page.locator('th', { hasText: 'Risk of Serious Harm (ROSH)' }) }).locator('td')
+    ).toHaveText('HIGH')
 })
