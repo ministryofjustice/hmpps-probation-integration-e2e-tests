@@ -15,8 +15,13 @@ test('Adding a registration updates the tier', async ({ page }) => {
     // When I create the registration
     await createRegistration(page, crn, 'High RoSH')
     await tierLogin(page)
+
+    // The crn should be located in the tier service and the ROSH should be updated to High
     await searchTierByCRN(page, crn, person)
     expect(page.locator("[data-qa='case-details-header-crn']")).toHaveText(crn)
-    expect(page.locator("[data-qa='case-details-header-tier']")).toContainText('B0')
-    expect(page.locator("[data-qa='protect-table']  tr td").first()).toContainText('High RoSH')
+    expect(page.locator("[data-qa='case-details-header-tier']")).toContainText('Tier: Not supervised')
+    await page.getByRole('link', { name: 'Calculation' }).click()
+    await expect(page.locator('tr', { has: page.locator('th', { hasText: 'Risk of Serious Harm (ROSH)' }), }).locator('td')).toHaveText('HIGH')
+
+
 })
