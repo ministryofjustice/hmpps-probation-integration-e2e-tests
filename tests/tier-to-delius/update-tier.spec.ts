@@ -19,6 +19,8 @@ test('Create person and check tier is updated', async ({ page }) => {
 
     // Then the tier is updated in the HMPPS Tier UI service
     await expect(page.locator("[data-qa='case-details-header-crn']")).toHaveText(crn)
-    await expect(page.locator("[data-qa='case-details-header-tier']")).toContainText('B0')
-    await expect(page.locator("[data-qa='protect-table']  tr td").first()).toContainText('High RoSH')
+    await expect(page.locator("[data-qa='case-details-header-tier']")).toContainText('Tier: Not supervised')
+    await expect(page.locator('tr', { hasText: 'Risk of serious harm' })).toContainText('D')
+    await page.getByRole('link', { name: 'Calculation' }).click()
+    await expect(page.locator('tr', { hasText: 'Risk of Serious Harm (ROSH)' })).toContainText('HIGH')
 })
