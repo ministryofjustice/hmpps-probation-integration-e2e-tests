@@ -41,6 +41,8 @@ on:
 
 env:
   auto_pass_projects: '["manage-offences-and-delius","redrive-dead-letter-queues","feature-flags", "probation-search-and-delius","core-person-record-and-delius","monitor-cron-jobs"]'
+  # Projects that share a login (e.g. OASys) and fail when run concurrently. These are run one at a time, after the parallel tests.
+  serial_projects: '["accredited-programmes-and-oasys","approved-premises-and-delius","approved-premises-and-oasys","assessment-summary-and-delius","esupervision-and-delius","manage-and-deliver-and-delius","oasys-and-delius","opd-and-delius","risk-assessment-scores-to-delius","supervision-packages-isr"]'
 
 jobs:
   test:
@@ -59,7 +61,9 @@ jobs:
 
       - name: Get tests to run - all tests
         if: inputs.projects == '' || inputs.projects == 'All'
-        run: echo "projects=$(find projects -mindepth 1 -maxdepth 1 -printf "%f\n" | jq --raw-input . | jq --slurp --compact-output .)" | tee -a "$GITHUB_ENV"
+        run: echo "projects=$(find "$TEST_DIR" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort | jq --raw-input . | jq --slurp --compact-output .)" | tee -a "$GITHUB_ENV"
+        env:
+          TEST_DIR: ${{ inputs.directory || 'tests' }}
 
       - name: Get tests to run - specific tests
         if: inputs.projects != '' && inputs.projects != 'All'
@@ -92,8 +96,31 @@ jobs:
 
       - name: Run Playwright tests
         id: tests
-        run: echo '${{ env.projects }}' | jq -r '.[]' | xargs npx playwright test --reporter=html,junit,json,line --workers="$WORKERS"
+        # language=bash
+        run: |
+          parallel=$(jq -r --argjson serial "$serial_projects" '(. - $serial)[] | "/\(.)/"' <<< "$projects")
+          serial=$(jq -r --argjson serial "$serial_projects" '(. - (. - $serial))[] | "/\(.)/"' <<< "$projects")
+          rm -rf blob-report
+          exit_code=0
+
+          if [ -n "$parallel" ]; then
+            echo "::group::Running parallel projects (workers=$WORKERS)"
+            echo "$parallel" | PLAYWRIGHT_BLOB_OUTPUT_FILE=blob-report/parallel.zip xargs npx playwright test --reporter=blob,line --workers="$WORKERS" || exit_code=1
+            echo "::endgroup::"
+          fi
+
+          if [ -n "$serial" ]; then
+            echo "::group::Running serial projects (workers=1)"
+            echo "$serial" | PLAYWRIGHT_BLOB_OUTPUT_FILE=blob-report/serial.zip xargs npx playwright test --reporter=blob,line --workers=1 || exit_code=1
+            echo "::endgroup::"
+          fi
+
+          if compgen -G "blob-report/*.zip" > /dev/null; then
+            npx playwright merge-reports --reporter=html,junit,json blob-report
+          fi
+          exit $exit_code
         env:
+          projects: ${{ env.projects }}
           TZ: Europe/London
           ENV: test
           TEST_DIR: ${{ inputs.directory || 'tests' }}
