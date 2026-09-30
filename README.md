@@ -172,7 +172,7 @@ Example usage:
 ## Support
 
 For any issues or questions, please contact the Probation Integration team via
-the [#probation-integration-tech](https://mojdt.slack.com/archives/C02HQ4M2YQN)
+the [#probation-integration-team](https://moj.enterprise.slack.com/archives/C02QSERFGMB)
 Slack channel. Or feel free to create
 a [new issue](https://github.com/ministryofjustice/hmpps-probation-integration-e2e-tests/issues/new)
 in this repository.
