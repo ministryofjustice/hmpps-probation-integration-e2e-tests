@@ -1,4 +1,4 @@
-import { expect, Page } from '@playwright/test'
+import { expect, Locator, Page } from '@playwright/test'
 import { faker } from '@faker-js/faker'
 import { Person } from '../delius/utils/person'
 import { selectOption } from '../delius/utils/inputs'
@@ -86,18 +86,25 @@ export async function findGroupSession(
     await page.locator('#date').fill(today.toString())
     await page.getByRole('button', { name: 'Apply filters' }).click()
 
-    await page.getByRole('link', { name: projectName }).click()
+    const projectLink = page.getByRole('link', { name: projectName, exact: true })
+    await findOnPaginatedResults(page, projectLink, `Session for ${projectName}`)
+    await projectLink.click()
     await expect(page.locator('h1.govuk-heading-l')).toContainText(projectName)
-    await page.getByRole('cell', { name: person.firstName + person.lastName }).isVisible()
-    await page.getByRole('cell', { name: crn }).isVisible()
-    await page.getByRole('link', { name: 'View' }).first().click()
+    const row = page.getByRole('row').filter({ hasText: crn })
+    await expect(row).toBeVisible()
+    await row.getByRole('link', { name: 'View' }).click()
     await expect(page.locator('.govuk-caption-l')).toContainText(crn)
 
     await addSupervisorDetails(page, teamName, supervisor)
 }
 
-export async function findAnIndividualPlacement(page: Page, provider: string, teamName: string) {
-    const supervisor = 'Unallocated Staff'
+export async function findAnIndividualPlacement(
+    page: Page,
+    crn: string,
+    person: Person,
+    provider: string,
+    teamName: string
+) {
     await page.getByRole('link', { name: 'Record attendance at a host' }).click()
     await selectOption(page, '#provider', provider)
     await selectOption(page, '#team', teamName)
@@ -105,18 +112,77 @@ export async function findAnIndividualPlacement(page: Page, provider: string, te
     await page.getByRole('link', { name: 'Missing outcomes' }).click()
     await page.getByRole('link', { name: 'Missing outcomes' }).click()
     await page.locator('//td[@class="govuk-table__cell"]/a').first().click()
-    await page.getByRole('link', { name: 'View' }).first().click()
-    const crn = await page.locator('.govuk-caption-l').textContent()
-    await expect(page.locator('h2.govuk-heading-m')).toContainText('Appointment details')
-
-    await addSupervisorDetails(page, teamName, supervisor)
+    // Add appointment
+    await page.getByRole('link', { name: 'Add an appointment' }).click()
+    // Search for person
+    await page.locator('#search').fill(crn)
+    await page.getByRole('button', { name: 'Search' }).click()
+    // Select generated person
+    await page
+        .getByRole('link', {
+            name: `${person.lastName}, ${person.firstName}`,
+        })
+        .click()
+    // Enter today's date
+    const today = new Date().toLocaleDateString('en-GB')
+    await page.locator('#date').fill(today)
+    await page.getByRole('button', { name: 'Continue' }).click()
+    // Select team
+    await page.locator('#team').selectOption('N56CPM')
+    await page.getByRole('button', { name: 'Select team' }).click()
+    // Select supervisor
+    await page.locator('#supervisor').selectOption('N56A310')
+    await page.getByRole('button', { name: 'Continue' }).click()
+    // Continue through requirement page
+    await page.getByRole('button', { name: 'Continue' }).click()
+    // Attendance outcome
+    await page.locator('#attendanceOutcome').check()
+    await page.getByRole('button', { name: 'Continue' }).click()
+    // Appointment times
+    const now = DateTime.now()
+    await page.locator('#startTime').fill(now.minus({ hours: 1 }).toFormat('HH:mm'))
+    await page.locator('#endTime').fill(now.toFormat('HH:mm'))
+    await page.getByRole('button', { name: 'Continue' }).click()
+    // Work quality
+    await page.locator('#workQuality').check()
+    // Behaviour
+    await page.locator('#behaviour').check()
+    await page.getByRole('button', { name: 'Continue' }).click()
+    await page.getByLabel('Yes').check()
+    await page.getByRole('button', { name: 'Confirm' }).click()
+    await expect(page.getByText('Attendance recorded')).toBeVisible()
+    await page.getByRole('link', { name: 'Past appointments' }).click()
+    const row = page.getByRole('row').filter({ hasText: crn })
+    await findOnPaginatedResults(page, row, `Appointment for ${crn}`)
+    await expect(row).toContainText('Attended – complied')
     return crn
+}
+
+async function findOnPaginatedResults(page: Page, target: Locator, description: string, maxPages = 20) {
+    const results = page.getByText(/Showing \d+ to \d+ of \d+ total results/)
+    const nextPage = page.getByRole('link', { name: 'Next page' })
+
+    await expect(results).toBeVisible()
+    for (let pageNumber = 1; !(await target.isVisible()); pageNumber++) {
+        expect(pageNumber, `${description} not found within ${maxPages} pages`).toBeLessThan(maxPages)
+        await expect(nextPage, `${description} not found in results`).toBeVisible()
+        const previousResults = await results.textContent()
+        await nextPage.click()
+        await expect(results).not.toHaveText(previousResults)
+    }
 }
 
 export async function findAnAppointment(page: Page, provider: string) {
     await page.getByRole('link', { name: 'Record travel time' }).click()
     await selectOption(page, '#provider', provider)
     await page.getByRole('button', { name: 'Apply filters' }).click()
+    // Sort by date to find the most recent appointments
+    const dateSort = page
+        .getByRole('columnheader')
+        .filter({ has: page.getByRole('link', { name: 'Date', exact: true }) })
+        .getByRole('link')
+    await dateSort.click()
+    await dateSort.click()
     const crn = await page.locator('//tbody/tr[4]/td[2]').textContent()
     await page.getByRole('link', { name: 'Update' }).nth(3).click()
     return crn

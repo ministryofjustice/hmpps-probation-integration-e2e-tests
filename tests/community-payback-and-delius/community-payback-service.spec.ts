@@ -4,7 +4,7 @@ import { deliusPerson } from '../../steps/delius/utils/person'
 import { createOffender } from '../../steps/delius/offender/create-offender'
 import { createCommunityEvent } from '../../steps/delius/event/create-event'
 import { createRequirementForEvent } from '../../steps/delius/requirement/create-requirement'
-import { data } from '../../test-data/test-data'
+import { data, Team } from '../../test-data/test-data'
 import { createUpwProject } from '../../steps/delius/upw/create-upw-project'
 import { allocateCurrentCaseToUpwProject } from '../../steps/delius/upw/allocate-current-case-to-upw-project'
 import { loginAsCaseAdmin } from '../../steps/community-payback/login'
@@ -47,11 +47,17 @@ test('Find a group session and update record as Attendance Complied', async ({ p
 test('Find individual & group placements with a host partner and update record as Attendance Complied', async ({
     page,
 }) => {
+    // Given I create a new Offender in nDelius
+    const team = data.teams.unpaidWorkIndividualTestTeam
+    const projectType = 'Independent Working'
+    const testData = await createOffenderAndUpwProject(page, team, projectType)
+
+    // And I create a new event and allocate the case to the project
+    await createEventAndAllocateCaseToProject(page, testData.crn, testData.project.projectName, team, projectType)
+
     // Find individual & group placements with a host partner and update the record as Attendance Complied
     await loginAsCaseAdmin(page)
-    const teamName = 'CPB Manual Test Team'
-    const crn = await findAnIndividualPlacement(page, data.teams.unpaidWorkTestTeam.provider, teamName)
-    await recordAttendanceCompliedOutcome(page)
+    const crn = await findAnIndividualPlacement(page, testData.crn, testData.person, team.provider, team.name)
 
     // Log in to Delius to confirm the record has been updated correctly
     await deliusLogin(page)
@@ -103,37 +109,49 @@ test('Adjust travel time hours', async ({ page }) => {
     await expect(page.locator('#currentAdjustmentsTable')).toContainText(RegExp(`-${hours}:${minutesText}`, 'i'))
 })
 
-const createOffenderAndUpwProject = async (page: Page) => {
+const createOffenderAndUpwProject = async (
+    page: Page,
+    team: Team = data.teams.unpaidWorkTestTeam,
+    projectType?: string
+) => {
     await deliusLogin(page)
     const project = await createUpwProject(page, {
-        providerName: data.teams.unpaidWorkTestTeam.provider,
-        teamName: data.teams.unpaidWorkTestTeam.name,
+        providerName: team.provider,
+        teamName: team.name,
+        projectType,
     })
 
     const person = deliusPerson()
     const crn: string = await createOffender(page, {
         person,
-        providerName: data.teams.unpaidWorkTestTeam.provider,
+        providerName: team.provider,
     })
     return { crn, project, person }
 }
 
-const createEventAndAllocateCaseToProject = async (page: Page, crn: string, projectName: string) => {
-    await createCommunityEvent(page, { crn, allocation: { team: data.teams.unpaidWorkTestTeam } })
+const createEventAndAllocateCaseToProject = async (
+    page: Page,
+    crn: string,
+    projectName: string,
+    team: Team = data.teams.unpaidWorkTestTeam,
+    projectType?: string
+) => {
+    await createCommunityEvent(page, { crn, allocation: { team } })
 
     await createRequirementForEvent(page, {
         crn,
         requirement: data.requirements.unpaidWork,
-        team: data.teams.unpaidWorkTestTeam,
+        team,
     })
 
     await page.locator('a', { hasText: 'Personal Details' }).click()
 
     await allocateCurrentCaseToUpwProject(page, {
-        crn: crn,
-        providerName: data.teams.unpaidWorkTestTeam.provider,
-        teamName: data.teams.unpaidWorkTestTeam.name,
-        projectName: projectName,
+        crn,
+        providerName: team.provider,
+        teamName: team.name,
+        projectName,
+        projectType,
     })
 }
 
