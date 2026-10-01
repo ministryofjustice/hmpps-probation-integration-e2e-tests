@@ -9,12 +9,13 @@ interface Options {
     projectName: string
     date: Date
     hoursCredited: string // in format H:mm
+    hoursOffered?: string // in format H:mm
     outcome: string
 }
 
 export default async function verifyTimeCredited(
     page: Page,
-    { crn, eventNumber = 1, projectName, hoursCredited, outcome }: Options
+    { crn, eventNumber = 1, projectName, hoursCredited, hoursOffered, outcome }: Options
 ): Promise<void> {
     await findEventByCRN(page, crn, eventNumber)
     await page.click('#navigation-include\\:linkNavigation3UnpaidWork')
@@ -25,6 +26,10 @@ export default async function verifyTimeCredited(
         { columnName: 'Hrs Credited', cellContent: hoursCredited },
         { columnName: 'Outcome', cellContent: outcome },
     ]
+
+    if (hoursOffered) {
+        toVerify.push({ columnName: 'Hrs Offered', cellContent: hoursOffered })
+    }
 
     await verifyTableRowByContent(page, 'appointmentsTable', projectName, toVerify)
 }
