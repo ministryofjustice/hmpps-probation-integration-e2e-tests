@@ -72,6 +72,10 @@ export const testEnvironmentData: TestData = {
             name: 'Default Designated Transfer Team',
             provider: 'East of England',
         },
+        unpaidWorkIndividualTestTeam: {
+            name: 'CPB Manual Test Team',
+            provider: 'East of England',
+        },
         accreditedProgrammesTestTeam: {
             name: 'CPB Automated Test Team',
             provider: 'London',

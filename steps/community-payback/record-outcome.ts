@@ -96,7 +96,13 @@ export async function findGroupSession(
     await addSupervisorDetails(page, teamName, supervisor)
 }
 
-export async function findAnIndividualPlacement(page: Page, provider: string, teamName: string) {
+export async function findAnIndividualPlacement(
+    page: Page,
+    crn: string,
+    person: Person,
+    provider: string,
+    teamName: string
+) {
     const supervisor = 'Unallocated Staff'
     await page.getByRole('link', { name: 'Record attendance at a host' }).click()
     await selectOption(page, '#provider', provider)
@@ -105,11 +111,59 @@ export async function findAnIndividualPlacement(page: Page, provider: string, te
     await page.getByRole('link', { name: 'Missing outcomes' }).click()
     await page.getByRole('link', { name: 'Missing outcomes' }).click()
     await page.locator('//td[@class="govuk-table__cell"]/a').first().click()
-    await page.getByRole('link', { name: 'View' }).first().click()
-    const crn = await page.locator('.govuk-caption-l').textContent()
-    await expect(page.locator('h2.govuk-heading-m')).toContainText('Appointment details')
+    // Add appointment
+    await page.getByRole('link', { name: 'Add an appointment' }).click()
+    // Search for person
+    await page.locator('#search').fill(crn)
+    await page.getByRole('button', { name: 'Search' }).click()
+    // Select generated person
+    await page
+        .getByRole('link', {
+            name: `${person.lastName}, ${person.firstName}`,
+        })
+        .click()
+    // Enter today's date
+    const today = new Date().toLocaleDateString('en-GB')
+    await page.locator('#date').fill(today)
+    await page.getByRole('button', { name: 'Continue' }).click()
+    // Select team
+    await page.locator('#team').selectOption('N56CPM')
+    await page.getByRole('button', { name: 'Select team' }).click()
+    // Select supervisor
+    await page.locator('#supervisor').selectOption('N56A310')
+    await page.getByRole('button', { name: 'Continue' }).click()
+    // Continue through requirement page
+    await page.getByRole('button', { name: 'Continue' }).click()
+    // Attendance outcome
+    await page.locator('#attendanceOutcome').check()
+    await page.getByRole('button', { name: 'Continue' }).click()
+    // Appointment times
+    const now = DateTime.now()
+    await page.locator('#startTime').fill(now.minus({ hours: 1 }).toFormat('HH:mm'))
+    await page.locator('#endTime').fill(now.toFormat('HH:mm'))
+    await page.getByRole('button', { name: 'Continue' }).click()
+    // Work quality
+    await page.locator('#workQuality').check()
+    // Behaviour
+    await page.locator('#behaviour').check()
+    await page.getByRole('button', { name: 'Continue' }).click()
+    await page.getByLabel('Yes').check()
+    await page.getByRole('button', { name: 'Confirm' }).click()
+    await expect(page.getByText('Attendance recorded')).toBeVisible()
+    await page.getByRole('link', { name: 'Past appointments' }).click()
+    await expect(
+        page.locator('tr', {
+            hasText: `${person.lastName}, ${person.firstName}`,
+        })
+    ).toContainText('Attended – complied')
 
-    await addSupervisorDetails(page, teamName, supervisor)
+    // await page.locator('//td[@class="govuk-table__cell"]/a').first().click()
+
+    // await page.getByRole('link', { name: 'View' }).first().click()
+    // const crn = await page.locator('.govuk-caption-l').textContent()
+    // await expect(page.locator('h2.govuk-heading-m')).toContainText('Appointment details')
+    //
+    // await addSupervisorDetails(page, teamName, supervisor)
     return crn
 }
 
