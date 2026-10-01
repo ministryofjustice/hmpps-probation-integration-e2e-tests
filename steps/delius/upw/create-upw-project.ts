@@ -83,48 +83,6 @@ export async function createUpwProject(
     return { projectCode, projectName, projectAvailability: availability }
 }
 
-export async function createUpwProjectIndividual(
-    page: Page,
-    {
-        providerName,
-        teamName,
-        projectType = 'Independent Working',
-        pickupPoint = 'Chelmsford',
-        projectName = createNameWithTimeStamp(),
-        projectCode = faker.string.alphanumeric(6),
-        endDate = Tomorrow.toJSDate(),
-        projectAvailability = {},
-    }: {
-        providerName: string
-        teamName: string
-        projectType?: string
-        pickupPoint?: string
-        projectName?: string
-        projectCode?: string
-        endDate?: Date
-        projectAvailability?: ProjectAvailability
-    }
-): Promise<{ projectCode: string; projectName: string; projectAvailability: ProjectAvailability }> {
-    await page.getByRole('link', { name: 'UPW Projects' }).click()
-    await expect(page.locator('#content > h1')).toContainText('UPW Projects List')
-    await page.locator('input', { hasText: 'Add New Project' }).click()
-
-    await expect(page.locator('#content > h1')).toContainText('Add Project')
-    await selectOption(page, '#Trust\\:selectOneMenu', providerName)
-    await selectOption(page, '#Team\\:selectOneMenu', teamName)
-    await page.selectOption('#ProjectType\\:selectOneMenu', projectType)
-    await waitForAjax(page)
-    await page.selectOption('#DefaultPickupPoint\\:selectOneMenu', { label: pickupPoint })
-    await page.fill('#ProjectCode\\:prependedInputText', projectCode)
-    await page.fill('#ProjectName\\:inputText', projectName)
-    await fillDate(page, '#ProjectStartDate\\:datePicker', new Date())
-    await fillDate(page, '#ProjectEndDate\\:datePicker', endDate)
-    await page.getByRole('button', { name: 'Save' }).click()
-    await expect(page.locator('#content > h1')).toContainText('Update Project')
-    const availability = await addProjectAvailability(page, projectAvailability)
-    return { projectCode, projectName, projectAvailability: availability }
-}
-
 export function createNameWithTimeStamp(prefix = 'project'): string {
     return `${prefix}-${DateTime.now().toFormat('ddMMyyyyHHmmss')}`
 }
