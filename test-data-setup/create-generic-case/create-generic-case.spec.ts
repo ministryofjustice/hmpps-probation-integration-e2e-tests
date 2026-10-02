@@ -40,7 +40,7 @@ test('Create a case in multiple systems', async ({ page }) => {
         }
 
         if (process.env.CREATE_OASYS_ASSESSMENT === 'true') {
-            await oasysLogin(page, UserType.Booking)
+            await oasysLogin(page, UserType.Assessment)
             await createLayer3CompleteAssessment(page, crn, person)
             await addLayer3AssessmentNeeds(page)
         }

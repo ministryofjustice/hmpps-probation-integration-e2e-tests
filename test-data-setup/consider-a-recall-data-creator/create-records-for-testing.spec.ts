@@ -33,7 +33,7 @@ test('Create a record in NOMIS, NDelius and OASys', async ({ page }) => {
     await releasePrisoner(nomisId)
 
     // Login to OASys and create a layer 3 assessment
-    await oasysLogin(page, UserType.Booking)
+    await oasysLogin(page, UserType.RSR)
     await createLayer3CompleteAssessment(page, crn, person)
     await addLayer3AssessmentNeeds(page)
 

@@ -9,12 +9,11 @@ import { createUpwProject } from '../../steps/delius/upw/create-upw-project'
 import { allocateCurrentCaseToUpwProject } from '../../steps/delius/upw/allocate-current-case-to-upw-project'
 import { loginAsCaseAdmin } from '../../steps/community-payback/login'
 import {
-    adjustTravelTime,
+    findAndAdjustTravelTime,
     findGroupSession,
     findAnIndividualPlacement,
     recordAttendanceCompliedOutcome,
     recordUnacceptableAbsenceOutcome,
-    findAnAppointment,
 } from '../../steps/community-payback/record-outcome'
 import { findOffenderByCRN } from '../../steps/delius/offender/find-offender'
 
@@ -95,11 +94,9 @@ test('Find a group session and update record as Unacceptable Absence', async ({ 
 test('Adjust travel time hours', async ({ page }) => {
     // Adjust travel time hours for a case
     await loginAsCaseAdmin(page)
-    const crn = await findAnAppointment(page, data.teams.unpaidWorkTestTeam.provider)
-
     const hours = 1
     const minutes = 0
-    await adjustTravelTime(page, hours, minutes)
+    const crn = await findAndAdjustTravelTime(page, data.teams.unpaidWorkTestTeam.provider, hours, minutes)
 
     // Log in to Delius to confirm the travel time adjustment has been updated correctly
     await deliusLogin(page)

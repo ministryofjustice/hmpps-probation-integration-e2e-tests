@@ -46,6 +46,24 @@ export async function recordUnacceptableAbsenceOutcome(page: Page) {
     await confirmDetails(page)
 }
 
+export async function findAndAdjustTravelTime(
+    page: Page,
+    provider: string,
+    hours: number,
+    minutes: number,
+    maxAttempts = 20
+): Promise<string> {
+    const excludedCrns: string[] = []
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        const crn = await findAnAppointment(page, provider, excludedCrns)
+        if (await adjustTravelTime(page, hours, minutes)) {
+            return crn
+        }
+        excludedCrns.push(crn)
+    }
+    throw new Error(`No eligible travel-time appointment found after ${maxAttempts} attempts`)
+}
+
 export async function adjustTravelTime(page: Page, hours: number, minutes: number) {
     if (hours === 1) {
         await page.locator('#time').click()
@@ -54,7 +72,25 @@ export async function adjustTravelTime(page: Page, hours: number, minutes: numbe
     }
     await page.getByRole('button', { name: 'Credit travel time' }).click()
 
-    await expect(page.locator('#success-title-1')).toContainText(/Success/)
+    const success = page.getByRole('heading', { name: 'Success', exact: true })
+    const validationError = page.getByRole('alert').filter({
+        has: page.getByRole('heading', { name: 'There is a problem', exact: true }),
+    })
+    await expect(success.or(validationError).first()).toBeVisible()
+    if (await validationError.isVisible()) {
+        const message = await validationError.innerText()
+        if (
+            /Validation failure: Credited minutes of '[^']+' exceeds the remaining time required of '[^']+'/.test(
+                message
+            )
+        ) {
+            console.log(`Skipping appointment: ${message}`)
+            await page.getByRole('link', { name: 'Back', exact: true }).click()
+            return false
+        }
+        throw new Error(`Travel time credit failed: ${message}`)
+    }
+    await expect(success).toBeVisible()
     let hoursString = ''
     let minutesString = ''
     if (hours > 0) {
@@ -67,6 +103,7 @@ export async function adjustTravelTime(page: Page, hours: number, minutes: numbe
         RegExp(` has been adjusted for${hoursString}${minutesString} of travel time.`, 'i')
     )
     await page.getByRole('link', { name: 'Sign out' }).click()
+    return true
 }
 
 export async function findGroupSession(
@@ -159,20 +196,24 @@ export async function findAnIndividualPlacement(
 }
 
 async function findOnPaginatedResults(page: Page, target: Locator, description: string, maxPages = 20) {
-    const results = page.getByText(/Showing \d+ to \d+ of \d+ total results/)
     const nextPage = page.getByRole('link', { name: 'Next page' })
 
-    await expect(results).toBeVisible()
+    await expect(page.getByRole('table')).toBeVisible()
     for (let pageNumber = 1; !(await target.isVisible()); pageNumber++) {
         expect(pageNumber, `${description} not found within ${maxPages} pages`).toBeLessThan(maxPages)
         await expect(nextPage, `${description} not found in results`).toBeVisible()
-        const previousResults = await results.textContent()
+        const nextHref = await nextPage.getAttribute('href')
+        if (!nextHref) {
+            throw new Error(`Next page link has no destination while looking for ${description}`)
+        }
+        const nextUrl = new URL(nextHref, page.url()).href
         await nextPage.click()
-        await expect(results).not.toHaveText(previousResults)
+        await page.waitForURL(nextUrl)
+        await expect(page.getByRole('table')).toBeVisible()
     }
 }
 
-export async function findAnAppointment(page: Page, provider: string) {
+export async function findAnAppointment(page: Page, provider: string, excludedCrns: string[] = []) {
     await page.getByRole('link', { name: 'Record travel time' }).click()
     await selectOption(page, '#provider', provider)
     await page.getByRole('button', { name: 'Apply filters' }).click()
@@ -183,8 +224,15 @@ export async function findAnAppointment(page: Page, provider: string) {
         .getByRole('link')
     await dateSort.click()
     await dateSort.click()
-    const crn = await page.locator('//tbody/tr[4]/td[2]').textContent()
-    await page.getByRole('link', { name: 'Update' }).nth(3).click()
+    let rows = page.getByRole('row').filter({ has: page.getByRole('link', { name: 'Update', exact: true }) })
+    for (const crn of excludedCrns) {
+        rows = rows.filter({ hasNot: page.getByText(crn, { exact: true }) })
+    }
+    const row = rows.first()
+    await findOnPaginatedResults(page, row, 'An untried travel-time appointment')
+    const crn = (await row.getByRole('cell').nth(1).innerText()).trim()
+    expect(crn, 'Appointment row must contain a CRN').toMatch(/^[A-Z]\d{6}$/)
+    await row.getByRole('link', { name: 'Update', exact: true }).click()
     return crn
 }
 

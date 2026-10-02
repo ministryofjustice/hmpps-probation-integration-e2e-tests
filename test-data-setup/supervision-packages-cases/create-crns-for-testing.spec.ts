@@ -26,7 +26,7 @@ test('Create a case not eligible for final third', async ({ page }) => {
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
 
-    await oasysLogin(page, UserType.Booking)
+    await oasysLogin(page, UserType.ApprovedPSORole)
     await createLayer1CompleteAssessment(page, crn, person, nomisId, true, true)
     await signAndlock(page)
 })
@@ -55,7 +55,7 @@ test('Create an NSD case eligible for final third', async ({ page }) => {
     const { nomisId } = await createAndBookPrisoner(page, crn, person)
     nomisIds.push(nomisId)
 
-    await oasysLogin(page, UserType.Booking)
+    await oasysLogin(page, UserType.Timeline)
     await createLayer1CompleteAssessment(page, crn, person, nomisId, false, false)
     await signAndlock(page)
 })
