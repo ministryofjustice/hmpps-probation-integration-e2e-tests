@@ -21,18 +21,22 @@ export async function internalTransfer(
     await selectOption(page, '#Trust\\:selectOneMenu', allocation?.team?.provider)
     await selectOption(page, '#Team\\:selectOneMenu', allocation?.team?.name)
     const selectedStaff = await selectOption(page, '#Staff\\:selectOneMenu', allocation?.staff?.name)
-
-    const count = await page.locator('#offenderTransferRequestTable select').count()
+    const selects = page.locator('#offenderTransferRequestTable select')
+    const count = await selects.count()
     for (let i = 0; i < count; i++) {
         await selectOption(page, `:nth-match(#offenderTransferRequestTable select, ${i + 1})`, reason)
     }
-
     await page.locator('input', { hasText: 'Transfer' }).click()
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
+    for (let i = 0; i < count; i++) {
+        const value = await selects.nth(i).inputValue()
+        if (!value || value === '' || value === '[Please Select]') {
+            await selectOption(page, `:nth-match(#offenderTransferRequestTable select, ${i + 1})`, reason)
+        }
+    }
 
     return selectedStaff
 }
-
 export async function transferToDeliusUser(
     page: Page,
     {

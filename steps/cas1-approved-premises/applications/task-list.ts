@@ -54,7 +54,7 @@ export const clickDtlFrtherConsidPlacementLink = async (page: Page) => {
 
 export const clickAddMoveOnInfoLink = async (page: Page) => {
     await page.locator('a', { hasText: 'Add move on information' }).click()
-    await expect(page.locator('#main-content h1')).toContainText('Placement duration and move on')
+    await expect(page.locator('#main-content h1')).toContainText('Placement length and dates')
 }
 
 export const clickAttachRqrdDocumentsLink = async (page: Page) => {
