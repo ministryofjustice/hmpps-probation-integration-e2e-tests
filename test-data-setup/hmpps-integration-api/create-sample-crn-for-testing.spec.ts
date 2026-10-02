@@ -40,7 +40,7 @@ test('create a crn for Probation, with a layer 3 assessment in the incomplete st
 
     //Oasys - Risks, Scores and Needs data
     await createCustodialEvent(page, { crn }) // required for OASys login to be able to create assessment
-    await oasysLogin(page, UserType.Booking)
+    await oasysLogin(page, UserType.RSR)
     await createLayer3AssessmentWithoutNeeds(page, crn)
     await addLayer3AssessmentNeeds(page)
     //Steps after this point to close an assessment must be manually completed.
@@ -57,7 +57,7 @@ test('create a crn for Probation, with a layer 3 assessment with high RoSH Score
 
     //Oasys - Risks, Scores and Needs data
     await createCustodialEvent(page, { crn })
-    await oasysLogin(page, UserType.Booking)
+    await oasysLogin(page, UserType.OPD)
     await createLayer3CompleteAssessment(page, crn, person, undefined, true)
     await addLayer3AssessmentNeeds(page)
 })

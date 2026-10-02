@@ -40,7 +40,7 @@ test('Create a crn without noms data', async ({ page }) => {
     })
     await createCustodialEvent(page, { crn, allocation: { team: data.teams.approvedPremisesTestTeam } })
 
-    await oasysLogin(page, UserType.Booking)
+    await oasysLogin(page, UserType.Assessment)
     await createLayer3CompleteAssessment(page, crn, person, 'Yes')
     await signAndlock(page)
 })
@@ -79,7 +79,7 @@ test('Create a crn with multiple events', async ({ page }) => {
 
     await createAndBookPrisoner(page, crn, person)
 
-    await oasysLogin(page, UserType.Booking)
+    await oasysLogin(page, UserType.AccreditedProgrammesAssessment)
     await createLayer3CompleteAssessment(page, crn, person)
 })
 
@@ -94,7 +94,7 @@ test('Create Restriction for Users', async ({ page }) => {
 
     await createAndBookPrisoner(page, crn, person)
 
-    await oasysLogin(page, UserType.Booking)
+    await oasysLogin(page, UserType.ManageAndDeliver)
     await createLayer3CompleteAssessment(page, crn, person)
     await addLayer3AssessmentNeeds(page)
 

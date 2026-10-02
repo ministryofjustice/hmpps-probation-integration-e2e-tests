@@ -34,7 +34,7 @@ test('Create a supervision package for a case that is not eligible for final thi
     nomisIds.push(nomisId)
 
     // Step 5: Create a layer 1 assessment in OASys
-    await oasysLogin(page, UserType.Booking)
+    await oasysLogin(page, UserType.AccreditedProgrammesAssessment)
 
     await createLayer1CompleteAssessment(page, crn, person, nomisId, true, true)
     await signAndlock(page)
