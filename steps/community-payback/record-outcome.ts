@@ -214,16 +214,19 @@ async function findOnPaginatedResults(page: Page, target: Locator, description: 
 }
 
 export async function findAnAppointment(page: Page, provider: string, excludedCrns: string[] = []) {
-    await page.getByRole('link', { name: 'Record travel time' }).click()
-    await selectOption(page, '#provider', provider)
-    await page.getByRole('button', { name: 'Apply filters' }).click()
-    // Sort by date to find the most recent appointments
-    const dateSort = page
-        .getByRole('columnheader')
-        .filter({ has: page.getByRole('link', { name: 'Date', exact: true }) })
-        .getByRole('link')
-    await dateSort.click()
-    await dateSort.click()
+    if (excludedCrns.length === 0) {
+        await page.getByRole('link', { name: 'Record travel time', exact: true }).click()
+        await selectOption(page, '#provider', provider)
+        await page.getByRole('button', { name: 'Apply filters' }).click()
+        // Sort by date to find the most recent appointments
+        const dateSort = page
+            .getByRole('columnheader')
+            .filter({ has: page.getByRole('link', { name: 'Date', exact: true }) })
+            .getByRole('link')
+        await dateSort.click()
+        await dateSort.click()
+    }
+    await expect(page.getByRole('heading', { name: 'Adjust travel time', exact: true })).toBeVisible()
     let rows = page.getByRole('row').filter({ has: page.getByRole('link', { name: 'Update', exact: true }) })
     for (const crn of excludedCrns) {
         rows = rows.filter({ hasNot: page.getByText(crn, { exact: true }) })
