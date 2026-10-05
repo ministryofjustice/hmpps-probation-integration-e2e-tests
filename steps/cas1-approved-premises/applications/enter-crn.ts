@@ -11,9 +11,4 @@ export const enterCRN = async (page: Page, crn: string) => {
     if (await cas2Heading.isVisible()) {
         await page.getByRole('button', { name: 'Continue' }).click()
     }
-    await page
-        .getByRole('link', {
-            name: 'Apply for Approved Premises (CAS1) anyway',
-        })
-        .click()
 }
