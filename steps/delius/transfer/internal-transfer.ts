@@ -28,11 +28,20 @@ export async function internalTransfer(
     }
     await page.locator('input', { hasText: 'Transfer' }).click()
     await expect(page).toHaveTitle(/Consolidated Transfer Request/)
-    for (let i = 0; i < count; i++) {
+
+    // Delius sometimes resets the reasons on submit; re-fill any that remain and resubmit
+    const remaining = await selects.count()
+    let resubmit = false
+    for (let i = 0; i < remaining; i++) {
         const value = await selects.nth(i).inputValue()
-        if (!value || value === '' || value === '[Please Select]') {
+        if (!value || value === '[Please Select]') {
             await selectOption(page, `:nth-match(#offenderTransferRequestTable select, ${i + 1})`, reason)
+            resubmit = true
         }
+    }
+    if (resubmit) {
+        await page.locator('input', { hasText: 'Transfer' }).click()
+        await expect(page).toHaveTitle(/Consolidated Transfer Request/)
     }
 
     return selectedStaff
