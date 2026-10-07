@@ -1,6 +1,7 @@
 import { login as deliusLogin } from '../../steps/delius/login'
 import { login as workforceLogin } from '../../steps/workforce/login'
 import { internalTransfer } from '../../steps/delius/transfer/internal-transfer'
+import { RestrictedRecordError } from '../../steps/delius/offender/find-offender'
 import { data } from '../../test-data/test-data'
 import { chromium, expect, test } from '@playwright/test'
 import { slow } from '../../steps/common/common'
@@ -23,6 +24,8 @@ test('Allocate unallocated workforce CRNs in Delius', async ({ page }) => {
 
     if (unallocatedCount > minimumToLeaveUnallocated) {
         const casesToAllocate = Math.min(unallocatedCount - minimumToLeaveUnallocated, maximumToAllocate)
+        // Allow ~1 minute per transfer plus setup
+        slow(5 + casesToAllocate)
         console.log(`Allocating ${casesToAllocate} of ${unallocatedCount} cases`)
 
         const browser = await chromium.launch()
@@ -41,6 +44,10 @@ test('Allocate unallocated workforce CRNs in Delius', async ({ page }) => {
                     allocation: { staff: data.staff.allocationsTester2, team: data.teams.allocationsTestTeam },
                 })
             } catch (error) {
+                if (error instanceof RestrictedRecordError) {
+                    console.log(`Skipping ${crn}: restricted record`)
+                    continue
+                }
                 console.error(`Error occurred during internal transfer: ${error}`)
             }
         }

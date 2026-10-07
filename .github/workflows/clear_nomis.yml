@@ -1,0 +1,75 @@
+name: '* Clear NOMIS reception'
+
+on:
+  workflow_dispatch:
+    inputs:
+      return_temporary_absences:
+        description: Also return and release prisoners on temporary absence
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: clear-nomis-reception
+  cancel-in-progress: false
+
+jobs:
+  clear-reception:
+    defaults:
+      run:
+        shell: bash
+    runs-on: [ self-hosted, hmpps-github-actions-runner ]
+    timeout-minutes: 30
+    env:
+      TZ: Europe/London
+      PRISON_API: https://prison-api-dev.prison.service.justice.gov.uk
+    steps:
+      - name: Get token and reception location
+        env:
+          CLIENT_ID: ${{ secrets.E2E_HMPPS_AUTH_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.E2E_HMPPS_AUTH_CLIENT_SECRET }}
+        run: |
+          token=$(curl -fsS -X POST -u "$CLIENT_ID:$CLIENT_SECRET" \
+            'https://sign-in-dev.hmpps.service.justice.gov.uk/auth/oauth/token?grant_type=client_credentials&username=PROBATION_INTEGRATION_TEST_GEN' \
+            | jq -er '.access_token')
+          echo "::add-mask::$token"
+          echo "TOKEN=$token" >> "$GITHUB_ENV"
+
+          location_id=$(curl -fsS -H "Authorization: Bearer $token" \
+            "$PRISON_API/api/locations/code/SWI-RECP" | jq -er '.locationId')
+          echo "LOCATION_ID=$location_id" >> "$GITHUB_ENV"
+
+      - name: Get caseloads and set active caseload
+        run: |
+          curl -fsS -H "Authorization: Bearer $TOKEN" \
+            "$PRISON_API/api/users/me/caseLoads"
+          curl -fsS -X PUT -H "Authorization: Bearer $TOKEN" \
+            -H "Content-Type: application/json" \
+            "$PRISON_API/api/users/me/activeCaseLoad" \
+            -d '{"caseLoadId":"SWI"}'
+
+      - name: Release prisoners from reception
+        continue-on-error: ${{ inputs.return_temporary_absences }}
+        run: |
+          # Keep exclusions in sync with test-data/environments/test.ts.
+          inmates=$(curl -fsS -H "Authorization: Bearer $TOKEN" -H 'Page-Limit: 100' \
+            "$PRISON_API/api/locations/$LOCATION_ID/inmates" \
+            | jq -r '.[].offenderNo | select(. != "A4799DZ" and . != "G5012UJ" and . != "A0260DZ" and . != "A7928DZ" and . != "A1036EA")')
+          printf '%s\n' "$inmates" | xargs -r -I{} curl -fsS -H "Authorization: Bearer $TOKEN" -X PUT \
+            --json '{"movementReasonCode":"CR","releaseTime":"'"$(date '+%Y-%m-%dT%H:%M:%S')"'","commentText":"Testing","toLocationCode":"OUT"}' \
+            "$PRISON_API/api/offenders/{}/release"
+
+      - name: Return and release prisoners on temporary absence
+        if: inputs.return_temporary_absences
+        run: |
+          inmates=$(curl -fsS -H "Authorization: Bearer $TOKEN" -H 'Page-Limit: 100' \
+            "$PRISON_API/api/locations/$LOCATION_ID/inmates" \
+            | jq -r '.[].offenderNo | select(. != "A4799DZ" and . != "G5012UJ" and . != "A0260DZ" and . != "A7928DZ" and . != "A1036EA")')
+          printf '%s\n' "$inmates" | xargs -r -I{} curl -fsS -H "Authorization: Bearer $TOKEN" -X PUT \
+            --json '{"agencyId":"SWI","cellLocation":"SWI-RECP"}' \
+            "$PRISON_API/api/offenders/{}/temporary-absence-arrival"
+          printf '%s\n' "$inmates" | xargs -r -I{} curl -fsS -H "Authorization: Bearer $TOKEN" -X PUT \
+            --json '{"movementReasonCode":"CR","releaseTime":"'"$(date '+%Y-%m-%dT%H:%M:%S')"'","commentText":"Testing","toLocationCode":"OUT"}' \
+            "$PRISON_API/api/offenders/{}/release"

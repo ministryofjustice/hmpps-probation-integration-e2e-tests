@@ -28,7 +28,19 @@ export async function findOffenderByCRN(page: Page, crn: string) {
         await page.locator('tr', { hasText: crn }).locator('a', { hasText: 'View' }).click()
         await dismissModals(page)
     }
-    await expect(page.getByRole('heading', { name: 'Case Summary' })).toBeVisible({ timeout: 20000 })
+    const caseSummary = page.getByRole('heading', { name: 'Case Summary' })
+    const restrictedRecord = page.getByText('This is a restricted record')
+    await expect(caseSummary.or(restrictedRecord)).toBeVisible({ timeout: 20000 })
+    if (await restrictedRecord.isVisible()) {
+        throw new RestrictedRecordError(crn)
+    }
+}
+
+export class RestrictedRecordError extends Error {
+    constructor(crn: string) {
+        super(`${crn} is a restricted record`)
+        this.name = 'RestrictedRecordError'
+    }
 }
 
 export async function findOffenderByCRNNoContextCheck(page: Page, crn: string) {

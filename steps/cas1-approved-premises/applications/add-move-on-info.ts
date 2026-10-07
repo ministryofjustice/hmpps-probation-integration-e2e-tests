@@ -3,6 +3,9 @@ import { faker } from '@faker-js/faker'
 
 export const addMoveOnInformation = async (page: Page) => {
     await page.locator('#differentDuration-2').check()
+    await page.locator('#durationWeeks').fill('20')
+    await page.locator('#durationDays').fill('0')
+    await page.locator('#reason').fill('Construction work')
     await page.locator('button', { hasText: 'Save and continue' }).click()
     await expect(page.locator('[for="postcodeArea"]')).toContainText(
         /.*Where is the person most likely to live when they move on from the AP.*/

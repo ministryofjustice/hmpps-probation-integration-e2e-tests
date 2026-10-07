@@ -17,14 +17,14 @@ export const testEnvironmentData: TestData = {
     requirements: {},
     staff: {
         allocationsTester1: {
-            name: 'Pint, Coco (PS - PO)',
-            firstName: 'Coco',
-            lastName: 'Pint',
+            name: 'AutomatedTestUser, AutomatedTestUser (PS - PSO)',
+            firstName: 'AutomatedTestUser',
+            lastName: 'AutomatedTestUser',
         },
         allocationsTester2: {
-            name: 'Pint, Derek (PS - PO)',
-            firstName: 'Derek',
-            lastName: 'Pint',
+            name: 'User, Test (PS - PO)',
+            firstName: 'Test',
+            lastName: 'User',
         },
         genericStaff: {
             name: 'Cobio, Titus ZZ (NPS - PSO)',

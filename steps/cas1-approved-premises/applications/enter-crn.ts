@@ -5,4 +5,10 @@ export const enterCRN = async (page: Page, crn: string) => {
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
     await expect(page).toHaveTitle(/Approved Premises - Confirm/)
     await page.locator('.govuk-button', { hasText: 'Save and continue' }).click()
+    const cas2Heading = page.getByRole('heading', {
+        name: /may be eligible for short-term accommodation/i,
+    })
+    if (await cas2Heading.isVisible()) {
+        await page.getByRole('button', { name: 'Continue' }).click()
+    }
 }
