@@ -54,3 +54,17 @@ export async function verifyTableRowByContent(
         expect(rowCellsByContent[columnIndex]).toContain(verification.cellContent)
     })
 }
+
+export async function expectRowIsNotPresent(page: Page, tableId: string, content: string) {
+    const tableLocator = page.locator(`#${tableId}`)
+    await expect(tableLocator).toBeVisible()
+    const row = tableLocator.getByRole('row').filter({ hasText: content })
+
+    const nextLink = page.getByRole('link', { name: 'Next' })
+
+    while (await nextLink.isVisible()) {
+        await expect(row).not.toBeVisible()
+        nextLink.click()
+        await waitForAjax(page)
+    }
+}
