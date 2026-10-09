@@ -42,13 +42,19 @@ export const completeRoSHSection10RoSHSummary = async (page: Page, highRoshScore
 
     // OASys intermittently asks to confirm which risk level the tier should be based on
     const tierConfirmation = page.getByText(/do you want the tier to be based on/i)
-    await page.addLocatorHandler(tierConfirmation, async () => {
-        await page.getByRole('button', { name: 'Yes', exact: true }).click()
-    })
+    await page.addLocatorHandler(
+        tierConfirmation,
+        async () => {
+            await page.getByRole('button', { name: 'Yes', exact: true }).click()
+        },
+        { noWaitAfter: true }
+    )
 
     await page.keyboard.down('End')
     await page.click('input[value="Save"]')
     await page.click('input[value="Next"]')
-    await expect(page.locator('#contextleft > h3')).toHaveText('Risk Management Plan (Layer 3)')
+    await expect(page.locator('#contextleft > h3')).toHaveText('Risk Management Plan (Layer 3)', {
+        timeout: 20000,
+    })
     await page.removeLocatorHandler(tierConfirmation)
 }
