@@ -176,7 +176,9 @@ export async function createPostProgrammeReviewSession(page: Page, person: Perso
     await page.getByRole('button', { name: 'Continue' }).click()
 
     // Session details
-    const sessionDate = DateTime.now().setLocale('en-gb').toLocaleString()
+    const now = DateTime.now().setZone('Europe/London')
+    const before0940 = now.hour * 60 + now.minute < 9 * 60 + 40
+    const sessionDate = (before0940 ? now.minus({ days: 1 }) : now).toFormat('dd/MM/yyyy')
     await page.getByRole('heading', { name: 'Add session details' }).isVisible()
     await page.locator('.moj-js-datepicker-input').fill(sessionDate)
     await page.locator('#session-details-start-time-hour').fill('09')

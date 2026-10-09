@@ -9,10 +9,12 @@ export const getOptions = async (page: Page, selector: string, filter: (s: strin
 }
 
 const getRandomOption = async (page: Page, selector: string, timeout = 2, filter: (s: string) => boolean = null) => {
+    const optionFilter = (label: string) =>
+        (selector !== '#Trust\\:selectOneMenu' || label !== 'NPS Midlands') && (!filter || filter(label))
     const waitUntil = new Date().getSeconds() + timeout
     let options = []
     while (options.length == 0 && new Date().getSeconds() <= waitUntil) {
-        options = await getOptions(page, selector, filter)
+        options = await getOptions(page, selector, optionFilter)
     }
     return options[Math.floor(Math.random() * options.length)]
 }

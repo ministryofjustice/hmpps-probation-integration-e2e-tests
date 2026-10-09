@@ -102,6 +102,7 @@ export async function adjustTravelTime(page: Page, hours: number, minutes: numbe
     await expect(page.locator('.govuk-notification-banner__content')).toContainText(
         RegExp(` has been adjusted for${hoursString}${minutesString} of travel time.`, 'i')
     )
+    await page.getByRole('button', { name: /Account/i }).click()
     await page.getByRole('link', { name: 'Sign out' }).click()
     return true
 }
@@ -253,6 +254,7 @@ export async function confirmDetails(page: Page) {
     await page.getByRole('button', { name: 'Confirm' }).click()
     await expect(page.getByRole('heading', { name: 'Success' })).toBeVisible()
     await expect(page.locator('.govuk-notification-banner__content')).toContainText(/Attendance recorded/)
+    await page.getByRole('button', { name: /Account/i }).click()
     await page.getByRole('link', { name: 'Sign out' }).click()
 }
 
