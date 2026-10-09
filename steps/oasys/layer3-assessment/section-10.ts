@@ -40,9 +40,9 @@ export const completeRoSHSection10RoSHSummary = async (page: Page, highRoshScore
         await page.locator('#itm_SUM6_5_2').selectOption({ label: 'Medium' })
     }
 
-    // OASys intermittently asks to confirm the tier when a Very High risk is recorded
-    const veryHighRiskConfirmation = page.getByText('do you want the tier to be based on Very High Risk?')
-    await page.addLocatorHandler(veryHighRiskConfirmation, async () => {
+    // OASys intermittently asks to confirm which risk level the tier should be based on
+    const tierConfirmation = page.getByText(/do you want the tier to be based on/i)
+    await page.addLocatorHandler(tierConfirmation, async () => {
         await page.getByRole('button', { name: 'Yes', exact: true }).click()
     })
 
@@ -50,5 +50,5 @@ export const completeRoSHSection10RoSHSummary = async (page: Page, highRoshScore
     await page.click('input[value="Save"]')
     await page.click('input[value="Next"]')
     await expect(page.locator('#contextleft > h3')).toHaveText('Risk Management Plan (Layer 3)')
-    await page.removeLocatorHandler(veryHighRiskConfirmation)
+    await page.removeLocatorHandler(tierConfirmation)
 }
