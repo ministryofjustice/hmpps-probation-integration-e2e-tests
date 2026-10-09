@@ -6,14 +6,13 @@ export async function searchPersonInMPoP(page: Page, crn: string, heading?: Retu
     await doUntil(
         async () => {
             await page.getByLabel('Find a person on probation').fill(crn)
-            // Comment out this line if the search button gets removed
             await page.getByRole('button', { name: 'Search' }).click()
         },
-        () => expect(page.locator('#search-results-container')).toContainText(crn)
+        async () => {
+            await expect(page.locator(`[href$="${crn}"]`).first()).toBeVisible()
+        }
     )
-
     await page.locator(`[href$="${crn}"]`).first().click()
-
     if (heading) {
         await expect(heading).toContainText(/Overview/i)
     }
