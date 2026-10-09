@@ -34,7 +34,7 @@ test('Check-in for an e-supervision appointment', async ({ page }) => {
 
     // The below has been added as to be able to do the check in journey a user must have a tier assigned to them.
     // Log in to OASys and create a layer 1 assessment for the case
-    await oasysLogin(page, UserType.OPD)
+    await oasysLogin(page, UserType.ESupervision)
     await createLayer1CompleteAssessment(page, crn, person, nomisId)
     await signAndlock(page)
 
