@@ -34,5 +34,41 @@ export const completeRiskManagementPlan = async (page: Page) => {
     await page.keyboard.down('End')
     await page.click('input[value="Save"]')
     await page.click('input[value="Next"]')
-    await expect(page.locator('#contextleft > h3')).toHaveText('Basic Sentence Plan (Layer 1)')
+    await expect(page.locator('#contextleft > h3')).toHaveText('Sentence Plan Service (Layer 1)')
+    await page.locator('input[value="Open Sentence Plan Service"]').click()
+
+    // Open Sentence plan service and add a goal and then agree to plan
+    await page.getByRole('checkbox').check()
+    await page.getByRole('button', { name: 'Confirm' }).click()
+    await page.getByRole('button', { name: 'Create goal' }).click()
+    await page.locator('#area_of_need-6').check()
+    await page.getByRole('button', { name: 'Continue' }).click()
+    // Add a goal into text box
+    await page.locator('#goal_title').fill('I will improve recognising')
+    await page.getByRole('option').first().click()
+    // Click No to relating to other areas
+    await page.locator('#is_related_to_other_areas-2').check()
+    // Click yes to can start working on the goal now
+    await page.locator('#can_start_now').check()
+    // Choose target date option
+    await page.locator('#target_date_option').check()
+    // Add steps
+    await page.getByRole('button', { name: 'Add steps' }).click()
+    // Step actor - open dropdown and select first option
+    await page.locator('#step_actor_0').click()
+    await page.getByRole('option').nth(1).click()
+    // Description
+    await page.locator('#step_description_0').fill('Manage emotions')
+    // Step status - open dropdown and select first option
+    await page.locator('#step_status_0').click()
+    await page.getByRole('option').nth(1).click()
+    await page.getByRole('button', { name: 'Save and continue' }).click()
+    await page.getByRole('button', { name: 'Agree plan' }).click()
+    // Select "Yes" for plan agreement
+    await page.locator('[data-ai-id="plan-overview-agree-plan-radio-yes"]').check()
+    // Save
+    await page.getByRole('button', { name: 'Save' }).click()
+    // Return to OASys
+    await page.getByRole('button', { name: 'Return to OASys' }).click()
+    await expect(page.getByRole('button', { name: 'Sign & Lock', exact: true })).toBeVisible()
 }
