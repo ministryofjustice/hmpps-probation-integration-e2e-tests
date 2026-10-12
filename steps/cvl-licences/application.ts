@@ -6,7 +6,7 @@ const postcode = faker.helpers.arrayElement(['NE30 1DP', 'NE1 6EE', 'SW1A 1AA', 
 
 export const createLicence = async (page: Page, crn: string, nomsNumber: string) => {
     await cvlLogin(page)
-    await page.getByRole('link', { name: 'Create and edit a licence before a release date', }).click()
+    await page.getByRole('link', { name: 'Create and edit a licence before a release date' }).click()
     await expect(page).toHaveTitle('Create and vary a licence - Create a licence - Caseload')
     await page.getByLabel('Find a case').fill(crn)
     await page.getByRole('button', { name: 'Search' }).click()
