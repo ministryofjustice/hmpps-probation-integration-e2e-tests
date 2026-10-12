@@ -43,9 +43,10 @@ export async function createOffender(
         console.log('Person details:', person)
         console.log('CRN:', crn)
         return crn
-    } catch {
+    } catch (error) {
         if ((await page.title()) === 'Error Page') {
             return await createOffender(page, args)
         }
+        throw error
     }
 }

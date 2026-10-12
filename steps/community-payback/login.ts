@@ -6,7 +6,7 @@ export const loginAsCaseAdmin = async (page: Page) => {
     await page.fill('#username', process.env.DELIUS_USERNAME!)
     await page.fill('#password', process.env.DELIUS_PASSWORD!)
     await page.click('#submit')
-    await expect(page).toHaveTitle(/Community Payback/)
+    await expect(page).toHaveTitle(/Home - Manage community payback/)
 }
 
 export const loginAsSupervisor = async (page: Page) => {

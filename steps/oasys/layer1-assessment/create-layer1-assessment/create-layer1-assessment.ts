@@ -19,7 +19,6 @@ import {
     clickRoSHSummary,
     clickRiskManagementPlan,
 } from '../create-assessment'
-import { completeReviewBasicSentencePlan } from '../basic-sentence-plan'
 import { completeRoSHSection1MarkAllNo } from '../rosh-section-1'
 import { clickSection2To4 } from '../rosh-section-2-4'
 import { completeRoSHSection10RoSHSummary } from '../rosh-section-10'
@@ -135,6 +134,4 @@ export const createLayer1CompleteAssessment = async (
     // And I complete "Risk Management Plan" Questions
     await clickRiskManagementPlan(page)
     await completeRiskManagementPlan(page)
-    // And I complete "Review Sentence Plan" Questions
-    await completeReviewBasicSentencePlan(page)
 }
