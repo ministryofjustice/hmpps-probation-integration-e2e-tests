@@ -32,7 +32,7 @@ const config: PlaywrightTestConfig = {
             ],
         },
         screenshot: 'only-on-failure',
-        trace: process.env.CI ? 'off' : 'on',
+        trace: process.env.CI ? 'on' : 'on',
         ...devices['Desktop Chrome'],
     },
     /* Configure projects */
