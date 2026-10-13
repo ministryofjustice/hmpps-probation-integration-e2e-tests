@@ -29,15 +29,28 @@ export async function registerCaseInMPoP(page: Page, person: Person, crn: string
     )
     await page.getByRole('checkbox', { name: 'None of these apply' }).check()
     await page.getByRole('button', { name: 'Continue' }).click()
-    await expect(heading).toContainText(new RegExp(`${person.firstName} is eligible to use online check ins`, 'i'))
-    // New checks for the eligibility journey
-    await page.getByText('Online check ins are optional and the person can decide not to use them').click()
-    await page.getByText('They can stop using online check ins at any time').click()
-    await page.getByText('They cannot be breached and online check ins are not enforceable').click()
-    await page
-        .getByText('They can ask for more time to make a decision about if they want to use online check ins')
-        .click()
-    await page.getByRole('button', { name: 'Continue' }).click()
+    const eligibleHeading = heading.filter({
+        hasText: new RegExp(`${person.firstName} is eligible to use online check ins`, 'i'),
+    })
+    const noOption = page.getByRole('radio', { name: 'No', exact: true })
+    const frequencyOption = page.getByRole('radio', { name: 'Every 2 weeks', exact: true })
+    await expect(eligibleHeading.or(noOption).or(frequencyOption)).toBeVisible()
+
+    if (await eligibleHeading.isVisible()) {
+        await page.getByText('Online check ins are optional and the person can decide not to use them').click()
+        await page.getByText('They can stop using online check ins at any time').click()
+        await page.getByText('They cannot be breached and online check ins are not enforceable').click()
+        await page
+            .getByText('They can ask for more time to make a decision about if they want to use online check ins')
+            .click()
+        await page.getByRole('button', { name: 'Continue' }).click()
+    }
+
+    await expect(noOption.or(frequencyOption)).toBeVisible()
+    if (await noOption.isVisible()) {
+        await noOption.check()
+        await page.getByRole('button', { name: 'Continue' }).click()
+    }
 
     // *** Steps below are commented out because ths journey is not currently implemented in the UI. Uncomment if it is implemented. ***
 
@@ -51,9 +64,11 @@ export async function registerCaseInMPoP(page: Page, person: Person, crn: string
     // await page.locator('textarea.govuk-textarea').fill(faker.lorem.sentence())
     // await page.getByRole('button', { name: 'Continue' }).click()
 
-    await expect(heading).toContainText(/Set up\s+online check ins/i)
-    await page.locator('.moj-js-datepicker-input').fill(uiDueDate)
+    await expect(page.getByRole('heading', { name: /How often would you like .* to check in\?/ })).toBeVisible()
+    // await page.locator('.moj-js-datepicker-input').fill(uiDueDate)
     await page.getByRole('radio', { name: 'Every 2 weeks' }).check()
+    await page.getByRole('button', { name: 'Continue' }).click()
+    await page.locator('.moj-js-datepicker-input').fill(uiDueDate)
     await page.getByRole('button', { name: 'Continue' }).click()
     const email = `${person.lastName}@service.gov.uk`
     await page.getByRole('radio', { name: 'Email' }).click()
@@ -76,7 +91,7 @@ export async function registerCaseInMPoP(page: Page, person: Person, crn: string
     await page.getByRole('button', { name: 'Confirm' }).click()
 
     // Confirmation
-    await expect(page.locator('.govuk-panel--confirmation')).toContainText('Online check ins added')
+    await expect(page.locator('.govuk-panel--confirmation')).toContainText('Online check ins set up')
     return await createOffenderCheckin(crn, apiDueDate)
 }
 
