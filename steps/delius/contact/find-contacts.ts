@@ -8,7 +8,7 @@ import { findEventByCRN } from '../event/find-events'
 export async function findContactsByCRN(page: Page, crn: string) {
     await findOffenderByCRN(page, crn)
     await doUntil(
-        () => page.click('#navigation-include\\:linkNavigation1ContactList'),
+        () => page.getByRole('link', { name: 'Contact List', exact: true }).click(),
         () => expect(page).toHaveTitle(/Contact List/)
     )
 }
