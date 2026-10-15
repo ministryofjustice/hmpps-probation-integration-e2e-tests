@@ -54,6 +54,7 @@ on:
           - '["offender-events-and-delius"]'
           - '["opd-and-delius"]'
           - '["pathfinder-and-delius"]'
+          - '["person-search-and-delius"]'
           - '["person-search-index-from-delius"]'
           - '["pre-sentence-reports-to-delius"]'
           - '["prison-case-notes-to-probation"]'
