@@ -1,6 +1,6 @@
 import { expect, test, type FrameLocator, type Page } from '@playwright/test'
 import { login as deliusLogin } from '../../steps/delius/login'
-import { searchData } from '../../test-data/search-data'
+import { fieldSearches, nameSearches, noResultSearches, searchData } from '../../test-data/search-data'
 
 const searchComponent = (page: Page) => page.frameLocator('#elasticsearch-frame')
 
@@ -21,11 +21,13 @@ test.beforeEach(async ({ page }) => {
     await expect(searchComponent(page).locator('#search')).toBeVisible()
 })
 
-test('can search by person name', async ({ page }) => {
-    const component = searchComponent(page)
-    await search(component, searchData.fullName)
-    await expect(personLink(component)).toBeVisible()
-})
+for (const { name, term } of nameSearches) {
+    test(name, async ({ page }) => {
+        const component = searchComponent(page)
+        await search(component, term)
+        await expect(personLink(component)).toBeVisible()
+    })
+}
 
 test('can search by CRN', async ({ page }) => {
     const component = searchComponent(page)
@@ -33,15 +35,12 @@ test('can search by CRN', async ({ page }) => {
     await expect(component.getByText(searchData.crn).first()).toBeVisible()
 })
 
-for (const { name, term } of [
-    { name: 'can search by date of birth', term: searchData.dateOfBirth },
-    { name: 'can search by telephone number', term: searchData.telephoneNumber },
-    { name: 'can search by postcode', term: searchData.postcode },
-]) {
+for (const { name, term, expectedText } of fieldSearches) {
     test(name, async ({ page }) => {
         const component = searchComponent(page)
-        await search(component, `Christina Grady ${term}`)
-        await expect(personLink(component)).toBeVisible()
+        await search(component, term)
+        await expect(component.locator('.view-offender-link').first()).toBeVisible()
+        await expect(component.getByText(expectedText).first()).toBeVisible()
     })
 }
 
@@ -56,11 +55,11 @@ test('can search using partial name', async ({ page }) => {
 
 test('highlights matching keyword in results', async ({ page }) => {
     const component = searchComponent(page)
-    await search(component, searchData.keyword)
+    await search(component, searchData.place)
     await expect(
         component
             .locator('.highlighted-text')
-            .filter({ hasText: new RegExp(`^${searchData.keyword}$`, 'i') })
+            .filter({ hasText: new RegExp(`^${searchData.place}$`, 'i') })
             .first()
     ).toBeVisible()
 })
@@ -77,43 +76,26 @@ for (const { name, term } of [
     })
 }
 
-test('shows no results message', async ({ page }) => {
-    const component = searchComponent(page)
-    await search(component, searchData.noMatch)
-    await expect(
-        component.getByText('There are no results for your search. Try refining your query above.')
-    ).toBeVisible()
-})
-
-for (const [caseName, term] of [
-    ['lower', searchData.fullName.toLowerCase()],
-    ['upper', searchData.fullName.toUpperCase()],
-]) {
-    test(`search is case insensitive (${caseName} case)`, async ({ page }) => {
+for (const { name, term } of noResultSearches) {
+    test(name, async ({ page }) => {
         const component = searchComponent(page)
         await search(component, term)
-        await expect(personLink(component)).toBeVisible()
+        await expect(
+            component.getByText('There are no results for your search. Try refining your query above.')
+        ).toBeVisible()
+        await expect(component.locator('.view-offender-link')).toHaveCount(0)
     })
 }
 
-test('handles special characters', async ({ page }) => {
-    const component = searchComponent(page)
-    await search(component, searchData.specialCharacters)
-    await expect(
-        component.getByText('There are no results for your search. Try refining your query above.')
-    ).toBeVisible()
-    await expect(component.locator('.view-offender-link')).toHaveCount(0)
-})
-
 test('shows search results count', async ({ page }) => {
     const component = searchComponent(page)
-    await search(component, searchData.keyword)
+    await search(component, searchData.place)
     await expect(component.getByText(/Showing \d+ to \d+ of \d+ results/)).toBeVisible()
 })
 
 test('can navigate search result pages', async ({ page }) => {
     const component = searchComponent(page)
-    await search(component, searchData.keyword)
+    await search(component, searchData.place)
     await expect(component.getByText(/Showing 1 to \d+ of \d+ results/)).toBeVisible()
     await component.getByRole('link', { name: 'Next page' }).click()
     await expect(component.getByText(/Showing 11 to \d+ of \d+ results/)).toBeVisible()
