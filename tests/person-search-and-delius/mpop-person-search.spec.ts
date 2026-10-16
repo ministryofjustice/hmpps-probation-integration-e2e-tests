@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 import { login as mpopLogin } from '../../steps/manage-a-supervision/login'
-import { searchData } from '../../test-data/search-data'
+import { fieldSearches, nameSearches, noResultSearches, searchData } from '../../test-data/search-data'
 
 const personLink = (page: Page) =>
     page.getByRole('link', {
@@ -22,24 +22,23 @@ test.beforeEach(async ({ page }) => {
     await expect(page.getByLabel('Find a person on probation')).toBeVisible()
 })
 
-test('can search by person name', async ({ page }) => {
-    await search(page, searchData.fullName)
-    await expect(personLink(page)).toBeVisible()
-})
+for (const { name, term } of nameSearches) {
+    test(name, async ({ page }) => {
+        await search(page, term)
+        await expect(personLink(page)).toBeVisible()
+    })
+}
 
 test('can search by CRN', async ({ page }) => {
     await search(page, searchData.crn)
     await expect(page.getByRole('cell', { name: searchData.crn }).first()).toBeVisible()
 })
 
-for (const { name, term } of [
-    { name: 'can search by date of birth', term: searchData.dateOfBirth },
-    { name: 'can search by telephone number', term: searchData.telephoneNumber },
-    { name: 'can search by postcode', term: searchData.postcode },
-]) {
+for (const { name, term, expectedText } of fieldSearches) {
     test(name, async ({ page }) => {
-        await search(page, `Christina Grady ${term}`)
-        await expect(personLink(page)).toBeVisible()
+        await search(page, term)
+        await expect(resultLinks(page).first()).toBeVisible()
+        await expect(page.locator('.probation-search__results-container').getByText(expectedText).first()).toBeVisible()
     })
 }
 
@@ -52,11 +51,11 @@ test('can search using partial name', async ({ page }) => {
 })
 
 test('highlights matching keyword in results', async ({ page }) => {
-    await search(page, searchData.keyword)
+    await search(page, searchData.place)
     await expect(
         page
             .locator('.govuk-tag--yellow')
-            .filter({ hasText: new RegExp(`^${searchData.keyword}$`, 'i') })
+            .filter({ hasText: new RegExp(`^${searchData.place}$`, 'i') })
             .first()
     ).toBeVisible()
 })
@@ -72,34 +71,21 @@ for (const { name, term } of [
     })
 }
 
-test('shows no results message', async ({ page }) => {
-    await search(page, searchData.noMatch)
-    await expect(page.getByText(noResultsMessage)).toBeVisible()
-})
-
-for (const [caseName, term] of [
-    ['lower', searchData.fullName.toLowerCase()],
-    ['upper', searchData.fullName.toUpperCase()],
-]) {
-    test(`search is case insensitive (${caseName} case)`, async ({ page }) => {
+for (const { name, term } of noResultSearches) {
+    test(name, async ({ page }) => {
         await search(page, term)
-        await expect(personLink(page)).toBeVisible()
+        await expect(page.getByText(noResultsMessage)).toBeVisible()
+        await expect(resultLinks(page)).toHaveCount(0)
     })
 }
 
-test('handles special characters', async ({ page }) => {
-    await search(page, searchData.specialCharacters)
-    await expect(page.getByText(noResultsMessage)).toBeVisible()
-    await expect(resultLinks(page)).toHaveCount(0)
-})
-
 test('shows search results count', async ({ page }) => {
-    await search(page, searchData.keyword)
+    await search(page, searchData.place)
     await expect(page.getByText(/Showing\s+\d+\s+to\s+\d+\s+of\s+\d+\s+results/)).toBeVisible()
 })
 
 test('can navigate search result pages', async ({ page }) => {
-    await search(page, searchData.keyword)
+    await search(page, searchData.place)
     await expect(page.getByText(/Showing\s+1\s+to\s+\d+\s+of\s+\d+\s+results/)).toBeVisible()
     await page.getByRole('link', { name: 'Next page' }).click()
     await expect(page).toHaveURL(/[?&]page=2(&|$)/)
