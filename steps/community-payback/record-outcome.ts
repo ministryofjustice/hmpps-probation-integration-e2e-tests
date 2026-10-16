@@ -241,7 +241,7 @@ export async function findAnAppointment(page: Page, provider: string, excludedCr
 }
 
 export async function addSupervisorDetails(page: Page, teamName: string, supervisor: string) {
-    await page.getByRole('button', { name: 'Update appointment' }).click()
+    await page.getByRole('link', { name: 'Update appointment', exact: true }).click()
     await expect(page.getByRole('heading', { name: 'Add supervisor details' })).toBeVisible()
     await selectOption(page, '#team', teamName)
     await page.getByRole('button', { name: 'Select team' }).click()
