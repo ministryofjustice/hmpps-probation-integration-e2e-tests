@@ -90,7 +90,9 @@ test('Create a pre-sentence report', async ({ page }) => {
     await popup.locator('#proposedSentence').fill(faker.lorem.sentence())
     await popup.locator('#proposedSentenceRationale').fill(faker.lorem.sentence())
     await popup.locator('#alternativeSentencingOptions').fill(faker.lorem.sentence())
-    await popup.locator('#custodial-sentence-not-threshold').click()
+    await popup
+        .getByLabel('A custodial sentence is not being considered as the offence does not meet the custodial threshold')
+        .check()
     await popup.locator('text=Save and continue').click()
 
     // - Sources of information
