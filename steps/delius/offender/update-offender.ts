@@ -36,6 +36,19 @@ export async function setNomisId(page: Page, crn: string, nomisId: string) {
     await expect(page.locator('#NOMS\\:outputText')).toContainText(nomisId)
 }
 
+export async function setMobileNumber(page: Page, crn: string, mobileNumber: string) {
+    await findOffenderByCRN(page, crn)
+    await page.getByRole('link', { name: 'Personal Details' }).click()
+    await expect(page).toHaveTitle(/Personal Details/)
+    await page.getByRole('button', { name: 'Update' }).click()
+    await expect(page).toHaveTitle(/Update Personal Details/)
+    // Delius listens for key events on this field, so type rather than fill
+    await page.locator('#mobile\\:inputText').pressSequentially(mobileNumber)
+    await page.keyboard.press('Tab')
+    await page.getByRole('button', { name: 'Save' }).click()
+    await expect(page).toHaveTitle(/Personal Details/)
+}
+
 export async function removeNomisId(page: Page, crn: string) {
     await findOffenderByCRN(page, crn)
     await page.click('#navigation-include\\:linkNavigation2OffenderIndex')
