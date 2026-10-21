@@ -17,7 +17,6 @@ import { completeSuicideRiskForm, publishSuicideRiskForm } from '../../steps/sui
 let crn: string | undefined
 
 test('Complete a Suicide Risk Form', async ({ page }) => {
-
     // Given a case in Delius with an address, a sentence and a Court Work Requests NSI
     await deliusLogin(page)
     const person = deliusPerson()
