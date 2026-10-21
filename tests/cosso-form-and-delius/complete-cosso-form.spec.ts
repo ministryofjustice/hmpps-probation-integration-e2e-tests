@@ -18,8 +18,6 @@ import { completeCossoForm, publishCossoForm } from '../../steps/cosso/cosso-for
 let crn: string | undefined
 
 test('Complete a CO SSO breach report', async ({ page }) => {
-    test.setTimeout(10 * 60 * 1000)
-
     // Given a case in Delius with an address, a mobile number, a sentence and a Court Work Requests NSI
     await deliusLogin(page)
     const person = deliusPerson()
