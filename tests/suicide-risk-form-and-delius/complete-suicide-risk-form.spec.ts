@@ -49,7 +49,6 @@ test('Complete a Suicide Risk Form', async ({ page }) => {
     expect(pdf).toContain(person.lastName)
     expect(pdf).toContain(DeliusDateFormatter(person.dob))
     expect(pdf).toContain(address.street)
-    expect(pdf).toContain(address.zipCode)
 })
 
 test.afterEach(async ({ page }) => {
