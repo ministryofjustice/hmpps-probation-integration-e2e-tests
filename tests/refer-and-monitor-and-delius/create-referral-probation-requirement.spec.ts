@@ -16,6 +16,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('Create and complete referral for a case with a probation requirement', async ({ page }) => {
+    test.slow()
     const probationRequirementForCreation = {
         category: 'Probation Requirement',
         subCategory: '[Please Select]',

@@ -27,7 +27,7 @@ import { LastMonth } from '../../steps/delius/utils/date-time'
 const nomisIds = []
 
 test('Accredited Programmes termination', async ({ page }) => {
-    slow()
+    test.slow()
 
     // Step 1: Create a new Offender & event in nDelius
     await deliusLogin(page)

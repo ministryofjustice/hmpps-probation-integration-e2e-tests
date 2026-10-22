@@ -15,7 +15,7 @@ test('Create person and check the record is updated on SAS', async ({ page }) =>
     await deliusLogin(page)
     const person = deliusPerson()
     const crn = await createOffender(page, { person: person, providerName: data.teams.allocationsTestTeam.provider })
-    const address = buildAddress()
+    const address = { ...buildAddress(), accommodationType: 'Householder (Owner - freehold or leasehold)' }
     await createAddress(page, crn, address)
     await createCustodialEvent(page, { crn })
 
@@ -29,6 +29,7 @@ test('Create person and check the record is updated on SAS', async ({ page }) =>
 
     // Login to SAS to check offender details
     await sasLogin(page)
+    await page.getByRole('link', { name: 'Settled housing secured', exact: true }).click()
     await searchForPerson(page, crn, person)
 
     const fullName = person.firstName + ' ' + person.lastName

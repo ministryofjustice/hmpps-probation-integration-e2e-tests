@@ -22,7 +22,7 @@ import { createRegistration } from '../../steps/delius/registration/create-regis
 const nomisIds = []
 
 test('Create an approved premises application', async ({ page }) => {
-    slow()
+    test.slow()
 
     // Given I login in to NDelius
     await hmppsLogin(page)

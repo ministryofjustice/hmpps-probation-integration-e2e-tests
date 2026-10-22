@@ -5,6 +5,7 @@ import { faker } from '@faker-js/faker/locale/en_GB'
 
 export interface Address {
     type: string
+    accommodationType?: string
     buildingNumber: string
     street: string
     streetAddress: string
@@ -45,7 +46,12 @@ export const createAddress = async (page: Page, crn: string, options: Address) =
     await page.getByLabel(/County/).fill(options.county)
     await page.getByLabel(/Postcode/).fill(options.zipCode)
     await selectOption(page, '#addressStatus\\:selectOneMenu', options.type)
-    await selectOption(page, '#addressType\\:selectOneMenu', null, option => option !== 'Awaiting Assessment')
+    await selectOption(
+        page,
+        '#addressType\\:selectOneMenu',
+        options.accommodationType,
+        option => option !== 'Awaiting Assessment'
+    )
     await page.getByLabel(/Type Verified/).selectOption('Yes')
     await page.locator('#newNotes\\:notesField').fill(`Notes added for ${options.type} address`)
     await page.getByRole('button', { name: 'Save' }).click()

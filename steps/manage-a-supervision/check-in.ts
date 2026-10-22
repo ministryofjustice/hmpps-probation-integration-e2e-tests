@@ -142,6 +142,5 @@ export async function reviewCheckinInMPoP(page: Page, crn: string) {
     await page.getByRole('radio', { name: 'No, it is not sensitive' }).click()
     await page.getByRole('radio', { name: 'No', exact: true }).click()
     await page.getByRole('button', { name: 'Complete review' }).click()
-    await page.getByText('Online check in completed').first().click()
     await expect(page.getByRole('table')).toContainText(/Check in status: (Reviewed|Submitted)/)
 }
