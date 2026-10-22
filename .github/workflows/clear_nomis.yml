@@ -1,6 +1,9 @@
 name: '* Clear NOMIS reception'
 
 on:
+  # Every Monday at 08:00 UTC
+  schedule:
+    - cron: "0 8 * * MON"
   workflow_dispatch:
     inputs:
       return_temporary_absences:
