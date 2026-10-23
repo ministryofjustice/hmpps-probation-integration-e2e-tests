@@ -81,12 +81,13 @@ test('Create a pre-sentence report', async ({ page }) => {
     await selectOption(popup, '#risk-to-public', 'Low risk')
     await selectOption(popup, '#risk-to-known-adults', 'High risk')
     await selectOption(popup, '#risk-to-staff', 'Low risk')
+    await selectOption(popup, '#risk-to-prisoners', 'Low risk')
     await popup.locator('#risk-predictors').fill(faker.lorem.sentence())
     await popup.locator('#risk-riskAndHarmFactors').fill(faker.lorem.sentence())
     await popup.locator('text=Save and continue').click()
 
     // - Sentencing proposal
-    await popup.getByRole('heading', { name: 'Sentencing proposal' }).isVisible()
+    await expect(popup.getByRole('heading', { name: 'Sentencing proposal', exact: true })).toBeVisible()
     await popup.locator('#proposedSentence').fill(faker.lorem.sentence())
     await popup.locator('#proposedSentenceRationale').fill(faker.lorem.sentence())
     await popup.locator('#alternativeSentencingOptions').fill(faker.lorem.sentence())

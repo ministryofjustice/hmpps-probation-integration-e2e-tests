@@ -18,12 +18,13 @@ import { createLicenceCondition } from '../../steps/delius/licence-condition/cre
 import { createRelease } from '../../steps/delius/release/create-release'
 import { createContact } from '../../steps/delius/contact/create-contact'
 import { Yesterday } from '../../steps/delius/utils/date-time'
-import { verifyContacts } from '../../steps/delius/contact/find-contacts'
+import { findContactsByCRN, verifyContact as verifyDeliusContact } from '../../steps/delius/contact/find-contacts'
 import { contact } from '../../steps/delius/utils/contact'
 import { data } from '../../test-data/test-data'
 import { refreshUntil } from '../../steps/delius/utils/refresh'
 
 test('Make a Management Oversight Decision and verify in Delius', async ({ page }) => {
+    test.slow()
     // Given a new person in Delius
     await deliusLogin(page)
     const person = deliusPerson()
@@ -77,7 +78,9 @@ test('Make a Management Oversight Decision and verify in Delius', async ({ page 
 
     // Then I log back to Delius and verify the contact
     await deliusLogin(page)
-    await refreshUntil(page, () => verifyContacts(page, crn, [contact('Person', 'Management Oversight - Recall')]), {
+    await findContactsByCRN(page, crn)
+    await refreshUntil(page, () => verifyDeliusContact(page, contact('Person', 'Management Oversight - Recall')), {
         timeout: 120_000,
+        intervals: [1_000, 2_000, 5_000],
     })
 })

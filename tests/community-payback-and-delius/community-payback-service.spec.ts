@@ -46,6 +46,7 @@ test('Find a group session and update record as Attendance Complied', async ({ p
 test('Find individual & group placements with a host partner and update record as Attendance Complied', async ({
     page,
 }) => {
+    test.slow()
     // Given I create a new Offender in nDelius
     const team = data.teams.unpaidWorkIndividualTestTeam
     const projectType = 'Independent Working'

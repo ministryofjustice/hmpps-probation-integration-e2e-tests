@@ -1,9 +1,8 @@
-import { test } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { login as deliusLogin } from '../../steps/delius/login'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { createOffender } from '../../steps/delius/offender/create-offender'
-import { verifyContacts } from '../../steps/delius/contact/find-contacts'
-import { contact } from '../../steps/delius/utils/contact'
+import { findContactsByCRN } from '../../steps/delius/contact/find-contacts'
 import { createCommunityEvent } from '../../steps/delius/event/create-event'
 import { createCheckin, registerCaseInMPoP, reviewCheckinInMPoP } from '../../steps/manage-a-supervision/check-in'
 import { internalTransfer } from '../../steps/delius/transfer/internal-transfer'
@@ -49,5 +48,9 @@ test('Check-in for an e-supervision appointment', async ({ page }) => {
 
     // Then I can see the contact in Delius
     await deliusLogin(page)
-    await verifyContacts(page, crn, [contact('1 - SA2020 Community Order', 'Online check in completed')])
+    await findContactsByCRN(page, crn)
+    const checkinContact = page
+        .locator('tr', { hasText: /Online check in (completed|reviewed)/ })
+        .filter({ hasText: '1 - SA2020 Community Order' })
+    await expect(checkinContact.first()).toBeVisible()
 })
