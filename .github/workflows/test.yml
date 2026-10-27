@@ -1,9 +1,10 @@
 name: End-to-end tests
 
 on:
-  # Every weekday at 08:00 UTC
+  # Every weekday at 09:00 EU/London
   schedule:
-    - cron: "0 8 * * MON-FRI"
+    - cron: "0 9 * * MON-FRI"
+      timezone: Europe/London
   # Run manually via GitHub API
   workflow_dispatch:
     inputs:
