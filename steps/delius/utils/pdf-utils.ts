@@ -15,3 +15,7 @@ function mapToText(pdfData: Output) {
         .map(t => t.T)
         .join('')
 }
+
+// Some PDF fonts cause pdf2json to split glyphs into separate runs padded with spaces (e.g. "C ross Lane"),
+// so strip all whitespace before comparing extracted text.
+export const removeWhitespace = (text: string) => text.replace(/\s+/g, '')

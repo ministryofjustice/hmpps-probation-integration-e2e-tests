@@ -9,7 +9,7 @@ import { createCustodialEvent } from '../../steps/delius/event/create-event'
 import { createNsiForEvent, openNsiForUpdate } from '../../steps/delius/event/create-nsi'
 import { createDocumentFromTemplate } from '../../steps/delius/document/create-document'
 import { DeliusDateFormatter } from '../../steps/delius/utils/date-time'
-import { getPdfText } from '../../steps/delius/utils/pdf-utils'
+import { getPdfText, removeWhitespace } from '../../steps/delius/utils/pdf-utils'
 import { refreshUntil } from '../../steps/delius/utils/refresh'
 import { login as hmppsAuthLogin } from '../../steps/hmpps-auth/login'
 import { completeSuicideRiskForm, publishSuicideRiskForm } from '../../steps/suicide-risk-form/suicide-risk-form'
@@ -44,11 +44,11 @@ test('Complete a Suicide Risk Form', async ({ page }) => {
         page.getByRole('link', { name: 'view', exact: true }).click(),
     ])
     await download.saveAs(`downloads/${crn}-suicide-risk-form.pdf`)
-    const pdf = await getPdfText(fs.readFileSync(`downloads/${crn}-suicide-risk-form.pdf`))
-    expect(pdf).toContain(person.firstName)
-    expect(pdf).toContain(person.lastName)
-    expect(pdf).toContain(DeliusDateFormatter(person.dob))
-    expect(pdf).toContain(address.street)
+    const pdf = removeWhitespace(await getPdfText(fs.readFileSync(`downloads/${crn}-suicide-risk-form.pdf`)))
+    expect(pdf).toContain(removeWhitespace(person.firstName))
+    expect(pdf).toContain(removeWhitespace(person.lastName))
+    expect(pdf).toContain(removeWhitespace(DeliusDateFormatter(person.dob)))
+    expect(pdf).toContain(removeWhitespace(address.street))
 })
 
 test.afterEach(async ({ page }) => {
