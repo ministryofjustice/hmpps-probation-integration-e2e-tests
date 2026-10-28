@@ -40,6 +40,6 @@ test('View Delius case data', async ({ page }) => {
 const searchForCase = async (page: Page, nomsNumber: string) => {
     await page.getByLabel('Find a case').isVisible()
     await page.getByLabel('Find a case').fill(nomsNumber)
-    await page.locator('#search-button').click()
+    await page.getByRole('button', { name: 'Search', exact: true }).click()
     await page.locator('td', { hasText: nomsNumber }).first().locator('a').click()
 }
