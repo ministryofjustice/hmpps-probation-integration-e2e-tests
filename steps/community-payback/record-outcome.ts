@@ -102,8 +102,8 @@ export async function adjustTravelTime(page: Page, hours: number, minutes: numbe
     await expect(page.locator('.govuk-notification-banner__content')).toContainText(
         RegExp(` has been adjusted for${hoursString}${minutesString} of travel time.`, 'i')
     )
-    await page.getByRole('link', { name: /Manage your account or sign out/i }).click()
-    await page.getByRole('link', { name: 'Sign out' }).click()
+    await page.getByRole('button', { name: /^Account\b/i }).click()
+    await page.getByRole('link', { name: 'Sign out', exact: true }).click()
     return true
 }
 
@@ -230,12 +230,18 @@ export async function findAnAppointment(page: Page, provider: string, excludedCr
     await expect(page.getByRole('heading', { name: 'Adjust travel time', exact: true })).toBeVisible()
     let rows = page.getByRole('row').filter({ has: page.getByRole('link', { name: 'Update', exact: true }) })
     for (const crn of excludedCrns) {
-        rows = rows.filter({ hasNot: page.getByText(crn, { exact: true }) })
+        rows = rows.filter({ hasNot: page.locator(`a[href^="/people/${crn}/appointment/"]`) })
     }
     const row = rows.first()
     await findOnPaginatedResults(page, row, 'An untried travel-time appointment')
-    const crn = (await row.getByRole('cell').nth(1).innerText()).trim()
-    expect(crn, 'Appointment row must contain a CRN').toMatch(/^[A-Z]\d{6}$/)
+    const personLink = row.locator('a[href^="/people/"]')
+    await expect(personLink).toHaveAttribute('href', /^\/people\/[A-Z]\d{6}\/appointment\//)
+    const href = await personLink.getAttribute('href')
+    const match = href?.match(/^\/people\/([A-Z]\d{6})\/appointment\//)
+    if (!match) {
+        throw new Error('Appointment person link must contain a CRN')
+    }
+    const crn = match[1]
     await row.getByRole('link', { name: 'Update', exact: true }).click()
     return crn
 }
@@ -254,8 +260,8 @@ export async function confirmDetails(page: Page) {
     await page.getByRole('button', { name: 'Confirm' }).click()
     await expect(page.getByRole('heading', { name: 'Success' })).toBeVisible()
     await expect(page.locator('.govuk-notification-banner__content')).toContainText(/Attendance recorded/)
-    await page.getByRole('link', { name: /Manage your account or sign out/i }).click()
-    await page.getByRole('link', { name: 'Sign out' }).click()
+    await page.getByRole('button', { name: /^Account\b/i }).click()
+    await page.getByRole('link', { name: 'Sign out', exact: true }).click()
 }
 
 export async function recordSessionAttendance(page: Page, startTime: string, endTime: string) {
