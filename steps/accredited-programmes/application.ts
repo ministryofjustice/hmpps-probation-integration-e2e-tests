@@ -130,7 +130,7 @@ export async function assertRoSHRiskTable(page: Page, assertions: RoSHRiskAssert
 }
 
 export async function findCase(page: Page, person: Person, crn: string) {
-    await page.getByLabel('Primary navigation').getByRole('link', { name: 'Case list' }).click()
+    await page.getByLabel('Primary navigation').getByRole('link', { name: 'Case list', exact: true }).click()
     await expect(page.locator('.govuk-heading-xl')).toContainText('Case list')
     await page.locator('#crnOrPersonName').fill(crn)
     await page.locator('[data-test-id="submit-button"]').click()
@@ -173,6 +173,8 @@ export async function createPostProgrammeReviewSession(page: Page, person: Perso
     await page.getByRole('link', { name: 'Schedule a post-programme review' }).click()
     await expect(page.locator('.govuk-caption-l')).toContainText('Schedule a post-programme review')
     await page.getByRole('radio', { name: 'Post-programme review', exact: true }).click()
+    await page.getByRole('button', { name: 'Continue' }).click()
+    await page.getByRole('radio', { name: 'One-to-one', exact: true }).check()
     await page.getByRole('button', { name: 'Continue' }).click()
 
     // Session details
@@ -230,7 +232,7 @@ export async function updateReferralStatusToAwaitingAllocation(
     await expect(page.locator('p:right-of(:text("Name"))').first()).toContainText(
         person.firstName + ' ' + person.lastName
     )
-    await expect(page.locator('p:right-of(:text("CRN"))').first()).toContainText(crn)
+    await expect(page.getByRole('main').getByText(crn, { exact: true })).toBeVisible()
     await expect(page.locator('p:right-of(:text("Date of birth"))').first()).toContainText(
         DateTime.fromJSDate(person.dob).setLocale('en-gb').toLocaleString(DateTime.DATE_FULL)
     )
