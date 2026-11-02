@@ -106,7 +106,7 @@ test('Create a pre-sentence report', async ({ page }) => {
     await popup.locator('ol').getByRole('link', { name: 'Sign and lock your report' }).click()
     await expect(pageTitle).toContainText(/Sign and lock your report/)
     await popup.locator('#signReportName').fill(faker.person.fullName())
-    await popup.locator('input[type=radio][value="no"]').click()
+    await popup.getByLabel('Registered Probation Officer', { exact: true }).check()
     await popup.getByRole('button', { name: 'Submit' }).click()
     await popup.getByRole('button', { name: 'Sign and lock' }).click()
     await expect(popup).toHaveTitle(/Pre-sentence report completed/)
