@@ -232,7 +232,10 @@ export async function updateReferralStatusToAwaitingAllocation(
     )
     await expect(page.getByRole('main').getByText(crn, { exact: true })).toBeVisible()
     const expectedDob = DateTime.fromJSDate(person.dob).setLocale('en-gb').toLocaleString(DateTime.DATE_FULL)
-    const dobField = page.getByRole('main').locator('span').filter({ has: page.locator('strong').getByText('Date of birth:', { exact: true }), })
+    const dobField = page
+        .getByRole('main')
+        .locator('span')
+        .filter({ has: page.locator('strong').getByText('Date of birth:', { exact: true }) })
     await expect(dobField).toContainText(`Date of birth: ${expectedDob}`)
 
     // Offence History
