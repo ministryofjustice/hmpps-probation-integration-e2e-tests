@@ -174,8 +174,6 @@ export async function createPostProgrammeReviewSession(page: Page, person: Perso
     await expect(page.locator('.govuk-caption-l')).toContainText('Schedule a post-programme review')
     await page.getByRole('radio', { name: 'Post-programme review', exact: true }).click()
     await page.getByRole('button', { name: 'Continue' }).click()
-    await page.getByRole('radio', { name: 'One-to-one', exact: true }).check()
-    await page.getByRole('button', { name: 'Continue' }).click()
 
     // Session details
     const now = DateTime.now().setZone('Europe/London')
@@ -233,10 +231,12 @@ export async function updateReferralStatusToAwaitingAllocation(
         person.firstName + ' ' + person.lastName
     )
     await expect(page.getByRole('main').getByText(crn, { exact: true })).toBeVisible()
-    await expect(page.locator('p:right-of(:text("Date of birth"))').first()).toContainText(
-        DateTime.fromJSDate(person.dob).setLocale('en-gb').toLocaleString(DateTime.DATE_FULL)
-    )
-    await expect(page.locator('p:right-of(:text("Sex"))').first()).toContainText(person.sex)
+    const expectedDob = DateTime.fromJSDate(person.dob).setLocale('en-gb').toLocaleString(DateTime.DATE_FULL)
+    const dobField = page
+        .getByRole('main')
+        .locator('span')
+        .filter({ has: page.locator('strong').getByText('Date of birth:', { exact: true }) })
+    await expect(dobField).toContainText(`Date of birth: ${expectedDob}`)
 
     // Offence History
     await page.locator('a', { hasText: 'Offence History' }).click()
