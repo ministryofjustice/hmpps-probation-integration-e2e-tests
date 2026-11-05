@@ -20,5 +20,7 @@ test('Search for a person in Manage a Supervision', async ({ page }) => {
     // Then the person appears in the search results and crn & name matches
     await expect(page).toHaveTitle(/Overview/)
     await expect(page.locator('[data-qa="crn"]')).toContainText(crn)
-    await expect(page.locator('[data-qa="name"]')).toContainText(person.firstName + ' ' + person.lastName)
+    await expect(page.getByRole('main').getByRole('heading', { level: 1 })).toContainText(
+        `${person.firstName} ${person.lastName}`
+    )
 })
