@@ -59,7 +59,7 @@ jobs:
           # Keep exclusions in sync with test-data/environments/test.ts.
           inmates=$(curl -fsS -H "Authorization: Bearer $TOKEN" -H 'Page-Limit: 100' \
             "$PRISON_API/api/locations/$LOCATION_ID/inmates" \
-            | jq -r '.[].offenderNo | select(. != "A4799DZ" and . != "G5012UJ" and . != "A0260DZ" and . != "A7928DZ" and . != "A1036EA")')
+            | jq -r '.[].offenderNo | select(. != "A4799DZ" and . != "G5012UJ" and . != "A0260DZ" and . != "A7928DZ" and . != "A1036EA" and . != "A0709EE" and . != "A0544EE" and . != "A0512EE" and . != "A0485EE")')
           printf '%s\n' "$inmates" | xargs -r -I{} curl -fsS -H "Authorization: Bearer $TOKEN" -X PUT \
             --json '{"movementReasonCode":"CR","releaseTime":"'"$(date '+%Y-%m-%dT%H:%M:%S')"'","commentText":"Testing","toLocationCode":"OUT"}' \
             "$PRISON_API/api/offenders/{}/release"
@@ -69,7 +69,7 @@ jobs:
         run: |
           inmates=$(curl -fsS -H "Authorization: Bearer $TOKEN" -H 'Page-Limit: 100' \
             "$PRISON_API/api/locations/$LOCATION_ID/inmates" \
-            | jq -r '.[].offenderNo | select(. != "A4799DZ" and . != "G5012UJ" and . != "A0260DZ" and . != "A7928DZ" and . != "A1036EA")')
+            | jq -r '.[].offenderNo | select(. != "A4799DZ" and . != "G5012UJ" and . != "A0260DZ" and . != "A7928DZ" and . != "A1036EA" and . != "A0709EE" and . != "A0544EE" and . != "A0512EE" and . != "A0485EE")')
           printf '%s\n' "$inmates" | xargs -r -I{} curl -fsS -H "Authorization: Bearer $TOKEN" -X PUT \
             --json '{"agencyId":"SWI","cellLocation":"SWI-RECP"}' \
             "$PRISON_API/api/offenders/{}/temporary-absence-arrival"
