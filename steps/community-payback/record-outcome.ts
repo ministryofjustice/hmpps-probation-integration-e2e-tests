@@ -228,7 +228,7 @@ export async function findAnAppointment(page: Page, provider: string, excludedCr
         await dateSort.click()
     }
     await expect(page.getByRole('heading', { name: 'Adjust travel time', exact: true })).toBeVisible()
-    let rows = page.getByRole('row').filter({ has: page.getByRole('link', { name: 'Update', exact: true }) })
+    let rows = page.getByRole('row').filter({ has: page.getByRole('link', { name: /^Update\b/ }) })
     for (const crn of excludedCrns) {
         rows = rows.filter({ hasNot: page.locator(`a[href^="/people/${crn}/appointment/"]`) })
     }
@@ -242,7 +242,7 @@ export async function findAnAppointment(page: Page, provider: string, excludedCr
         throw new Error('Appointment person link must contain a CRN')
     }
     const crn = match[1]
-    await row.getByRole('link', { name: 'Update', exact: true }).click()
+    await row.getByRole('link', { name: /^Update\b/ }).click()
     return crn
 }
 
