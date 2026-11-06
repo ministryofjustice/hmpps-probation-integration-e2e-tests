@@ -15,6 +15,10 @@ test('can retrieve case details', async ({ page }) => {
     await createCustodialEvent(page, { crn })
 
     const json = await getCaseDetails(crn)
+    await test.info().attach('GET case supervisions response', {
+        body: JSON.stringify(json, null, 2),
+        contentType: 'application/json',
+    })
     const supervision = json.supervisions[0]
 
     expect(supervision.active).toBe(true)
