@@ -1,0 +1,63 @@
+name: '* Delete officer caseload'
+
+on:
+    workflow_dispatch:
+        inputs:
+            officer:
+                description: Officer dropdown name (full name or unique partial match; blank uses AutomatedTestUser)
+                type: string
+                default: 'AutomatedTestUser, AutomatedTestUser (PS - PSO)'
+            provider:
+                description: Provider (blank keeps Delius default)
+                type: string
+                default: ''
+            pdu:
+                description: PDU (blank keeps Delius default)
+                type: string
+                default: ''
+            local_admin_unit:
+                description: Local Admin Unit (blank keeps Delius default)
+                type: string
+                default: ''
+            team:
+                description: Team (blank keeps Delius default)
+                type: string
+                default: ''
+            all_teams:
+                description: All Teams? (blank keeps Delius default)
+                type: choice
+                options: ['', 'Yes', 'No']
+            list_requirements:
+                description: List Requirements? (blank keeps Delius default)
+                type: choice
+                options: ['', 'Yes', 'No']
+            filter:
+                description: Filter dropdown label (blank keeps Delius default)
+                type: string
+                default: ''
+            max_crns:
+                description: Maximum distinct CRNs to delete in caseload order (0 deletes all selected records)
+                type: number
+                default: 0
+            confirmation:
+                description: Type DELETE TEST CASELOAD to permanently delete every selected CRN and all its events
+                type: string
+                required: true
+
+concurrency:
+    group: delete-officer-test-caseload
+    cancel-in-progress: false
+
+jobs:
+    delete-caseload:
+        if: inputs.confirmation == 'DELETE TEST CASELOAD'
+        uses: ./.github/workflows/test.yml
+        with:
+            directory: test-data-setup
+            projects: '["delete-officer-caseload"]'
+            workers: 1
+            env: |
+                {
+                  "CASELOAD_CLEANUP_OPTIONS": ${{ toJSON(toJSON(inputs)) }}
+                }
+        secrets: inherit
