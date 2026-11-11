@@ -1,10 +1,13 @@
-name: '* Delete officer caseload'
+---
+name: 'Delete officer caseload'
 
 on:
     workflow_dispatch:
         inputs:
             officer:
-                description: Officer dropdown name (full name or unique partial match; blank uses AutomatedTestUser)
+                description: >-
+                    Officer dropdown name (full name or unique partial match;
+                    blank uses AutomatedTestUser)
                 type: string
                 default: 'AutomatedTestUser, AutomatedTestUser (PS - PSO)'
             provider:
@@ -36,11 +39,15 @@ on:
                 type: string
                 default: ''
             max_crns:
-                description: Maximum distinct CRNs to delete in caseload order (0 deletes all selected records)
+                description: >-
+                    Maximum distinct CRNs to delete in caseload order
+                    (0 deletes all selected records)
                 type: number
                 default: 0
             confirmation:
-                description: Type DELETE TEST CASELOAD to permanently delete every selected CRN and all its events
+                description: >-
+                    Type DELETE TEST CASELOAD to permanently delete every
+                    selected CRN and all its events
                 type: string
                 required: true
 
