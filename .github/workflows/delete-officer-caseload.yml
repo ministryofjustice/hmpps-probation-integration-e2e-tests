@@ -27,13 +27,15 @@ on:
                 type: string
                 default: ''
             all_teams:
-                description: All Teams? (blank keeps Delius default)
+                description: All Teams? (Default keeps Delius default)
                 type: choice
-                options: ['', 'Yes', 'No']
+                options: ['Default', 'Yes', 'No']
+                default: 'Default'
             list_requirements:
-                description: List Requirements? (blank keeps Delius default)
+                description: List Requirements? (Default keeps Delius default)
                 type: choice
-                options: ['', 'Yes', 'No']
+                options: ['Default', 'Yes', 'No']
+                default: 'Default'
             filter:
                 description: Filter dropdown label (blank keeps Delius default)
                 type: string

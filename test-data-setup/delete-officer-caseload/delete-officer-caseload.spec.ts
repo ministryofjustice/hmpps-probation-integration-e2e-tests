@@ -51,6 +51,7 @@ test('Delete the requested records in the selected officer test caseload', async
         if (value === undefined) continue
         if (typeof value !== 'string') throw new Error(`Invalid ${key}: expected a string`)
         if (!value.trim()) continue
+        if ((key === 'all_teams' || key === 'list_requirements') && value === 'Default') continue
         const selector = `[id="${id}:selectOneMenu"]`
         const field = page.locator(selector)
         let selectedLabel = value.trim()
