@@ -112,6 +112,7 @@ export const clickSection2to13 = async (page: Page, needs: 'Yes' | 'No' = 'No') 
         await complete11ThinkingAndBehaviourSection(page)
         await complete12AttitudesSection(page)
     } else {
+        await expandSectionIfNeeded(page, 'Section 2 to 13', '5 - Finance')
         await page.getByRole('link', { name: '5 - Finance' }).click()
         await complete5FinanceSection(page)
         await saveAndNavigate(page)

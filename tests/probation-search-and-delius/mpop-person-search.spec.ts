@@ -1,5 +1,6 @@
 import { expect, test, type Locator, type Page } from '@playwright/test'
 import { login as mpopLogin } from '../../steps/manage-a-supervision/login'
+import { searchMPoP as search } from '../../steps/manage-a-supervision/application'
 import { doUntil } from '../../steps/delius/utils/refresh'
 import { noResultSearches, searchData } from '../../test-data/search-data'
 import {
@@ -13,11 +14,6 @@ import {
 const resultLinks = (page: Page) => page.locator('.probation-search__results-container a[title^="Select case record"]')
 
 const noResultsMessage = 'There are no results for your search. Try refining your query above.'
-
-const search = async (page: Page, term: string) => {
-    await page.getByLabel('Find a person on probation').fill(term)
-    await page.getByRole('button', { name: 'Search', exact: true }).click()
-}
 
 const searchForResult = async (page: Page, term: string, result: Locator) => {
     await doUntil(

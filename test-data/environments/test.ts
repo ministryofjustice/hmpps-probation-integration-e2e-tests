@@ -60,6 +60,13 @@ export const testEnvironmentData: TestData = {
             localDeliveryUnit: 'North Wales',
             location: 'Wrexham Team Office',
         },
+        allocationsTestTeam2: {
+            name: 'Conwy -Team 1',
+            provider: 'Wales',
+            probationDeliveryUnit: 'North Wales',
+            localDeliveryUnit: 'North Wales',
+            location: 'Conway Road',
+        },
         referAndMonitorTestTeam: {
             name: 'GM Manchester N1',
             provider: 'Greater Manchester',

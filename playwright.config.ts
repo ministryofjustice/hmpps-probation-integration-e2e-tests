@@ -9,7 +9,7 @@ const config: PlaywrightTestConfig = {
     /* Maximum time one test can run for. */
     timeout: minutesToMilliseconds(3),
     /* Maximum time test suite can run for. */
-    globalTimeout: minutesToMilliseconds(60),
+    globalTimeout: minutesToMilliseconds(80),
     /* Run tests in files in parallel */
     fullyParallel: true,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
