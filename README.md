@@ -142,6 +142,36 @@ To run them, set the `TEST_DIR` environment variable:
 TEST_DIR=./test-data-setup npx playwright test
 ```
 
+### Officer caseload cleanup
+
+If whole-record deletion is rejected and a fresh search confirms the CRN still
+exists, the workflow refreshes the same officer caseload and asserts that the
+person's exact displayed name is absent from the first page only. It continues only when
+that assertion passes, logging **Removed from caseload, CRN retained** separately
+from deleted CRNs. These removals count towards `max_crns`. If another person with
+the same name remains on that page, verification fails conservatively. Other deletion errors
+still stop the workflow, except for the explicit **National Delius Error Page**.
+When that exception page appears during deletion, the workflow logs the CRN as
+**deletion outcome unknown**, returns to the same caseload and continues with
+other eligible people. It skips that CRN for the remainder of the run to avoid
+repeated attempts. Unknown outcomes are summarised separately and do not count
+towards `max_crns`; they are not reported as successful deletions.
+
+The **Delete officer caseload** workflow always protects these CRNs:
+`X693742`, `X698315`, `X600508`, `X738925`, `X757129`, `Y088366`,
+`Y086759`, `Y086627`, and `Y086007`.
+
+Use the optional `exclude_crns` workflow field to add comma-separated CRNs, for
+example `X123456, Y123456`. These are added to the permanent exclusions, not used
+instead of them. Spaces and lowercase letters are accepted; invalid CRNs stop
+the run before login. For local runs, add `"exclude_crns":"X123456,Y123456"` to
+`CASELOAD_CLEANUP_OPTIONS`.
+
+Excluded people are opened only to read their CRN, then skipped without deleting
+events or their record. Skips are logged and do not count towards `max_crns`.
+The script checks later rows and pages for eligible cases and stops when none
+remain, even if the displayed individual count is higher.
+
 ## Pipeline
 This repository includes a re-usable GitHub Actions workflow to help you run the end-to-end tests in your own pipeline.
 Running end-to-end tests in your own pipeline is a great way to verify that your changes haven't broken integrations with other services, before deploying to production.

@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { login } from '../../steps/delius/login'
-import { deleteCaseload } from '../../steps/delius/offender/delete-caseload'
+import { deleteCaseload, parseCaseloadExclusions } from '../../steps/delius/offender/delete-caseload'
 import { selectOption } from '../../steps/delius/utils/inputs'
 import { waitForAjax } from '../../steps/delius/utils/refresh'
 
@@ -9,7 +9,7 @@ const confirmation = 'DELETE TEST CASELOAD'
 test.describe.configure({ retries: 0 })
 
 test('Delete the requested records in the selected officer test caseload', async ({ page }) => {
-    test.setTimeout(60 * 60 * 1000)
+    test.setTimeout(30 * 60 * 1000) // 30 minutes
     test.info().annotations.push({
         type: 'warning',
         description: 'Deletes whole CRNs and all their events, including events assigned to other officers',
@@ -25,6 +25,7 @@ test('Delete the requested records in the selected officer test caseload', async
     if (typeof maxCrns !== 'number' || !Number.isSafeInteger(maxCrns) || maxCrns < 0) {
         throw new Error('max_crns must be a non-negative safe integer (0 deletes all selected records)')
     }
+    const excludedCrns = parseCaseloadExclusions(options.exclude_crns)
     if (
         process.env.ENV !== 'test' ||
         new URL(process.env.DELIUS_URL ?? '').hostname !== 'ndelius.test.probation.service.justice.gov.uk'
@@ -78,5 +79,5 @@ test('Delete the requested records in the selected officer test caseload', async
     console.log(`Selected officer: ${selectedOfficer}`)
     await page.getByRole('button', { name: 'Search', exact: true }).click()
     await waitForAjax(page)
-    await deleteCaseload(page, maxCrns)
+    await deleteCaseload(page, maxCrns, excludedCrns)
 })

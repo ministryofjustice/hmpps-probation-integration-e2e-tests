@@ -42,8 +42,8 @@ on:
                 default: ''
             max_crns:
                 description: >-
-                    Maximum distinct CRNs to delete in caseload order
-                    (0 deletes all selected records)
+                    Maximum cases to delete or verify removed from caseload
+                    (0 processes all eligible cases)
                 type: number
                 default: 0
             confirmation:
@@ -52,6 +52,12 @@ on:
                     selected CRN and all its events
                 type: string
                 required: true
+            exclude_crns:
+                description: >-
+                    Additional CRNs to exclude, separated by commas.
+                    Permanent exclusions always apply.
+                type: string
+                default: ''
 
 concurrency:
     group: delete-officer-test-caseload
