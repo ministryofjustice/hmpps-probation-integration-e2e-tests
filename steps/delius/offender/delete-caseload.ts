@@ -156,50 +156,55 @@ export async function deleteCaseload(
         await page.getByRole('button', { name: 'Search', exact: true }).click()
         await waitForAjax(page)
     }
-    while (deleted.size + removedFromCaseload.size < target) {
-        if ((await individualCount(page)) === 0) {
-            console.log('Selected caseload is now empty')
-            break
-        }
-        const person = await accessiblePerson(page, exclusions)
-        if (!person) {
-            console.log(
-                'No eligible people remain in the selected caseload; restricted and excluded cases were skipped'
-            )
-            break
-        }
-        const { crn, name } = person
-        if (deleted.has(crn) || removedFromCaseload.has(crn))
-            throw new Error(`Processed CRN ${crn} is still in the caseload; stopping deletion`)
-        try {
-            await removePerson(page, crn)
-            deleted.add(crn)
-            console.log(`Deleted CRN: ${crn} (${deleted.size + removedFromCaseload.size}/${target})`)
-        } catch (error) {
-            if (error instanceof OffenderDeletionExceptionError) {
-                unknownOutcomes.add(crn)
-                exclusions.add(crn)
-                console.warn(`${error.message}; skipping this CRN for the rest of this run and returning to caseload`)
-            } else if (error instanceof OffenderDeletionRejectedError) {
-                console.warn(`${error.message}; checking whether ${name} was removed from the caseload`)
-                await refreshCaseload()
-                await assertNameAbsent(page, name)
-                removedFromCaseload.add(crn)
-                console.warn(
-                    `Removed from caseload, CRN retained: ${crn} (${name}) (${deleted.size + removedFromCaseload.size}/${target})`
-                )
-            } else {
-                throw error
+    try {
+        while (deleted.size + removedFromCaseload.size < target) {
+            if ((await individualCount(page)) === 0) {
+                console.log('Selected caseload is now empty')
+                break
             }
+            const person = await accessiblePerson(page, exclusions)
+            if (!person) {
+                console.log(
+                    'No eligible people remain in the selected caseload; restricted and excluded cases were skipped'
+                )
+                break
+            }
+            const { crn, name } = person
+            if (deleted.has(crn) || removedFromCaseload.has(crn))
+                throw new Error(`Processed CRN ${crn} is still in the caseload; stopping deletion`)
+            try {
+                await removePerson(page, crn)
+                deleted.add(crn)
+                console.log(`Deleted CRN: ${crn} (${deleted.size + removedFromCaseload.size}/${target})`)
+            } catch (error) {
+                if (error instanceof OffenderDeletionExceptionError) {
+                    unknownOutcomes.add(crn)
+                    exclusions.add(crn)
+                    console.warn(
+                        `${error.message}; skipping this CRN for the rest of this run and returning to caseload`
+                    )
+                } else if (error instanceof OffenderDeletionRejectedError) {
+                    console.warn(`${error.message}; checking whether ${name} was removed from the caseload`)
+                    await refreshCaseload()
+                    await assertNameAbsent(page, name)
+                    removedFromCaseload.add(crn)
+                    console.warn(
+                        `Removed from caseload, CRN retained: ${crn} (${name}) (${deleted.size + removedFromCaseload.size}/${target})`
+                    )
+                } else {
+                    throw error
+                }
+            }
+            if (deleted.size + removedFromCaseload.size === target) break
+            await refreshCaseload()
         }
-        if (deleted.size + removedFromCaseload.size === target) break
-        await refreshCaseload()
-    }
-    console.log(`Successfully deleted ${deleted.size} CRNs: ${[...deleted].join(', ')}`)
-    console.log(
-        `Removed from caseload but CRN retained: ${removedFromCaseload.size}: ${[...removedFromCaseload].join(', ')}`
-    )
-    if (unknownOutcomes.size) {
-        console.warn(`Deletion outcome unknown after Delius exceptions: ${[...unknownOutcomes].join(', ')}`)
+    } finally {
+        console.log(`Successfully deleted ${deleted.size} CRNs: ${[...deleted].join(', ')}`)
+        console.log(
+            `Removed from caseload but CRN retained: ${removedFromCaseload.size}: ${[...removedFromCaseload].join(', ')}`
+        )
+        if (unknownOutcomes.size) {
+            console.warn(`Deletion outcome unknown after Delius exceptions: ${[...unknownOutcomes].join(', ')}`)
+        }
     }
 }

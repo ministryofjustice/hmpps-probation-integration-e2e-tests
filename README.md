@@ -144,6 +144,11 @@ TEST_DIR=./test-data-setup npx playwright test
 
 ### Officer caseload cleanup
 
+The cleanup prints its summary of deleted CRNs, CRNs retained but removed from
+the caseload, and unknown outcomes even if processing fails. The original error
+still fails the test. Forced process termination can prevent the final summary;
+individual outcomes are also logged as they are confirmed.
+
 If whole-record deletion is rejected and a fresh search confirms the CRN still
 exists, the workflow refreshes the same officer caseload and asserts that the
 person's exact displayed name is absent from the first page only. It continues only when

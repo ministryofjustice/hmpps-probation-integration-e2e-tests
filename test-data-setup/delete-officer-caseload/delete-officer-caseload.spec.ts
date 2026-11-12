@@ -9,7 +9,7 @@ const confirmation = 'DELETE TEST CASELOAD'
 test.describe.configure({ retries: 0 })
 
 test('Delete the requested records in the selected officer test caseload', async ({ page }) => {
-    test.setTimeout(30 * 60 * 1000) // 30 minutes
+    test.setTimeout(30 * 90 * 1000) // 45 minutes
     test.info().annotations.push({
         type: 'warning',
         description: 'Deletes whole CRNs and all their events, including events assigned to other officers',

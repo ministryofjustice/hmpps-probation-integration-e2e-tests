@@ -19,14 +19,19 @@ export class OffenderDeletionExceptionError extends Error {
 // Delius won't delete a person with active events, so delete every event first
 async function deleteEvents(page: Page) {
     await page.getByRole('link', { name: 'Event List' }).click()
-    await expect(page).toHaveTitle(/Events/)
     const deleteEventLinks = page.getByTitle('Delete event', { exact: true })
-    while ((await deleteEventLinks.count()) > 0) {
+    while (true) {
+        // Wait for the initial list and every post-deletion return before inspecting the remaining events.
+        await page.waitForURL(url => url.pathname.endsWith('/sentencing/eventslist.xhtml'), {
+            waitUntil: 'load',
+            timeout: 30000,
+        })
+        await expect(page).toHaveTitle(/Events/, { timeout: 30000 })
+        await expect(page.getByRole('heading', { name: 'Events', exact: true })).toBeVisible({ timeout: 30000 })
+        if ((await deleteEventLinks.count()) === 0) break
         await deleteEventLinks.first().click()
         await expect(page).toHaveTitle(/Delete Event/)
         await page.getByRole('button', { name: 'Confirm' }).click()
-        // Wait for the delete to complete before doing anything else, otherwise the request can be interrupted
-        await expect(page).toHaveTitle(/Events/)
     }
 }
 
