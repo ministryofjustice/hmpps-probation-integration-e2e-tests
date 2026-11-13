@@ -6,6 +6,21 @@ import { waitForAjax } from '../../steps/delius/utils/refresh'
 
 const confirmation = 'DELETE TEST CASELOAD'
 
+// This test is intended to be run manually against the Delius test environment to delete all records in a specific officer's caseload.
+// It is not intended to be run as part of the normal test suite, and should only be run with caution and with the appropriate permissions.
+// The test will delete all records in the selected officer's caseload, including events assigned to other officers, and cannot be undone.
+// Use at your own risk.
+
+// op run \
+//   --account ministryofjustice.1password.eu \
+//   --env-file=./.env.1password \
+//   -- env \
+//   ENV=test \
+//   DELIUS_URL=https://ndelius.test.probation.service.justice.gov.uk \
+// TEST_DIR=./test-data-setup \
+//   CASELOAD_CLEANUP_OPTIONS='{"officer":"AutomatedTestUser, AutomatedTestUser (PS - PSO)","max_crns":100,"confirmation":"DELETE TEST CASELOAD"}' \
+//   npx playwright test delete-officer-caseload --headed --workers=1 --reporter=line
+
 test.describe.configure({ retries: 0 })
 
 test('Delete the requested records in the selected officer test caseload', async ({ page }) => {
