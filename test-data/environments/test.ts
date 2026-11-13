@@ -26,6 +26,16 @@ export const testEnvironmentData: TestData = {
             firstName: 'Test',
             lastName: 'User',
         },
+        allocationsTester3: {
+            name: 'Silver, Pauline (PS - PO)',
+            firstName: 'Pauline',
+            lastName: 'Silver',
+        },
+        allocationsTester4: {
+            name: 'Goddard, Elizabeth (PS - Other)',
+            firstName: 'Elizabeth',
+            lastName: 'Goddard',
+        },
         genericStaff: {
             name: 'Cobio, Titus ZZ (NPS - PSO)',
             firstName: 'Titus',
@@ -59,6 +69,13 @@ export const testEnvironmentData: TestData = {
             probationDeliveryUnit: 'North Wales',
             localDeliveryUnit: 'North Wales',
             location: 'Wrexham Team Office',
+        },
+        allocationsTestTeam2: {
+            name: 'Conwy - Team 1',
+            provider: 'Wales',
+            probationDeliveryUnit: 'North Wales',
+            localDeliveryUnit: 'North Wales',
+            location: 'Conway Road',
         },
         referAndMonitorTestTeam: {
             name: 'GM Manchester N1',
