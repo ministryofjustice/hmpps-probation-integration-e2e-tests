@@ -25,7 +25,7 @@ const fillAddress = async (page: Page) => {
 }
 
 export async function verifyBasicDetails(page: Page, { crn, person, address }: SuicideRiskCase) {
-    await expect(pageHeading(page)).toHaveText('Suicide Risk - Basic Details')
+    await expect(pageHeading(page)).toHaveText(/basic details/i)
     await expect(page.locator('#name')).toContainText(`${person.firstName} ${person.lastName}`)
     await expect(page.locator('#crn')).toHaveText(crn)
     await expect(page.locator('#address')).toContainText(address.street)
@@ -46,7 +46,7 @@ export async function completeTreatment(page: Page) {
 // The form can't be published without at least one recipient
 export async function addPrisonEstablishmentRecipient(page: Page) {
     await page.locator('#add-prison-establishment--button').click()
-    await expect(pageHeading(page)).toContainText('Recipient Details')
+    await expect(pageHeading(page)).toContainText(/Recipient Details/i)
     await page.getByRole('textbox', { name: 'Name', exact: true }).fill('The Prison')
     await page.getByRole('textbox', { name: 'Address Number (if applicable)' }).fill('1')
     await page.getByRole('textbox', { name: 'Street Name' }).fill('The Street')
@@ -55,12 +55,12 @@ export async function addPrisonEstablishmentRecipient(page: Page) {
     await page.getByRole('group', { name: 'Are you going to send this' }).getByLabel('Yes').check()
     await page.getByRole('group', { name: 'Do you want the system to' }).getByLabel('No').check()
     await page.getByRole('button', { name: 'Save' }).click()
-    await expect(pageHeading(page)).toHaveText('Suicide Risk - Recipients')
+    await expect(pageHeading(page)).toHaveText('Recipients')
     await expect(page.getByText('The Prison')).toBeVisible()
 }
 
 export async function signAsResponsibleOfficer(page: Page) {
-    await page.getByRole('radio', { name: 'Responsible Officer', exact: true }).check()
+    await page.getByRole('radio', { name: /^responsible officer$/i }).check()
     const emailAddress = page.getByRole('textbox', { name: 'Officer Email Address' })
     // Only editable when Delius doesn't have an email address for the officer
     if (await emailAddress.isVisible()) await emailAddress.fill('test@example.com')
@@ -71,10 +71,10 @@ export async function signAsResponsibleOfficer(page: Page) {
     const addAddress = page.getByRole('button', { name: 'Add Address' })
     if (await addAddress.isVisible()) {
         await addAddress.click()
-        await expect(pageHeading(page)).toHaveText('Please enter an Address')
+        await expect(pageHeading(page)).toHaveText(/Please enter an Address/i)
         await fillAddress(page)
         await page.getByRole('button', { name: 'Save' }).click()
-        await expect(pageHeading(page)).toHaveText('Suicide Risk - Sign and Send')
+        await expect(pageHeading(page)).toHaveText(/Sign and Send/i)
     }
 
     // Only editable when Delius doesn't have a telephone number for the officer
@@ -91,20 +91,20 @@ export async function verifyCheckYourAnswers(page: Page, { crn }: SuicideRiskCas
 // Starts on the Basic Details page and finishes on the Check Your Answers page
 export async function completeSuicideRiskForm(page: Page, suicideRiskCase: SuicideRiskCase) {
     await verifyBasicDetails(page, suicideRiskCase)
-    await continueTo(page, 'Suicide Risk - Information')
+    await continueTo(page, 'Information')
     await completeInformation(page)
-    await continueTo(page, 'Suicide Risk - Treatment')
+    await continueTo(page, 'Treatment')
     await completeTreatment(page)
-    await continueTo(page, 'Suicide Risk - Recipients')
+    await continueTo(page, 'Recipients')
     await addPrisonEstablishmentRecipient(page)
-    await continueTo(page, 'Suicide Risk - Sign and Send')
+    await continueTo(page, 'Sign and send')
     await signAsResponsibleOfficer(page)
-    await continueTo(page, 'Suicide Risk - Check Your Answers')
+    await continueTo(page, 'Check your answers')
     await verifyCheckYourAnswers(page, suicideRiskCase)
 }
 
 export async function publishSuicideRiskForm(page: Page) {
     await page.getByRole('button', { name: 'Publish' }).click()
     await expect(page).toHaveURL(/\/report-completed\//)
-    await expect(page.getByText('Suicide Risk - Form Completed')).toBeVisible()
+    await expect(page.getByText(/Form Completed/i)).toBeVisible()
 }

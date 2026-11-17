@@ -32,7 +32,7 @@ export async function completeWitnessDetails(page: Page) {
     await page.getByRole('textbox', { name: 'Town or City' }).fill('The Town')
     await page.getByRole('textbox', { name: 'Postcode' }).fill('NE1 1AA')
     await page.getByRole('button', { name: 'Save' }).click()
-    await expect(page.locator('#page-title')).toHaveText('RO and witness details')
+    await expect(page.locator('#page-title')).toHaveText('Responsible officer and witness details')
     await page.getByRole('textbox', { name: 'Phone Number' }).fill('07700900001')
     await page.getByRole('textbox', { name: 'Email Address' }).fill('test@example.com')
     await page.getByRole('textbox', { name: 'Witness Availability' }).fill('Available')
@@ -56,9 +56,9 @@ export async function completeCompliance(page: Page) {
 }
 
 export async function signAsResponsibleOfficer(page: Page) {
-    await page.getByRole('radio', { name: 'Responsible Officer', exact: true }).check()
+    await page.getByRole('radio', { name: 'Responsible officer', exact: true }).check()
     await page.getByRole('button', { name: 'Click here to sign now' }).click()
-    await expect(page.getByText(/\(Responsible Officer\)/)).toBeVisible()
+    await expect(page.getByText(/\(Responsible officer\)/)).toBeVisible()
 }
 
 export async function verifyCheckYourAnswers(page: Page, { crn, person }: CossoCase) {
@@ -69,11 +69,11 @@ export async function verifyCheckYourAnswers(page: Page, { crn, person }: CossoC
 // Starts on the Basic details page and finishes on the Check your answers page
 export async function completeCossoForm(page: Page, cossoCase: CossoCase) {
     await verifyBasicDetails(page, cossoCase)
-    await continueTo(page, 'RO and witness details')
+    await continueTo(page, 'Responsible officer and witness details')
     await completeWitnessDetails(page)
     await continueTo(page, 'Offence details')
     await completeOffenceDetails(page)
-    await continueTo(page, 'Failures and Enforcement')
+    await continueTo(page, 'Failures and enforcement')
     await completeFailuresAndEnforcement(page)
     await continueTo(page, 'Compliance to date')
     await completeCompliance(page)
