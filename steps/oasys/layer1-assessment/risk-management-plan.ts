@@ -63,7 +63,7 @@ export const completeRiskManagementPlan = async (page: Page) => {
     await page.locator('#step_status_0').click()
     await page.getByRole('option').nth(1).click()
     await page.getByRole('button', { name: 'Save and continue' }).click()
-    await page.getByRole('button', { name: 'Agree plan' }).click()
+    await page.getByRole('button', { name: 'Confirm plan' }).click()
     // Select "Yes" for plan agreement
     await page.locator('[data-ai-id="plan-overview-agree-plan-radio-yes"]').check()
     // Save
