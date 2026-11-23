@@ -10,7 +10,7 @@ import { searchForPerson } from '../../steps/sas/offender-record'
 import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { createCustodialEvent } from '../../steps/delius/event/create-event'
 
-test('Create person and check the record is updated on SAS', async ({ page }) => {
+test('Create person and check the record is updated on FAMA', async ({ page }) => {
     // Given a new person in Delius
     await deliusLogin(page)
     const person = deliusPerson()
