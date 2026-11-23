@@ -144,5 +144,5 @@ export async function reviewCheckinInMPoP(page: Page, crn: string) {
     await page.getByRole('radio', { name: 'No, it is not sensitive' }).click()
     await page.getByRole('radio', { name: 'No', exact: true }).click()
     await page.getByRole('button', { name: 'Complete review' }).click()
-    await expect(page.getByRole('link', { name: 'Online check in set-up status', exact: true, })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Online check in set-up status', exact: true })).toBeVisible()
 }
