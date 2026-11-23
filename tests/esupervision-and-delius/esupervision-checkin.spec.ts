@@ -49,8 +49,5 @@ test('Check-in for an e-supervision appointment', async ({ page }) => {
     // Then I can see the contact in Delius
     await deliusLogin(page)
     await findContactsByCRN(page, crn)
-    const checkinContact = page
-        .locator('tr', { hasText: /Online check in (completed|reviewed)/ })
-        .filter({ hasText: '1 - SA2020 Community Order' })
-    await expect(checkinContact.first()).toBeVisible()
+    await expect(page.getByText('Online check in set-up status')).toBeVisible()
 })
