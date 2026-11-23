@@ -7,7 +7,10 @@ export const addDutyToReferDetails = async (page: Page, crn: string) => {
     const reference = `DTR-${crn}`
     const note = `Duty to Refer integration test for ${crn}`
 
-    await page.getByRole('link', { name: 'Add referral details', exact: true }).and(page.locator(`a[href="/cases/${crn}/dtr/submission"]`)).click()
+    await page
+        .getByRole('link', { name: 'Add referral details', exact: true })
+        .and(page.locator(`a[href="/cases/${crn}/dtr/submission"]`))
+        .click()
     await expect(
         page.getByRole('heading', { name: 'Add Duty to Refer (DTR) referral details', exact: true })
     ).toBeVisible()
@@ -23,7 +26,10 @@ export const addDutyToReferDetails = async (page: Page, crn: string) => {
     await page.getByRole('button', { name: 'Save and continue', exact: true }).click()
 
     await expect(page.getByRole('heading', { name: 'DTR referral details added', exact: true })).toBeVisible()
-    await page.getByRole('link', { name: 'View referral', exact: true }).and(page.locator(`a[href^="/cases/${crn}/dtr/"]`)).click()
+    await page
+        .getByRole('link', { name: 'View referral', exact: true })
+        .and(page.locator(`a[href^="/cases/${crn}/dtr/"]`))
+        .click()
     await expect(page.getByRole('heading', { name: 'Duty to Refer (DTR)', exact: true })).toBeVisible()
     const details = page.locator('.govuk-summary-list').filter({ hasText: reference })
     await expect(details).toContainText('Submitted')
