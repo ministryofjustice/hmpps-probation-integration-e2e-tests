@@ -72,7 +72,7 @@ export async function registerCaseInMPoP(page: Page, person: Person, crn: string
     await page.getByRole('button', { name: 'Continue' }).click()
     await page.locator('.moj-js-datepicker-input').fill(uiDueDate)
     await page.getByRole('button', { name: 'Continue' }).click()
-    const email = `${person.lastName}@service.gov.uk`
+    const email = `simulate-delivered@notifications.service.gov.uk`
     await page.getByRole('radio', { name: 'Email' }).click()
     await page.getByRole('button', { name: 'Continue' }).click()
     await page.getByRole('textbox', { name: `What is ${person.firstName}'s email` }).fill(email)
@@ -144,5 +144,5 @@ export async function reviewCheckinInMPoP(page: Page, crn: string) {
     await page.getByRole('radio', { name: 'No, it is not sensitive' }).click()
     await page.getByRole('radio', { name: 'No', exact: true }).click()
     await page.getByRole('button', { name: 'Complete review' }).click()
-    await expect(page.getByRole('table')).toContainText(/Check in status: (Reviewed|Submitted)/)
+    await expect(page.getByRole('link', { name: 'Online check in set-up status', exact: true, })).toBeVisible()
 }
