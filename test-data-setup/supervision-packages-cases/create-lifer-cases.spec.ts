@@ -18,17 +18,21 @@ import { createLayer1CompleteAssessment } from '../../steps/oasys/layer1-assessm
 import { signAndlock } from '../../steps/oasys/layer1-assessment/sign-and-lock'
 import { data } from '../../test-data/test-data'
 
-for (const year of [5, 6, 9]) {
-    test(`Create a low-risk lifer in year ${year} after release`, async ({ page }) => {
+
+// op run --account ministryofjustice.1password.eu --env-file=./.env.1password -- \
+//   env TEST_DIR=./test-data-setup npx playwright test supervision-packages-cases/create-lifer-cases.spec.ts \
+//   -g "released 6 years ago" --headed
+for (const yearsSinceRelease of [3, 4, 5, 6, 9]) {
+    test(`Create a low-risk lifer released ${yearsSinceRelease} years ago`, async ({ page }) => {
         slow(12)
         const now = DateTime.now().setZone('Europe/London').startOf('day')
-        const release = now.minus({ years: year - 1, months: 6 }).set({ hour: 12 })
+        const release = now.minus({ days: 1, years: yearsSinceRelease }).set({ hour: 12 })
         const sentence = release.minus({ years: 1 }).startOf('day')
         const person = deliusPerson({ dob: now.minus({ years: 55 }).toJSDate() })
 
         await deliusLogin(page)
         const crn = await createOffender(page, { person, providerName: data.teams.genericTeam.provider })
-        console.log(`Lifer year ${year}: CRN ${crn}, release date ${release.toISODate()}`)
+        console.log(`Lifer released ${yearsSinceRelease} years ago: CRN ${crn}, release date ${release.toISODate()}`)
         await createCustodialEvent(page, {
             crn,
             date: sentence.toJSDate(),
@@ -43,10 +47,7 @@ for (const year of [5, 6, 9]) {
                 plea: 'Guilty',
             },
         })
-        await internalTransfer(page, {
-            crn,
-            allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff },
-        })
+
         await createLiferRegistration(page, crn, data.teams.genericTeam.provider)
 
         const { nomisId } = await createAndBookPrisoner(page, crn, person, 'SWI', sentence.plus({ hours: 9 }))
@@ -91,13 +92,13 @@ for (const year of [5, 6, 9]) {
 
         await managePeopleOnProbationLogin(page)
         await searchPersonInMPoP(page, crn)
-        const tier = year === 5 ? 'D' : 'E'
+        const tier = 'E'
         await refreshUntil(
             page,
             () =>
                 expect(page.getByRole('main').getByRole('link', { name: `Tier: ${tier}`, exact: true })).toBeVisible(),
             { timeout: 180_000 }
         )
-        console.log(`Lifer year ${year}: CRN ${crn}, tier ${tier}`)
+        console.log(`Lifer released ${yearsSinceRelease} years ago: CRN ${crn}, tier ${tier}`)
     })
 }
