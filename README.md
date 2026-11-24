@@ -90,6 +90,11 @@ A GitHub Action will fix any missed formatting issues for you when creating a pu
 
 ## Test Data
 
+The `test-data-setup/supervision-packages-cases/create-lifer-cases.spec.ts` script creates lifer cases in years 5, 6
+and 9 after release. It records historical NOMIS movements, a Lifer registration and a low-risk OASys assessment,
+then checks that MPoP shows tier D for year 5 or tier E for years 6 and 9. It requires the supervision-packages API
+and the Delius, NOMIS, OASys and MPoP test services to be configured and available.
+
 Each test scenario generally creates its own data (e.g. people, events/sentences, contacts), using the Delius UI or
 Prison API.
 However, the tests also rely on pre-existing "reference data".

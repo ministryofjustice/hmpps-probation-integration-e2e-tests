@@ -37,7 +37,8 @@ export const createLayer1CompleteAssessment = async (
     highRoshScore: boolean = false,
     sexualOffence: boolean = false,
     offenceCode?: string,
-    offenceSubCode?: string
+    offenceSubCode?: string,
+    lowRiskMurderConvictionDate?: Date
 ) => {
     let providerEstablishmentPageExists = false
 
@@ -89,16 +90,18 @@ export const createLayer1CompleteAssessment = async (
     } else {
         await completeSection1NoSexualOffence(
             page,
-            DateTime.fromJSDate(person.dob).plus({ years: 15 }).toJSDate(),
+            lowRiskMurderConvictionDate ?? DateTime.fromJSDate(person.dob).plus({ years: 15 }).toJSDate(),
             offenceCode,
-            offenceSubCode
+            offenceSubCode,
+            lowRiskMurderConvictionDate ? 1 : 0,
+            lowRiskMurderConvictionDate
         )
     }
 
     // And I complete section 2 and Click Save & Next
     await completeSection2OffenceAnalysis(page)
     // And I complete "Predictor Questions" and Click Save & Next
-    await completePredictorQuestions(page)
+    await completePredictorQuestions(page, !!lowRiskMurderConvictionDate)
     // And I complete "Self Assessment Form" and Click Save & Next
     await completeSelfAssessmentForm(page)
     // And I complete RoSH Screening Section 1 and Click Save & Next
@@ -128,10 +131,10 @@ export const createLayer1CompleteAssessment = async (
         await completeRoSHSection6(page)
         // And I complete "RoSH Summary - R10" and Click Save & Next
         await clickRoSHSummary(page)
-        await completeRoSHSection10RoSHSummary(page)
+        await completeRoSHSection10RoSHSummary(page, false, !!lowRiskMurderConvictionDate)
     }
 
     // And I complete "Risk Management Plan" Questions
     await clickRiskManagementPlan(page)
-    await completeRiskManagementPlan(page)
+    await completeRiskManagementPlan(page, !!lowRiskMurderConvictionDate)
 }

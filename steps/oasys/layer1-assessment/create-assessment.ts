@@ -79,7 +79,9 @@ export const completeSection1NoSexualOffence = async (
     page: Page,
     firstOffenceDate: Date = faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() }),
     offenceCode?: string,
-    offenceSubCode?: string
+    offenceSubCode?: string,
+    violentSanctions: number = 0,
+    convictionDate?: Date
 ) => {
     if (offenceCode && offenceSubCode) {
         await page.locator('#P6_CT_OFFENCE_CODE_TEXT').fill(offenceCode)
@@ -90,8 +92,10 @@ export const completeSection1NoSexualOffence = async (
     await page.getByLabel('Date of first sanction').click()
     await fillDateOasys(page, '#itm_1_8_2', firstOffenceDate)
     await page.getByLabel('Total number of sanctions for all offences').fill('1')
-    await page.getByLabel('How many of the total number of sanctions involved violent offences').fill('0')
-    const _date = faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() })
+    await page
+        .getByLabel('How many of the total number of sanctions involved violent offences')
+        .fill(`${violentSanctions}`)
+    const _date = convictionDate ?? faker.date.recent({ days: 1, refDate: Yesterday.toJSDate() })
     await page.getByLabel('Date of current conviction').click()
     await fillDateOasys(page, '#itm_1_29', _date)
 
@@ -110,10 +114,12 @@ export const completeSection2OffenceAnalysis = async (page: Page) => {
     await saveAndNavigate(page)
 }
 
-export const completePredictorQuestions = async (page: Page) => {
+export const completePredictorQuestions = async (page: Page, lowRisk: boolean = false) => {
     await page.getByLabel('Is the offender living in suitable accommodation').selectOption({ label: '0-No problems' })
     await page.getByLabel('Is the person unemployed, or will be unemployed on release').selectOption({ label: '0-No' })
-    await page.getByLabel('Current relationship with partner').selectOption({ label: '2-Significant problems' })
+    await page
+        .getByLabel('Current relationship with partner')
+        .selectOption({ label: lowRisk ? '0-No problems' : '2-Significant problems' })
     await page.getByLabel('Is there evidence of current or previous domestic abuse?').selectOption({ label: 'No' })
     await page.getByLabel('Current relationship status').selectOption({ label: 'In a relationship, living together' })
     await page.getByLabel('Regular activities encourage offending').selectOption({ label: '0-No problems' })

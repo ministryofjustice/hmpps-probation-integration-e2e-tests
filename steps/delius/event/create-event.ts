@@ -21,6 +21,9 @@ export interface CreateEvent {
         appearanceType?: string
         outcome?: string
         length?: string
+        lengthUnit?: string
+        secondLength?: string
+        secondLengthUnit?: string
         reportType?: string
         mainOffence?: string
         subOffence?: string
@@ -69,6 +72,15 @@ export async function createEvent(page: Page, { crn, allocation, event, date }: 
     }
     if (event.length) {
         await page.fill('#Length', event.length)
+    }
+    if (event.lengthUnit) {
+        await selectOption(page, '#LengthUnit', event.lengthUnit)
+    }
+    if (event.secondLength) {
+        await page.fill('#Length2', event.secondLength)
+    }
+    if (event.secondLengthUnit) {
+        await selectOption(page, '#Length2Unit', event.secondLengthUnit)
     }
     if (event.reportType) {
         await selectOption(page, '#Report\\:selectOneMenu', event.reportType)

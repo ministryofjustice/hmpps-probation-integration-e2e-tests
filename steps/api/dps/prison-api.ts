@@ -19,11 +19,17 @@ async function getContext(): Promise<APIRequestContext> {
     })
 }
 
-export async function createAndBookPrisoner(page: Page, crn: string, person: Person, prisonId: string = 'SWI') {
+export async function createAndBookPrisoner(
+    page: Page,
+    crn: string,
+    person: Person,
+    prisonId: string = 'SWI',
+    bookingInTime?: DateTime
+) {
     const offenderNo = await createPrisoner(person)
     // Link the Nomis entry to the Delius entry before booking to avoid OLE from tier changes
     await setNomisId(page, crn, offenderNo)
-    const bookingId = await bookPrisoner(offenderNo, prisonId)
+    const bookingId = await bookPrisoner(offenderNo, prisonId, bookingInTime)
     console.log('NOMIS ID:', offenderNo)
     console.log('Booking ID:', bookingId)
     return { nomisId: offenderNo, bookingId: bookingId }
@@ -59,16 +65,16 @@ export const createPrisoner = retry(
 )
 
 export const bookPrisoner = retry(
-    sanitiseError(async (offenderNo: string) => {
+    sanitiseError(async (offenderNo: string, prisonId: string = 'SWI', bookedAt: DateTime = Yesterday) => {
         // Prison API now requires bookingInTime in the request body
-        const bookingInTime = Yesterday.toISO({ precision: 'seconds', includeOffset: false })
+        const bookingInTime = bookedAt.toISO({ precision: 'seconds', includeOffset: false })
         const response = await (
             await getContext()
         ).post(`/api/offenders/${offenderNo}/booking`, {
             failOnStatusCode: true,
             data: {
                 movementReasonCode: 'N',
-                prisonId: 'SWI',
+                prisonId,
                 imprisonmentStatus: 'SENT03',
                 bookingInTime: bookingInTime,
             },
@@ -79,8 +85,8 @@ export const bookPrisoner = retry(
 )
 
 export const releasePrisoner = retry(
-    sanitiseError(async (offenderNo: string) => {
-        const releaseTime = Yesterday.plus({ hours: 12 }).toISO({ precision: 'seconds', includeOffset: false })
+    sanitiseError(async (offenderNo: string, releasedAt: DateTime = Yesterday.plus({ hours: 12 })) => {
+        const releaseTime = releasedAt.toISO({ precision: 'seconds', includeOffset: false })
         const response = await (
             await getContext()
         ).put(`/api/offenders/${offenderNo}/release`, {
