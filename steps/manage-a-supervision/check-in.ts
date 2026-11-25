@@ -94,7 +94,8 @@ export async function registerCaseInMPoP(page: Page, person: Person, crn: string
 
     // Confirmation
     await expect(page.locator('.govuk-panel--confirmation')).toContainText('Online check ins set up')
-    return await createOffenderCheckin(crn, apiDueDate)
+    const uuid = await createOffenderCheckin(crn, apiDueDate)
+    return { uuid, uiDueDate }
 }
 
 export async function createCheckin(page: Page, uuid: string, person: Person) {
@@ -128,14 +129,21 @@ async function enterPersonalDetails(page: Page, person: Person) {
     await page.getByRole('textbox', { name: 'Year' }).fill(dob.year.toString())
 }
 
-export async function reviewCheckinInMPoP(page: Page, crn: string) {
+export async function reviewCheckinInMPoP(page: Page, crn: string, uiDueDate: string) {
     const heading = page.locator(qa('pageHeading'))
     await page.goto(process.env.MANAGE_PEOPLE_ON_PROBATION_URL)
     await searchPersonInMPoP(page, crn, heading)
     await page.getByRole('link', { name: 'Contacts', exact: true }).click()
     await expect(heading).toContainText('Contacts')
-    await refreshUntil(page, () => expect(page.getByRole('link', { name: /Manage +Online probation/ })).toBeVisible())
-    await page.getByRole('link', { name: /Manage +Online probation/ }).click()
+    const appointmentDate = DateTime.fromFormat(uiDueDate, 'd/M/yyyy', { zone: 'Europe/London' }).toFormat(
+        'ccc d LLL yyyy'
+    )
+    const manageLink = page
+        .getByRole('row')
+        .filter({ hasText: appointmentDate })
+        .getByRole('link', { name: /Manage +Online probation/ })
+    await refreshUntil(page, () => expect(manageLink).toBeVisible())
+    await manageLink.click()
     await expect(heading).toContainText('Online check in submitted')
     await page.getByRole('radio', { name: 'Yes, and there is nothing' }).click()
     await page.getByRole('button', { name: 'Confirm and review responses' }).click()
