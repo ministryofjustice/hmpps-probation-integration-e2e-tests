@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test'
 import { login as deliusLogin } from '../../steps/delius/login'
 import { deliusPerson } from '../../steps/delius/utils/person'
 import { createOffender } from '../../steps/delius/offender/create-offender'
+import { deleteOffender } from '../../steps/delius/offender/delete-offender'
 import { findContactsByCRN } from '../../steps/delius/contact/find-contacts'
 import { createCommunityEvent } from '../../steps/delius/event/create-event'
 import { createCheckin, registerCaseInMPoP, reviewCheckinInMPoP } from '../../steps/manage-a-supervision/check-in'
@@ -10,20 +11,23 @@ import { login as oasysLogin, UserType } from '../../steps/oasys/login'
 import { slow } from '../../steps/common/common'
 import { data } from '../../test-data/test-data'
 import { createRegistration } from '../../steps/delius/registration/create-registration'
-import { createAndBookPrisoner } from '../../steps/api/dps/prison-api'
+import { createAndBookPrisoner, releasePrisoner } from '../../steps/api/dps/prison-api'
 import { signAndlock } from '../../steps/oasys/layer1-assessment/sign-and-lock'
 import { createLayer1CompleteAssessment } from '../../steps/oasys/layer1-assessment/create-layer1-assessment/create-layer1-assessment'
 
 const person = deliusPerson()
-const nomisIds = []
-let crn: string
+const nomisIds: string[] = []
+let crn: string | undefined
 
 test('Check-in for an e-supervision appointment', async ({ page }) => {
     slow()
     // Given a case in Delius with an active event
     await deliusLogin(page)
-    crn = await createOffender(page, { person, providerName: data.teams.genericTeam.provider })
-    await internalTransfer(page, { crn, allocation: { team: data.teams.genericTeam, staff: data.staff.genericStaff } })
+    crn = await createOffender(page, { person, providerName: data.teams.allocationsTestTeam2.provider })
+    await internalTransfer(page, {
+        crn,
+        allocation: { team: data.teams.allocationsTestTeam2, staff: data.staff.allocationsTester3 },
+    })
     await createCommunityEvent(page, { crn })
 
     // Create a registration in NDelius and an entry in NOMIS
@@ -38,16 +42,30 @@ test('Check-in for an e-supervision appointment', async ({ page }) => {
     await signAndlock(page)
 
     // When the e-supervision case is registered in MPoP
-    const uuid = await registerCaseInMPoP(page, person, crn)
+    const { uuid, uiDueDate } = await registerCaseInMPoP(page, person, crn)
 
     // And the person checks in for their appointment
     await createCheckin(page, uuid, person)
 
     // And a practitioner reviews their check-in in MPoP
-    await reviewCheckinInMPoP(page, crn)
+    await reviewCheckinInMPoP(page, crn, uiDueDate)
 
     // Then I can see the contact in Delius
     await deliusLogin(page)
     await findContactsByCRN(page, crn)
     await expect(page.getByText('Online check in set-up status')).toBeVisible()
+})
+
+test.afterEach(async ({ page }) => {
+    for (const nomisId of nomisIds) {
+        await releasePrisoner(nomisId)
+    }
+    nomisIds.length = 0
+
+    if (crn) {
+        await deliusLogin(page)
+        await deleteOffender(page, crn)
+    }
+    crn = undefined
+    console.log('CRN Deleted during clean up phase')
 })
