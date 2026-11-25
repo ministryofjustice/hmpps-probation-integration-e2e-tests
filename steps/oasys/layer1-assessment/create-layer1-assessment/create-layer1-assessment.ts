@@ -41,6 +41,7 @@ export const createLayer1CompleteAssessment = async (
     lowRiskMurderConvictionDate?: Date
 ) => {
     let providerEstablishmentPageExists = false
+    const lowRisk = !!lowRiskMurderConvictionDate && !highRoshScore
 
     try {
         // Check if the 'Provider/Establishment' page exists within a timeout of 5000 milliseconds (5 seconds)
@@ -101,7 +102,7 @@ export const createLayer1CompleteAssessment = async (
     // And I complete section 2 and Click Save & Next
     await completeSection2OffenceAnalysis(page)
     // And I complete "Predictor Questions" and Click Save & Next
-    await completePredictorQuestions(page, !!lowRiskMurderConvictionDate)
+    await completePredictorQuestions(page, lowRisk)
     // And I complete "Self Assessment Form" and Click Save & Next
     await completeSelfAssessmentForm(page)
     // And I complete RoSH Screening Section 1 and Click Save & Next
@@ -131,10 +132,10 @@ export const createLayer1CompleteAssessment = async (
         await completeRoSHSection6(page)
         // And I complete "RoSH Summary - R10" and Click Save & Next
         await clickRoSHSummary(page)
-        await completeRoSHSection10RoSHSummary(page, false, !!lowRiskMurderConvictionDate)
+        await completeRoSHSection10RoSHSummary(page, false, lowRisk)
     }
 
     // And I complete "Risk Management Plan" Questions
     await clickRiskManagementPlan(page)
-    await completeRiskManagementPlan(page, !!lowRiskMurderConvictionDate)
+    await completeRiskManagementPlan(page, lowRisk)
 }

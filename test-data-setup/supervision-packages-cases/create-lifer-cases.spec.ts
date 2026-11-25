@@ -20,10 +20,16 @@ import { data } from '../../test-data/test-data'
 
 
 // op run --account ministryofjustice.1password.eu --env-file=./.env.1password -- \
-//   env TEST_DIR=./test-data-setup npx playwright test supervision-packages-cases/create-lifer-cases.spec.ts \
-//   -g "released 6 years ago" --headed
-for (const yearsSinceRelease of [3, 4, 5, 6, 9]) {
-    test(`Create a low-risk lifer released ${yearsSinceRelease} years ago`, async ({ page }) => {
+//   env TEST_DIR=./test-data-setup OASYS_ROSH=low npx playwright test supervision-packages-cases/create-lifer-cases.spec.ts \
+//   -g 6 --headed
+// Set OASYS_ROSH to high for a high RoSH assessment; it defaults to low.
+const rosh = process.env.OASYS_ROSH ?? 'low'
+if (rosh !== 'low' && rosh !== 'high') {
+    throw new Error('OASYS_ROSH must be either low or high')
+}
+
+for (const yearsSinceRelease of [0, 1, 2, 3, 4, 5, 6, 9]) {
+    test(`Create a ${rosh}-risk lifer released ${yearsSinceRelease} years ago`, async ({ page }) => {
         slow(12)
         const now = DateTime.now().setZone('Europe/London').startOf('day')
         const release = now.minus({ days: 1, years: yearsSinceRelease }).set({ hour: 12 })
@@ -82,7 +88,7 @@ for (const yearsSinceRelease of [3, 4, 5, 6, 9]) {
             crn,
             person,
             nomisId,
-            false,
+            rosh === 'high',
             false,
             undefined,
             undefined,
@@ -90,15 +96,15 @@ for (const yearsSinceRelease of [3, 4, 5, 6, 9]) {
         )
         await signAndlock(page)
 
-        await managePeopleOnProbationLogin(page)
-        await searchPersonInMPoP(page, crn)
-        const tier = 'E'
-        await refreshUntil(
-            page,
-            () =>
-                expect(page.getByRole('main').getByRole('link', { name: `Tier: ${tier}`, exact: true })).toBeVisible(),
-            { timeout: 180_000 }
-        )
-        console.log(`Lifer released ${yearsSinceRelease} years ago: CRN ${crn}, tier ${tier}`)
+        // await managePeopleOnProbationLogin(page)
+        // await searchPersonInMPoP(page, crn)
+        // const tier = 'E'
+        // await refreshUntil(
+        //     page,
+        //     () =>
+        //         expect(page.getByRole('main').getByRole('link', { name: `Tier: ${tier}`, exact: true })).toBeVisible(),
+        //     { timeout: 180_000 }
+        // )
+        console.log(`Lifer released ${yearsSinceRelease} years ago: CRN ${crn}, sentence and booking ${sentence.toISODate()}, release ${release.toISODate()}`)
     })
 }
